@@ -68,6 +68,8 @@ dotnet test tests/Nexora.Testes
 
 More options (screenshots, opening a page directly, isolated sessions) are listed in [docs/desenvolvimento.md](docs/desenvolvimento.md) (Portuguese).
 
+How the app is built (sessions, protocols, orchestrator, cloud machines, secrets): [docs/architecture.md](docs/architecture.md).
+
 ## Roadmap
 
 Planned or in progress:
