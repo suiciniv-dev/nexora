@@ -22,7 +22,7 @@ public sealed record SessaoAtiva(int Pid, string SessaoId, string? Pasta, string
 
 public static class SessoesAtivas
 {
-    public static string PastaPadrao =>
+    public static string PastaPadrao { get; set; } =
         Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".claude", "sessions");
 
     public static IReadOnlyList<SessaoAtiva> Listar(string? pasta = null, Func<int, bool>? vivo = null)

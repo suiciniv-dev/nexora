@@ -66,7 +66,7 @@ public class IntegracaoTestes
     static void ApagarRastro(string pasta)
     {
         Directory.Delete(pasta, recursive: true);
-        var projetos = new DirectoryInfo(Nexora.Core.Historico.ConversasSalvas.PastaPadrao);
+        var projetos = new DirectoryInfo(DadosIsolados.ClaudeReal);
         foreach (var d in projetos.EnumerateDirectories($"*{Path.GetFileName(pasta).Replace('.', '-')}"))
             d.Delete(recursive: true);
     }

@@ -65,7 +65,7 @@ public sealed class SegredosIntegracaoTestes
         finally
         {
             Directory.Delete(pasta, recursive: true);
-            var projetos = new DirectoryInfo(ConversasSalvas.PastaPadrao);
+            var projetos = new DirectoryInfo(DadosIsolados.ClaudeReal);
             foreach (var d in projetos.EnumerateDirectories($"*{Path.GetFileName(pasta).Replace('.', '-')}"))
                 d.Delete(recursive: true);
         }
