@@ -273,20 +273,25 @@ public sealed class AmbientesTestes : IDisposable
         Assert.True((await Repositorio.CriarWorktreeAsync(repo, primeiro, "a-20261030", "dev")).Ok);
         var copia = await ArquivosLocais.CopiarAsync(repo, primeiro);
         Assert.Equal(2, copia.Arquivos.Count);
-        Assert.Equal((44315, 44320), (copia.PortaAntiga!.Value, copia.PortaNova!.Value));
+        var ocupadas = System.Net.NetworkInformation.IPGlobalProperties.GetIPGlobalProperties().GetActiveTcpListeners().Select(e => e.Port).ToHashSet();
+        var esperada = 44320;
+        while (ocupadas.Contains(esperada)) esperada += 5;
+        Assert.Equal((44315, esperada), (copia.PortaAntiga!.Value, copia.PortaNova!.Value));
         var copiado = File.ReadAllBytes(Path.Combine(primeiro, "src", "Web", "appsettings.Development.json"));
         Assert.True(copiado.AsSpan().StartsWith(System.Text.Encoding.UTF8.Preamble));
         var texto = File.ReadAllText(Path.Combine(primeiro, "src", "Web", "appsettings.Development.json"));
         Assert.DoesNotContain(":44315", texto);
-        Assert.Equal(3, System.Text.RegularExpressions.Regex.Count(texto, ":44320"));
+        Assert.Equal(3, System.Text.RegularExpressions.Regex.Count(texto, ":" + esperada));
         Assert.Contains("porta 443150", texto);
         Assert.True(File.Exists(Path.Combine(primeiro, ".claude", "settings.local.json")));
         Assert.False(File.Exists(Path.Combine(primeiro, "src", "Web", "bin", "Debug", "appsettings.Development.json")));
-        Assert.Contains("troquei a porta 44315 por 44320", copia.Resumo);
+        Assert.Contains($"troquei a porta 44315 por {esperada}", copia.Resumo);
 
         var segundo = Repositorio.PastaDoWorktree(repo, "b");
         Assert.True((await Repositorio.CriarWorktreeAsync(repo, segundo, "b-20261030", "dev")).Ok);
-        Assert.Equal(44325, (await ArquivosLocais.CopiarAsync(repo, segundo)).PortaNova);
+        var seguinte = esperada + 5;
+        while (ocupadas.Contains(seguinte)) seguinte += 5;
+        Assert.Equal(seguinte, (await ArquivosLocais.CopiarAsync(repo, segundo)).PortaNova);
     }
 
     [Fact]

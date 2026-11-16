@@ -87,7 +87,7 @@ public sealed class Config
         OperatingSystem.IsWindows() ? pasta.Replace('/', '\\').TrimEnd('\\').ToLowerInvariant() : pasta.TrimEnd('/').ToLowerInvariant();
 
     public static string CaminhoPadrao =>
-        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Nexora", "config.json");
+        Path.Combine(global::Nexora.Core.DadosDoNexora.Pasta, "config.json");
 
     readonly object _trava = new();
     string _caminho = CaminhoPadrao;
