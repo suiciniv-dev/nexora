@@ -12,7 +12,7 @@ public sealed class ControleDoApp(JanelaVM janela)
 {
     public static ServidorDoCanal? Servidor { get; private set; }
 
-    public static string PastaDeDados => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Nexora");
+    public static string PastaDeDados => global::Nexora.Core.DadosDoNexora.Pasta;
 
     public static void Ligar(JanelaVM janela, string[] args)
     {

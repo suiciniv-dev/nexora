@@ -130,6 +130,10 @@
           <v:Icone Nome="busca" Tamanho="16" />
         </Button>
         <StackPanel Grid.Column="4" Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
+          <Button Classes="contorno novidade" Command="{Binding AbrirRecuperacaoCommand}" IsVisible="{Binding TemAvisoDeRecuperacao}" WindowDecorationProperties.ElementRole="User"
+                  ToolTip.Tip="{Binding DicaRecuperacao}" AutomationProperties.Name="{Binding TextoRecuperacao}">
+            <StackPanel Orientation="Horizontal" Spacing="7"><v:Icone Nome="alerta" Tamanho="14" /><TextBlock Text="{Binding TextoRecuperacao}" /></StackPanel>
+          </Button>
           <Button Classes="contorno novidade" Command="{Binding AtualizarAgoraCommand}" IsVisible="{Binding TemAtualizacao}" WindowDecorationProperties.ElementRole="User"
                   ToolTip.Tip="{Binding DicaAtualizacao}" AutomationProperties.Name="{l:T 'Atualizar o Nexora'}">
             <StackPanel Orientation="Horizontal" Spacing="7"><v:Icone Nome="brilho" Tamanho="14" /><TextBlock Text="{Binding TextoAtualizacao}" /></StackPanel>

@@ -133,8 +133,7 @@ public static class ArquivoEnv
 
     static void Escrever(string caminho, List<string> linhas, string quebra, bool fimComQuebra)
     {
-        if (Path.GetDirectoryName(caminho) is { Length: > 0 } pasta) Directory.CreateDirectory(pasta);
         var texto = string.Join(quebra, linhas) + (fimComQuebra && linhas.Count > 0 ? quebra : "");
-        File.WriteAllText(caminho, texto, new System.Text.UTF8Encoding(false));
+        Arquivos.ArquivoSeguro.Gravar(caminho, texto);
     }
 }

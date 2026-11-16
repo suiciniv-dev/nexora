@@ -11,7 +11,7 @@ public sealed record IssuesGuardadas(bool SoMinhas, IReadOnlyList<RepoGuardado> 
 public sealed partial class IssuesVM
 {
     public static string ArquivoGuardadas { get; set; } =
-        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Nexora", "issues.json");
+        Path.Combine(global::Nexora.Core.DadosDoNexora.Pasta, "issues.json");
 
     public static IssuesGuardadas? LerGuardadas()
     {

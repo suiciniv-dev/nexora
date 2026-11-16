@@ -49,7 +49,7 @@ public sealed class ArmazemDpapi(string pasta) : IArmazemDeValores
     public void Gravar(string id, string valor)
     {
         Directory.CreateDirectory(pasta);
-        File.WriteAllBytes(Arquivo(id), Proteger(Encoding.UTF8.GetBytes(valor)));
+        Arquivos.ArquivoSeguro.Gravar(Arquivo(id), Proteger(Encoding.UTF8.GetBytes(valor)));
     }
 
     public string? Ler(string id)
@@ -280,23 +280,20 @@ public sealed class CofreDeSegredos
 
     static string NovoId() => Guid.NewGuid().ToString("N")[..16];
 
+    public Arquivos.OrigemDaLeitura Origem { get; private set; } = Arquivos.OrigemDaLeitura.Novo;
+
     List<SegredoGuardado> Carregar()
     {
-        if (_indice is null || !File.Exists(_indice)) return [];
-        try
-        {
-            return JsonSerializer.Deserialize<List<SegredoGuardado>>(File.ReadAllText(_indice)) ?? [];
-        }
-        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or JsonException)
-        {
-            return [];
-        }
+        if (_indice is null) return [];
+        var lida = Arquivos.ArquivoSeguro.LerJson(_indice, () => new List<SegredoGuardado>());
+        Origem = lida.Origem;
+        return lida.Valor;
     }
 
     void Salvar()
     {
         if (_indice is null) return;
-        Directory.CreateDirectory(Path.GetDirectoryName(_indice)!);
-        File.WriteAllText(_indice, JsonSerializer.Serialize(_lista, new JsonSerializerOptions { WriteIndented = true }));
+        if (Origem == Arquivos.OrigemDaLeitura.Ilegivel) throw new Arquivos.ArquivoIlegivelException(_indice, Texto.Idioma.T("o arquivo estava em uso quando o Nexora abriu"));
+        Arquivos.ArquivoSeguro.Gravar(_indice, JsonSerializer.Serialize(_lista, new JsonSerializerOptions { WriteIndented = true }), manterCopia: true);
     }
 }

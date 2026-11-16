@@ -27,7 +27,7 @@ public partial class App : Application
     static void LigarHub(string[] args)
     {
         if (!Config.HubMcp || args.Contains("--sem-hub") || args.Contains("--demo")) return;
-        Hub = new Core.Mcp.HubMcp(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Nexora", "mcp"))
+        Hub = new Core.Mcp.HubMcp(Path.Combine(global::Nexora.Core.DadosDoNexora.Pasta, "mcp"))
         {
             Ocioso = TimeSpan.FromMinutes(Math.Max(1, Config.McpOciosoMinutos)),
         };
@@ -36,7 +36,7 @@ public partial class App : Application
     static void LigarSegredos(string[] args)
     {
         if (args.Contains("--demo") || args.Contains("--isolada")) return;
-        var pasta = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Nexora");
+        var pasta = global::Nexora.Core.DadosDoNexora.Pasta;
         Segredos = new Core.Segredos.ServicoDeSegredos(new Core.Segredos.CofreDeSegredos(pasta, Core.Segredos.CofreDeSegredos.ArmazemDoSistema(pasta)));
         Nuvem = new Core.Nuvem.ServicoDaNuvem(Path.Combine(pasta, "nuvem"), Core.Segredos.CofreDeSegredos.ArmazemDoSistema(pasta));
     }
@@ -48,7 +48,7 @@ public partial class App : Application
             var args = desktop.Args ?? [];
             Erros.Ligar();
             Pulso.Acompanhar();
-            Core.Claude.CatalogoModelos.Arquivo = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Nexora", "modelos.json");
+            Core.Claude.CatalogoModelos.Arquivo = Path.Combine(global::Nexora.Core.DadosDoNexora.Pasta, "modelos.json");
             LigarHub(args);
             LigarSegredos(args);
             NavegadorDoApp.Ligar();
