@@ -16,6 +16,7 @@
     <Using Include="Xunit" />
     <ProjectReference Include="..\..\src\Nexora.Core\Nexora.Core.csproj" />
     <ProjectReference Include="..\..\src\Nexora\Nexora.csproj" />
+    <ProjectReference Include="..\..\tools\AgenteDeTeste\AgenteDeTeste.csproj" ReferenceOutputAssembly="false" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Codex\codex-falso.ps1" CopyToOutputDirectory="PreserveNewest" />

@@ -130,7 +130,7 @@ public sealed class MonitorDeDesempenho
 
     public static MonitorDeDesempenho? Instancia { get; private set; }
 
-    public static string Pasta => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Nexora", "desempenho");
+    public static string Pasta => Path.Combine(global::Nexora.Core.DadosDoNexora.Pasta, "desempenho");
 
     public static string? PastaDoTeste { get; set; }
 

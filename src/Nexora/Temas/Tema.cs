@@ -66,7 +66,7 @@ public static class Catalogo
     public static Tema Atual { get; private set; } = Dracula;
 
     public static string Pasta =>
-        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Nexora", "temas");
+        Path.Combine(global::Nexora.Core.DadosDoNexora.Pasta, "temas");
 
     public static Tema Dracula => Novo("dracula", "Dracula", true, "Dracula", "nenhum",
         "#282A36", "#21222C", "#2F3140", "#44475A", "#383A4C", "#F8F8F2", "#B9BDD6", "#939BC3",
