@@ -37,6 +37,11 @@ void Registrar(string texto)
 }
 
 Registrar("iniciou " + string.Join(' ', args));
+var roteiros = new Dictionary<string, string>();
+if (Environment.GetEnvironmentVariable("AGENTE_DE_TESTE_ROTEIROS") is { Length: > 0 } arquivoDeRoteiros && File.Exists(arquivoDeRoteiros)
+    && JsonNode.Parse(File.ReadAllText(arquivoDeRoteiros)) is JsonObject lidos)
+    foreach (var (pedidoNatural, comandos) in lidos)
+        if ((string?)comandos is { } c) roteiros[pedidoNatural] = c;
 var pedidos = Channel.CreateUnbounded<(string Texto, CancellationTokenSource Cancelar)>();
 var respostas = new ConcurrentDictionary<string, TaskCompletionSource<JsonNode?>>();
 var pendentes = new ConcurrentDictionary<CancellationTokenSource, byte>();
@@ -103,11 +108,29 @@ return 0;
 
 async Task Turno(string texto, CancellationToken cancelar)
 {
+    if (roteiros.TryGetValue(texto.Trim(), out var roteiro)) texto = roteiro;
+    var etapas = texto.Split(" ; ", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+    foreach (var etapa in etapas.Length > 0 ? etapas : [""])
+        await Etapa(etapa, etapas.Length > 1, cancelar);
+    Emitir(Resultado(false, "ok", "success"));
+}
+
+async Task Etapa(string texto, bool roteiro, CancellationToken cancelar)
+{
     var partes = texto.Trim().Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);
     var comando = partes.Length > 0 ? partes[0].ToLowerInvariant() : "";
     var resto = partes.Length > 1 ? partes[1] : "";
     switch (comando)
     {
+        case "diga":
+            Falar(resto);
+            break;
+        case "trabalhe":
+            var argumentos = resto.Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);
+            var segundos = argumentos.Length > 0 && double.TryParse(argumentos[0], System.Globalization.CultureInfo.InvariantCulture, out var s) ? s : 3;
+            var arquivos = argumentos.Length > 1 ? argumentos[1].Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries) : ["src/App/Service.cs"];
+            await Trabalhar(TimeSpan.FromSeconds(segundos), arquivos, cancelar);
+            break;
         case "demore":
             await Task.Delay(int.TryParse(resto.Split(' ')[0], out var ms) ? ms : 1000, cancelar);
             Falar("pronto depois de " + resto);
@@ -121,6 +144,9 @@ async Task Turno(string texto, CancellationToken cancelar)
             Environment.Exit(3);
             break;
         case "permissao":
+            var pedido = resto.Split(" | ", 2);
+            var comandoPedido = pedido[0].Trim();
+            var descricao = pedido.Length > 1 ? pedido[1].Trim() : "Comando de teste";
             var id = "perm-" + Interlocked.Increment(ref numeroPermissao);
             var espera = new TaskCompletionSource<JsonNode?>(TaskCreationOptions.RunContinuationsAsynchronously);
             respostas[id] = espera;
@@ -132,22 +158,59 @@ async Task Turno(string texto, CancellationToken cancelar)
                 {
                     ["subtype"] = "can_use_tool",
                     ["tool_name"] = "Bash",
-                    ["input"] = new JsonObject { ["command"] = resto.Length > 0 ? resto : "echo teste", ["description"] = "Comando de teste" },
+                    ["input"] = new JsonObject { ["command"] = comandoPedido.Length > 0 ? comandoPedido : "echo teste", ["description"] = descricao },
                     ["tool_use_id"] = "uso-" + id,
                 },
             });
             using (cancelar.Register(() => espera.TrySetCanceled()))
             {
                 var decisao = await espera.Task;
-                var comportamento = (string?)decisao?["behavior"];
-                Falar(comportamento == "allow" ? "permitido" : "negado: " + ((string?)decisao?["message"] ?? ""));
+                var permitido = (string?)decisao?["behavior"] == "allow";
+                if (roteiro && permitido) await Ferramenta("Bash", new JsonObject { ["command"] = comandoPedido, ["description"] = descricao }, "Done.", cancelar);
+                else Falar(permitido ? "permitido" : "negado: " + ((string?)decisao?["message"] ?? ""));
             }
             break;
         default:
             Falar("ok: " + texto);
             break;
     }
-    Emitir(Resultado(false, "ok", "success"));
+}
+
+async Task Trabalhar(TimeSpan duracao, string[] arquivos, CancellationToken cancelar)
+{
+    var fim = DateTime.UtcNow + duracao;
+    var passo = 0;
+    while (DateTime.UtcNow < fim)
+    {
+        var arquivo = arquivos[passo % arquivos.Length];
+        var (nome, entrada) = (passo % 3) switch
+        {
+            0 => ("Read", new JsonObject { ["file_path"] = arquivo }),
+            1 => ("Edit", new JsonObject { ["file_path"] = arquivo, ["old_string"] = "return null;", ["new_string"] = "return Result.Ok();" }),
+            _ => ("Grep", new JsonObject { ["pattern"] = Path.GetFileNameWithoutExtension(arquivo), ["path"] = "src" }),
+        };
+        await Ferramenta(nome, entrada, "ok", cancelar);
+        passo++;
+    }
+}
+
+async Task Ferramenta(string nome, JsonObject entrada, string resultado, CancellationToken cancelar)
+{
+    var uso = "toolu_" + Guid.NewGuid().ToString("N")[..12];
+    Emitir(new JsonObject
+    {
+        ["type"] = "assistant",
+        ["message"] = new JsonObject { ["id"] = "m-" + Guid.NewGuid().ToString("N")[..8], ["role"] = "assistant", ["model"] = "claude-de-teste", ["content"] = new JsonArray(new JsonObject { ["type"] = "tool_use", ["id"] = uso, ["name"] = nome, ["input"] = entrada }) },
+        ["session_id"] = sessao,
+    });
+    await Task.Delay(Random.Shared.Next(700, 1300), cancelar);
+    Emitir(new JsonObject
+    {
+        ["type"] = "user",
+        ["message"] = new JsonObject { ["role"] = "user", ["content"] = new JsonArray(new JsonObject { ["type"] = "tool_result", ["tool_use_id"] = uso, ["content"] = resultado }) },
+        ["session_id"] = sessao,
+    });
+    await Task.Delay(Random.Shared.Next(250, 500), cancelar);
 }
 
 void Falar(string texto) => Emitir(new JsonObject

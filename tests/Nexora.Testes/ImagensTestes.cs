@@ -72,7 +72,7 @@ public class ImagensTestes
         }
 
         Directory.Delete(pasta, recursive: true);
-        foreach (var d in new DirectoryInfo(Nexora.Core.Historico.ConversasSalvas.PastaPadrao).EnumerateDirectories($"*{Path.GetFileName(pasta).Replace('.', '-')}"))
+        foreach (var d in new DirectoryInfo(DadosIsolados.ClaudeReal).EnumerateDirectories($"*{Path.GetFileName(pasta).Replace('.', '-')}"))
             d.Delete(recursive: true);
         Assert.Contains("vermelh", texto, StringComparison.OrdinalIgnoreCase);
     }
