@@ -70,6 +70,8 @@ More options (screenshots, opening a page directly, isolated sessions) are liste
 
 How the app is built (sessions, protocols, orchestrator, cloud machines, secrets): [docs/architecture.md](docs/architecture.md).
 
+More docs: [agents](docs/agents.md) · [cloud machines](docs/cloud.md) · [configuration and credentials](docs/configuration.md) · [building, testing and releasing](docs/building.md).
+
 ## Roadmap
 
 Planned or in progress:

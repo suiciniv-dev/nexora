@@ -77,7 +77,7 @@ The same executable is the terminal command: `Nexora --cli …` runs `Cli.Rodar`
 
 - **Providers**: your own server over SSH (`ProvedorSsh`), InstaBox (`InstaBox.cs`) and Freestyle (`Freestyle.cs`). The provider creates or wakes the machine, and Nexora installs the agent CLI if it is missing.
 - **Transport**: the system `ssh` (`TransporteSsh`), with a per-machine key and known-hosts file. For Freestyle, the token is passed as the SSH password through `SSH_ASKPASS`, pointing back to the Nexora executable.
-- **Code sync** (`CodigoNaNuvem.cs`): the current branch is sent as a `git bundle`; uncommitted remote changes are stashed first. **Bring here** does the reverse into a local worktree.
+- **Code sync** (`CodigoNaNuvem.cs`): the current branch is sent as a `git bundle`; uncommitted remote changes are stashed first. **Bring it here** does the reverse into a local worktree.
 - **Detached runs** (`ScriptRemoto.cs`, `ProcessoRemoto.cs`): the agent runs on the machine under `setsid`, reading from an input file and writing to output files. If the connection drops, Nexora reconnects and continues reading where it stopped, and the agent keeps working with this PC off.
 - **Login**: the Claude token from `claude setup-token` is stored locally as a secret and passed to the remote agent as an environment variable.
 
@@ -103,7 +103,7 @@ The same executable is the terminal command: `Nexora --cli …` runs `Cli.Rodar`
 
 | What | Where |
 |---|---|
-| Settings | `%APPDATA%\Nexora\config.json` (Windows), the equivalent application data folder on macOS |
+| Settings | `%APPDATA%\Nexora\config.json` (Windows), `~/Library/Application Support/Nexora/config.json` (macOS) |
 | Secrets | Encrypted with DPAPI next to the settings (`segredos/`), or in the macOS Keychain |
 | Conversations | Wherever each agent CLI keeps them; Nexora only reads them |
 

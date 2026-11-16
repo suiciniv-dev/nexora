@@ -70,6 +70,8 @@ Mais opções (capturas de tela, abrir uma página direto, sessões isoladas) es
 
 Como o app é construído (sessões, protocolos, orquestrador, máquinas na nuvem, segredos): [docs/architecture.md](docs/architecture.md), em inglês.
 
+Mais documentação, em inglês: [agentes](docs/agents.md) · [máquinas na nuvem](docs/cloud.md) · [configuração e credenciais](docs/configuration.md) · [build, testes e release](docs/building.md).
+
 ## Roadmap
 
 Planejado ou em andamento:
