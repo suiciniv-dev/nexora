@@ -24,7 +24,7 @@ Nexora wraps the agent CLIs you already use (Claude Code, Codex, Gemini CLI and 
 
 ## Supported agents
 
-Claude Code and Codex have the deepest support. These also work: Gemini CLI, Antigravity, GitHub Copilot, Cursor, OpenCode, Kiro, Qwen Code, Grok, goose, and any agent that speaks ACP over stdio.
+Claude Code and Codex have the deepest support. These also work: Gemini CLI, Antigravity, GitHub Copilot, Cursor, OpenCode, Kiro, Qwen Code, Grok and goose. Adding another agent that speaks ACP over stdio is one entry in the catalog (see [docs/agents.md](docs/agents.md)).
 
 Nexora only finds an agent whose command is on your `PATH`. Install and log in to each agent the way its own documentation says. [docs/testar-agentes.md](docs/testar-agentes.md) (Portuguese) has a checklist to test a new one.
 
