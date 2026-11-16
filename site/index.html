@@ -3,34 +3,30 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Nexora · Seus agentes de código num lugar só: Claude Code, Codex, Gemini e outros</title>
-<meta name="description" content="O Nexora é um Agentic Development Environment (ADE) grátis para Windows e Mac que junta as sessões dos seus agentes de código, como Claude Code, Codex, Gemini CLI, Antigravity, Copilot e Cursor: quadro de quem precisa de você, projetos e worktrees, e um MCP para todas as sessões do projeto.">
+<title>Nexora · Rode vários agentes de código. Sem perder o controle.</title>
+<meta name="description" content="O Nexora é um Agent Development Environment (ADE) grátis e de código aberto para Windows e macOS. Rode Claude Code, Codex e outros agentes de código lado a lado, veja o que cada um está fazendo e responda às aprovações num quadro ao vivo.">
 <meta name="theme-color" content="#0B0A0C">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Nexora">
 <meta property="og:locale" content="pt_BR">
 <meta property="og:locale:alternate" content="en_US">
-<meta property="og:title" content="Nexora · Seus agentes de código num lugar só: Claude Code, Codex, Gemini e outros">
-<meta property="og:description" content="Agentic Development Environment para Claude Code, Codex, Gemini e outros agentes: quadro de sessões, projetos e worktrees, e um MCP para todas as sessões do projeto. Grátis para Windows e Mac.">
+<meta property="og:title" content="Nexora · Rode vários agentes de código. Sem perder o controle.">
+<meta property="og:description" content="Um espaço de trabalho grátis e de código aberto para rodar, acompanhar e orquestrar Claude Code, Codex e outros agentes de código num lugar só.">
 <meta property="og:url" content="https://nexora.suiciniv.dev/">
-<meta property="og:image" content="https://nexora.suiciniv.dev/og.png?v=0.8">
+<meta property="og:image" content="https://nexora.suiciniv.dev/og.png?v=0.9">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Nexora · Seus agentes de código num lugar só: Claude Code, Codex, Gemini e outros">
-<meta name="twitter:description" content="Agentic Development Environment para Claude Code, Codex, Gemini e outros agentes: quadro de sessões, projetos e worktrees, e um MCP para todas as sessões do projeto. Grátis para Windows e Mac.">
-<meta name="twitter:image" content="https://nexora.suiciniv.dev/og.png?v=0.8">
+<meta name="twitter:title" content="Nexora · Rode vários agentes de código. Sem perder o controle.">
+<meta name="twitter:description" content="Um espaço de trabalho grátis e de código aberto para rodar, acompanhar e orquestrar Claude Code, Codex e outros agentes de código num lugar só.">
+<meta name="twitter:image" content="https://nexora.suiciniv.dev/og.png?v=0.9">
 <link rel="canonical" href="https://nexora.suiciniv.dev/">
 <link rel="alternate" hreflang="pt-BR" href="https://nexora.suiciniv.dev/">
 <link rel="alternate" hreflang="en" href="https://nexora.suiciniv.dev/en/">
 <link rel="alternate" hreflang="x-default" href="https://nexora.suiciniv.dev/en/">
 <script>try { if (localStorage.getItem("lang") === "en" && !/[?&]rec\b/.test(location.search)) location.replace("/en/" + location.search + location.hash); } catch (e) {}</script>
 <link rel="preload" href="/fontes/Geist-Variable.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/fontes/GeistMono-Variable.woff2" as="font" type="font/woff2" crossorigin>
-<style>
-  @font-face { font-family: "Geist"; src: url("/fontes/Geist-Variable.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
-  @font-face { font-family: "Geist Mono"; src: url("/fontes/GeistMono-Variable.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
-</style>
+<link rel="preload" href="/img/app/ao-vivo-pt.webp" as="image" type="image/webp" fetchpriority="high">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -39,942 +35,294 @@
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   "name": "Nexora",
-  "description": "App grátis para Windows e Mac que junta as sessões dos seus agentes de código, como Claude Code, Codex, Gemini CLI, Antigravity, Copilot e Cursor: quadro de sessões, projetos e worktrees, e MCPs compartilhados.",
-  "inLanguage": "pt-BR",
-  "url": "https://nexora.suiciniv.dev/",
+  "description": "Um Agent Development Environment grátis e de código aberto para rodar, acompanhar e orquestrar vários agentes de código, como Claude Code e Codex.",
   "applicationCategory": "DeveloperApplication",
   "operatingSystem": "Windows 10, Windows 11, macOS",
   "softwareVersion": "0.8.1",
+  "license": "https://opensource.org/licenses/MIT",
+  "codeRepository": "https://github.com/suiciniv-dev/nexora",
   "offers": {"@type": "Offer", "price": "0", "priceCurrency": "BRL"},
   "downloadUrl": "https://nexora.suiciniv.dev/baixar",
-  "image": "https://nexora.suiciniv.dev/og.png?v=0.8",
+  "image": "https://nexora.suiciniv.dev/og.png?v=0.9",
+  "inLanguage": "pt-BR",
   "author": {"@type": "Person", "name": "Vinícius Pires da Silva", "url": "https://suiciniv.dev/"}
 }
 </script>
-<style>
-  :root {
-    --fundo: #0B0A0C; --fundo2: #131214; --vidro: rgba(30, 28, 31, .72); --vidro2: rgba(255, 255, 255, .045);
-    --linha: rgba(255, 255, 255, .1); --linha2: rgba(255, 255, 255, .2);
-    --txt: #F2F0EC; --txt2: #C4BFB8; --txt3: #8F8A84;
-    --marca: #948BAE; --marca-clara: #BDB4DA; --marca-fim: #5B5470;
-    --verde: #7BCB9F; --laranja: #F0A860; --cod: #E6C38F;
-    --ui: "Geist", "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, sans-serif;
-    --titulo: "Geist", "Segoe UI Variable Display", "Segoe UI", system-ui, -apple-system, sans-serif;
-    --mono: "Geist Mono", "Cascadia Mono", Consolas, ui-monospace, monospace;
-  }
-  * { box-sizing: border-box; }
-  [hidden] { display: none !important; }
-  html { scroll-behavior: smooth; }
-  body { margin: 0; background: var(--fundo); color: var(--txt); font: 17px/1.6 var(--ui); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
-  body::before { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
-    background: radial-gradient(ellipse 60% 40% at 85% 0%, rgba(148, 139, 174, .14), transparent 70%),
-                radial-gradient(ellipse 50% 40% at 0% 30%, rgba(91, 84, 112, .12), transparent 70%); }
-  a { color: inherit; }
-  :focus-visible { outline: 2px solid var(--marca-clara); outline-offset: 3px; border-radius: 6px; }
-  .larg { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
-  svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex: none; }
-
-  header.topo { position: sticky; top: 0; z-index: 10; backdrop-filter: blur(16px) saturate(1.2); background: rgba(14, 13, 12, .72); border-bottom: 1px solid var(--linha); }
-  header.topo .larg { display: flex; align-items: center; gap: 28px; height: 64px; }
-  .marca { display: flex; align-items: center; gap: 10px; text-decoration: none; font: 600 19px var(--titulo); }
-  .marca img { width: 30px; height: 30px; }
-  nav { display: flex; gap: 22px; margin-left: auto; }
-  nav a { text-decoration: none; color: var(--txt2); font-size: 15.5px; }
-  nav a:hover { color: var(--txt); }
-  .botao { display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 13px 26px; border-radius: 14px; background: #F4F2EE; color: #161514; font-weight: 600; text-decoration: none; transition: transform .15s, background .2s; white-space: nowrap; }
-  .botao:hover { background: #fff; transform: translateY(-1px); }
-  .botao.pequeno { padding: 9px 18px; border-radius: 11px; font-size: 15px; }
-  .botao.sec { background: rgba(255, 255, 255, .06); color: var(--txt); border: 1px solid var(--linha2); }
-  .botao.sec:hover { background: rgba(255, 255, 255, .1); }
-  .idiomas { display: inline-flex; gap: 2px; padding: 3px; border-radius: 11px; border: 1px solid var(--linha); background: rgba(255, 255, 255, .04); font: 600 13px var(--ui); letter-spacing: .06em; margin-right: -12px; }
-  .idiomas a { padding: 4px 9px; border-radius: 8px; color: var(--txt3); text-decoration: none; }
-  .idiomas a:hover { color: var(--txt); }
-  .idiomas a[aria-current] { background: rgba(255, 255, 255, .1); color: var(--txt); }
-  .sugestao { border-bottom: 1px solid var(--linha); background: rgba(148, 139, 174, .1); color: var(--txt2); font-size: 15px; }
-  .sugestao .larg { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 6px 16px; min-height: 48px; padding: 6px 0; }
-  .sugestao a { color: var(--marca-clara); font-weight: 600; text-underline-offset: 3px; }
-  .sugestao button { border: 0; background: none; color: var(--txt3); font-size: 22px; line-height: 1; padding: 2px 8px; border-radius: 8px; cursor: pointer; }
-  .sugestao button:hover { color: var(--txt); }
-
-  .hero { padding: 72px 0 40px; text-align: center; }
-  .olho { font: 600 13.5px var(--ui); letter-spacing: .16em; text-transform: uppercase; color: var(--marca-clara); }
-  h1 { font: 600 clamp(40px, 6vw, 72px)/1.04 var(--titulo); letter-spacing: -.02em; margin: 16px auto 18px; max-width: 1040px; text-wrap: balance; }
-  .hero p.sub { font-size: clamp(18px, 2vw, 21px); color: var(--txt2); max-width: 720px; margin: 0 auto; text-wrap: pretty; }
-  .acoes { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 30px; }
-  .miudo { margin-top: 14px; color: var(--txt3); font-size: 14.5px; }
-  .moldura { margin: 48px auto 0; width: min(1180px, calc(100% - 40px)); aspect-ratio: 16 / 9; border-radius: 22px; overflow: hidden; border: 1px solid var(--linha); box-shadow: 0 40px 120px rgba(0, 0, 0, .55), 0 0 0 1px rgba(255, 255, 255, .03); position: relative; background: #0E0D0C; }
-  .moldura .pausa { position: absolute; right: 14px; bottom: 14px; z-index: 3; width: 40px; height: 40px; border-radius: 12px; border: 1px solid var(--linha2); background: rgba(14, 13, 12, .6); color: var(--txt); display: grid; place-items: center; cursor: pointer; backdrop-filter: blur(8px); }
-
-  .hero .larg { position: relative; }
-  .ag { display: grid; place-items: center; flex: none; width: var(--t, 56px); height: var(--t, 56px); border-radius: 28%; background: linear-gradient(160deg, rgba(255, 255, 255, .1), rgba(255, 255, 255, .03)); border: 1px solid rgba(255, 255, 255, .13); box-shadow: 0 18px 40px rgba(0, 0, 0, .45), inset 0 1px 0 rgba(255, 255, 255, .08); }
-  .ag img { display: block; width: 54%; height: 54%; }
-
-  .agentes-topo { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 40px; }
-  .agente { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 20px; align-items: center; }
-  .cartao .ag { box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08); }
-  .agente h3 small { font: 400 15px var(--ui); color: var(--txt3); margin-left: 6px; }
-  .agentes-teste { margin-top: 16px; }
-  .agentes-teste .rot { max-width: 860px; margin-bottom: 24px; }
-  .selo-teste { display: inline-block; margin-right: 12px; padding: 2px 10px; border-radius: 999px; border: 1px solid rgba(189, 180, 218, .35); background: rgba(189, 180, 218, .1); color: var(--marca-clara); font: 600 12.5px var(--ui); letter-spacing: .1em; text-transform: uppercase; vertical-align: 2px; }
-  .agentes-linha { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 22px 10px; }
-  .agentes-linha li { width: calc((100% - 80px) / 9); display: grid; justify-items: center; align-content: start; gap: 10px; text-align: center; font-weight: 600; font-size: 15px; line-height: 1.3; }
-  .agentes-linha .ag { --t: 52px; }
-  .agentes-linha small { display: block; margin-top: 2px; font-weight: 400; font-size: 13px; color: var(--txt3); }
-  @media (max-width: 1099px) { .agentes-linha li { width: calc((100% - 40px) / 5); } }
-  @media (max-width: 900px) { .agentes-topo { grid-template-columns: 1fr; } }
-  @media (max-width: 620px) { .agentes-linha li { width: calc((100% - 20px) / 3); } }
-
-  .grupo { margin-top: 48px; }
-  .grupo-nome { display: flex; align-items: center; gap: 16px; margin: 0; font: 600 21px var(--titulo); }
-  .grupo-nome::after { content: ""; flex: 1; height: 1px; background: var(--linha); }
-  .grupo .grade { margin-top: 18px; }
-
-  section { padding: 96px 0 0; }
-  h2 { font: 600 clamp(30px, 4vw, 44px)/1.12 var(--titulo); letter-spacing: -.015em; margin: 12px 0 14px; text-wrap: balance; }
-  .intro { color: var(--txt2); font-size: 19px; max-width: 720px; margin: 0; }
-  .grade { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 40px; }
-  .cartao { background: var(--vidro); border: 1px solid var(--linha); border-radius: 20px; padding: 26px; backdrop-filter: blur(12px); }
-  .cartao .ic { width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center; background: rgba(255, 255, 255, .06); border: 1px solid var(--linha); margin-bottom: 16px; }
-  .cartao h3 { font: 600 20px var(--titulo); margin: 0 0 6px; }
-  .cartao p { margin: 0; color: var(--txt2); font-size: 16px; }
-  .foto { margin-top: 40px; border-radius: 18px; overflow: hidden; border: 1px solid var(--linha); box-shadow: 0 30px 90px rgba(0, 0, 0, .5); }
-  .foto img { display: block; width: 100%; height: auto; }
-  .duas { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; margin-top: 40px; }
-  .duas .foto { margin-top: 0; }
-  .lista { list-style: none; padding: 0; margin: 22px 0 0; display: grid; gap: 14px; }
-  .lista li { display: grid; grid-template-columns: 34px 1fr; gap: 14px; align-items: start; color: var(--txt2); }
-  .lista li b { color: var(--txt); display: block; font-weight: 600; }
-  .lista .n { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: rgba(255, 255, 255, .07); color: var(--txt); font-weight: 600; font-size: 15px; }
-
-  .numeros { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 40px; }
-  .numero { padding: 28px; }
-  .numero .rot { color: var(--txt3); font-size: 15px; }
-  .barras { display: grid; gap: 12px; margin-top: 18px; }
-  .barra { display: grid; grid-template-columns: 118px 1fr auto; gap: 14px; align-items: center; font-size: 15px; color: var(--txt2); }
-  .barra i { display: block; height: 12px; border-radius: 6px; background: rgba(255, 255, 255, .16); }
-  .barra.nexora i { background: linear-gradient(90deg, var(--marca-clara), var(--marca)); }
-  .barra b { font: 600 17px var(--titulo); color: var(--txt); min-width: 84px; text-align: right; }
-  .nota { color: var(--txt3); font-size: 14.5px; margin-top: 16px; }
-  .nota a, details p a { color: var(--marca-clara); text-underline-offset: 3px; }
-
-  .baixar { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 40px; }
-  .compara { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 40px; }
-  .compara .cartao { display: grid; gap: 14px; align-content: start; }
-  .compara h3 { font-size: 22px; }
-  .compara .quando { color: var(--txt3); font-size: 15px; }
-  .compara ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 12px; }
-  .compara li { color: var(--txt2); font-size: 16px; padding-left: 22px; position: relative; }
-  .compara li::before { content: ""; position: absolute; left: 4px; top: 9px; width: 7px; height: 7px; border-radius: 50%; background: var(--marca-clara); }
-  .compara li b { color: var(--txt); font-weight: 600; }
-  .baixar .cartao { display: grid; gap: 14px; align-content: start; }
-  .baixar .cartao .botao { justify-self: start; }
-  .baixar .botoes { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 6px; }
-  .baixar .miudo2 { color: var(--txt3); font-size: 14.5px; }
-  .baixar .miudo2 a { color: var(--marca-clara); text-decoration: underline; text-underline-offset: 3px; }
-  .tam { color: var(--txt3); font-size: 15px; }
-  .req { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
-  .chip { display: inline-flex; gap: 8px; align-items: center; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--linha); background: rgba(255, 255, 255, .03); color: var(--txt2); font-size: 15px; }
-
-  details { border-bottom: 1px solid var(--linha); padding: 18px 0; }
-  details summary { cursor: pointer; font: 600 19px var(--titulo); list-style: none; display: flex; justify-content: space-between; gap: 20px; }
-  details summary::-webkit-details-marker { display: none; }
-  details summary::after { content: "+"; color: var(--txt3); font-weight: 400; }
-  details[open] summary::after { content: "–"; }
-  details p { color: var(--txt2); margin: 10px 0 0; max-width: 820px; }
-  .perguntas { margin-top: 24px; }
-  .perguntas details { scroll-margin-top: 90px; }
-
-  footer { margin-top: 110px; border-top: 1px solid var(--linha); padding: 48px 0 40px; color: var(--txt3); font-size: 14.5px; }
-  footer .rodape { display: grid; grid-template-columns: 1.4fr 1fr 1.3fr 1fr; gap: 32px; }
-  footer .marca { font-size: 16px; color: var(--txt); }
-  footer .marca img { width: 24px; height: 24px; }
-  footer .rod-marca p { margin: 12px 0 0; max-width: 270px; line-height: 1.5; }
-  footer h5 { margin: 0 0 14px; font: 600 12.5px var(--ui); letter-spacing: .12em; text-transform: uppercase; color: var(--txt3); }
-  footer .rod-col { display: grid; gap: 12px; align-content: start; }
-  footer .rod-col a { text-decoration: none; color: var(--txt2); line-height: 1.35; }
-  footer .rod-col a:hover { color: var(--txt); }
-  footer .rod-col small { display: block; color: var(--txt3); font-size: 13px; margin-top: 2px; }
-  footer .rod-base { margin-top: 36px; padding-top: 20px; border-top: 1px solid var(--linha); font-size: 13.5px; }
-
-  .grade details.recurso { padding: 0; border-bottom: 1px solid var(--linha); scroll-margin-top: 90px; transition: border-color .2s; }
-  .grade details.recurso:hover { border-color: var(--linha2); }
-  .grade details.recurso[open] { grid-column: 1 / -1; }
-  .grade details.recurso > summary { display: block; padding: 26px; cursor: pointer; font: inherit; list-style: none; }
-  .grade details.recurso > summary::after { content: none; }
-  .recurso .abrir { display: inline-flex; gap: 6px; align-items: center; margin-top: 14px; color: var(--txt3); font-size: 14.5px; }
-  .recurso .abrir svg.i { width: 16px; height: 16px; transition: transform .2s; }
-  .recurso .abrir .fechar, .recurso[open] .abrir .ver { display: none; }
-  .recurso[open] .abrir .fechar { display: inline; }
-  .recurso[open] .abrir svg.i { transform: rotate(180deg); }
-  .recurso .mais { padding: 0 26px 26px; display: grid; gap: 32px; animation: abrirRecurso .25s ease-out; }
-  .recurso .bloco { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 32px; align-items: start; }
-  .recurso .bloco.so-texto { grid-template-columns: minmax(0, 820px); }
-  .recurso .mais p { color: var(--txt2); margin: 0 0 12px; font-size: 16.5px; max-width: none; }
-  .recurso .mais h4 { font: 600 18px var(--titulo); margin: 0 0 14px; }
-  .recurso .mais .foto { margin-top: 0; box-shadow: 0 20px 60px rgba(0, 0, 0, .45); }
-  .recurso .mais .lista { margin: 0; }
-  .alterna { display: inline-flex; gap: 2px; padding: 3px; border-radius: 12px; border: 1px solid var(--linha); background: rgba(255, 255, 255, .04); margin-bottom: 12px; }
-  .alterna button { border: 0; background: transparent; color: var(--txt2); font: 500 14.5px var(--ui); padding: 6px 16px; border-radius: 9px; cursor: pointer; }
-  .alterna button.ativo { background: rgba(255, 255, 255, .1); color: var(--txt); }
-  @keyframes abrirRecurso { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
-
-  #temas .vitrine { margin-top: 36px; }
-  .seletor-temas { display: grid; gap: 14px; margin-bottom: 18px; }
-  .seletor-temas .alterna { justify-self: start; margin: 0; }
-  .alterna button { white-space: nowrap; }
-  .alterna button small { color: var(--txt3); font-size: 12.5px; margin-left: 2px; }
-  .chips-temas { display: flex; flex-wrap: wrap; gap: 8px; min-height: 40px; }
-  .chip-tema { display: inline-flex; align-items: center; gap: 9px; padding: 6px 14px 6px 7px; border-radius: 999px; border: 1px solid var(--linha); background: rgba(255, 255, 255, .03); color: var(--txt2); font: 500 14.5px var(--ui); cursor: pointer; transition: border-color .2s, background .2s, color .2s; }
-  .chip-tema:hover { border-color: var(--linha2); color: var(--txt); }
-  .chip-tema.ativo { border-color: var(--marca-clara); background: rgba(189, 180, 218, .12); color: var(--txt); }
-  .chip-tema i { width: 22px; height: 22px; border-radius: 7px; background: linear-gradient(135deg, var(--b) 40%, var(--a)); border: 1px solid rgba(255, 255, 255, .16); flex: none; }
-  .dica-temas { color: var(--txt3); font-size: 14.5px; margin: 14px 0 0; }
-  .janela-tema { position: relative; aspect-ratio: 1280 / 800; border-radius: 18px; overflow: hidden; border: 1px solid var(--linha); box-shadow: 0 30px 90px rgba(0, 0, 0, .5); background: var(--t-fundo-cheio, #0E0D0C); user-select: none; -webkit-user-select: none; }
-  .janela-tema canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-  .janela-tema .veu { position: absolute; inset: 0; background: var(--t-fundo-cheio); opacity: .2; pointer-events: none; }
-  .janela-tema.estatico .veu { opacity: 0; }
-  .janela-tema .tela { position: absolute; left: 0; top: 0; width: 1280px; height: 800px; transform-origin: 0 0; display: grid; grid-template-columns: 64px 262px minmax(0, 1fr); grid-template-rows: 50px minmax(0, 1fr) 30px; font: 14px/1.5 var(--ui); color: var(--t-texto); text-align: left; pointer-events: none; }
-  .janela-tema.anima .veu, .anima .tela div, .anima .tela span, .anima .tela p, .anima .tela i, .anima .tela b, .anima .tela pre { transition: background-color .45s, color .45s, border-color .45s, opacity .45s; }
-  .tela svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; flex: none; }
-  .tela code { font: 12.5px var(--mono); }
-  .tela ins { color: var(--t-verde); text-decoration: none; }
-  .tela del { color: var(--t-vermelho); text-decoration: none; }
-  .jt-trilho { grid-column: 1; grid-row: 2; display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 0 0 6px; color: var(--t-texto-suave); min-height: 0; }
-  .jt-trilho .cap { width: 46px; border-radius: 23px; background: var(--t-lateral); border: 1px solid var(--t-borda); box-shadow: 0 10px 28px rgba(0, 0, 0, .3); display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 5px 0; }
-  .jt-trilho .cap.fim { margin-top: auto; }
-  .jt-trilho .cap > span { position: relative; width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; }
-  .jt-trilho .cap > .ativo { background: linear-gradient(160deg, var(--t-marca), var(--t-marca-fim)); color: #fff; }
-  .janela-tema .jt-conversa { border-radius: 14px; border: 1px solid var(--t-borda); background: rgba(128, 128, 128, .07); box-shadow: 0 8px 30px rgba(0, 0, 0, .25); overflow: hidden; margin-right: 8px; }
-  .jt-rodape { grid-column: 1 / -1; grid-row: 3; display: flex; align-items: center; gap: 20px; padding: 0 18px; font-size: 11.5px; color: var(--t-texto-suave); white-space: nowrap; }
-  .jt-rodape span { display: inline-flex; align-items: center; gap: 7px; }
-  .jt-rodape svg { width: 12px; height: 12px; }
-  .jt-rodape .faisca { color: var(--t-laranja); }
-  .jt-rodape u { display: block; width: 40px; height: 4px; border-radius: 2px; background: var(--t-superficie-alta); }
-  .jt-rodape u b { display: block; width: 8%; height: 100%; border-radius: 2px; background: var(--t-laranja); }
-  .jt-rodape .mem { margin-left: auto; }
-  .jt-trilho svg { width: 18px; height: 18px; }
-  .jt-logo { width: 32px; height: 32px; border-radius: 9px; display: grid; place-items: center; font: 700 16px var(--titulo); color: #fff; background: linear-gradient(160deg, var(--t-marca), var(--t-marca-fim)); margin-bottom: 6px; }
-  .jt-topo { grid-column: 1 / 4; grid-row: 1; display: flex; align-items: center; gap: 12px; padding: 0 14px 0 0; font-size: 13px; }
-  .jt-busca { width: 300px; height: 32px; border-radius: 9px; background: var(--t-superficie); border: 1px solid var(--t-borda); display: flex; align-items: center; gap: 8px; padding: 0 10px; color: var(--t-texto-fraco); }
-  .jt-busca span { margin-left: auto; font-size: 11.5px; padding: 1px 6px; border-radius: 5px; background: var(--t-superficie-alta); color: var(--t-texto-suave); }
-  .jt-aba { display: flex; align-items: center; gap: 8px; height: 32px; padding: 0 12px; border-radius: 9px; background: var(--t-superficie-alta); border: 1px solid var(--t-borda); white-space: nowrap; }
-  .jt-aba i { width: 7px; height: 7px; border-radius: 50%; background: var(--t-acento); flex: none; }
-  .jt-aba span { color: var(--t-texto-fraco); margin-left: 6px; }
-  .jt-mais { color: var(--t-texto-fraco); font-size: 18px; }
-  .jt-medidores { margin-left: auto; display: flex; gap: 18px; font-size: 11.5px; color: var(--t-texto-suave); }
-  .jt-medidores div { display: grid; gap: 3px; width: 76px; }
-  .jt-medidores u { display: block; height: 3px; border-radius: 2px; background: var(--t-superficie-alta); }
-  .jt-medidores b { display: block; height: 100%; border-radius: 2px; background: var(--t-marca); }
-  .jt-nova { padding: 6px 14px; border-radius: 9px; background: var(--t-acento); color: var(--t-sobre-acento); font-weight: 600; }
-  .jt-conversa { grid-column: 3; grid-row: 2; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; min-height: 0; }
-  .jt-cab { display: flex; align-items: center; gap: 12px; padding: 10px 22px; border-bottom: 1px solid var(--t-borda); }
-  .jt-cab b { display: block; font-size: 15px; }
-  .jt-cab p { margin: 0; display: flex; gap: 6px; align-items: center; font-size: 12px; color: var(--t-texto-suave); }
-  .jt-cab p svg { width: 13px; height: 13px; }
-  .jt-cab p code { font-size: 12px; margin-right: 4px; }
-  .jt-estado { margin-left: auto; display: inline-flex; gap: 7px; align-items: center; padding: 4px 12px; border-radius: 999px; border: 1px solid var(--t-borda); background: var(--t-superficie); font-size: 12.5px; font-weight: 600; }
-  .jt-estado i { width: 7px; height: 7px; border-radius: 50%; background: var(--t-acento); animation: jtPulso 1.4s ease-in-out infinite; }
-  .janela-tema.pronta .jt-estado i { background: var(--t-verde); animation: none; }
-  .jt-fio { padding: 16px 22px 8px; display: flex; flex-direction: column; justify-content: flex-end; gap: 10px; overflow: hidden; }
-  .jt-bolha { align-self: flex-end; max-width: 72%; padding: 10px 14px; border-radius: 14px 14px 4px 14px; background: var(--t-bolha-usuario); border: 1px solid var(--t-borda); font-size: 13.5px; }
-  .jt-linha { display: flex; gap: 9px; align-items: center; padding: 5px 12px; border-radius: 8px; background: var(--t-superficie); font-size: 12.5px; color: var(--t-texto-suave); }
-  .jt-linha em { font-style: italic; }
-  .jt-linha .ponto { width: 6px; height: 6px; border-radius: 50%; background: var(--t-texto-fraco); }
-  .jt-giro { width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--t-acento); border-right-color: transparent; animation: jtGiro .9s linear infinite; }
-  .janela-tema.pronta .jt-giro { width: 6px; height: 6px; border: 0; background: var(--t-texto-fraco); animation: none; }
-  .jt-ferramenta { display: flex; gap: 9px; align-items: center; padding: 6px 12px; border-radius: 8px; background: var(--t-superficie); font-size: 12.5px; }
-  .jt-ferramenta i { width: 7px; height: 7px; border-radius: 50%; }
-  .jt-ferramenta code { color: var(--t-texto-suave); font-size: 12px; }
-  .jt-ferramenta .mm { margin-left: auto; font: 12px var(--mono); }
-  .jt-resposta { display: grid; grid-template-columns: 16px minmax(0, 1fr); gap: 10px; padding: 14px 16px; border-radius: 12px; background: var(--t-superficie); border: 1px solid var(--t-borda); font-size: 13.5px; }
-  .jt-resposta .faisca { color: var(--t-acento); font-size: 16px; line-height: 1.3; }
-  .jt-resposta p { margin: 0 0 8px; }
-  .jt-resposta ul { margin: 0 0 10px; padding-left: 18px; display: grid; gap: 4px; }
-  .jt-resposta p code { color: var(--t-codigo-texto); }
-  .jt-resposta pre { margin: 0; padding: 10px 12px; border-radius: 8px; background: var(--t-codigo-fundo); font: 12.5px/1.55 var(--mono); color: var(--t-texto); white-space: pre; }
-  .jt-resposta pre .k { color: var(--t-rosa); }
-  .jt-resposta pre .f { color: var(--t-ciano); }
-  .jt-resposta pre .s { color: var(--t-verde); }
-  .jt-caixa { margin: 6px 22px 16px; padding: 12px 14px 10px; border-radius: 14px; background: var(--t-superficie); border: 1px solid var(--t-borda); }
-  .jt-caixa p { margin: 0 0 18px; color: var(--t-texto-fraco); font-size: 13.5px; }
-  .jt-acoes { display: flex; align-items: center; gap: 10px; color: var(--t-texto-suave); font-size: 12px; }
-  .jt-pilula { display: inline-flex; gap: 6px; align-items: center; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--t-borda); background: var(--t-superficie-alta); color: var(--t-texto); font-size: 12.5px; }
-  .jt-pilula svg { width: 12px; height: 12px; }
-  .jt-acoes .dica { margin-left: auto; color: var(--t-texto-fraco); }
-  .jt-enviar { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--t-acento); color: var(--t-sobre-acento); }
-  .jt-painel { grid-column: 3; grid-row: 2; background: var(--t-lateral); border-left: 1px solid var(--t-borda); padding: 12px 16px; font-size: 13px; display: flex; flex-direction: column; gap: 8px; }
-  .jt-abas { display: flex; gap: 2px; margin-bottom: 6px; color: var(--t-texto-suave); }
-  .jt-abas span { padding: 4px 10px; border-radius: 7px; }
-  .jt-abas .ativo { background: var(--t-superficie-alta); color: var(--t-texto); font-weight: 600; }
-  .jt-painel h6 { margin: 10px 0 2px; font: 600 11px var(--ui); letter-spacing: .08em; text-transform: uppercase; color: var(--t-texto-fraco); }
-  .jt-painel p { margin: 0; display: flex; gap: 8px; align-items: center; }
-  .jt-painel p svg { color: var(--t-texto-suave); }
-  .jt-ctx { display: grid; gap: 6px; color: var(--t-texto-suave); font-size: 12px; text-align: right; }
-  .jt-ctx u { display: block; height: 4px; border-radius: 2px; background: var(--t-superficie-alta); }
-  .jt-ctx b { display: block; width: 42%; height: 100%; border-radius: 2px; background: var(--t-texto); }
-  .jt-painel .arq code { color: var(--t-texto-suave); font-size: 12px; }
-  .jt-painel .arq ins { margin-left: auto; font: 12px var(--mono); }
-  .jt-painel .arq del { font: 12px var(--mono); }
-  .janela-tema.compacta .tela { width: 520px; height: 720px; grid-template-columns: minmax(0, 1fr); }
-  .janela-tema.compacta .jt-trilho, .janela-tema.compacta .jt-painel, .janela-tema.compacta .jt-busca, .janela-tema.compacta .jt-medidores, .janela-tema.compacta .jt-mais, .janela-tema.compacta .jt-acoes .dica { display: none; }
-  .janela-tema.compacta .jt-topo, .janela-tema.compacta .jt-conversa, .janela-tema.compacta .jt-rodape { grid-column: 1; }
-  .janela-tema.compacta .jt-conversa { margin: 0 8px; }
-  .janela-tema.compacta .jt-rodape .codex { display: none; }
-  .janela-tema.compacta .jt-nova, .janela-tema.compacta .jt-acoes .jt-pilula.modo { margin-left: auto; }
-  @keyframes jtPulso { 50% { opacity: .35; } }
-  @keyframes jtGiro { to { transform: rotate(360deg); } }
-  .jt-marca { display: flex; align-items: center; gap: 10px; width: 326px; padding-left: 16px; font: 600 14px var(--titulo); flex: none; }
-  .jt-icones { margin-left: auto; display: flex; gap: 16px; color: var(--t-texto-suave); }
-  .jt-aba.fraca { background: transparent; border-color: transparent; color: var(--t-texto-suave); }
-  .jt-trilho .contador { position: relative; }
-  .jt-trilho .contador::after { content: "2"; position: absolute; right: -5px; top: -4px; min-width: 15px; height: 15px; border-radius: 8px; background: var(--t-laranja); color: #1A1410; font: 700 9.5px/15px var(--ui); text-align: center; }
-  .jt-anel { width: 30px; height: 30px; }
-  .jt-anel circle { fill: none; stroke-width: 3; }
-  .jt-anel text { font: 700 8px var(--ui); fill: var(--t-texto); stroke: none; }
-  .jt-lista { grid-column: 2; grid-row: 2; background: var(--t-lateral); border: 1px solid var(--t-borda); border-radius: 16px; margin: 0 8px 0 0; box-shadow: 0 10px 28px rgba(0, 0, 0, .25); padding: 12px 10px; font-size: 13px; display: flex; flex-direction: column; gap: 2px; overflow: hidden; }
-  .jt-lista .tit { display: flex; align-items: center; gap: 8px; padding: 2px 8px 8px; font-weight: 600; color: var(--t-texto-suave); }
-  .jt-lista .tit span { margin-left: auto; display: flex; gap: 10px; color: var(--t-texto-fraco); }
-  .jt-lista .tit svg { width: 13px; height: 13px; }
-  .jt-lista .sec { padding: 8px 8px 4px; font-size: 12px; color: var(--t-texto-fraco); }
-  .jt-lista .proj { display: flex; align-items: center; gap: 8px; padding: 4px 8px; font-weight: 600; }
-  .jt-lista .proj s { text-decoration: none; width: 17px; height: 17px; border-radius: 5px; display: grid; place-items: center; font: 700 8px var(--ui); color: #fff; background: linear-gradient(160deg, var(--t-marca), var(--t-marca-fim)); }
-  .jt-lista .ramo { display: flex; align-items: center; gap: 6px; padding: 4px 8px 2px 22px; font-size: 11.5px; color: var(--t-texto-fraco); }
-  .jt-lista .ramo svg { width: 11px; height: 11px; }
-  .jt-lista .cv { padding: 5px 8px 5px 22px; border-radius: 8px; }
-  .jt-lista .cv.ativo { background: var(--t-superficie-alta); border: 1px solid var(--t-borda); }
-  .jt-lista .cv b { display: flex; align-items: center; gap: 8px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .jt-lista .cv b i { width: 7px; height: 7px; border-radius: 50%; flex: none; background: var(--c, var(--t-texto)); }
-  .jt-lista .cv small { display: block; padding-left: 15px; font-size: 11.5px; color: var(--t-texto-fraco); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .jt-lista .cv small.pede { color: var(--t-laranja); }
-  .jt-lista .hist { display: flex; justify-content: space-between; gap: 8px; padding: 4px 8px 4px 22px; color: var(--t-texto-suave); white-space: nowrap; }
-  .jt-lista .hist span { color: var(--t-texto-fraco); font-size: 11.5px; flex: none; }
-  .janela-tema.compacta .jt-lista, .janela-tema.compacta .jt-icones { display: none; }
-  .janela-tema.compacta .jt-marca { width: auto; }
-  @media (prefers-reduced-motion: reduce) { .jt-estado i, .jt-giro { animation: none; } }
-
-  @media (max-width: 900px) {
-    nav { display: none; }
-    header.topo .larg { gap: 12px; }
-    .idiomas { margin: 0 0 0 auto; }
-    .grade, .numeros, .baixar, .duas, .compara, .recurso .bloco { grid-template-columns: 1fr; }
-    .baixar { grid-template-columns: minmax(0, 1fr); }
-    .baixar .botao { white-space: normal; text-align: center; }
-    .chips-temas { flex-wrap: nowrap; overflow-x: auto; margin: 0 -20px; padding: 0 20px 4px; scrollbar-width: none; }
-    .chips-temas::-webkit-scrollbar { display: none; }
-    .chip-tema { flex: none; }
-    footer .rodape { grid-template-columns: 1fr 1fr; }
-  }
-
-  #palco { position: absolute; left: 0; top: 0; width: 1600px; height: 900px; transform-origin: 0 0; overflow: hidden; background: #0E0D0C; font: 17px/1.45 var(--ui); color: var(--txt); text-align: left; }
-  #palco .cursor, #palco .anel, #palco .mcp, #palco .pj { left: 0; top: 0; }
-  #palco canvas { position: absolute; inset: 0; }
-  #palco .veu { position: absolute; inset: 0; pointer-events: none;
-    background: radial-gradient(ellipse 55% 50% at 80% 6%, rgba(148, 139, 174, .18), transparent 70%),
-                radial-gradient(ellipse 60% 55% at 8% 100%, rgba(91, 84, 112, .22), transparent 70%),
-                radial-gradient(ellipse 120% 100% at 50% 50%, transparent 50%, rgba(0, 0, 0, .6)); }
-  #palco .abs { position: absolute; }
-  #palco .leg { left: 0; right: 0; text-align: center; font: 600 46px/1.1 var(--titulo); letter-spacing: -.015em; text-shadow: 0 4px 30px rgba(0, 0, 0, .6); }
-  #palco .leg em { font-style: normal; color: var(--laranja); }
-  #palco .leg2 { left: 0; right: 0; text-align: center; font-size: 22px; color: var(--txt2); }
-  #palco .vid { background: rgba(28, 26, 30, .82); border: 1px solid rgba(255, 255, 255, .1); border-radius: 18px; box-shadow: 0 30px 80px rgba(0, 0, 0, .5); }
-  .conv { width: 330px; height: 190px; padding: 16px 18px; }
-  .conv .bar { display: flex; gap: 7px; align-items: center; margin-bottom: 14px; font-size: 14px; color: var(--txt2); }
-  .conv .bar s { width: 10px; height: 10px; border-radius: 50%; background: rgba(255, 255, 255, .18); text-decoration: none; }
-  .conv .bar span { margin-left: 8px; font-weight: 600; color: var(--txt); }
-  .conv i { display: block; height: 9px; border-radius: 5px; background: rgba(255, 255, 255, .12); margin-bottom: 10px; }
-  .conv .selo { position: absolute; left: 18px; bottom: 16px; padding: 4px 12px; border-radius: 999px; font-size: 13.5px; font-weight: 600; }
-  .conv .selo.pede { background: rgba(240, 168, 96, .16); color: var(--laranja); border: 1px solid rgba(240, 168, 96, .45); }
-  .conv .selo.fala { background: rgba(255, 255, 255, .06); color: var(--txt2); border: 1px solid rgba(255, 255, 255, .12); }
-  .marcaGrande { left: 0; right: 0; display: grid; justify-items: center; gap: 14px; }
-  .marcaGrande img { width: 168px; height: 168px; filter: drop-shadow(0 20px 60px rgba(148, 139, 174, .45)); }
-  .marcaGrande b { font: 600 104px/1 var(--titulo); letter-spacing: -.03em; }
-  .marcaGrande span { font-size: 26px; color: var(--txt2); }
-  .app { left: 160px; top: 150px; width: 1280px; height: 700px; overflow: hidden; }
-  .app .lat { position: absolute; left: 64px; top: 58px; bottom: 36px; width: 172px; border: 1px solid rgba(255, 255, 255, .09); border-radius: 16px; background: rgba(0, 0, 0, .3); box-shadow: 0 10px 28px rgba(0, 0, 0, .35); display: flex; flex-direction: column; padding: 8px; gap: 1px; font-size: 13.5px; }
-  .conv .bar img { width: 18px; height: 18px; }
-  .app .trilho { position: absolute; left: 8px; top: 58px; bottom: 36px; width: 50px; display: flex; flex-direction: column; justify-content: space-between; }
-  .app .trilho .cap { display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 6px 0; border-radius: 25px; border: 1px solid rgba(255, 255, 255, .09); background: rgba(0, 0, 0, .3); box-shadow: 0 10px 28px rgba(0, 0, 0, .35); }
-  .app .trilho .ti { position: relative; width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; }
-  .app .trilho .ti svg { width: 17px; height: 17px; fill: none; stroke: var(--txt2); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
-  .app .trilho .ti.ativo { background: linear-gradient(160deg, var(--marca), var(--marca-fim)); }
-  .app .trilho .ti.ativo svg { stroke: #fff; }
-  .app .trilho .ti em { position: absolute; right: -4px; top: -3px; min-width: 16px; font-style: normal; font-size: 10px; font-weight: 700; line-height: 16px; text-align: center; color: #1A1410; background: var(--laranja); border-radius: 999px; padding: 0 4px; }
-  .app .lat .sec { font-weight: 600; font-size: 13px; color: var(--txt2); padding: 10px 8px 6px; }
-  .app .lat .cv { padding: 6px 8px; border-radius: 9px; }
-  .app .lat .cv b { display: flex; align-items: center; gap: 8px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .app .lat .cv b i { width: 8px; height: 8px; border-radius: 50%; background: var(--c, var(--txt)); flex: none; }
-  .app .lat .cv small { display: block; padding-left: 16px; font-size: 11.5px; color: var(--txt3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .app .lat .cv.pede small { color: var(--laranja); }
-  .app .barraTopo .lt { display: flex; align-items: center; gap: 10px; font: 600 16px var(--titulo); width: 226px; flex: none; }
-  .app .barraTopo .lt img { width: 28px; height: 28px; }
-  .app .miolo { position: absolute; left: 244px; top: 58px; right: 8px; bottom: 36px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, .09); background: rgba(255, 255, 255, .025); box-shadow: 0 8px 30px rgba(0, 0, 0, .3); }
-  .app .rodapeApp { position: absolute; left: 0; right: 0; bottom: 0; height: 36px; display: flex; align-items: center; gap: 24px; padding: 0 22px; font-size: 13px; color: var(--txt3); white-space: nowrap; }
-  .app .rodapeApp span { display: inline-flex; align-items: center; gap: 8px; }
-  .app .rodapeApp svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-  .app .rodapeApp .fa { color: var(--laranja); }
-  .app .rodapeApp u { display: block; width: 46px; height: 4px; border-radius: 2px; background: rgba(255, 255, 255, .12); }
-  .app .rodapeApp u b { display: block; width: 8%; height: 100%; border-radius: 2px; background: var(--laranja); }
-  .app .rodapeApp .mem { margin-left: auto; }
-  .app .barraTopo .aba { padding: 7px 14px; border-radius: 10px; font-size: 14px; color: var(--txt2); }
-  .app .barraTopo .aba.ativa { background: rgba(255, 255, 255, .07); border: 1px solid rgba(255, 255, 255, .1); color: var(--txt); }
-  .app .barraTopo { position: absolute; left: 0; right: 0; top: 0; height: 58px; display: flex; align-items: center; gap: 14px; padding: 0 18px; }
-  .app .busca { width: 360px; height: 36px; border-radius: 11px; background: rgba(255, 255, 255, .06); border: 1px solid rgba(255, 255, 255, .08); color: var(--txt3); font-size: 14.5px; display: flex; align-items: center; padding: 0 14px; }
-  .app .nova { margin-left: auto; padding: 8px 18px; border-radius: 11px; background: #F4F2EE; color: #161514; font-weight: 600; font-size: 15px; }
-  .app .titulo { position: absolute; left: 256px; top: 76px; font: 600 26px var(--titulo); }
-  .col { position: absolute; top: 128px; width: 236px; height: 526px; border-radius: 16px; background: rgba(255, 255, 255, .03); border: 1px solid rgba(255, 255, 255, .08); }
-  .col h4 { margin: 14px 16px; font-size: 16px; display: flex; gap: 10px; align-items: center; }
-  .col h4 i { width: 9px; height: 9px; border-radius: 50%; background: var(--c); }
-  .col h4 small { font-size: 13px; color: var(--txt3); padding: 1px 9px; border-radius: 999px; background: rgba(255, 255, 255, .07); font-weight: 600; }
-  .ct { position: absolute; width: 212px; border-radius: 13px; background: rgba(255, 255, 255, .07); border: 1px solid rgba(255, 255, 255, .1); padding: 12px 14px; font-size: 14px; }
-  .ct .t { display: flex; gap: 9px; align-items: center; font-weight: 600; font-size: 15.5px; white-space: nowrap; overflow: hidden; }
-  .ct .t s { text-decoration: none; width: 26px; height: 26px; border-radius: 8px; flex: none; background: linear-gradient(160deg, var(--marca), var(--marca-fim)); font-size: 11px; color: #fff; display: grid; place-items: center; font-weight: 700; }
-  .ct .o { color: var(--txt3); font: 12.5px var(--mono); margin-top: 6px; }
-  .ct .a { color: var(--txt2); margin-top: 6px; font-size: 13.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .ct .l { height: 5px; border-radius: 3px; background: rgba(255, 255, 255, .1); margin-top: 10px; overflow: hidden; }
-  .ct .l b { display: block; height: 100%; background: var(--txt2); border-radius: 3px; }
-  .ct .bts { display: flex; gap: 8px; margin-top: 10px; }
-  .ct .bts span { padding: 5px 14px; border-radius: 9px; font-weight: 600; font-size: 13.5px; background: rgba(255, 255, 255, .08); }
-  .ct .bts span.claro { background: #F4F2EE; color: #161514; }
-  .cursor { width: 30px; height: 30px; z-index: 5; filter: drop-shadow(0 4px 8px rgba(0, 0, 0, .5)); }
-  .anel { width: 56px; height: 56px; border-radius: 50%; border: 2px solid var(--marca-clara); z-index: 4; }
-  .aviso { right: 40px; bottom: 58px; padding: 14px 20px; display: flex; gap: 12px; align-items: center; font-size: 16px; }
-  .aviso i { width: 10px; height: 10px; border-radius: 50%; background: var(--verde); }
-  .sess { width: 210px; height: 62px; padding: 0 20px; display: flex; align-items: center; gap: 12px; font: 600 19px var(--titulo); }
-  .sess s { width: 30px; height: 30px; border-radius: 9px; background: linear-gradient(160deg, var(--marca), var(--marca-fim)); text-decoration: none; }
-  .mcp { width: 118px; height: 46px; border-radius: 12px; display: grid; place-items: center; font: 600 15px var(--mono); background: rgba(255, 255, 255, .07); border: 1px solid rgba(255, 255, 255, .14); }
-  .mcp.hub { width: 150px; height: 56px; background: rgba(189, 180, 218, .16); border-color: rgba(189, 180, 218, .5); }
-  .medidor { left: 300px; width: 1000px; top: 760px; }
-  .medidor .rot { display: flex; justify-content: space-between; font-size: 17px; color: var(--txt2); margin-bottom: 10px; }
-  .medidor .rot b { font: 600 22px var(--titulo); color: var(--txt); }
-  .medidor .tr { height: 16px; border-radius: 8px; background: rgba(255, 255, 255, .08); overflow: hidden; }
-  .medidor .tr i { display: block; height: 100%; border-radius: 8px; }
-  .selo2 { padding: 10px 22px; border-radius: 999px; background: rgba(123, 203, 159, .16); border: 1px solid rgba(123, 203, 159, .5); color: var(--verde); font: 600 28px var(--titulo); }
-  .vsl { left: 150px; top: 230px; width: 520px; padding: 22px; }
-  #palco .nv { left: 140px; top: 230px; width: 620px; padding: 28px 30px; }
-  #palco .nv h5 { margin: 0; display: flex; align-items: center; gap: 12px; font: 600 24px var(--titulo); }
-  #palco .nv h5 s { text-decoration: none; width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; background: linear-gradient(160deg, var(--marca), var(--marca-fim)); color: #fff; font: 700 13px var(--ui); }
-  #palco .nv .de { margin: 6px 0 0 46px; font: 15px var(--mono); color: var(--txt3); }
-  #palco .nv .onde { display: inline-flex; gap: 3px; margin-top: 24px; padding: 4px; border-radius: 14px; border: 1px solid rgba(255, 255, 255, .1); background: rgba(255, 255, 255, .04); font-size: 18px; }
-  #palco .nv .onde span { padding: 8px 18px; border-radius: 10px; color: var(--txt3); transition: background .35s, color .35s; }
-  #palco .nv .onde span.ativo { background: rgba(189, 180, 218, .2); color: var(--txt); }
-  #palco .nv .faixa { margin-top: 18px; padding: 16px 18px; border-radius: 14px; border: 1px solid rgba(124, 200, 232, .3); background: rgba(124, 200, 232, .08); color: var(--txt2); font-size: 18px; line-height: 1.45; }
-  #palco .nv .faixa b { color: #A9DCF2; font-weight: 600; }
-  #palco .nv .barraNv { height: 6px; margin-top: 22px; border-radius: 3px; background: rgba(255, 255, 255, .1); overflow: hidden; }
-  #palco .nv .barraNv i { display: block; height: 100%; width: 0; border-radius: 3px; background: linear-gradient(90deg, var(--marca-clara), var(--marca)); }
-  #palco .nv .pc { display: flex; align-items: center; gap: 10px; margin-top: 18px; font-size: 16px; color: var(--txt3); }
-  #palco .nv .pc i { width: 9px; height: 9px; border-radius: 50%; background: var(--verde); transition: background .35s; }
-  #palco .nv .pc.desligado i { background: rgba(255, 255, 255, .25); }
-  #palco .tm { left: 820px; top: 230px; width: 640px; min-height: 364px; padding: 26px 28px; background: rgba(8, 8, 9, .9); font: 18px/1.75 var(--mono); font-variant-ligatures: none; color: var(--txt2); white-space: pre; }
-  #palco .tm .ln { display: block; }
-  #palco .tm .cmd b { color: var(--txt); font-weight: 500; }
-  #palco .tm .fr { color: var(--txt3); }
-  #palco .tm .pd { color: var(--laranja); }
-  .vsl h5 { margin: 0 0 14px; font-size: 16px; color: var(--txt2); font-weight: 600; }
-  .vsl .r { display: grid; grid-template-columns: 26px 1fr; gap: 12px; align-items: center; padding: 12px 14px; border-radius: 12px; background: rgba(255, 255, 255, .04); margin-bottom: 8px; font-size: 16px; }
-  .vsl .r small { display: block; font: 12.5px var(--mono); color: var(--txt3); }
-  .vsl .cx { width: 24px; height: 24px; border-radius: 7px; border: 1.5px solid rgba(255, 255, 255, .25); display: grid; place-items: center; color: transparent; }
-  .vsl .cx.ok { background: var(--marca-clara); border-color: var(--marca-clara); color: #17151C; }
-  .pj { width: 330px; height: 128px; padding: 18px 20px; }
-  .pj .t { display: flex; gap: 12px; align-items: center; font: 600 20px var(--titulo); }
-  .pj .t s { width: 36px; height: 36px; border-radius: 10px; text-decoration: none; background: linear-gradient(160deg, var(--marca), var(--marca-fim)); font: 700 13px var(--ui); color: #fff; display: grid; place-items: center; }
-  .pj .d { margin-top: 12px; color: var(--txt3); font: 13.5px var(--mono); }
-  .pj .d b { color: var(--txt2); font-weight: 600; }
-  .fim { left: 0; right: 0; display: grid; justify-items: center; gap: 16px; }
-  .fim img { width: 132px; height: 132px; filter: drop-shadow(0 20px 60px rgba(148, 139, 174, .45)); }
-  .fim b { font: 600 84px/1 var(--titulo); letter-spacing: -.03em; }
-  .fim span { font-size: 24px; color: var(--txt2); }
-  .fim .url { margin-top: 10px; padding: 14px 30px; border-radius: 16px; background: #F4F2EE; color: #161514; font: 600 24px var(--titulo); }
-
-  body.rec { overflow: hidden; }
-  body.rec::before, body.rec header.topo, body.rec main > :not(.hero), body.rec .hero > :not(.moldura), body.rec footer, body.rec .pausa { display: none !important; }
-  body.rec .hero { padding: 0; }
-  body.rec .moldura { position: fixed; inset: 0; width: 100vw; height: 100vh; margin: 0; border: 0; border-radius: 0; aspect-ratio: auto; box-shadow: none; }
-  .turma { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 12px; margin-top: 18px; }
-  .bicho { display: grid; justify-items: center; gap: 6px; padding: 14px 8px 12px; border-radius: 18px; border: 1px solid var(--linha); background: var(--vidro2); text-align: center; transition: border-color .2s, background .2s; outline: none; }
-  .bicho:hover, .bicho:focus-visible { border-color: var(--linha2); background: rgba(255, 255, 255, .07); }
-  .bicho .av { width: 84px; height: 84px; }
-  .bicho .av canvas { width: 100%; height: 100%; display: block; }
-  .bicho b { font: 600 14.5px var(--ui); color: var(--txt); }
-  .bicho small { font-size: 12.5px; color: var(--txt3); margin-top: -4px; }
-  .turma-grupo { margin-top: 30px; }
-  @media (max-width: 560px) { .turma { grid-template-columns: repeat(3, 1fr); gap: 8px; } .bicho .av { width: 64px; height: 64px; } .bicho b { font-size: 13px; } }
-  .olho { display: inline-flex; align-items: center; gap: 10px; font: 500 12.5px var(--mono); letter-spacing: .14em; }
-  .olho::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; box-shadow: 0 0 0 4px rgba(189, 180, 218, .14); }
-  section { padding-top: 0; scroll-margin-top: -56px; }
-  section::before { content: ""; display: block; width: min(1180px, calc(100% - 40px)); height: 1px; margin: 96px auto 64px; background: linear-gradient(90deg, transparent, var(--linha2) 18%, var(--linha2) 82%, transparent); }
-
-  .hero { position: relative; padding: 64px 0 40px; text-align: left; }
-  .hero::before { content: ""; position: absolute; left: 0; right: 0; top: -64px; height: 820px; z-index: -1; pointer-events: none;
-    background: radial-gradient(ellipse 46% 58% at 76% 34%, rgba(148, 139, 174, .26), transparent 70%), radial-gradient(ellipse 26% 34% at 88% 66%, rgba(240, 168, 96, .08), transparent 70%); }
-  .hero-grade { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr); gap: 56px; align-items: center; }
-  .hero h1 { margin: 22px 0 18px; max-width: none; font-size: clamp(40px, 5.1vw, 66px); }
-  .hero h1 em { font-style: normal; background: linear-gradient(100deg, #EDE8FB 0%, #B3A7DE 55%, #F0A860 135%); -webkit-background-clip: text; background-clip: text; color: transparent; }
-  .hero p.sub { margin: 0; max-width: 580px; }
-  .hero .acoes { justify-content: flex-start; }
-  .novidade { display: inline-flex; align-items: center; gap: 10px; padding: 5px 14px 5px 6px; border-radius: 999px; border: 1px solid var(--linha2); background: rgba(255, 255, 255, .04); color: var(--txt2); font-size: 14.5px; text-decoration: none; transition: border-color .2s, color .2s; }
-  .novidade b { padding: 2px 9px; border-radius: 999px; background: linear-gradient(160deg, var(--marca-clara), var(--marca)); color: #17151C; font: 700 12px var(--ui); letter-spacing: .04em; }
-  .novidade svg.i { width: 15px; height: 15px; color: var(--txt3); }
-  .novidade:hover { border-color: var(--marca-clara); color: var(--txt); }
-  .com { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 30px; color: var(--txt3); font-size: 14px; }
-  .com > span:first-child { flex-basis: 100%; }
-  .com .ag { --t: 38px; border-radius: 12px; box-shadow: none; }
-
-  .vivo { padding: 18px; border-radius: 24px; border: 1px solid var(--linha); background: linear-gradient(180deg, rgba(36, 33, 42, .88), rgba(20, 19, 23, .88)); box-shadow: 0 40px 110px rgba(0, 0, 0, .55), inset 0 1px 0 rgba(255, 255, 255, .07); }
-  .vivo-cab { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 2px 6px 14px; }
-  .vivo-cab b { font: 600 18px var(--titulo); }
-  .vc { display: grid; grid-template-columns: 38px minmax(0, 1fr); gap: 12px; padding: 14px; border-radius: 16px; border: 1px solid var(--linha); background: rgba(255, 255, 255, .035); }
-  .vc + .vc { margin-top: 10px; }
-  .vc .ag { --t: 38px; border-radius: 12px; box-shadow: none; }
-  .vc h4 { margin: 0; display: flex; align-items: center; gap: 10px; font: 600 15.5px var(--titulo); }
-  .vc p { margin: 0; }
-  .vc .de { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 10px; margin-top: 2px; font: 12.5px var(--mono); color: var(--txt3); }
-  .vc .que { margin-top: 8px; color: var(--txt2); font-size: 14px; }
-  .vc code { font: 12.5px var(--mono); color: var(--cod); }
-  .vc .que.ok { color: var(--verde); }
-  .vc .bts { display: flex; gap: 8px; margin-top: 10px; }
-  .vc .bts span { padding: 5px 14px; border-radius: 9px; border: 1px solid var(--linha2); font: 600 13px var(--ui); }
-  .vc .bts .claro { background: #F4F2EE; color: #161514; border-color: transparent; }
-  .vc.pede { border-color: rgba(240, 168, 96, .5); background: linear-gradient(180deg, rgba(240, 168, 96, .1), rgba(240, 168, 96, .03)); }
-  .vc .prog { height: 4px; margin-top: 10px; border-radius: 2px; background: rgba(255, 255, 255, .1); overflow: hidden; }
-  .vc .prog i { display: block; height: 100%; width: 46%; border-radius: 2px; background: linear-gradient(90deg, var(--marca-clara), var(--marca)); animation: andar 3.2s ease-in-out infinite alternate; }
-  @keyframes andar { from { width: 28%; } to { width: 74%; } }
-  .estado { margin-left: auto; display: inline-flex; align-items: center; gap: 6px; font: 500 12px var(--ui); color: var(--txt3); white-space: nowrap; }
-  .estado::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--txt); }
-  .estado.pede { color: var(--laranja); }
-  .estado.pede::before { background: var(--laranja); }
-  .estado.pronta::before { background: var(--verde); }
-  .selo-nuvem { display: inline-flex; align-items: center; gap: 5px; padding: 1px 8px; border-radius: 999px; border: 1px solid rgba(124, 200, 232, .3); background: rgba(124, 200, 232, .08); color: #A9DCF2; font: 500 11.5px var(--ui); }
-  .selo-nuvem svg.i { width: 12px; height: 12px; }
-  .rotulo-video { margin: 72px 0 0; text-align: center; }
-  .moldura { margin-top: 20px; }
-
-  .bento { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 16px; margin-top: 40px; }
-  .bento .cartao { display: flex; flex-direction: column; gap: 12px; padding: 28px; }
-  .bento .cartao h3 { margin: 0; font-size: 22px; }
-  .bento .cartao .ic { margin-bottom: 4px; }
-  .bento .visual { display: grid; gap: 10px; margin-top: auto; padding-top: 12px; }
-  .b7 { grid-column: span 7; }
-  .b5 { grid-column: span 5; }
-  .b4 { grid-column: span 4; }
-  .b-nuvem { background: radial-gradient(ellipse 80% 70% at 100% 0%, rgba(148, 139, 174, .2), transparent 70%), var(--vidro); }
-  .onde-chips { display: inline-flex; justify-self: start; gap: 2px; padding: 3px; border-radius: 12px; border: 1px solid var(--linha); background: rgba(255, 255, 255, .04); font: 500 14px var(--ui); }
-  .onde-chips span { display: inline-flex; align-items: center; gap: 7px; padding: 6px 14px; border-radius: 9px; color: var(--txt3); }
-  .onde-chips .ativo { background: rgba(189, 180, 218, .16); color: var(--txt); }
-  .onde-chips svg.i, .onde-faixa svg.i { width: 16px; height: 16px; }
-  .onde-faixa { display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; border-radius: 12px; border: 1px solid rgba(124, 200, 232, .28); background: rgba(124, 200, 232, .07); color: var(--txt2); font-size: 14.5px; line-height: 1.45; }
-  .onde-faixa svg.i { margin-top: 2px; color: #7CC8E8; }
-  .provedores { display: flex; flex-wrap: wrap; gap: 8px; }
-  .provedores .chip { padding: 5px 12px; font-size: 14px; }
-  .provedores small { margin-left: 2px; color: var(--marca-clara); font-size: 12px; }
-  .term { margin: 0; padding: 16px 18px; border-radius: 14px; border: 1px solid var(--linha); background: rgba(8, 8, 9, .7); font: 13px/1.65 var(--mono); font-variant-ligatures: none; color: var(--txt2); white-space: pre-wrap; overflow-wrap: anywhere; }
-  .term b { color: var(--txt); font-weight: 500; }
-  .term i { color: var(--txt3); font-style: normal; }
-  .term u { color: var(--laranja); text-decoration: none; }
-
-  .grupo-nome { font-size: 18px; }
-  .grupo .grade { margin-top: 14px; gap: 12px; }
-  .grade details.recurso { border-radius: 16px; transition: border-color .2s, background .2s; }
-  .grade details.recurso:hover { background: rgba(38, 35, 44, .8); }
-  .grade details.recurso > summary { display: grid; grid-template-columns: 42px minmax(0, 1fr) 18px; gap: 0 14px; align-items: start; padding: 18px 18px 18px 20px; }
-  .recurso > summary .ic { grid-row: 1 / span 2; width: 42px; height: 42px; margin: 0; border-radius: 12px; }
-  .recurso > summary h3 { grid-column: 2; margin: 0 0 3px; font-size: 17.5px; }
-  .recurso > summary p { grid-column: 2; font-size: 14.5px; line-height: 1.45; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-  .recurso[open] > summary p { display: block; overflow: visible; }
-  .recurso .abrir { grid-column: 3; grid-row: 1; margin: 3px 0 0; }
-  .recurso .abrir .ver, .recurso[open] .abrir .fechar { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-  .recurso .mais { padding: 6px 20px 22px; }
-
-  @media (max-width: 1000px) {
-    .hero-grade { grid-template-columns: 1fr; gap: 40px; }
-    .b7, .b5, .b4 { grid-column: 1 / -1; }
-    section::before { margin: 72px auto 48px; }
-    .term { white-space: pre; overflow-x: auto; }
-  }
-  @media (prefers-reduced-motion: reduce) { .vc .prog i { animation: none; } }
-</style>
-<link rel="stylesheet" href="/telas/telas.css">
+<link rel="stylesheet" href="/estilo.css?v=0.9">
 </head>
 <body>
+<a class="pular" href="#principal">Pular para o conteúdo</a>
 <header class="topo">
   <div class="larg">
-    <a class="marca" href="#"><img src="/img/nexora.svg" alt="">Nexora</a>
-    <nav><a href="#novidades">Novidades</a><a href="#recursos">Recursos</a><a href="#agentes">Agentes</a><a href="#temas">Temas</a><a href="#perguntas">Perguntas</a></nav>
+    <a class="marca" href="#"><img src="/img/nexora.svg" alt="" width="30" height="30">Nexora</a>
+    <nav aria-label="Seções"><a href="#como">Como funciona</a><a href="#diferenciais">Recursos</a><a href="#agentes">Agentes</a><a href="#confianca">Segurança</a><a href="#perguntas">Perguntas</a></nav>
     <div class="idiomas" role="group" aria-label="Idioma"><a href="/" hreflang="pt-BR" lang="pt-BR" title="Português" data-idioma="pt" aria-current="page">PT</a><a href="/en/" hreflang="en" lang="en" title="English" data-idioma="en">EN</a></div>
-    <a class="botao pequeno" href="#baixar">Baixar grátis</a>
+    <a class="botao pequeno" href="#baixar">Baixar</a>
   </div>
 </header>
-<div class="sugestao" id="sugestao" lang="en" hidden><div class="larg"><span>This page is also available in English.</span><a href="/en/" hreflang="en" data-idioma="en">Read it in English</a><button type="button" aria-label="Continuar em português" title="Continuar em português">×</button></div></div>
-<script>
-(() => {
-  const pagina = document.documentElement.lang === "en" ? "en" : "pt";
-  const salvar = (l) => { try { localStorage.setItem("lang", l); } catch (e) {} };
-  let salvo = null;
-  try { salvo = localStorage.getItem("lang"); } catch (e) {}
-  const sugestao = document.getElementById("sugestao");
-  document.querySelectorAll("a[data-idioma]").forEach((a) => a.addEventListener("click", (e) => {
-    salvar(a.dataset.idioma);
-    if (a.dataset.idioma === pagina) { e.preventDefault(); sugestao.hidden = true; return; }
-    a.href = a.getAttribute("href").split("#")[0] + location.hash;
-  }));
-  sugestao.querySelector("button").addEventListener("click", () => { salvar(pagina); sugestao.hidden = true; });
-  const lista = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ""];
-  const navegador = lista.some((l) => /^pt\b/i.test(l)) ? "pt" : "en";
-  if (!salvo && navegador !== pagina && !/[?&]rec\b/.test(location.search)) sugestao.hidden = false;
-})();
-</script>
+<div class="sugestao" id="sugestao" lang="en" hidden><div class="larg"><span>This site is also available in English.</span><a href="/en/" hreflang="en" data-idioma="en">View in English</a><button type="button" aria-label="Continuar em português" title="Continuar em português">×</button></div></div>
 
-<main>
-  <div class="hero">
-    <div class="larg hero-grade">
-      <div>
-        <a class="novidade" href="#novidades"><b>0.8</b>Máquinas na nuvem e o comando nexora no terminal<svg class="i" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
-        <h1>Seus agentes de código, <em>num lugar só.</em></h1>
-        <p class="sub">Claude Code, Codex, Gemini CLI, Antigravity, Copilot, Cursor e mais cinco agentes num quadro só, que mostra primeiro quem precisa de você. Quem lê e escreve o código é o próprio agente, com a sua conta e o seu plano.</p>
-        <div class="acoes">
-          <a class="botao" id="baixarPrincipal" href="/baixar" data-dl="setup"><svg class="i" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg><span>Baixar para Windows</span></a>
-          <a class="botao sec" id="baixarOutro" href="#mac"><svg class="i" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>Baixar para Mac</a>
-        </div>
-        <p class="miudo">Grátis · Windows 10 e 11 na versão 0.8.1 · Mac, Apple Silicon e Intel, ainda na 0.7.1</p>
-        <div class="com" role="img" aria-label="Claude Code, Codex, Gemini CLI, Antigravity, GitHub Copilot, Cursor, OpenCode, Kiro, Qwen Code, Grok e goose"><span>Com o agente que você já usa</span><span class="ag"><img src="/img/agentes/claude.svg" alt="" width="24" height="24"></span><span class="ag"><img src="/img/agentes/codex.svg" alt="" width="24" height="24"></span><span class="ag"><img src="/img/agentes/gemini.svg" alt="" width="24" height="24"></span><span class="ag"><img src="/img/agentes/antigravity.svg" alt="" width="24" height="24"></span><span class="ag"><img src="/img/agentes/copilot.svg" alt="" width="24" height="24"></span><span class="ag"><img src="/img/agentes/cursor.svg" alt="" width="24" height="24"></span><span class="ag"><img src="/img/agentes/opencode.svg" alt="" width="24" height="24"></span><span class="ag"><img src="/img/agentes/kiro.svg" alt="" width="24" height="24"></span><span class="ag"><img src="/img/agentes/qwen.svg" alt="" width="24" height="24"></span><span class="ag"><img src="/img/agentes/grok.svg" alt="" width="24" height="24"></span><span class="ag"><img src="/img/agentes/goose.svg" alt="" width="24" height="24"></span></div>
-      </div>
-      <div class="vivo" role="img" aria-label="O quadro Ao vivo do Nexora: uma sessão pedindo permissão, uma trabalhando na nuvem e uma pronta">
-        <div class="vivo-cab"><b>Ao vivo</b><span class="estado pede">1 precisa de você</span></div>
-        <div class="vc pede"><span class="ag"><img src="/img/agentes/codex.svg" alt="" width="24" height="24"></span><div><h4>Migration do cupom<span class="estado pede">Precisa de você</span></h4><p class="de">Loja · cupom-checkout</p><p class="que">Permitir Bash: <code>dotnet ef database update</code></p><div class="bts"><span class="claro">Permitir</span><span>Negar</span></div></div></div>
-        <div class="vc"><span class="ag"><img src="/img/agentes/claude.svg" alt="" width="24" height="24"></span><div><h4>Limite de requisições<span class="estado">Trabalhando</span></h4><p class="de">Loja.Api · rate-limit<span class="selo-nuvem"><svg class="i" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>Nuvem · InstaBox</span></p><p class="que">Edit <code>src/Api/RateLimit.cs</code></p><div class="prog"><i></i></div></div></div>
-        <div class="vc"><span class="ag"><img src="/img/agentes/gemini.svg" alt="" width="24" height="24"></span><div><h4>Notas offline<span class="estado pronta">Pronta</span></h4><p class="de">App.Notas · notas-offline</p><p class="que ok">PR #51 · checks ok · aprovado</p></div></div>
-      </div>
-    </div>
-    <p class="rotulo-video"><span class="olho">O Nexora em 30 segundos</span></p>
-    <div class="moldura" id="moldura">
-      <div id="palco" aria-label="Animação mostrando o quadro de sessões, o MCP compartilhado e a importação de projetos do VS Code" role="img">
-        <canvas id="grafo" width="1600" height="900"></canvas>
-        <div class="veu"></div>
-
-        <div class="abs leg" id="h1a" style="top:112px">Cinco conversas com agentes abertas.</div>
-        <div class="abs leg" id="h1b" style="top:172px"><em>Qual delas precisa de você?</em></div>
-        <div id="convs"></div>
-
-        <div class="abs marcaGrande" id="logo" style="top:250px"><img src="/img/nexora.svg" alt=""><b>Nexora</b><span>Seus agentes de código, num lugar só.</span></div>
-
-        <div class="abs leg" id="h3" style="top:62px">Quem precisa de você aparece primeiro.</div>
-        <div class="abs vid app" id="app">
-          <div class="trilho"><div class="cap"><span class="ti ativo"><svg viewBox="0 0 24 24"><path d="M3 3 L10 3 L10 10 L3 10 Z M14 3 L21 3 L21 10 L14 10 Z M14 14 L21 14 L21 21 L14 21 Z M3 14 L10 14 L10 21 L3 21 Z"/></svg><em id="nPede">1</em></span><span class="ti"><svg viewBox="0 0 24 24"><path d="M21 15 A2 2 0 0 1 19 17 L7 17 L3 21 L3 5 A2 2 0 0 1 5 3 L19 3 A2 2 0 0 1 21 5 Z"/></svg></span><span class="ti"><svg viewBox="0 0 24 24"><path d="M12.83 2.18 A2 2 0 0 0 11.17 2.18 L2.6 6.08 A1 1 0 0 0 2.6 7.91 L11.18 11.82 A2 2 0 0 0 12.84 11.82 L21.42 7.92 A1 1 0 0 0 21.42 6.09 Z M2 12 A1 1 0 0 0 2.58 12.91 L11.18 16.82 A2 2 0 0 0 12.83 16.82 L21.41 12.92 A1 1 0 0 0 22 12 M2 17 A1 1 0 0 0 2.58 17.91 L11.18 21.82 A2 2 0 0 0 12.83 21.82 L21.41 17.92 A1 1 0 0 0 22 17"/></svg></span><span class="ti"><svg viewBox="0 0 24 24"><path d="M12 2 A10 10 0 1 0 12 22 A10 10 0 1 0 12 2 M12 11 A1 1 0 1 0 12 13 A1 1 0 1 0 12 11"/></svg></span><span class="ti"><svg viewBox="0 0 24 24"><path d="M5 3 L9 3 A2 2 0 0 1 11 5 L11 9 A2 2 0 0 1 9 11 L5 11 A2 2 0 0 1 3 9 L3 5 A2 2 0 0 1 5 3 Z M7 11 L7 15 A2 2 0 0 0 9 17 L13 17 M15 13 L19 13 A2 2 0 0 1 21 15 L21 19 A2 2 0 0 1 19 21 L15 21 A2 2 0 0 1 13 19 L13 15 A2 2 0 0 1 15 13 Z"/></svg></span><span class="ti"><svg viewBox="0 0 24 24"><path d="M2 12 A10 10 0 1 0 22 12 A10 10 0 1 0 2 12 M12 6 L12 12 L16 14"/></svg></span><span class="ti"><svg viewBox="0 0 24 24"><path d="M3 3 L3 19 A2 2 0 0 0 5 21 L21 21 M18 17 L18 9 M13 17 L13 5 M8 17 L8 14"/></svg></span><span class="ti"><svg viewBox="0 0 24 24"><path d="M6 4 L18 4 A2 2 0 0 1 20 6 L20 18 A2 2 0 0 1 18 20 L6 20 A2 2 0 0 1 4 18 L4 6 A2 2 0 0 1 6 4 Z M9 9 L15 9 L15 15 L9 15 Z M9 1.5 L9 4 M15 1.5 L15 4 M9 20 L9 22.5 M15 20 L15 22.5 M20 9 L22.5 9 M20 15 L22.5 15 M1.5 9 L4 9 M1.5 15 L4 15"/></svg></span></div><div class="cap"><span class="ti"><svg viewBox="0 0 24 24"><path d="M2 12 A10 10 0 1 0 22 12 A10 10 0 1 0 2 12 M9.1 9 A3 3 0 0 1 14.9 10 C14.9 12 11.9 13 11.9 13 M12 17 L12.01 17"/></svg></span><span class="ti"><svg viewBox="0 0 24 24"><path d="M12.22 2 L11.78 2 A2 2 0 0 0 9.78 4 L9.78 4.18 A2 2 0 0 1 8.78 5.91 L8.35 6.16 A2 2 0 0 1 6.35 6.16 L6.2 6.08 A2 2 0 0 0 3.47 6.81 L3.25 7.19 A2 2 0 0 0 3.98 9.92 L4.13 10.02 A2 2 0 0 1 5.13 11.74 L5.13 12.25 A2 2 0 0 1 4.13 13.99 L3.98 14.08 A2 2 0 0 0 3.25 16.81 L3.47 17.19 A2 2 0 0 0 6.2 17.92 L6.35 17.84 A2 2 0 0 1 8.35 17.84 L8.78 18.09 A2 2 0 0 1 9.78 19.82 L9.78 20 A2 2 0 0 0 11.78 22 L12.22 22 A2 2 0 0 0 14.22 20 L14.22 19.82 A2 2 0 0 1 15.22 18.09 L15.65 17.84 A2 2 0 0 1 17.65 17.84 L17.8 17.92 A2 2 0 0 0 20.53 17.19 L20.75 16.8 A2 2 0 0 0 20.02 14.07 L19.87 13.99 A2 2 0 0 1 18.87 12.25 L18.87 11.75 A2 2 0 0 1 19.87 10.01 L20.02 9.92 A2 2 0 0 0 20.75 7.19 L20.53 6.81 A2 2 0 0 0 17.8 6.08 L17.65 6.16 A2 2 0 0 1 15.65 6.16 L15.22 5.91 A2 2 0 0 1 14.22 4.18 L14.22 4 A2 2 0 0 0 12.22 2 Z M12 9 A3 3 0 1 0 12 15 A3 3 0 1 0 12 9"/></svg></span></div></div><div class="lat"><div class="sec">Conversas</div><div class="cv pede" id="latM"><b><i id="latMi" style="--c:var(--laranja)"></i>Migration do cupom</b><small id="latMs">Loja · cupom-checkout</small></div><div class="cv"><b><i style="--c:var(--txt)"></i>Erro na tela de pedidos</b><small>Edit · 2 min</small></div><div class="cv"><b><i style="--c:var(--verde)"></i>Notas offline</b><small>PR #51 · checks ok</small></div></div>
-          <div class="barraTopo"><span class="lt"><img src="/img/nexora.svg" alt="">Nexora</span><span class="aba">Migration do cupom</span><span class="nova">+</span></div>
-          <div class="miolo"></div>
-          <div class="titulo">Ao vivo</div>
-          <div class="col" style="left:256px;--c:var(--laranja)"><h4><i></i>Precisa de você <small id="n0">0</small></h4></div>
-          <div class="col" style="left:506px;--c:var(--txt)"><h4><i></i>Trabalhando <small id="n1">2</small></h4></div>
-          <div class="col" style="left:756px;--c:var(--verde)"><h4><i></i>Prontas <small id="n2">1</small></h4></div>
-          <div class="col" style="left:1006px;--c:var(--txt3)"><h4><i></i>Paradas <small>1</small></h4></div>
-          <div class="ct" id="cA" style="left:518px;top:184px"><div class="t"><s>LO</s>Erro na tela de pedidos</div><div class="o">Loja · erro-pedidos</div><div class="a">Edit  src/Loja.Web/Pedidos.razor</div><div class="l"><b style="width:62%"></b></div></div>
-          <div class="ct" id="cM"><div class="t"><s>LO</s>Migration do cupom</div><div class="o">Loja · cupom-checkout</div><div class="a" id="cMa">Bash  dotnet test --filter Cupom</div><div class="l" id="cMl"><b id="cMb"></b></div><div class="bts" id="cMbts"><span class="claro" id="bPerm">Permitir</span><span>Negar</span></div><div class="bts" id="cMpr"><span class="claro" id="bPr">Commit e PR</span></div></div>
-          <div class="ct" id="cN" style="left:768px;top:184px"><div class="t"><s>AN</s>Notas offline</div><div class="o">App.Notas · notas-offline</div><div class="a">Pronto: o teste novo passou.</div></div>
-          <div class="ct" id="cP" style="left:1018px;top:184px;opacity:.7"><div class="t"><s>SI</s>Relatório mensal</div><div class="o">Site · relatorio</div><div class="a">parada há 2 dias</div></div>
-          <div class="rodapeApp"><span><svg viewBox="0 0 24 24" class="fa"><path d="M12 3 L12 21 M3 12 L21 12 M6.6 6.6 L17.4 17.4 M17.4 6.6 L6.6 17.4"/></svg><u><b></b></u>4% · 3h 12m · 35% na semana</span><span><svg viewBox="0 0 24 24"><path d="M4 17 L10 11 L4 5 M12 19 L20 19"/></svg>Codex 25% · 40% na semana</span><span class="mem"><svg viewBox="0 0 24 24"><path d="M6 4 L18 4 A2 2 0 0 1 20 6 L20 18 A2 2 0 0 1 18 20 L6 20 A2 2 0 0 1 4 18 L4 6 A2 2 0 0 1 6 4 Z M9 9 L15 9 L15 15 L9 15 Z M9 1.5 L9 4 M15 1.5 L15 4 M9 20 L9 22.5 M15 20 L15 22.5 M20 9 L22.5 9 M20 15 L22.5 15 M1.5 9 L4 9 M1.5 15 L4 15"/></svg>2,4 GB</span></div>
-          <div class="abs vid aviso" id="aviso"><i></i>PR #52 aberto no GitHub</div>
-        </div>
-        <svg class="abs cursor" id="cursor" viewBox="0 0 24 24"><path d="M5 3l14 8-6 1.6L9.6 19z" fill="#F4F2EE" stroke="#161514" stroke-width="1.4" stroke-linejoin="round"/></svg>
-        <div class="abs anel" id="anel"></div>
-
-        <div class="abs leg" id="h4" style="top:62px">Um MCP para todas as sessões do projeto.</div>
-        <div class="abs leg2" id="h4b" style="top:128px"></div>
-        <svg class="abs" id="fios" width="1600" height="900" style="left:0;top:0"></svg>
-        <div id="sessoes"></div>
-        <div id="mcpsAnim"></div>
-        <div class="abs medidor" id="medidor"><div class="rot"><span id="medRot">Memória dos MCPs, 3 sessões</span><b id="medVal">1,3 GB</b></div><div class="tr"><i id="medBar"></i></div></div>
-        <div class="abs selo2" id="selo" style="left:1140px;top:672px">cerca de 1 GB a menos</div>
-
-        <div class="abs leg" id="h5" style="top:62px">Seus workspaces do VS Code viram projetos.</div>
-        <div class="abs vid vsl" id="vsl"><h5>Abertos recentemente no VS Code</h5><div id="vslr"></div></div>
-        <div id="pjs"></div>
-        <div class="abs leg2" id="h5b" style="top:770px">Pastas com git também, sem criar nada dentro do repositório.</div>
-
-        <div class="abs leg" id="h6" style="top:62px">Na nuvem, ou pelo terminal.</div>
-        <div class="abs vid nv" id="nv"><h5><s>LA</s>Limite de requisições</h5><div class="de">Loja.Api · rate-limit</div><div class="onde"><span id="nvPc" class="ativo">Neste PC</span><span id="nvNuvem">Nuvem · InstaBox</span></div><div class="faixa" id="nvFaixa"><b>Rodando na nuvem.</b> Pode desligar este PC: o agente continua.</div><div class="barraNv"><i id="nvBarra"></i></div><div class="pc" id="nvPcEstado"><i></i><span id="nvPcTexto">Este PC: ligado</span></div></div>
-        <div class="abs vid tm" id="tm"><span class="ln cmd" id="tmL1"><span class="fr">$ </span><b>nexora iniciar . "arrume o teste" --espere</b></span><span class="ln fr" id="tmL2">Sessão s3 começou. Esperando…</span><span class="ln" id="tmL3">Pronto: o teste do cupom passa agora.</span><span class="ln cmd" id="tmL4"><span class="fr">$ </span><b>nexora ao-vivo</b></span><span class="ln pd" id="tmL5">s1  precisa de você  Migration do cupom</span><span class="ln fr" id="tmL6">    Permitir Bash: dotnet ef database update</span></div>
-        <div class="abs leg2" id="h6b" style="top:770px">Novo na 0.8: máquinas na nuvem e o comando nexora.</div>
-
-        <div class="abs fim" id="fim" style="top:250px"><img src="/img/nexora.svg" alt=""><b>Nexora</b><span>Grátis para Windows e Mac</span><div class="url">nexora.suiciniv.dev</div></div>
-      </div>
-      <button class="pausa" id="pausa" aria-label="Pausar a animação"><svg class="i" viewBox="0 0 24 24" id="icPausa"><path d="M9 5v14M15 5v14"/></svg></button>
-    </div>
-  </div>
-
-  <section id="novidades">
+<main id="principal">
+  <section class="hero">
     <div class="larg">
-      <span class="olho">Novo na 0.8</span>
-      <h2>Os agentes saem do seu PC. O Nexora entra no seu terminal.</h2>
-      <p class="intro">A 0.8 leva o trabalho pesado para uma máquina na nuvem e deixa você comandar o Nexora por scripts, sem tirar nada do que já funcionava.</p>
-      <div class="bento">
-        <article class="cartao b7 b-nuvem">
-          <div class="ic"><svg class="i" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg></div>
-          <h3>Máquinas na nuvem</h3>
-          <p>Ligue uma máquina sua por SSH ou crie uma com a chave de API. Cada conversa escolhe se roda neste PC ou lá, e o agente continua trabalhando com o PC desligado. O Executar também roda na máquina, e a porta do servidor chega ao seu localhost.</p>
-          <div class="visual" aria-hidden="true">
-            <div class="onde-chips"><span>Neste PC</span><span class="ativo"><svg class="i" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>Nuvem · InstaBox</span></div>
-            <div class="onde-faixa"><svg class="i" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg><span>Rodando na nuvem, em Máquina InstaBox. Pode desligar este PC: o agente continua.</span></div>
-          </div>
-          <div class="provedores"><span class="chip">Sua máquina por SSH</span><span class="chip">InstaBox</span><span class="chip">Freestyle <small>em teste</small></span></div>
+      <p class="selo-ade"><b>ADE</b>Agent Development Environment</p>
+      <h1>Rode vários agentes de código.<br><em>Sem perder o controle.</em></h1>
+      <p class="sub">Gerencie o Claude Code, o Codex e outros agentes de código num só lugar. Veja o que cada sessão está fazendo, responda às aprovações de um ponto só e mantenha todas as tarefas andando.</p>
+      <div class="acoes">
+        <a class="botao" href="/baixar"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>Baixar para Windows</a>
+        <a class="botao sec" href="https://github.com/suiciniv-dev/nexora"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg>Ver no GitHub</a>
+      </div>
+      <p class="miudo">Grátis · Código aberto (MIT) · Usa as contas que você já tem nos agentes</p>
+      <p class="miudo2">Windows 10 e 11 · versão 0.8.1 · <a href="#baixar">também para macOS</a></p>
+    </div>
+    <figure class="janela hero-foto">
+      <img src="/img/app/ao-vivo-pt.webp" width="1440" height="900" fetchpriority="high" alt="O quadro Ao vivo do Nexora: dois pedidos de permissão no topo e, abaixo, colunas com as sessões que precisam de você, as que estão trabalhando, as prontas e as paradas.">
+      <figcaption>O quadro Ao vivo: todas as sessões, ordenadas pelo que precisam de você. App de verdade, com dados de exemplo.</figcaption>
+    </figure>
+  </section>
+
+  <section id="problema">
+    <div class="larg">
+      <span class="olho">O problema</span>
+      <h2>Quatro agentes rodando. Qual deles está esperando você?</h2>
+      <p class="intro">Agentes de código trabalham muito bem em paralelo. O difícil é acompanhar todos ao mesmo tempo.</p>
+      <ul class="estados" aria-label="Quatro sessões de agentes, cada uma num estado diferente">
+        <li><span class="ponto trabalhando"></span><b>Trabalhando</b><span>Refatorando o serviço de pagamento</span><small>Claude Code · terminal 1</small></li>
+        <li><span class="ponto pronta"></span><b>Pronta</b><span>Esperando a próxima instrução</span><small>Codex · terminal 2</small></li>
+        <li class="pede"><span class="ponto pede"></span><b>Pede permissão</b><span>Quer rodar <code>dotnet ef database update</code></span><small>Claude Code · terminal 3</small></li>
+        <li><span class="ponto trabalhando"></span><b>Trabalhando</b><span>Corrigindo a tela de pedidos em outra branch</span><small>Gemini CLI · terminal 4</small></li>
+      </ul>
+      <div class="antes-depois">
+        <div class="cartao">
+          <h3>Sem o Nexora</h3>
+          <p>Cada agente fica no seu terminal ou na sua janela. Você só descobre que um terminou, ou parou para pedir permissão, abrindo um por um. E uma aprovação sem resposta trava a tarefa inteira sem avisar.</p>
+        </div>
+        <div class="cartao destaque">
+          <h3>Com o Nexora</h3>
+          <p>Todas as sessões caem num quadro ao vivo, ordenadas pelo que precisa de você. Permita, negue ou responda no próprio cartão, receba uma notificação quando uma sessão estiver esperando e só entre na conversa quando precisar.</p>
+        </div>
+      </div>
+      <p class="ade"><b>Por que "ADE"?</b> Uma IDE é construída em volta do editor. Um Agent Development Environment é construído em volta dos agentes: das sessões, das aprovações, das branches e das ferramentas deles. O Nexora não substitui o seu agente; é onde você o roda e o acompanha.</p>
+    </div>
+  </section>
+
+  <section id="como">
+    <div class="larg">
+      <span class="olho">Como funciona</span>
+      <h2>Três passos, sem conta nova</h2>
+      <ol class="passos">
+        <li>
+          <div class="passo-texto"><span class="n">1</span><h3>Conecte seus agentes</h3><p>O Nexora encontra os agentes de código instalados no seu computador. Cada um entra com a própria conta e o próprio plano, igual faz no terminal.</p></div>
+          <figure class="janela"><img src="/img/app/passo-agentes-pt.webp" width="1280" height="515" loading="lazy" alt="Tela de primeiro passo do Nexora com os agentes encontrados no computador: Claude Code, Codex, Gemini CLI e Antigravity."></figure>
+        </li>
+        <li>
+          <div class="passo-texto"><span class="n">2</span><h3>Acompanhe todas as sessões</h3><p>Cada conversa vira um cartão: precisa de você, trabalhando, pronta ou parada. O cartão mostra o projeto, a branch, o pull request e o que mudou.</p></div>
+          <figure class="janela"><img src="/img/app/passo-quadro-pt.webp" width="1320" height="350" loading="lazy" alt="Colunas do quadro Ao vivo com uma sessão fazendo uma pergunta, o orquestrador trabalhando e uma sessão pronta com os arquivos alterados."></figure>
+        </li>
+        <li>
+          <div class="passo-texto"><span class="n">3</span><h3>Assuma quando precisar</h3><p>Permita, negue ou responda ao agente pelo cartão ou pela conversa. Os pedidos de subagents mostram qual subagent pediu.</p></div>
+          <figure class="janela"><img src="/img/app/passo-permissao-pt.webp" width="1320" height="440" loading="lazy" alt="Dois pedidos de permissão numa conversa, um deles de um subagent, cada um com os botões Permitir, Não perguntar de novo e Negar."></figure>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="diferenciais">
+    <div class="larg">
+      <span class="olho">O que muda</span>
+      <h2>Feito para agentes trabalhando em paralelo</h2>
+      <div class="destaque-grande">
+        <div>
+          <h3>Orquestração de agentes</h3>
+          <p>Entregue uma tarefa grande a um agente orquestrador. Ele abre outros agentes pelas ferramentas MCP do próprio Nexora, pode colocar cada um na sua branch e no seu worktree, espera por eles e responde às aprovações. Você acompanha tudo num canvas e pode entrar a qualquer momento.</p>
+          <ul class="checks"><li>Os agentes que ele cria são sessões normais no seu quadro</li><li>Cada um pode usar um modelo e um esforço diferentes</li><li>As ferramentas MCP dele são cobertas por testes de ponta a ponta</li></ul>
+        </div>
+        <figure class="janela"><img src="/img/app/orquestrador-pt.webp" width="1440" height="900" loading="lazy" alt="O canvas do orquestrador: o agente orquestrador ligado a dois agentes do projeto Loja e a um de outro projeto, com a conversa do orquestrador à direita."></figure>
+      </div>
+      <div class="grade4">
+        <article class="cartao">
+          <div class="ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="5" height="18" rx="1.5"/><rect x="10" y="3" width="5" height="11" rx="1.5"/><rect x="17" y="3" width="4" height="14" rx="1.5"/></svg></div>
+          <h3>Quadro ao vivo</h3>
+          <p>Um quadro para todas as sessões, com as aprovações de todas reunidas no topo. Quando o mesmo pedido se repete, responda uma vez para todas.</p>
         </article>
-        <article class="cartao b5">
-          <div class="ic"><svg class="i" viewBox="0 0 24 24"><path d="m4 17 6-6-6-6"/><path d="M12 19h8"/></svg></div>
-          <h3>Comando nexora no terminal</h3>
-          <p>Comece conversas, mande mensagens e veja o que precisa de você sem sair do terminal. Com <code>--json</code> e o código de saída, serve para scripts e para outros agentes.</p>
-          <div class="visual"><pre class="term" role="img" aria-label="Terminal com os comandos nexora iniciar e nexora ao-vivo"><i>$</i> <b>nexora iniciar . "arrume o teste" --espere</b>
-<i>Sessão s3 começou em D:\Projetos\Loja. Esperando…</i>
-Pronto: o teste de cupom vencido passa agora.
-<i>$</i> <b>nexora ao-vivo</b>
-<u>s1  precisa de você  Migration do cupom · Loja</u>
-<i>    Permitir Bash: dotnet ef database update</i></pre></div>
+        <article class="cartao">
+          <div class="ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="2"/><path d="M9 9h6v6H9zM9 2v3M15 2v3M9 19v3M15 19v3M19 9h3M19 15h3M2 9h3M2 15h3"/></svg></div>
+          <h3>Hub de MCPs</h3>
+          <p>Os servidores MCP do <code>.mcp.json</code> do projeto sobem uma vez e atendem todas as sessões, em vez de uma cópia por conversa. Sobem no primeiro uso e desligam quando ficam ociosos.</p>
+          <p class="medida">MCPs de 3 sessões no mesmo projeto: <b>1,3 GB</b> no VS Code, <b>242 MB</b> no Nexora.<small>Medido no Windows 11 em 04/11/2026.</small></p>
         </article>
-        <article class="cartao b4"><div class="ic"><svg class="i" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M10 4v4"/><path d="M2 8h20"/><path d="M6 4v4"/></svg></div><h3>Navegador embutido</h3><p>Abra o site do projeto dentro do Nexora. No modo design, marque elementos da página e mande as anotações para o agente.</p></article>
-        <article class="cartao b4"><div class="ic"><svg class="i" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M13 8H7"/><path d="M17 12H7"/></svg></div><h3>Revisão no diff</h3><p>Comente linhas do diff e mande para o agente. Os comentários de revisão do PR vão para ele com um clique.</p></article>
-        <article class="cartao b4"><div class="ic"><svg class="i" viewBox="0 0 24 24"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/></svg></div><h3>Segredos por formulário</h3><p>Quando o agente precisa de uma senha ou chave, ele pede por um formulário protegido. O valor vai para o cofre, sem passar pelo chat.</p></article>
+        <article class="cartao">
+          <div class="ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="7" cy="7" r="3"/><circle cx="17" cy="7" r="3"/><circle cx="7" cy="17" r="3"/><circle cx="17" cy="17" r="3"/></svg></div>
+          <h3>Vários agentes</h3>
+          <p>Claude Code e Codex pelos protocolos nativos, e mais nove agentes pelo Agent Client Protocol (ACP). Cada conversa escolhe o seu.</p>
+          <a class="mais" href="#agentes">Ver compatibilidade</a>
+        </article>
+        <article class="cartao">
+          <div class="ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="5" r="2"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="7" r="2"/><path d="M6 7v10M18 9c0 4-6 4-12 8"/></svg></div>
+          <h3>Worktrees do Git</h3>
+          <p>Cada tarefa nova ganha a sua branch e o seu worktree a partir da base do projeto, para os agentes trabalharem em paralelo sem pisar um no outro. Os arquivos de configuração locais vão junto e cada worktree ganha a sua porta.</p>
+        </article>
       </div>
     </div>
   </section>
 
   <section id="agentes">
     <div class="larg">
-      <span class="olho">Agentes</span>
-      <h2>O agente que você já usa, no mesmo quadro</h2>
-      <p class="intro">Cada conversa nova escolhe o agente no botão ao lado do modelo, entre os instalados no computador. A conta e o plano são os seus, e o histórico mostra de qual agente é cada conversa.</p>
-      <div class="agentes-topo">
-        <div class="cartao agente"><span class="ag" style="--t:64px"><img src="/img/agentes/claude.svg" alt="" width="24" height="24"></span><div><h3>Claude Code <small>Anthropic</small></h3><p>Todas as funções do Nexora, com Remote Control, Ultracode e modo rápido.</p></div></div>
-        <div class="cartao agente"><span class="ag" style="--t:64px"><img src="/img/agentes/codex.svg" alt="" width="24" height="24"></span><div><h3>Codex <small>OpenAI</small></h3><p>Modos por turno, raciocínio resumido, perguntas e pedidos de acesso no cartão, e os limites do plano na barra de baixo.</p></div></div>
-      </div>
-      <div class="cartao agentes-teste">
-        <p class="rot"><span class="selo-teste">Em teste</span>Chegaram agora, pelo Agent Client Protocol. Cada um traz os modelos, os comandos de barra e os pedidos de permissão dele, que aparecem no cartão como os do Claude.</p>
-        <ul class="agentes-linha">
-          <li><span class="ag"><img src="/img/agentes/gemini.svg" alt="" width="24" height="24"></span><span>Gemini CLI<small>Google</small></span></li>
-          <li><span class="ag"><img src="/img/agentes/antigravity.svg" alt="" width="24" height="24"></span><span>Antigravity<small>Google</small></span></li>
-          <li><span class="ag"><img src="/img/agentes/copilot.svg" alt="" width="24" height="24"></span><span>GitHub Copilot<small>GitHub</small></span></li>
-          <li><span class="ag"><img src="/img/agentes/cursor.svg" alt="" width="24" height="24"></span><span>Cursor<small>Anysphere</small></span></li>
-          <li><span class="ag"><img src="/img/agentes/opencode.svg" alt="" width="24" height="24"></span><span>OpenCode<small>SST</small></span></li>
-          <li><span class="ag"><img src="/img/agentes/kiro.svg" alt="" width="24" height="24"></span><span>Kiro<small>Amazon</small></span></li>
-          <li><span class="ag"><img src="/img/agentes/qwen.svg" alt="" width="24" height="24"></span><span>Qwen Code<small>Alibaba</small></span></li>
-          <li><span class="ag"><img src="/img/agentes/grok.svg" alt="" width="24" height="24"></span><span>Grok<small>xAI</small></span></li>
-          <li><span class="ag"><img src="/img/agentes/goose.svg" alt="" width="24" height="24"></span><span>goose<small>Block</small></span></li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <section id="avatares">
-    <div class="larg">
-      <span class="olho">Avatares</span>
-      <h2>Cada agente tem a sua cara</h2>
-      <p class="intro">Cada agente e cada subagent ganha um bichinho próprio. Ele olha para o mouse, pisca, fica pensando enquanto trabalha e comemora quando termina. Passe o mouse em cima.</p>
-      <div role="group" aria-label="Avatares do Nexora">
-        <p class="grupo-nome turma-grupo">Agentes</p>
-        <div class="turma"><div class="bicho" tabindex="0"><span class="av" data-avatar="agentes:claude"></span><b>Claude Code</b></div><div class="bicho" tabindex="0"><span class="av" data-avatar="agentes:codex"></span><b>Codex</b></div><div class="bicho" tabindex="0"><span class="av" data-avatar="agentes:gemini"></span><b>Gemini CLI</b></div><div class="bicho" tabindex="0"><span class="av" data-avatar="agentes:antigravity"></span><b>Antigravity</b></div><div class="bicho" tabindex="0"><span class="av" data-avatar="agentes:copilot"></span><b>GitHub Copilot</b></div><div class="bicho" tabindex="0"><span class="av" data-avatar="agentes:cursor"></span><b>Cursor</b></div><div class="bicho" tabindex="0"><span class="av" data-avatar="agentes:opencode"></span><b>OpenCode</b></div><div class="bicho" tabindex="0"><span class="av" data-avatar="agentes:kiro"></span><b>Kiro</b></div><div class="bicho" tabindex="0"><span class="av" data-avatar="agentes:qwen"></span><b>Qwen Code</b></div><div class="bicho" tabindex="0"><span class="av" data-avatar="agentes:grok"></span><b>Grok</b></div><div class="bicho" tabindex="0"><span class="av" data-avatar="agentes:goose"></span><b>goose</b></div></div>
-        <p class="grupo-nome turma-grupo">Subagents e orquestrador</p>
-        <div class="turma"><div class="bicho" tabindex="0"><span class="av" data-avatar="subagentes:Explore"></span><b>Explore</b><small>procura no código</small></div><div class="bicho" tabindex="0"><span class="av" data-avatar="subagentes:Plan"></span><b>Plan</b><small>planeja</small></div><div class="bicho" tabindex="0"><span class="av" data-avatar="subagentes:general-purpose"></span><b>Geral</b><small>faz de tudo</small></div><div class="bicho" tabindex="0"><span class="av" data-avatar="subagentes:*"></span><b>Outros</b><small>os seus subagents</small></div><div class="bicho" tabindex="0"><span class="av" data-avatar="orquestrador"></span><b>Orquestrador</b><small>divide o trabalho</small></div></div>
-      </div>
-    </div>
-  </section>
-
-  <section id="recursos">
-    <div class="larg">
-      <span class="olho">Recursos</span>
-      <h2>Feito para várias sessões ao mesmo tempo</h2>
-      <p class="intro">Quando três ou quatro conversas com agentes estão trabalhando, o difícil é saber qual parou esperando você. O Nexora resolve isso primeiro.</p>
-      <div class="foto desenho" data-tela="quadro" role="img" aria-label="O quadro de sessões do Nexora com uma sessão pedindo permissão, duas trabalhando e uma pronta"></div>
-      <div class="grupo" role="group" aria-labelledby="grupoSessoes">
-        <p class="grupo-nome" id="grupoSessoes">Todas as sessões</p>
-        <div class="grade">
-          <details class="cartao recurso" id="quadro"><summary><div class="ic"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="3" width="5" height="18" rx="1.5"/><rect x="10" y="3" width="5" height="11" rx="1.5"/><rect x="17" y="3" width="4" height="14" rx="1.5"/></svg></div><h3>Ao vivo</h3><p>Todas as sessões num quadro: precisa de você, trabalhando, prontas e paradas, com busca. Permitir, negar, responder ao agente e fazer o commit sem abrir a conversa, com o estado do PR em cada cartão.</p><span class="abrir"><span class="ver">Ver mais</span><span class="fechar">Fechar</span><svg class="i" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span></summary><div class="mais"><div class="bloco"><div><p>Cada sessão é um cartão na coluna do estado dela. O que precisa de você fica em cima: permissões, perguntas do agente e planos para aprovar, respondidos no próprio cartão.</p><p>Espaço abre uma janela rápida com a conversa, as setas passam de uma sessão para outra e Esc fecha. O cartão também mostra o estado do PR e quantas linhas mudaram.</p></div><div class="foto desenho" data-tela="quadro" role="img" aria-label="O quadro de sessões do Nexora com uma sessão pedindo permissão, duas trabalhando e uma pronta"></div></div></div></details>
-          <details class="cartao recurso" id="lateral"><summary><div class="ic"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/><path d="M5.5 8h1.5M5.5 11h1.5M5.5 14h1.5"/></svg></div><h3>Barra e conversas</h3><p>Uma barra de ícones sempre à mão e as conversas num painel ao lado, que abre e fecha com Ctrl+B sem esconder os atalhos.</p><span class="abrir"><span class="ver">Ver mais</span><span class="fechar">Fechar</span><svg class="i" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span></summary><div class="mais"><div class="bloco so-texto"><div><p>Na barra ficam Ao vivo, Conversas, Projetos, Issues, Orquestrador, Agendados, Uso e Recursos, e ela se alarga com o nome de cada atalho ao passar o mouse. O painel de conversas agrupa por projeto e por branch, cada uma com o que está fazendo agora. As páginas abrem no lugar, sem virar aba, e as abas de cima ficam só para as conversas.</p><p>O painel da sessão, à direita, começa fechado e abre num clique. Uma barra embaixo mostra o uso do plano e a memória do Nexora. F11 abre a tela grande: tela cheia, tudo maior e as sessões pelo teclado.</p></div></div></div></details>
-          <details class="cartao recurso" id="orquestrador"><summary><div class="ic"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="5" r="2.5"/><circle cx="5" cy="19" r="2.5"/><circle cx="19" cy="19" r="2.5"/><path d="M12 7.5v4M12 11.5 6.5 17M12 11.5l5.5 5.5"/></svg></div><h3>Orquestrador</h3><p>Peça uma tarefa grande e ele divide entre sessões, cada uma no seu worktree, e avisa quando der para revisar.</p><span class="abrir"><span class="ver">Ver mais</span><span class="fechar">Fechar</span><svg class="i" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span></summary><div class="mais"><div class="bloco so-texto"><div><p>Para uma tarefa grande demais para uma sessão só. O orquestrador divide em partes, abre um agente para cada uma no seu worktree, acompanha todos num canvas e avisa quando der para revisar.</p></div></div></div></details>
-          <details class="cartao recurso" id="agendados"><summary><div class="ic"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 10h18M12 13.5v3l2 1"/></svg></div><h3>Agendados</h3><p>Pedidos que rodam sozinhos no horário, como revisar os PRs toda manhã, cada um numa sessão nova no quadro.</p><span class="abrir"><span class="ver">Ver mais</span><span class="fechar">Fechar</span><svg class="i" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span></summary><div class="mais"><div class="bloco"><div><p>Escolha o projeto, a hora, os dias e o pedido. Na hora marcada, o Nexora abre uma sessão nova com o pedido, e ela aparece no quadro como qualquer outra.</p><p>Funciona com o Nexora aberto. Se ele estava fechado na hora, o pedido roda quando você abrir, no mesmo dia.</p></div><div class="foto desenho" data-tela="agendados" role="img" aria-label="A página Agendados do Nexora com três pedidos agendados e o formulário de um novo"></div></div></div></details>
-          <details class="cartao recurso" id="fluxos"><summary><div class="ic"><svg class="i" viewBox="0 0 24 24"><circle cx="5" cy="6" r="2"/><circle cx="5" cy="18" r="2"/><circle cx="19" cy="12" r="2"/><path d="M7 6h4a4 4 0 0 1 4 4v0M7 18h4a4 4 0 0 0 4-4v0M15 12h2"/></svg></div><h3>Fluxos de vários passos</h3><p>Um template com vários pedidos em sequência: o primeiro vai na hora e os outros esperam o agente terminar.</p><span class="abrir"><span class="ver">Ver mais</span><span class="fechar">Fechar</span><svg class="i" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span></summary><div class="mais"><div class="bloco so-texto"><div><p>Separe os passos com a linha "--- próximo passo ---". Ao enviar, o primeiro passo vai para o agente e os outros entram na fila, um por vez, quando o turno anterior acaba.</p><p>Já vêm dois prontos: da issue ao PR (implementar, testar, revisar e abrir o PR em rascunho) e revisar e testar.</p></div></div></div></details>
-          <details class="cartao recurso" id="telagrande"><summary><div class="ic"><svg class="i" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M7 7h3M7 10h2M14 11l3-3"/></svg></div><h3>Tela grande</h3><p>F11 deixa tudo maior, para usar de longe e só com o teclado: a sessão em foco na frente e as outras em fileiras.</p><span class="abrir"><span class="ver">Ver mais</span><span class="fechar">Fechar</span><svg class="i" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span></summary><div class="mais"><div class="bloco so-texto"><div><p>O início mostra a sessão em foco na frente e as outras em fileiras: precisam de você, trabalhando, prontas e paradas. Enter abre, P e N permitem ou negam, 1 a 9 respondem, Tab troca de fileira e F abre o modo foco.</p><p>O menu de cima fica sempre visível e as páginas abrem embaixo dele. As setas andam por qualquer página, com um anel mostrando onde está o foco.</p></div></div></div></details>
-        </div>
-      </div>
-      <div class="grupo" role="group" aria-labelledby="grupoConversa">
-        <p class="grupo-nome" id="grupoConversa">Dentro da conversa</p>
-        <div class="grade">
-          <details class="cartao recurso" id="raciocinio"><summary><div class="ic"><svg class="i" viewBox="0 0 24 24"><path d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6 5.6 18.4"/></svg></div><h3>Raciocínio à vista</h3><p>Veja o agente pensando, com os tokens subindo, o que ele está fazendo agora e qual modelo respondeu cada turno.</p><span class="abrir"><span class="ver">Ver mais</span><span class="fechar">Fechar</span><svg class="i" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span></summary><div class="mais"><div class="bloco"><div><p>Enquanto o agente pensa, a conversa mostra "Pensando…" com os tokens subindo, e depois "Pensou por 7 s".</p><p>No fim da conversa aparece o que ele está fazendo agora (pensando, escrevendo ou rodando um comando), com o tempo correndo. Cada turno termina com a duração e o modelo que respondeu, sem custo em dólar.</p></div><div class="foto desenho" data-tela="conversa" role="img" aria-label="Uma conversa no Nexora com o raciocínio do Claude, a resposta, os comandos que ele rodou e um pedido de permissão"></div></div></div></details>
-          <details class="cartao recurso" id="modelo"><summary><div class="ic"><svg class="i" viewBox="0 0 24 24"><path d="M4 6h9M17 6h3M4 12h3M11 12h9M4 18h12"/><circle cx="15" cy="6" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg></div><h3>Modelo e esforço na mão</h3><p>Modelo, esforço, modo rápido e Ultracode num menu só. A última escolha vale para as próximas sessões.</p><span class="abrir"><span class="ver">Ver mais</span><span class="fechar">Fechar</span><svg class="i" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span></summary><div class="mais"><div class="bloco"><div><p>A pílula do campo de mensagem mostra o modelo e o esforço em uso. O menu lista os modelos que o seu agente oferece, o esforço em níveis, o modo rápido e o Ultracode.</p><p>A última escolha vale para as próximas sessões, e uma conversa reaberta volta no modelo e no modo em que estava.</p></div><div class="foto desenho" data-tela="modelo" role="img" aria-label="O menu de modelo do Nexora com os modelos, os níveis de esforço, o modo rápido e o Ultracode"></div></div></div></details>
-          <details class="cartao recurso" id="fila"><summary><div class="ic"><svg class="i" viewBox="0 0 24 24"><path d="M4 6h12M4 12h8M4 18h6"/><circle cx="17.5" cy="15.5" r="4"/><path d="M17.5 13.5v2l1.3 1"/></svg></div><h3>Fila de mensagens</h3><p>Escreva a próxima enquanto o agente trabalha. Ela espera na fila e sai quando o turno acabar.</p><span class="abrir"><span class="ver">Ver mais</span><span class="fechar">Fechar</span><svg class="i" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span></summary><div class="mais"><div class="bloco so-texto"><div><p>Teve uma ideia enquanto o agente trabalha? Escreva e mande. A mensagem fica na fila em cima do campo e sai quando o turno acabar, uma por vez.</p><p>Dá para editar, tirar da fila ou mandar na hora. Se o turno parar com erro, a fila espera você decidir.</p></div></div></div></details>
-          <details class="cartao recurso" id="desfazer"><summary><div class="ic"><svg class="i" viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg></div><h3>Desfazer o turno</h3><p>Cada turno mostra o que mudou nos arquivos, e um clique volta tudo para antes daquela mensagem, sem mexer nos seus commits.</p><span class="abrir"><span class="ver">Ver mais</span><span class="fechar">Fechar</span><svg class="i" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span></summary><div class="mais"><div class="bloco so-texto"><div><p>Antes de cada mensagem sua, o Nexora guarda como estavam os arquivos, sem mexer nos seus commits, branches ou stash. Cada turno mostra quantos arquivos mudaram, com as linhas a mais e a menos, e um botão para ver só a diferença daquele turno no painel do Git.</p><p>Desfazer volta os arquivos para antes daquela mensagem. No Claude Code e no Codex a conversa volta junto; nos outros agentes, o Nexora avisa que ele ainda lembra do que fez. Arquivos ignorados pelo git ficam como estão, e os pontos de volta somem depois de 14 dias.</p></div></div></div></details>
-          <details class="cartao recurso" id="painel"><summary><div class="ic"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M15 4v16"/></svg></div><h3>Painel da sessão</h3><p>Contexto usado, arquivos editados, git, busca e o PR da sessão, do lado da conversa. Avisa a hora de compactar e quando o cache venceu.</p><span class="abrir"><span class="ver">Ver mais</span><span class="fechar">Fechar</span><svg class="i" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span></summary><div class="mais"><div class="bloco so-texto"><div><p>Ao lado da conversa ficam o ambiente da sessão (pasta, branch, pastas vinculadas e MCPs), o contexto usado por categoria e os arquivos que a sessão editou, com o diff de cada um.</p><p>As abas Arquivos, Git e Busca abrem a árvore do projeto, as alterações e a busca no código. Quando o contexto passa de 80%, a conversa oferece o /compact; quando a sessão ficou parada e o cache venceu, ela avisa antes de você reler tudo.</p><p>A aba PR mostra os checks, com os que falharam primeiro, os revisores, os comentários de revisão por arquivo e se há conflito. Dá para fazer o merge, ligar o auto-merge e deixar pronto para o agente o pedido de corrigir um check ou responder um comentário.</p></div></div></div></details>
-          <details class="cartao recurso" id="terminal"><summary><div class="ic"><svg class="i" viewBox="0 0 24 24"><path d="m4 17 6-6-6-6M12 19h8"/></svg></div><h3>Terminal e execução</h3><p>Um terminal na pasta de cada sessão, embaixo da conversa (Windows), e o projeto rodando com a porta certa de cada worktree.</p><span class="abrir"><span class="ver">Ver mais</span><span class="fechar">Fechar</span><svg class="i" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span></summary><div class="mais"><div class="bloco so-texto"><div><p>Um PowerShell na pasta da sessão, embaixo da conversa, que abre e fecha com Ctrl+`. Ele continua rodando quando você esconde, e cada sessão tem o seu.</p><p>O botão Executar roda o projeto (dotnet, npm) com a porta certa de cada worktree, para várias versões do mesmo app rodarem ao mesmo tempo. O terminal integrado ainda é só do Windows.</p></div></div></div></details>
-        </div>
-      </div>
-      <div class="grupo" role="group" aria-labelledby="grupoAmbiente">
-        <p class="grupo-nome" id="grupoAmbiente">No seu ambiente</p>
-        <div class="grade">
-          <details class="cartao recurso" id="projetos"><summary><div class="ic"><svg class="i" viewBox="0 0 24 24"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/></svg></div><h3>Projetos e worktrees</h3><p>Seus .code-workspace viram projetos, com a pasta principal e as vinculadas. Cada sessão começa na branch e no worktree certos, e a branch troca no painel antes de começar.</p><span class="abrir"><span class="ver">Ver mais</span><span class="fechar">Fechar</span><svg class="i" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span></summary><div class="mais"><div class="bloco so-texto"><div><p>O Nexora acha seus .code-workspace e as pastas com git do VS Code, do Cursor e do Windsurf. Uma tarefa nova vira um worktree com branch própria, a partir da base do projeto (dev, main…).</p><p>Cada worktree tem a sua porta para rodar junto com os outros, e a branch da pasta pode ser trocada no painel da sessão antes de começar.</p></div></div></div></details>
-          <details class="cartao recurso" id="github"><summary><div class="ic"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="1.6"/></svg></div><h3>GitHub</h3><p>As issues do GitHub Projects em kanban ou em lista, a sessão aberta direto da issue e o PR de cada sessão vigiado: check que falha, conflito e revisão nova avisam você ou vão direto para o agente.</p><span class="abrir"><span class="ver">Ver mais</span><span class="fechar">Fechar</span><svg class="i" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span></summary><div class="mais"><div class="bloco"><div><p>O GitHub Projects do seu time dentro do Nexora, com as mesmas visões. Em kanban, arraste a issue para outro status; em lista, veja responsável, etiquetas, prioridade, tamanho, PRs e iteração.</p><p>Abra uma issue para ler a descrição, mudar o status e comentar sem sair do Nexora.</p><p>Duas contas valem juntas, como a da empresa e a pessoal: cada repositório usa a conta do gh que tem acesso.</p><p>A cada 2 minutos o Nexora olha o PR de cada sessão aberta. Para check que falhou, conflito e comentário de revisão, você escolhe nas Configurações: não fazer nada, só avisar ou pedir ao agente que resolva, com no máximo 3 pedidos automáticos por PR a cada hora.</p></div><div><div class="alterna" role="group" aria-label="Modo de ver as issues" data-alvo="fotoIssues"><button type="button" class="ativo" data-tela="issues-kanban" data-alt="As issues do Nexora em kanban, com colunas por status">Kanban</button><button type="button" data-tela="issues-lista" data-alt="As issues do Nexora em lista, agrupadas por status">Lista</button></div><div class="foto desenho" id="fotoIssues" data-tela="issues-kanban" role="img" aria-label="As issues do Nexora em kanban, com colunas por status"></div></div></div><div class="bloco"><div><h4>Da issue ao PR</h4><ol class="lista"><li><span class="n">1</span><div><b>Worktree ou sessão nova</b>A sessão começa num worktree novo a partir da base do projeto, como dev ou main, com fetch antes, ou numa conversa nova sem worktree, para você escolher a pasta antes de enviar.</div></li><li><span class="n">2</span><div><b>A issue já vai no pedido</b>O link e o texto da issue, em tópicos, entram no rascunho da primeira mensagem, para o agente começar sabendo o que resolver.</div></li><li><span class="n">3</span><div><b>O status anda sozinho</b>A issue vai para In progress quando a sessão começa e para In review quando o PR aparece.</div></li><li><span class="n">4</span><div><b>O PR no quadro</b>Commit e PR saem do cartão da sessão, e os checks, a revisão e a aprovação do PR aparecem nele.</div></li></ol></div><div class="foto desenho" data-tela="issue" role="img" aria-label="Uma issue aberta no Nexora, com o status, a descrição e os botões para começar num worktree ou numa sessão nova e copiar o link"></div></div></div></details>
-          <details class="cartao recurso" id="mcps"><summary><div class="ic"><svg class="i" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="2"/><path d="M9 9h6v6H9zM9 2v3M15 2v3M9 19v3M15 19v3M19 9h3M19 15h3M2 9h3M2 15h3"/></svg></div><h3>MCPs compartilhados</h3><p>Os servidores do .mcp.json sobem uma vez por projeto e servem todas as sessões. Ligam quando alguém usa e desligam sozinhos.</p><span class="abrir"><span class="ver">Ver mais</span><span class="fechar">Fechar</span><svg class="i" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span></summary><div class="mais"><div class="bloco so-texto"><div><p>Com três sessões no mesmo projeto, cada uma subiria os próprios servidores do .mcp.json. No Nexora eles rodam uma vez só, num hub, divididos entre as sessões.</p><p>Cada servidor liga na primeira chamada e desliga sozinho depois de 10 minutos parado. O navegador é a exceção: um por sessão, para uma não mexer na página da outra.</p></div></div></div></details>
-          <details class="cartao recurso" id="vscode"><summary><div class="ic"><svg class="i" viewBox="0 0 24 24"><path d="m16 3 5 2.5v13L16 21 6.5 12.5 3 15.5l-1-1v-5l1-1 3.5 3L16 3z"/><path d="M16 8v8l-5-4z"/></svg></div><h3>Conversas do VS Code também</h3><p>As sessões abertas na extensão do VS Code aparecem no quadro, e dá para continuar qualquer uma pelo Nexora, sem duplicar a conversa.</p><span class="abrir"><span class="ver">Ver mais</span><span class="fechar">Fechar</span><svg class="i" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span></summary><div class="mais"><div class="bloco so-texto"><div><p>As sessões abertas na extensão do VS Code aparecem no quadro, com o estado de cada uma.</p><p>Ao responder uma delas pelo Nexora, a conversa continua numa cópia com todo o histórico, sem mexer na do VS Code, e a lista mostra só a versão mais nova.</p></div></div></div></details>
-          <details class="cartao recurso" id="uso"><summary><div class="ic"><svg class="i" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15v3M12 10v8M17 6v12"/></svg></div><h3>Uso do plano</h3><p>Quanto já foi usado da sessão de 5 horas e da semana, sempre à vista na barra de baixo, com alerta perto do limite e a parte de cada projeto. Sem gastar tokens.</p><span class="abrir"><span class="ver">Ver mais</span><span class="fechar">Fechar</span><svg class="i" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span></summary><div class="mais"><div class="bloco so-texto"><div><p>A barra de baixo da janela mostra quanto já foi usado da sessão de 5 horas, com o tempo até renovar, e da semana, lidos do próprio Claude Code. A barrinha fica laranja perto do limite e vermelha quando quase acabou. Quem usa o Codex vê os limites dele ao lado.</p><p>A página Uso divide o consumo da semana por projeto, sem gastar tokens.</p></div></div></div></details>
-          <details class="cartao recurso" id="sistemas"><summary><div class="ic"><svg class="i" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div><h3>Windows e Mac, sempre em dia</h3><p>O mesmo app no Windows 10 e 11 e no macOS, com Apple Silicon ou Intel. Quando sai uma versão nova, um clique atualiza, sem passar pelo site.</p><span class="abrir"><span class="ver">Ver mais</span><span class="fechar">Fechar</span><svg class="i" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span></summary><div class="mais"><div class="bloco so-texto"><div><p>No Windows 10 e 11, um instalador que não pede administrador ou uma versão portátil para PCs com antivírus mais rígido.</p><p>No Mac, versões para Apple Silicon e Intel, com o vidro do sistema e os atalhos com ⌘. O terminal integrado e a liberação de memória ainda são só do Windows.</p><p>Quando sai uma versão nova, aparece um botão Atualizar no alto da janela. Um clique baixa, fecha, instala e abre o Nexora de novo.</p></div></div></div></details>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="temas">
-    <div class="larg">
-      <span class="olho">Temas</span>
-      <h2>Experimente os temas aqui mesmo</h2>
-      <p class="intro">São 12 temas: os quatro de cores do Nexora e oito céus animados, feitos de estrelas, nós e luz. Os animados reagem ao mouse e ao clique, e qualquer tema vira o seu, com outras cores, fontes ou uma imagem de fundo.</p>
-      <div class="vitrine">
-        <div class="seletor-temas">
-          <div class="alterna" id="abasTemas" role="group" aria-label="Grupos de temas"></div>
-          <div class="chips-temas" id="chipsTemas" role="group" aria-label="Temas"></div>
-        </div>
-        <div class="janela-tema" id="janelaTema" role="img" aria-label="A conversa do Nexora com o tema escolhido">
-          <canvas></canvas>
-          <div class="veu"></div>
-          <div class="tela" aria-hidden="true">
-            <div class="jt-topo"><span class="jt-marca"><span class="jt-logo">N</span>Nexora</span><div class="jt-aba"><i></i>Cupom de desconto no checkout<span>×</span></div><span class="jt-mais">+</span><span class="jt-icones"><svg viewBox="0 0 24 24"><path d="M3 11 A8 8 0 1 0 19 11 A8 8 0 1 0 3 11 M21 21 L16.7 16.7"/></svg><svg viewBox="0 0 24 24"><path d="M3 8 L3 5 A2 2 0 0 1 5 3 L8 3 M16 3 L19 3 A2 2 0 0 1 21 5 L21 8 M21 16 L21 19 A2 2 0 0 1 19 21 L16 21 M8 21 L5 21 A2 2 0 0 1 3 19 L3 16 M9 12 A3 3 0 1 0 15 12 A3 3 0 1 0 9 12"/></svg><svg viewBox="0 0 24 24"><path d="M15 3 L21 3 L21 9 M9 21 L3 21 L3 15 M21 3 L14 10 M3 21 L10 14"/></svg></span></div>
-            <div data-lat></div>
-            <div class="jt-conversa">
-              <div class="jt-cab">
-                <div><b>Cupom de desconto no checkout</b><p><svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Loja <svg viewBox="0 0 24 24"><circle cx="6" cy="5" r="2"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="7" r="2"/><path d="M6 7v10M18 9c0 4-6 4-12 8"/></svg><code>cupom-checkout</code></p></div>
-                <span class="jt-estado"><i></i><span data-estado>Trabalhando</span></span>
-              </div>
-              <div class="jt-fio">
-                <div class="jt-bolha">Revise o cupom de desconto do checkout e me diga o que falta para fechar a issue 48.</div>
-                <div class="jt-linha"><i class="ponto"></i><em>Pensou por 7 s · 2,1 mil tokens</em></div>
-                <div class="jt-ferramenta"><i style="background:var(--t-verde)"></i><b>Read</b><code>src/Loja.Application/Cupons/CupomService.cs</code></div>
-                <div class="jt-resposta">
-                  <span class="faisca">✻</span>
-                  <div>
-                    <p>Olhei a issue e o código do <code>CupomService</code>. A base está pronta e o desconto já aparece no carrinho, mas faltam <b>duas coisas</b> antes de fechar a 48:</p>
-                    <ul><li><b>Cupom vencido:</b> hoje o serviço lança exceção; o certo é devolver uma falha que a tela consiga mostrar.</li><li><b>Limite por cliente:</b> o mesmo cupom pode ser usado duas vezes se a pessoa clicar rápido.</li></ul>
-                    <pre><span class="k">if</span> (cupom.<span class="f">Vencido</span>(agora))
-    <span class="k">return</span> Resultado.<span class="f">Falha</span>(<span class="s">"Este cupom venceu"</span>);</pre>
-                  </div>
-                </div>
-                <div class="jt-ferramenta"><i style="background:var(--t-laranja)"></i><b>Edit</b><code>CupomService.cs</code><span class="mm"><ins>+6</ins> <del>−2</del></span></div>
-                <div class="jt-linha"><span class="jt-giro"></span><em data-pensando>Pensando… · 0 tokens</em></div>
-              </div>
-              <div class="jt-caixa">
-                <p>Mensagem para o Claude · @ cita um arquivo · / lista comandos</p>
-                <div class="jt-acoes"><svg viewBox="0 0 24 24"><path d="m21 11-8.5 8.5a5 5 0 0 1-7-7L14 4a3.5 3.5 0 0 1 5 5l-8.5 8.5a2 2 0 0 1-3-3L15 7"/></svg><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg><span class="jt-pilula">✻ Claude Code</span><span class="jt-pilula">Opus 5.5 · Alto <svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span><span class="dica">Enter envia</span><span class="jt-pilula modo"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>Automático</span><span class="jt-enviar"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg></span></div>
-              </div>
-            </div>
-            <div class="jt-rodape" aria-hidden="true"><span><svg viewBox="0 0 24 24" class="faisca"><path d="M12 3 L12 21 M3 12 L21 12 M6.6 6.6 L17.4 17.4 M17.4 6.6 L6.6 17.4"/></svg><u><b></b></u>4% · 3h 12m · 35% na semana</span><span class="codex"><svg viewBox="0 0 24 24"><path d="M4 17 L10 11 L4 5 M12 19 L20 19"/></svg>Codex 25% · 40% na semana</span><span class="mem"><svg viewBox="0 0 24 24"><path d="M6 4 L18 4 A2 2 0 0 1 20 6 L20 18 A2 2 0 0 1 18 20 L6 20 A2 2 0 0 1 4 18 L4 6 A2 2 0 0 1 6 4 Z M9 9 L15 9 L15 15 L9 15 Z M9 1.5 L9 4 M15 1.5 L15 4 M9 20 L9 22.5 M15 20 L15 22.5 M20 9 L22.5 9 M20 15 L22.5 15 M1.5 9 L4 9 M1.5 15 L4 15"/></svg>2,4 GB</span></div>
-          </div>
-        </div>
-        <p class="dica-temas">Passe o mouse no fundo e clique nele: cada tema responde do seu jeito, e o fundo se agita enquanto o agente trabalha.</p>
-      </div>
-    </div>
-  </section>
-
-  <section id="porque">
-    <div class="larg">
-      <span class="olho">Por que o Nexora</span>
-      <h2>Por que não só o VS Code, ou só o agente no terminal?</h2>
-      <p class="intro">O Nexora não troca o seu agente: as sessões dele são o mesmo agente que você já usa, seja o Claude Code, o Codex, o Gemini ou outro, com a sua conta e as suas configurações, como o CLAUDE.md, os hooks, as skills e os MCPs. O que muda é tudo em volta.</p>
-      <div class="compara">
-        <div class="cartao">
-          <h3>No lugar do VS Code</h3>
-          <p class="quando">Quando você abre o VS Code só para conversar com o agente e olhar o código que ele mexeu.</p>
-          <ul>
-            <li><b>Todas as sessões à vista.</b> No VS Code, cada conversa fica numa aba ou num painel. No Nexora, o quadro mostra quem precisa de você primeiro.</li>
-            <li><b>Bem mais leve.</b> Cerca de um décimo da memória do VS Code, num processo só.</li>
-            <li><b>Um MCP por projeto.</b> Os servidores do .mcp.json sobem uma vez e servem todas as sessões, em vez de um por conversa.</li>
-            <li><b>O código à mão.</b> Árvore de arquivos, editor, diff do que mudou, git e busca, ao lado da conversa.</li>
-            <li><b>Uma tarefa, um worktree.</b> Nova sessão já na branch e na pasta certas, a partir da base de cada projeto.</li>
+      <span class="olho">Compatibilidade</span>
+      <h2>Use os agentes que você já tem</h2>
+      <p class="intro">O Nexora roda o CLI oficial de cada agente, com o login dele. Não vende acesso a modelo e nunca vê o token do seu agente.</p>
+      <div class="niveis">
+        <div class="cartao nivel">
+          <p class="nivel-rot"><span class="tag estavel">Nativo</span>Integração mais completa</p>
+          <ul class="agentes-lista">
+            <li><span class="ag"><img src="/img/agentes/claude.svg" alt="" width="24" height="24"></span><span><b>Claude Code</b><small>Anthropic · todos os recursos do Nexora</small></span></li>
+            <li><span class="ag"><img src="/img/agentes/codex.svg" alt="" width="24" height="24"></span><span><b>Codex</b><small>OpenAI · pelo codex app-server</small></span></li>
           </ul>
-          <p class="quando">Para depurar com breakpoint ou usar extensões, o VS Code continua sendo o lugar. O Nexora abre o projeto nele com um clique.</p>
+          <p class="nativo-extra">Retomar conversas, nível de esforço e desfazer que volta a conversa. O Claude Code também mostra os subagents com as aprovações de cada um e pode usar o Remote Control e as máquinas na nuvem.</p>
         </div>
-        <div class="cartao">
-          <h3>Junto dos seus agentes</h3>
-          <p class="quando">Quando você roda várias sessões de agentes ao mesmo tempo, no terminal ou no app.</p>
-          <ul>
-            <li><b>Responde sem procurar.</b> Permitir, negar e responder às perguntas do agente direto no cartão, com aviso do sistema quando alguém espera.</li>
-            <li><b>Projetos de verdade.</b> Seus .code-workspace viram projetos com as pastas vinculadas, branches e worktrees.</li>
-            <li><b>Orquestrador.</b> Uma tarefa grande dividida entre sessões, cada uma no seu worktree.</li>
-            <li><b>GitHub junto.</b> O quadro de issues do time, o estado do PR no cartão e a sessão começando pela issue.</li>
-            <li><b>Uso por projeto.</b> Quanto do plano cada projeto gastou na semana, lido do /usage sem gastar tokens.</li>
+        <div class="cartao nivel">
+          <p class="nivel-rot"><span class="tag beta">Beta · ACP</span>Pelo Agent Client Protocol</p>
+          <ul class="agentes-grade">
+            <li><span class="ag"><img src="/img/agentes/antigravity.svg" alt="" width="24" height="24"></span>Antigravity</li>
+            <li><span class="ag"><img src="/img/agentes/copilot.svg" alt="" width="24" height="24"></span>GitHub Copilot</li>
+            <li><span class="ag"><img src="/img/agentes/cursor.svg" alt="" width="24" height="24"></span>Cursor</li>
+            <li><span class="ag"><img src="/img/agentes/opencode.svg" alt="" width="24" height="24"></span>OpenCode</li>
+            <li><span class="ag"><img src="/img/agentes/kiro.svg" alt="" width="24" height="24"></span>Kiro</li>
+            <li><span class="ag"><img src="/img/agentes/qwen.svg" alt="" width="24" height="24"></span>Qwen Code</li>
+            <li><span class="ag"><img src="/img/agentes/grok.svg" alt="" width="24" height="24"></span>Grok</li>
+            <li><span class="ag"><img src="/img/agentes/goose.svg" alt="" width="24" height="24"></span>goose</li>
+            <li><span class="ag"><img src="/img/agentes/gemini.svg" alt="" width="24" height="24"></span>Gemini CLI<small>legado</small></li>
           </ul>
-          <p class="quando">As conversas que você abriu no terminal ou na extensão aparecem no quadro, e dá para continuar pelo Nexora.</p>
+          <p class="nota-nivel">O que funciona depende do que cada agente informa: modelos, comandos de barra e planos. O Gemini CLI agora só funciona com chave de API ou Vertex; com conta Google pessoal, use o Antigravity.</p>
         </div>
+      </div>
+      <div class="tabela-rolar">
+        <table class="capacidades">
+          <caption>O que funciona com cada tipo de agente</caption>
+          <thead><tr><th scope="col">Recurso</th><th scope="col">Claude Code</th><th scope="col">Codex</th><th scope="col">Agentes ACP</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Quadro ao vivo, aprovações e notificações</th><td class="sim">Sim</td><td class="sim">Sim</td><td class="sim">Sim</td></tr>
+            <tr><th scope="row">Escolha de modelo</th><td class="sim">Sim</td><td class="sim">Sim</td><td>Quando o agente lista os modelos</td></tr>
+            <tr><th scope="row">Retomar uma conversa antiga</th><td class="sim">Sim</td><td class="sim">Sim</td><td class="nao">Não</td></tr>
+            <tr><th scope="row">Nível de esforço</th><td class="sim">Sim</td><td class="sim">Sim</td><td class="nao">Não</td></tr>
+            <tr><th scope="row">Desfazer um turno</th><td class="sim">Arquivos e conversa</td><td class="sim">Arquivos e conversa</td><td>Só os arquivos</td></tr>
+            <tr><th scope="row">Máquinas na nuvem</th><td>Experimental</td><td class="nao">Ainda não</td><td class="nao">Ainda não</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="nota">Cada protocolo é coberto pelos testes automáticos do Nexora com um agente simulado. Adicionar outro agente ACP é uma entrada no catálogo: veja <a href="https://github.com/suiciniv-dev/nexora/blob/main/docs/agents.md">docs/agents.md</a> (em inglês).</p>
+    </div>
+  </section>
+
+  <section id="mais">
+    <div class="larg">
+      <span class="olho">E mais</span>
+      <h2>Tudo o que fica em volta da conversa</h2>
+      <div class="grupos">
+        <article class="cartao grupo larga">
+          <div class="grupo-texto">
+            <h3>GitHub e tarefas</h3>
+            <ul><li>As issues do seu GitHub Projects em kanban ou em lista</li><li>Comece uma sessão a partir de uma issue, com o texto dela na primeira mensagem</li><li>Checks, revisões e conflitos do PR em cada cartão, e comentários de revisão enviados ao agente</li></ul>
+          </div>
+          <figure class="janela"><img src="/img/app/issues-pt.webp" width="1376" height="420" loading="lazy" alt="A página Issues em kanban, com as colunas de status do GitHub: Ready, In progress, In review e Done."></figure>
+        </article>
+        <article class="cartao grupo">
+          <h3>Histórico, fila e desfazer</h3>
+          <ul><li>Continue conversas abertas no terminal ou na extensão do VS Code</li><li>Deixe a próxima mensagem na fila enquanto o agente trabalha</li><li>Desfaça as mudanças de um turno sem mexer nos seus commits</li></ul>
+        </article>
+        <article class="cartao grupo">
+          <h3>Terminal, navegador e Executar</h3>
+          <ul><li>Um terminal na pasta de cada sessão</li><li>Um navegador embutido com modo design que manda anotações ao agente</li><li>Rode o projeto na porta de cada worktree</li></ul>
+          <p class="obs">Terminal e navegador por enquanto só no Windows.</p>
+        </article>
+        <article class="cartao grupo">
+          <h3>Agendamentos e fluxos</h3>
+          <ul><li>Pedidos que rodam num horário marcado, cada um numa sessão nova</li><li>Modelos com várias etapas: a próxima sai quando o turno acaba</li></ul>
+        </article>
+        <article class="cartao grupo">
+          <h3>Trabalho remoto <span class="tag exp">Experimental</span></h3>
+          <ul><li>Rode uma conversa do Claude Code no seu servidor Linux por SSH ou no InstaBox, e ela continua com o PC desligado</li><li>O comando <code>nexora</code> no terminal, para scripts e outros agentes</li></ul>
+          <p class="obs">As máquinas da Freestyle ainda não foram testadas com uma conta de verdade. Só no Windows.</p>
+        </article>
+        <article class="cartao grupo dupla">
+          <h3>Do seu jeito</h3>
+          <ul><li>12 temas, incluindo os animados, ou um seu</li><li>Um avatar para cada agente e subagent</li><li>Modo tela grande (F11), todo pelo teclado</li><li>Em português e em inglês</li></ul>
+        </article>
       </div>
     </div>
   </section>
 
-  <section id="leve">
+  <section id="confianca">
     <div class="larg">
-      <span class="olho">Mais leve</span>
-      <h2>Menos memória para as mesmas sessões</h2>
-      <p class="intro">Medimos no mesmo PC, com os apps parados: o VS Code com a extensão do Claude Code, o app do Claude e o Nexora com 11 projetos abertos.</p>
-      <div class="numeros">
-        <div class="cartao numero">
-          <span class="rot">O app em si, sem contar as sessões (28, 9 e 1 processos)</span>
-          <div class="barras">
-            <div class="barra"><span>VS Code</span><i style="width:100%"></i><b>3,1 GB</b></div>
-            <div class="barra"><span>App do Claude</span><i style="width:24%"></i><b>730 MB</b></div>
-            <div class="barra nexora"><span>Nexora</span><i style="width:10%"></i><b>320 MB</b></div>
-          </div>
-        </div>
-        <div class="cartao numero">
-          <span class="rot">Os MCPs de 3 sessões do mesmo projeto</span>
-          <div class="barras">
-            <div class="barra"><span>VS Code</span><i style="width:100%"></i><b>1,3 GB</b></div>
-            <div class="barra nexora"><span>Nexora</span><i style="width:19%"></i><b>242 MB</b></div>
-          </div>
-        </div>
+      <span class="olho">Confiança e privacidade</span>
+      <h2>Seus agentes, suas contas, seu código</h2>
+      <div class="grade3">
+        <article class="cartao">
+          <h3>Código aberto</h3>
+          <p>Licença MIT. O app inteiro está no <a href="https://github.com/suiciniv-dev/nexora">GitHub</a>: leia, compile você mesmo, abra issues ou contribua.</p>
+        </article>
+        <article class="cartao">
+          <h3>As contas dos seus agentes</h3>
+          <p>Cada agente faz o próprio login. O Nexora só confere que o login existe e nunca o lê. Você não paga nada além do plano do seu agente.</p>
+        </article>
+        <article class="cartao">
+          <h3>Credenciais protegidas</h3>
+          <p>Quando um agente precisa de uma senha ou chave, ele pede por um formulário protegido. O valor fica no DPAPI do Windows ou no Keychain do macOS e nunca passa pelo chat.</p>
+        </article>
+        <article class="cartao">
+          <h3>Seu código fica com você</h3>
+          <p>O Nexora não tem IA própria, não envia seu código e não rastreia o uso. Ele só acessa a internet para buscar atualizações, falar com o GitHub e com as máquinas na nuvem que você conectar. Um resumo semanal de desempenho é opcional, vem desligado e leva só números de uso de recursos.</p>
+        </article>
+        <article class="cartao">
+          <h3>Ainda sem assinatura digital</h3>
+          <p>O SmartScreen do Windows e o macOS mostram um aviso na primeira abertura. São dois cliques para abrir: veja no <a href="#smartscreen">Windows</a> ou no <a href="#aviso-mac">Mac</a>.</p>
+        </article>
+        <article class="cartao">
+          <h3>O que você precisa</h3>
+          <p>Pelo menos um agente de linha de comando com login feito, o Git e o Node.js se os seus projetos usam servidores MCP.</p>
+        </article>
       </div>
-      <p class="nota">Windows 11, 04/11/2026, memória em uso. O VS Code faz mais coisas, como editor completo, extensões e terminal; a comparação vale para quem abre o VS Code só para conversar com o Claude. Cada sessão do Claude Code custa o mesmo nos dois, porque é o mesmo programa. Os MCPs foram medidos depois de assentar. Na página Recursos, o Nexora ainda mostra e libera os processos de build do .NET que ficam abertos depois de compilar.</p>
-    </div>
-  </section>
-
-  <section id="comeca">
-    <div class="larg">
-      <span class="olho">Como começa</span>
-      <h2>A primeira abertura configura tudo</h2>
-      <div class="duas">
-        <ol class="lista">
-          <li><span class="n">1</span><div><b>Escolhe o agente e instala o que falta</b>Mostra os agentes que já estão no computador, como o Claude Code, o Codex e o Gemini CLI, e confere o Git e o Node.js. Se faltar algum, instala com um clique ou mostra o passo a passo.</div></li>
-          <li><span class="n">2</span><div><b>Entra com a sua conta</b>O login é feito pelo próprio agente. O Nexora percebe sozinho quando terminou e nunca vê a sua senha.</div></li>
-          <li><span class="n">3</span><div><b>Traz os seus projetos</b>Acha os workspaces e as pastas com git que você já abriu no VS Code, no Cursor ou no Windsurf.</div></li>
-          <li><span class="n">4</span><div><b>Conecta o GitHub, se quiser</b>Instala o GitHub CLI e entra nas suas contas, para ver as issues e o estado dos PRs. Dá para pular.</div></li>
-        </ol>
-        <div class="foto desenho" data-tela="abertura" role="img" aria-label="A abertura do Nexora mostrando os projetos encontrados no VS Code"></div>
+      <div class="tabela-rolar">
+        <table class="capacidades plataformas">
+          <caption>Situação em cada sistema</caption>
+          <thead><tr><th scope="col">Sistema</th><th scope="col">Versão</th><th scope="col">Situação</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Windows 10 e 11 (x64)</th><td data-versao="windows">0.8.1</td><td class="sim">App completo</td></tr>
+            <tr><th scope="row">macOS 12 ou mais novo (Apple Silicon e Intel)</th><td data-versao="mac">0.7.1</td><td>Uma versão atrás: sem máquinas na nuvem e sem o comando <code>nexora</code>; sem terminal e navegador embutidos</td></tr>
+            <tr><th scope="row">Linux</th><td>—</td><td class="nao">Ainda não suportado</td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </section>
 
   <section id="baixar">
     <div class="larg">
-      <span class="olho">Baixar</span>
+      <span class="olho">Download</span>
       <h2>Grátis, para Windows e Mac</h2>
       <div class="baixar">
         <div class="cartao">
           <h3>Windows</h3>
-          <p>Windows 10 e 11 (x64). Instala só no seu usuário, sem pedir administrador, com atalho no menu Iniciar.</p>
-          <span class="tam">Nexora-Setup-0.8.1.exe</span>
+          <p>Windows 10 e 11 (x64). Instala só para o seu usuário, sem pedir administrador.</p>
+          <span class="arquivo">Nexora-Setup-0.8.1.exe</span>
           <div class="botoes">
-            <a class="botao" href="/baixar" data-dl="setup"><svg class="i" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>Baixar para Windows</a>
-            <a class="botao sec" href="/baixar/portatil" data-dl="portatil">Versão portátil</a>
+            <a class="botao" href="/baixar"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>Baixar para Windows</a>
+            <a class="botao sec" href="/baixar/portatil">Versão portátil</a>
           </div>
+          <p class="obs">A versão portátil é para PCs com antivírus que barra instaladores. Ela precisa do runtime do .NET 10.</p>
         </div>
         <div class="cartao" id="mac">
           <h3>Mac</h3>
-          <p>macOS 12 ou mais novo. Abra o .dmg e arraste o Nexora para Aplicativos. No menu Apple, Sobre Este Mac mostra qual chip é o seu.</p>
-          <span class="tam">Nexora-Mac-AppleSilicon-0.7.1.dmg · Nexora-Mac-Intel-0.7.1.dmg</span>
-          <p class="miudo2">A 0.8 ainda é só do Windows. O Mac continua na 0.7.1, sem as máquinas na nuvem e o comando no terminal.</p>
+          <p>macOS 12 ou mais novo. Abra o .dmg e arraste o Nexora para Aplicativos. Para saber qual é o seu chip, vá em menu Apple › Sobre Este Mac.</p>
+          <span class="arquivo">Nexora-Mac-AppleSilicon-0.7.1.dmg · Nexora-Mac-Intel-0.7.1.dmg</span>
           <div class="botoes">
-            <a class="botao" href="/baixar/mac" data-dl="mac"><svg class="i" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>Apple Silicon (M1 ou mais novo)</a>
-            <a class="botao sec" href="/baixar/mac-intel" data-dl="mac-intel">Intel</a>
+            <a class="botao" href="/baixar/mac"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>Apple Silicon</a>
+            <a class="botao sec" href="/baixar/mac-intel">Intel</a>
           </div>
+          <p class="obs">A versão do Mac ainda é a 0.7.1.</p>
         </div>
       </div>
-      <div class="req">
-        <span class="chip">Claude Code, Codex, Gemini e outros, com a sua conta</span>
-        <span class="chip">Git</span>
-        <span class="chip">Node.js, para os MCPs</span>
-        <span class="chip">Windows 10 ou 11, x64</span>
-        <span class="chip">macOS 12 ou mais novo</span>
-      </div>
-      <p class="nota">O Windows ou o Mac avisou na primeira abertura? Veja como abrir no <a href="#smartscreen">Windows</a> ou no <a href="#aviso-mac">Mac</a>.</p>
+      <p class="nota">As novidades e todas as versões estão na <a href="https://github.com/suiciniv-dev/nexora-releases/releases">página de releases</a>. O Nexora se atualiza com um clique quando sai uma versão nova.</p>
     </div>
   </section>
 
@@ -983,21 +331,31 @@ Pronto: o teste de cupom vencido passa agora.
       <span class="olho">Perguntas</span>
       <h2>Perguntas frequentes</h2>
       <div class="perguntas">
-        <details><summary>O que o Nexora faz, exatamente?</summary><p>É um app para trabalhar com várias sessões de agentes de código ao mesmo tempo, como o Claude Code, o Codex e o Gemini CLI, uma espécie de IDE feita para isso. Ele junta as conversas num quadro que mostra quem precisa de você, organiza projetos e worktrees, traz as issues do GitHub e tem um orquestrador que divide tarefas grandes entre sessões.</p></details>
-        <details id="quem-executa"><summary>Quem roda os builds e os comandos: o Nexora ou o agente?</summary><p>O agente de IA que você já usa, como o Claude Code, o Codex ou o Gemini CLI. É ele, com a sua conta e o seu plano, que lê o código, edita arquivos e roda builds, testes e comandos. O Nexora não tem IA própria e não executa nada dentro das conversas: ele organiza as sessões, mostra o que o agente está fazendo e repassa os pedidos de permissão para você aprovar, conforme o modo que escolher. O que o Nexora faz por conta própria é só o que você manda, como criar o worktree de uma tarefa nova, rodar o projeto no botão Executar ou abrir o terminal integrado.</p></details>
-        <details><summary>É grátis mesmo?</summary><p>Sim. O Nexora é grátis. O que você paga é o plano do seu agente, da Anthropic, da OpenAI, do Google ou de outro, como já paga hoje.</p></details>
-        <details><summary>Preciso de uma assinatura?</summary><p>Precisa da conta do agente que você for usar: um plano do Claude ou uma chave da Anthropic para o Claude Code, um plano do ChatGPT para o Codex, uma conta Google para o Gemini CLI e o Antigravity, e assim por diante. As sessões do Nexora são o seu próprio agente, e a primeira abertura ajuda a entrar no Claude Code, se você ainda não entrou.</p></details>
-        <details><summary>Meu código sai do meu computador?</summary><p>Pelo Nexora, só se você mandar. Ele não manda o seu código nem as suas conversas para lugar nenhum e não coleta dados de uso. A exceção são as máquinas na nuvem, que vêm desligadas: se você ligar Pode ir para a nuvem num projeto e escolher a máquina numa conversa, o código desse projeto vai para a máquina que você conectou. O agente conversa com a Anthropic ou a OpenAI como sempre, do mesmo jeito que no terminal ou no VS Code. O Nexora em si só vai à internet para ver se há versão nova, para falar com o GitHub e com a sua máquina na nuvem, se você conectar, e para baixar o que você mandar instalar na primeira abertura.</p></details>
-        <details id="nuvem"><summary>O que são as máquinas na nuvem?</summary><p>Uma forma de tirar o peso do seu PC. O agente roda numa máquina Linux sua, por SSH, ou numa criada pelo Nexora no InstaBox ou na Freestyle com a sua chave de API. Vem desligado, vale por projeto, e cada conversa escolhe onde roda. O agente continua trabalhando com o PC desligado, e Trazer para cá traz a branch e as mudanças de volta para um worktree neste PC. A máquina e o plano dela são seus, e a Freestyle ainda está em teste.</p></details>
-        <details><summary>O Nexora vê a minha senha ou o meu token?</summary><p>O login é feito pelo próprio agente, e o Nexora só confere se ele já existe, sem ler o conteúdo. Ele só guarda o que você mesmo colar: a chave de API da máquina na nuvem, o token do <code>claude setup-token</code> e os segredos que um agente pedir pelo formulário. Tudo fica no cofre do sistema, neste computador.</p></details>
-        <details><summary>Dá para usar junto com a extensão do VS Code?</summary><p>Dá. Os dois usam o mesmo Claude Code, e as conversas abertas pela extensão também aparecem no quadro do Nexora.</p></details>
-        <details><summary>O que acontece com os MCPs dos meus projetos?</summary><p>Os servidores stdio do .mcp.json passam a subir uma vez por projeto e atender todas as sessões. Os de navegador continuam um por sessão, para uma não mexer na aba da outra.</p></details>
-        <details id="smartscreen"><summary>O Windows mostra "O Windows protegeu o computador" (SmartScreen). É seguro?</summary><p>O aviso aparece porque o instalador ainda não tem assinatura digital, que é paga, e o SmartScreen desconfia de programas que ainda não conhece. Não quer dizer que o arquivo tenha algo de errado. Para instalar, clique em Mais informações na janela azul e depois em Executar assim mesmo. Se o navegador barrar o download antes disso, abra a lista de downloads, clique nos três pontos ao lado do arquivo, em Manter, e confirme em Manter mesmo assim.</p></details>
-        <details id="aviso-mac"><summary>O Mac diz que a Apple não pôde verificar o Nexora. Como abro?</summary><p>O app não tem a assinatura paga da Apple (Developer ID), então o macOS barra a primeira abertura. Arraste o Nexora do DMG para Aplicativos e tente abrir uma vez; na mensagem, feche sem mover para o Lixo. Depois vá em Ajustes do Sistema, Privacidade e Segurança, role até Segurança, clique em Abrir Mesmo Assim ao lado do aviso do Nexora e confirme com a sua senha ou o Touch ID. Das próximas vezes ele abre direto. No macOS 12 a 14 também dá para clicar no Nexora com a tecla Control, escolher Abrir e confirmar.</p></details>
-        <details><summary>O antivírus barrou. E agora?</summary><p>Use a versão portátil: ela roda pelo .NET já instalado no Windows, o que costuma passar pelos antivírus de empresa.</p></details>
-        <details><summary>Funciona no Mac? E no Linux?</summary><p>No Mac, sim: há versões para Apple Silicon e Intel, no macOS 12 ou mais novo. A 0.8 ainda é só do Windows, e o Mac continua na 0.7.1 por enquanto. O terminal integrado e a liberação de memória também são só do Windows. Linux ainda não.</p></details>
-        <details><summary>Como atualizo?</summary><p>O Nexora avisa quando sai uma versão nova e mostra um botão Atualizar no alto da janela. Ele baixa, fecha, instala e abre de novo.</p></details>
+        <details><summary>O que o Nexora faz, exatamente?</summary><p>É um app de desktop para trabalhar com várias sessões de agentes de código ao mesmo tempo. As conversas ficam num quadro ao vivo que mostra quais precisam de você, e dá para responder aprovações, revisar mudanças, cuidar de branches e worktrees, trazer issues do GitHub e entregar tarefas grandes a um orquestrador, sem trocar de janela.</p></details>
+        <details><summary>O que é um Agent Development Environment (ADE)?</summary><p>Uma IDE é organizada em volta de arquivos e de um editor. Um ADE é organizado em volta dos agentes: das sessões, das aprovações que eles precisam, das branches em que trabalham e das ferramentas que compartilham. O Nexora ainda tem editor, diff e terminal, mas os agentes vêm primeiro.</p></details>
+        <details id="quem-executa"><summary>Quem roda os comandos: o Nexora ou o agente?</summary><p>O agente que você já usa, como o Claude Code ou o Codex. É ele que lê o código, edita arquivos e roda builds e testes, na sua conta e no seu plano. O Nexora não tem IA própria: ele organiza as sessões e passa a você os pedidos de permissão do agente, conforme o modo escolhido. O Nexora só roda o que você pede, como criar um worktree ou iniciar o projeto com o Executar.</p></details>
+        <details><summary>É grátis mesmo? É de código aberto?</summary><p>Sim para as duas. O Nexora é grátis e tem licença MIT, com o código no GitHub. Você só paga o plano do seu agente, como já faz hoje.</p></details>
+        <details><summary>Quais agentes funcionam, e quão bem?</summary><p>Claude Code e Codex têm integração nativa e a maioria dos recursos. Antigravity, GitHub Copilot, Cursor, OpenCode, Kiro, Qwen Code, Grok, goose e Gemini CLI funcionam pelo Agent Client Protocol e estão em beta: os recursos dependem do que cada agente informa. A <a href="#agentes">tabela de compatibilidade</a> tem os detalhes.</p></details>
+        <details><summary>Meu código sai do meu computador?</summary><p>Não pelo Nexora, a não ser que você ligue as máquinas na nuvem para um projeto, e elas vêm desligadas. O agente conversa com o próprio provedor, como faz no terminal. O Nexora só acessa a internet para buscar atualizações, falar com o GitHub e com as máquinas na nuvem que você conectar, e não coleta dados de uso. Um resumo semanal de desempenho, opcional e desligado por padrão, envia só números de recursos, como memória e CPU.</p></details>
+        <details><summary>O Nexora vê minha senha ou meu token?</summary><p>Não. O login é feito pelo próprio agente, e o Nexora só confere que ele existe. Ele guarda só o que você cola nele: a chave de API de um provedor de nuvem, o token do <code>claude setup-token</code> e os segredos que um agente pede pelo formulário, tudo no cofre do sistema, no seu computador.</p></details>
+        <details id="smartscreen"><summary>O Windows diz "O Windows protegeu o computador". É seguro?</summary><p>O aviso aparece porque o instalador ainda não tem assinatura digital, e o SmartScreen desconfia de programas que ainda não conhece. Clique em Mais informações e depois em Executar assim mesmo. Se o navegador bloquear o download, abra a lista de downloads, escolha Manter e confirme. O código é aberto, se você preferir compilar.</p></details>
+        <details id="aviso-mac"><summary>O Mac diz que a Apple não conseguiu verificar o Nexora. Como abro?</summary><p>O app ainda não tem a assinatura paga da Apple. Arraste o Nexora para Aplicativos e tente abrir uma vez; feche a mensagem sem mandar para o Lixo. Depois vá em Ajustes do Sistema › Privacidade e Segurança, clique em Abrir Mesmo Assim ao lado da mensagem do Nexora e confirme. No macOS 12 a 14 também dá para clicar com o Control no Nexora, escolher Abrir e confirmar.</p></details>
+        <details><summary>Meu antivírus bloqueou. E agora?</summary><p>Use a versão portátil: ela roda no .NET instalado no Windows, que os antivírus corporativos costumam liberar.</p></details>
+        <details><summary>O app está em português?</summary><p>Sim. O app está em português do Brasil e em inglês e segue o idioma do sistema. Dá para trocar nas Configurações. O agente responde no idioma em que você escrever.</p></details>
+        <details><summary>Como atualizo?</summary><p>Quando sai uma versão nova, aparece um botão Atualizar no topo da janela. Um clique baixa, fecha o Nexora, instala e abre de novo.</p></details>
       </div>
+    </div>
+  </section>
+
+  <section class="final">
+    <div class="larg">
+      <h2>Rode vários agentes de código. Sem perder o controle.</h2>
+      <p class="intro">Grátis e de código aberto, com os agentes que você já usa.</p>
+      <div class="acoes">
+        <a class="botao" href="/baixar"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>Baixar para Windows</a>
+        <a class="botao sec" href="https://github.com/suiciniv-dev/nexora">Ver no GitHub</a>
+      </div>
+      <p class="miudo"><a href="#mac">Baixar para Mac</a></p>
     </div>
   </section>
 </main>
@@ -1005,318 +363,32 @@ Pronto: o teste de cupom vencido passa agora.
 <footer>
   <div class="larg rodape">
     <div class="rod-marca">
-      <a class="marca" href="#"><img src="/img/nexora.svg" alt="">Nexora</a>
-      <p>Para quem tem mais sessões de agentes abertas do que abas no navegador.</p>
+      <a class="marca" href="#"><img src="/img/nexora.svg" alt="" width="30" height="30">Nexora</a>
+      <p>Um Agent Development Environment para quem tem mais sessões de agentes abertas do que abas no navegador.</p>
     </div>
     <div class="rod-col">
-      <h5>Produto</h5>
-      <a href="#baixar">Baixar</a>
+      <h2>Produto</h2>
+      <a href="#baixar">Download</a>
+      <a href="#como">Como funciona</a>
       <a href="#agentes">Agentes</a>
-      <a href="#avatares">Avatares</a>
-      <a href="#recursos">Recursos</a>
-      <a href="#temas">Temas</a>
       <a href="#perguntas">Perguntas</a>
       <a href="https://github.com/suiciniv-dev/nexora-releases/releases">Novidades</a>
+      <a href="https://github.com/suiciniv-dev/nexora/tree/main/docs">Documentação</a>
     </div>
     <div class="rod-col">
-      <h5>Mais apps</h5>
+      <h2>Mais apps</h2>
       <a href="https://toca.suiciniv.dev/">Toca<small>Dock para o Windows</small></a>
       <a href="https://banditboard.suiciniv.dev/">Banditboard<small>Uso do Claude Code no celular, relógio e desktop</small></a>
       <a href="https://smartoca.suiciniv.dev/">Smartoca<small>Casa inteligente em 3D</small></a>
     </div>
     <div class="rod-col">
-      <h5>Mais do Vinícius</h5>
+      <h2>Mais do Vinícius</h2>
       <a href="https://suiciniv.dev/">Portfólio<small>Vinícius Pires da Silva</small></a>
       <a href="https://github.com/suiciniv-dev">GitHub<small>suiciniv-dev</small></a>
     </div>
   </div>
-  <div class="larg rod-base">© 2026 suiciniv.dev</div>
+  <div class="larg rod-base">© 2026 suiciniv.dev · Licença MIT</div>
 </footer>
-
-<script>
-(() => {
-  const DUR = 38;
-  const TXT_LIGADO = "Este PC: ligado", TXT_DESLIGADO = "Este PC: desligado";
-  const $ = id => document.getElementById(id);
-  const cl = x => Math.max(0, Math.min(1, x));
-  const k = (t, a, b) => cl((t - a) / (b - a));
-  const io = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
-  const sai = x => 1 - Math.pow(1 - x, 3);
-  const volta = x => { const c = 1.70158; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
-  const mix = (a, b, x) => a + (b - a) * x;
-  const vis = (t, a, b, ent = .5, sa = .5) => Math.min(sai(k(t, a, a + ent)), 1 - k(t, b - sa, b));
-  function pos(el, o, tf) {
-    el.style.opacity = o.toFixed(3);
-    el.style.transform = tf || "";
-    el.style.visibility = o < .002 ? "hidden" : "visible";
-  }
-  const params = new URLSearchParams(location.search);
-  const rec = params.has("rec");
-  if (rec) document.body.classList.add("rec");
-
-  const convs = $("convs");
-  const CV = [[210, 300, "claude|Claude Code", "fala"], [635, 262, "codex|Codex", "pede"], [1060, 310, "gemini|Gemini CLI", "fala"], [420, 560, "cursor|Cursor", "pede"], [850, 585, "copilot|GitHub Copilot", "fala"]];
-  const convEls = CV.map(([x, y, nome, tipo]) => {
-    const d = document.createElement("div");
-    d.className = "abs vid conv";
-    d.style.left = x + "px"; d.style.top = y + "px";
-    d.innerHTML = `<div class="bar"><img src="/img/agentes/${nome.split("|")[0]}.svg" alt=""><span>${nome.split("|")[1]}</span></div><i style="width:86%"></i><i style="width:64%"></i><i style="width:74%"></i><span class="selo ${tipo}">${tipo === "pede" ? "Precisa de permissão" : "respondendo…"}</span>`;
-    convs.appendChild(d);
-    return d;
-  });
-
-  const S = [[300, 330, "Sessão 1"], [300, 450, "Sessão 2"], [300, 570, "Sessão 3"]];
-  const sessEls = S.map(([x, y, nome]) => {
-    const d = document.createElement("div");
-    d.className = "abs vid sess";
-    d.style.left = x + "px"; d.style.top = y + "px";
-    d.innerHTML = `<s></s>${nome}`;
-    $("sessoes").appendChild(d);
-    return d;
-  });
-  const mcpEls = [];
-  for (let s = 0; s < 3; s++) for (let m = 0; m < 3; m++) {
-    const d = document.createElement("div");
-    d.className = "abs mcp";
-    d.textContent = "MCP";
-    $("mcpsAnim").appendChild(d);
-    mcpEls.push({ el: d, s, m, x0: 1000 + m * 150, y0: S[s][1] + 8 + (m - 1) * 34 });
-  }
-  const hubX = 840, hubY = [370, 460, 550];
-  const NS = "http://www.w3.org/2000/svg";
-  const fios = [];
-  for (let i = 0; i < 9; i++) { const l = document.createElementNS(NS, "line"); l.setAttribute("stroke", "rgba(189,180,218,.55)"); l.setAttribute("stroke-width", "2"); $("fios").appendChild(l); fios.push(l); }
-
-  const VS = [["loja.code-workspace", "D:\\Projetos\\Loja"], ["Loja.Api", "D:\\Projetos\\Loja.Api"], ["App.Notas", "D:\\Projetos\\App.Notas"], ["site.code-workspace", "D:\\Projetos\\Site"]];
-  const vsRows = VS.map(([nome, caminho]) => {
-    const r = document.createElement("div");
-    r.className = "r";
-    r.innerHTML = `<span class="cx"><svg class="i" viewBox="0 0 24 24" style="width:15px;height:15px;stroke-width:3"><path d="M20 6 9 17l-5-5"/></svg></span><span>${nome}<small>${caminho}</small></span>`;
-    $("vslr").appendChild(r);
-    return r;
-  });
-  const PJ = [["LO", "Loja", "main", "2 sessões"], ["LA", "Loja.Api", "main", "1 sessão"], ["AN", "App.Notas", "notas-offline", "1 sessão"], ["SI", "Site", "main", "nenhuma sessão"]];
-  const pjEls = PJ.map(([sigla, nome, branch, sessoes], i) => {
-    const d = document.createElement("div");
-    d.className = "abs vid pj";
-    d.innerHTML = `<div class="t"><s>${sigla}</s>${nome}</div><div class="d">⎇ <b>${branch}</b> · ${sessoes}</div>`;
-    $("pjs").appendChild(d);
-    return { el: d, x: 790 + (i % 2) * 350, y: 230 + Math.floor(i / 2) * 150, sx: 170, sy: 290 + i * 66 };
-  });
-
-  const COL = [268, 518, 768, 1018];
-  const LIN = [184, 314];
-  function cartaoM(t) {
-    let c, r;
-    const p1 = io(k(t, 10.0, 10.7)), p2 = io(k(t, 12.0, 12.6)), p3 = io(k(t, 14.1, 14.7));
-    let x = COL[1], y = LIN[1];
-    x = mix(x, COL[0], p1); y = mix(y, LIN[0], p1);
-    x = mix(x, COL[1], p2); y = mix(y, LIN[1], p2);
-    x = mix(x, COL[2], p3); y = mix(y, LIN[1], p3);
-    return { x, y, pede: p1 * (1 - p2), pronta: p3 };
-  }
-
-  const grafo = $("grafo"), g = grafo.getContext("2d");
-  let semente = 7;
-  const rnd = () => (semente = (semente * 16807) % 2147483647) / 2147483647;
-  const nos = Array.from({ length: 64 }, () => ({ x: rnd() * 1600, y: rnd() * 900, ax: 20 + rnd() * 40, ay: 20 + rnd() * 40, f: .08 + rnd() * .12, ph: rnd() * 6.28, r: rnd() < .28 ? 4.5 : 2.2, anel: rnd() < .28 }));
-  function fundo(t) {
-    g.clearRect(0, 0, 1600, 900);
-    const P = nos.map(n => [n.x + Math.sin(t * n.f + n.ph) * n.ax, n.y + Math.cos(t * n.f * .8 + n.ph) * n.ay]);
-    g.lineWidth = 1;
-    for (let i = 0; i < P.length; i++) for (let j = i + 1; j < P.length; j++) {
-      const dx = P[i][0] - P[j][0], dy = P[i][1] - P[j][1];
-      if (Math.abs(dx) > 190 || Math.abs(dy) > 190) continue;
-      const d = Math.hypot(dx, dy);
-      if (d > 190) continue;
-      g.strokeStyle = `rgba(148,139,174,${((1 - d / 190) * .2).toFixed(3)})`;
-      g.beginPath(); g.moveTo(P[i][0], P[i][1]); g.lineTo(P[j][0], P[j][1]); g.stroke();
-    }
-    nos.forEach((n, i) => {
-      g.globalAlpha = .42;
-      g.beginPath(); g.arc(P[i][0], P[i][1], n.r, 0, 6.283);
-      if (n.anel) { g.strokeStyle = "#F2F0EC"; g.lineWidth = 1.6; g.stroke(); g.lineWidth = 1; }
-      else { g.fillStyle = "#D9D4E6"; g.fill(); }
-    });
-    g.globalAlpha = 1;
-  }
-
-  function render(t) {
-    t = Math.max(0, Math.min(DUR, t));
-    fundo(t);
-
-    const v1 = vis(t, 0, 5.0, .5, .6);
-    pos($("h1a"), vis(t, .4, 5.0, .5, .6), `translateY(${(1 - sai(k(t, .4, .9))) * 16}px)`);
-    pos($("h1b"), vis(t, 1.9, 5.0, .5, .6), `translateY(${(1 - sai(k(t, 1.9, 2.4))) * 16}px)`);
-    convEls.forEach((el, i) => {
-      const a = .3 + i * .32, e = volta(k(t, a, a + .5)), s = io(k(t, 4.2, 5.0));
-      const pulsa = CV[i][3] === "pede" && t > 2.2 ? 1 + Math.sin((t - 2.2) * 7) * .012 : 1;
-      const cx = 800 - (CV[i][0] + 165), cy = 470 - (CV[i][1] + 95);
-      pos(el, Math.min(cl(e * 1.4), v1) * (1 - s), `translate(${cx * s}px, ${cy * s}px) scale(${(.85 + .15 * e) * pulsa * (1 - .5 * s)})`);
-    });
-
-    const vl = vis(t, 5.0, 8.6, .6, .6);
-    pos($("logo"), vl, `translateY(${(1 - sai(k(t, 5.0, 5.7))) * 30 - io(k(t, 8.0, 8.6)) * 40}px) scale(${.8 + .2 * volta(k(t, 5.0, 5.7))})`);
-
-    const va = vis(t, 8.6, 16.6, .7, .6);
-    pos($("h3"), vis(t, 8.8, 16.6, .5, .6));
-    pos($("app"), va, `translateY(${(1 - sai(k(t, 8.6, 9.3))) * 60}px) scale(${1 - io(k(t, 16.0, 16.6)) * .06})`);
-    const m = cartaoM(t);
-    const cM = $("cM");
-    cM.style.left = m.x + "px"; cM.style.top = m.y + "px";
-    cM.style.borderColor = m.pede > .01 ? `rgba(240,168,96,${.6 * m.pede})` : m.pronta > .5 ? "rgba(123,203,159,.35)" : "rgba(255,255,255,.1)";
-    cM.style.background = m.pede > .01 ? `rgba(240,168,96,${.14 * m.pede})` : "rgba(255,255,255,.07)";
-    $("cMbts").style.display = m.pede > .3 && t < 12.2 ? "flex" : "none";
-    $("cMpr").style.display = m.pronta > .9 ? "flex" : "none";
-    $("cMl").style.display = m.pede > .3 && t < 12.2 || m.pronta > .9 ? "none" : "block";
-    $("cMb").style.width = (t < 12.6 ? 30 : mix(30, 100, io(k(t, 12.6, 14.0)))) + "%";
-    $("cMa").textContent = m.pronta > .9 ? "Pronto: 42 testes passando." : m.pede > .3 && t < 12.2 ? "Permitir Bash: dotnet ef database update" : t < 10 ? "Bash  dotnet test --filter Cupom" : "Edit  src/Loja.Infra/Migrations/Cupom.cs";
-    $("n0").textContent = m.pede > .5 && t < 12.3 ? "1" : "0";
-    $("nPede").style.visibility = m.pede > .5 && t < 12.3 ? "visible" : "hidden";
-    const pedeAgora = m.pede > .5 && t < 12.3;
-    $("latM").className = "cv" + (pedeAgora ? " pede" : "");
-    $("latMi").style.setProperty("--c", m.pronta > .5 ? "var(--verde)" : pedeAgora ? "var(--laranja)" : "var(--txt)");
-    $("latMs").textContent = m.pronta > .5 ? "Pronto · 42 testes" : pedeAgora ? "esperando você" : "Bash · dotnet test";
-    $("n1").textContent = m.pede > .5 && t < 12.3 || m.pronta > .5 ? "1" : "2";
-    $("n2").textContent = m.pronta > .5 ? "2" : "1";
-    const bp = t > 11.75 && t < 12.05 ? .88 : 1, bc = t > 15.3 && t < 15.6 ? .88 : 1;
-    $("bPerm").style.transform = `scale(${bp})`; $("bPr").style.transform = `scale(${bc})`;
-    const ax = 160, ay = 150;
-    const permX = ax + COL[0] + 40, permY = ay + LIN[0] + 106, prX = ax + COL[2] + 50, prY = ay + LIN[1] + 102;
-    let cx = 1380, cy = 820;
-    cx = mix(cx, permX, io(k(t, 10.9, 11.7))); cy = mix(cy, permY, io(k(t, 10.9, 11.7)));
-    cx = mix(cx, 1250, io(k(t, 12.3, 13.4))); cy = mix(cy, 760, io(k(t, 12.3, 13.4)));
-    cx = mix(cx, prX, io(k(t, 14.7, 15.3))); cy = mix(cy, prY, io(k(t, 14.7, 15.3)));
-    pos($("cursor"), Math.min(vis(t, 10.8, 16.2, .3, .4), va), `translate(${cx}px, ${cy}px)`);
-    const clique = t > 11.8 && t < 12.3 ? [permX, permY, k(t, 11.8, 12.3)] : t > 15.4 && t < 15.9 ? [prX, prY, k(t, 15.4, 15.9)] : null;
-    if (clique) pos($("anel"), 1 - clique[2], `translate(${clique[0] - 28}px, ${clique[1] - 28}px) scale(${.4 + clique[2]})`);
-    else pos($("anel"), 0);
-    pos($("aviso"), vis(t, 15.7, 16.6, .3, .4), `translateY(${(1 - sai(k(t, 15.7, 16.0))) * 20}px)`);
-
-    const vh = vis(t, 16.6, 22.6, .5, .6);
-    pos($("h4"), vh);
-    const junta = io(k(t, 19.0, 20.4));
-    $("h4b").textContent = junta < .5 ? "Sem o Nexora, cada sessão sobe os seus." : "Com o Nexora, um conjunto para as três.";
-    pos($("h4b"), Math.min(vis(t, 17.0, 22.6, .4, .6), 1 - Math.sin(junta * Math.PI) * .9));
-    sessEls.forEach((el, i) => pos(el, Math.min(vis(t, 16.8 + i * .15, 22.6, .5, .6), vh), `translateX(${(1 - sai(k(t, 16.8 + i * .15, 17.4 + i * .15))) * -40}px)`));
-    mcpEls.forEach((p, i) => {
-      const ent = sai(k(t, 17.4 + i * .08, 17.9 + i * .08));
-      const destinoX = hubX, destinoY = hubY[p.m];
-      const x = mix(p.x0, destinoX, junta), y = mix(p.y0, destinoY, junta);
-      const principal = p.s === 1;
-      const o = Math.min(ent, vh) * (principal ? 1 : 1 - k(t, 20.0, 20.4));
-      pos(p.el, o, `translate(${x}px, ${y}px) scale(${principal ? 1 + .15 * junta : 1})`);
-      p.el.classList.toggle("hub", principal && junta > .9);
-      if (principal && junta > .9) p.el.textContent = ["banco", "docs", "busca"][p.m]; else p.el.textContent = "MCP";
-    });
-    fios.forEach((l, i) => {
-      const p = mcpEls[i];
-      const x2 = mix(p.x0, hubX, junta), y2 = mix(p.y0, hubY[p.m], junta) + 23;
-      const desenho = k(t, 17.6 + i * .08, 18.2 + i * .08);
-      const x1 = 510, y1 = S[p.s][1] + 31;
-      const fx = junta > .9 ? hubX : x2, fy = junta > .9 ? hubY[p.m] + 28 : y2;
-      l.setAttribute("x1", x1); l.setAttribute("y1", y1);
-      l.setAttribute("x2", mix(x1, fx, desenho)); l.setAttribute("y2", mix(y1, fy, desenho));
-      l.setAttribute("opacity", (vh * desenho).toFixed(3));
-    });
-    pos($("medidor"), Math.min(vis(t, 18.0, 22.6, .5, .6), vh));
-    const largura = mix(100, 19, io(k(t, 19.4, 20.4)));
-    $("medBar").style.width = largura + "%";
-    $("medBar").style.background = junta > .5 ? "linear-gradient(90deg, #BDB4DA, #948BAE)" : "linear-gradient(90deg, #F0A860, #D9814A)";
-    $("medVal").textContent = junta > .6 ? "242 MB" : "1,3 GB";
-    $("medRot").textContent = junta > .6 ? "Memória dos MCPs, 3 sessões, com o Nexora" : "Memória dos MCPs, 3 sessões, um por sessão";
-    pos($("selo"), Math.min(vis(t, 20.5, 22.6, .4, .6), vh), `scale(${.7 + .3 * volta(k(t, 20.5, 21.0))})`);
-
-    const vv = vis(t, 22.6, 27.6, .5, .6);
-    pos($("h5"), vv);
-    pos($("vsl"), Math.min(vis(t, 22.7, 27.6, .5, .6), 1 - io(k(t, 24.8, 25.4)) * .65), `translateX(${(1 - sai(k(t, 22.7, 23.3))) * -40}px)`);
-    vsRows.forEach((r, i) => r.querySelector(".cx").classList.toggle("ok", t > 23.3 + i * .3));
-    pjEls.forEach((p, i) => {
-      const a = 24.6 + i * .18, e = io(k(t, a, a + .7));
-      pos(p.el, Math.min(cl(e * 2), vv), `translate(${mix(p.sx, p.x, e)}px, ${mix(p.sy, p.y, e)}px) scale(${mix(.6, 1, e)})`);
-    });
-    pos($("h5b"), vis(t, 26.0, 27.6, .5, .6));
-
-    const vn = vis(t, 27.6, 33.6, .5, .6);
-    pos($("h6"), vn, `translateY(${(1 - sai(k(t, 27.6, 28.1))) * 16}px)`);
-    pos($("nv"), Math.min(vis(t, 27.8, 33.6, .5, .6), vn), `translateX(${(1 - sai(k(t, 27.8, 28.4))) * -40}px)`);
-    const naNuvem = t > 28.9;
-    $("nvPc").className = naNuvem ? "" : "ativo";
-    $("nvNuvem").className = naNuvem ? "ativo" : "";
-    pos($("nvFaixa"), k(t, 29.1, 29.5), `translateY(${(1 - sai(k(t, 29.1, 29.5))) * 10}px)`);
-    $("nvBarra").style.width = (mix(4, 92, io(k(t, 29.3, 33.2)))).toFixed(1) + "%";
-    const pcDesligado = t > 30.6;
-    $("nvPcEstado").className = "pc" + (pcDesligado ? " desligado" : "");
-    $("nvPcTexto").textContent = pcDesligado ? TXT_DESLIGADO : TXT_LIGADO;
-    pos($("tm"), Math.min(vis(t, 28.3, 33.6, .5, .6), vn), `translateX(${(1 - sai(k(t, 28.3, 28.9))) * 40}px)`);
-    [[$("tmL1"), 29.0, 1.0], [$("tmL2"), 30.2, .3], [$("tmL3"), 31.0, .3], [$("tmL4"), 31.6, .5], [$("tmL5"), 32.3, .3], [$("tmL6"), 32.5, .3]].forEach(([el, a, d]) => {
-      const p = k(t, a, a + d);
-      el.style.opacity = p > 0 ? 1 : 0;
-      el.style.clipPath = el.classList.contains("cmd") ? `inset(0 ${((1 - p) * 100).toFixed(1)}% 0 0)` : "none";
-      if (!el.classList.contains("cmd")) el.style.opacity = p.toFixed(3);
-    });
-    pos($("h6b"), Math.min(vis(t, 30.4, 33.6, .5, .6), vn));
-
-    const vf = rec ? sai(k(t, 33.6, 34.3)) : vis(t, 33.6, DUR, .7, .8);
-    pos($("fim"), vf, `translateY(${(1 - sai(k(t, 33.6, 34.3))) * 30}px) scale(${.9 + .1 * volta(k(t, 33.6, 34.3))})`);
-  }
-  window.render = render;
-  window.seek = t => { render(t); return true; };
-
-  const palco = $("palco"), moldura = $("moldura");
-  function encaixar() {
-    const w = moldura.clientWidth, h = moldura.clientHeight;
-    const s = Math.min(w / 1600, h / 900);
-    palco.style.transform = `translate(${(w - 1600 * s) / 2}px, ${(h - 900 * s) / 2}px) scale(${s})`;
-  }
-  addEventListener("resize", encaixar);
-  encaixar();
-
-  const calma = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  let tocando = !rec && !calma, base = performance.now(), parado = calma ? 9.9 : 0, visivel = true;
-  if (!rec) new IntersectionObserver(e => visivel = e[0].isIntersecting).observe(moldura);
-  function quadro(agora) {
-    requestAnimationFrame(quadro);
-    if (!tocando || !visivel || document.hidden) return;
-    render(((agora - base) / 1000) % DUR);
-  }
-  render(rec ? Number(params.get("t") || 0) : parado);
-  if (!rec) requestAnimationFrame(quadro);
-  $("pausa").addEventListener("click", () => {
-    const agora = performance.now();
-    if (tocando) { parado = ((agora - base) / 1000) % DUR; tocando = false; }
-    else { base = agora - parado * 1000; tocando = true; }
-    $("pausa").setAttribute("aria-label", tocando ? "Pausar a animação" : "Tocar a animação");
-    $("icPausa").innerHTML = tocando ? '<path d="M9 5v14M15 5v14"/>' : '<path d="M7 4v16l13-8z"/>';
-  });
-  if (calma) $("icPausa").innerHTML = '<path d="M7 4v16l13-8z"/>';
-})();
-</script>
-<script>
-  document.querySelectorAll('details.recurso').forEach((cartao) => cartao.addEventListener('toggle', () => {
-    if (!cartao.open) return;
-    document.querySelectorAll('details.recurso[open]').forEach((outro) => { if (outro !== cartao) outro.open = false; });
-  }));
-  document.querySelectorAll('.alterna').forEach((grupo) => grupo.addEventListener('click', (e) => {
-    const botao = e.target.closest('button[data-tela]');
-    if (!botao) return;
-    grupo.querySelectorAll('button').forEach((b) => b.classList.toggle('ativo', b === botao));
-    const foto = document.getElementById(grupo.dataset.alvo);
-    foto.dataset.tela = botao.dataset.tela;
-    foto.setAttribute('aria-label', botao.dataset.alt);
-    window.desenharTela(foto);
-  }));
-  function abrirRecursoDoEndereco() {
-    const alvo = location.hash.length > 1 && document.getElementById(location.hash.slice(1));
-    if (!alvo || !alvo.matches('details')) return;
-    alvo.open = true;
-    setTimeout(() => alvo.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
-  }
-  window.addEventListener('hashchange', abrirRecursoDoEndereco);
-  abrirRecursoDoEndereco();
-</script>
-<script src="/avatares/avatares.js" defer></script>
-<script src="/telas/telas.js"></script>
-<script type="module" src="/temas/vitrine.js"></script>
+<script src="/idioma.js"></script>
 </body>
 </html>
