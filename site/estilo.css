@@ -199,11 +199,11 @@ footer { margin-top: 112px; border-top: 1px solid var(--linha); padding: 48px 0 
   .hero-foto figcaption { font-size: 12.5px; }
 }
 
-.estrelas { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 11px; border: 1px solid var(--linha); background: rgba(255, 255, 255, .04); color: var(--txt2); text-decoration: none; font-size: 14.5px; white-space: nowrap; }
-.estrelas:hover { color: var(--txt); border-color: var(--linha2); }
-.estrelas svg.i { width: 17px; height: 17px; }
-.estrelas .contagem { display: inline-flex; align-items: center; gap: 4px; padding-left: 8px; border-left: 1px solid var(--linha); color: var(--txt); font-weight: 600; }
-.estrelas .contagem svg.i { width: 15px; height: 15px; color: #F2C14E; fill: #F2C14E; stroke: #F2C14E; }
+.estrelas { display: inline-flex; align-items: center; gap: 7px; height: 34px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--linha2); background: rgba(255, 255, 255, .05); color: var(--txt); text-decoration: none; font-size: 14px; font-weight: 600; white-space: nowrap; transition: background .15s, border-color .15s; }
+.estrelas:hover { background: rgba(255, 255, 255, .09); border-color: rgba(255, 255, 255, .3); }
+.estrelas .estrela { width: 15px; height: 15px; fill: #F2C14E; flex: none; }
+.estrelas .contagem { display: inline-flex; align-items: center; height: 18px; margin-left: 3px; padding-left: 10px; border-left: 1px solid var(--linha2); color: var(--txt2); font-variant-numeric: tabular-nums; }
+.estrelas .contagem b { font-weight: 600; }
 .destaque-grande + .destaque-grande { margin-top: 72px; }
 .destaque-grande.invertido { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
 .destaque-grande.video-primeiro { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); }
@@ -225,5 +225,4 @@ details.grupo > .obs { margin-bottom: 20px !important; margin-top: -8px !importa
   .destaque-grande.invertido, .destaque-grande.video-primeiro { grid-template-columns: 1fr; }
   .destaque-grande.invertido > figure { order: 2; }
 }
-@media (max-width: 1080px) { .estrelas > span:first-of-type { display: none; } }
-@media (max-width: 560px) { .estrelas { padding: 6px 9px; } .estrelas .contagem { padding-left: 6px; } }
+@media (max-width: 560px) { .estrelas { padding: 0 10px; gap: 6px; } .estrelas > span:first-of-type { display: none; } .estrelas .contagem { margin-left: 0; padding-left: 8px; } }
