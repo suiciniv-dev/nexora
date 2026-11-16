@@ -1185,7 +1185,7 @@
 
   <DataTemplate x:Key="FaixaDaNuvem" x:DataType="vm:ChatVM">
     <Border Classes="faixa-subagentes" Classes.caiu="{Binding NuvemCaiu}" v:Animacoes.Entrada="True">
-      <Grid ColumnDefinitions="Auto,*,Auto,Auto" Margin="4,0">
+      <Grid ColumnDefinitions="Auto,*,Auto,Auto,Auto" Margin="4,0">
         <v:Icone Nome="nuvem" Tamanho="14" Foreground="{DynamicResource Ciano}" VerticalAlignment="Center" Margin="0,0,10,0" />
         <TextBlock Grid.Column="1" Text="{Binding TextoNuvem}" TextWrapping="Wrap" FontSize="12.5" VerticalAlignment="Center" />
         <Button Grid.Column="2" Classes="contorno pequeno" Content="{l:T 'Reconectar agora'}" Command="{Binding ReconectarNuvemCommand}" IsVisible="{Binding NuvemCaiu}" Margin="10,0,0,0"
@@ -1195,6 +1195,13 @@
           <StackPanel Orientation="Horizontal" Spacing="6">
             <v:Icone Nome="importar" Tamanho="12" VerticalAlignment="Center" />
             <TextBlock Text="{l:T 'Trazer para cá'}" VerticalAlignment="Center" />
+          </StackPanel>
+        </Button>
+        <Button Grid.Column="4" Classes="contorno pequeno" Command="{Binding EncerrarNaMaquinaCommand}" IsVisible="{Binding PodeEncerrarNaMaquina}" Margin="8,0,0,0"
+                ToolTip.Tip="{l:T 'Encerra o agente na máquina. A conversa fica aqui, e a próxima mensagem abre o agente de novo.'}" AutomationProperties.Name="{l:T 'Encerrar na máquina'}">
+          <StackPanel Orientation="Horizontal" Spacing="6">
+            <v:Icone Nome="parar" Tamanho="12" VerticalAlignment="Center" />
+            <TextBlock Text="{l:T 'Encerrar na máquina'}" VerticalAlignment="Center" />
           </StackPanel>
         </Button>
       </Grid>

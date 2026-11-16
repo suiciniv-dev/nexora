@@ -59,9 +59,17 @@ While a cloud conversation is **working** and Nexora is open, Nexora tells Insta
 
 ### Ending a cloud conversation
 
-Closing the tab or the app only disconnects. The agent process on the machine is not stopped: it stays there, idle, waiting for the next message, so the conversation can continue later. To stop it, pause or delete the machine in **Settings › Cloud machines**.
+| What you do | What happens to the agent on the machine |
+|---|---|
+| Close the tab | Stopped. |
+| **Stop on the machine** (in the cloud bar, while the agent is idle) | Stopped. The tab and the history stay, and the next message starts the agent again and continues the conversation. |
+| Close Nexora while the agent is working | Keeps working. This is what lets you turn the PC off. |
+| Close Nexora while the agent is idle | Stopped (Nexora waits up to 4 seconds for this on exit). Not stopped when Remote Control is on. |
+| Open Nexora again | The tab comes back. If the agent is still mid-turn, Nexora reconnects to it. If it finished and is only waiting, Nexora stops it and shows the history; the next message continues the conversation. |
 
-Keep this in mind for billing: an InstaBox or Freestyle machine that is not paused keeps costing even with the agent idle.
+The cloud bar says **Running in the cloud… You can turn this PC off** only while the agent works. When it is idle it says **Connected to … The agent is idle**.
+
+Stopping the agent does not pause the machine. An InstaBox or Freestyle machine that is not paused keeps costing; pause it in **Settings › Cloud machines**.
 
 ### Bringing the work back
 

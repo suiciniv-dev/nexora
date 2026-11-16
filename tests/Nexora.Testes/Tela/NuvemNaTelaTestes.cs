@@ -101,7 +101,8 @@ public sealed class NuvemNaTelaTestes : IDisposable
         Assert.Contains("rascunho.txt", resposta);
         await Esperar(() => chat.EstadoNuvem == EstadoDaNuvem.Rodando);
         Assert.True(chat.MostraFaixaNuvem);
-        Assert.Contains("Rodando na nuvem", chat.TextoNuvem);
+        Assert.Contains("Conectado a VPS de teste", chat.TextoNuvem);
+        Assert.True(chat.PodeEncerrarNaMaquina);
         Assert.False(chat.PodeTrocarOndeRoda);
         Assert.False(chat.PodeHibernar);
         Assert.Equal("sessao-falsa-1", chat.SessaoId);
@@ -109,7 +110,7 @@ public sealed class NuvemNaTelaTestes : IDisposable
         var execucao = App.Nuvem.Execucao("sessao-falsa-1")!;
         Assert.Equal(maquina.Id, execucao.Maquina);
         Assert.Contains("/nexora/loja/main", execucao.PastaRemota);
-        Assert.True(janela.GetVisualDescendants().OfType<TextBlock>().Any(t => t.Text?.Contains("Rodando na nuvem") == true));
+        Assert.True(janela.GetVisualDescendants().OfType<TextBlock>().Any(t => t.Text?.Contains("Conectado a VPS de teste") == true));
 
         var projetos = Path.Combine(_falsa.Casa, ".claude", "projects", "loja");
         Directory.CreateDirectory(projetos);
@@ -120,6 +121,9 @@ public sealed class NuvemNaTelaTestes : IDisposable
         await reaberta.Carregamento;
         await Esperar(() => !reaberta.Carregando);
         Assert.True(reaberta.NaNuvem);
+        Assert.False(reaberta.MostraFaixaNuvem);
+        var ocioso = EstadoDaExecucao.Ler((await Task.Run(() => _falsa.Maquina.RodarAsync(ScriptRemoto.Chamar("estado", execucao.Execucao)))).Saida);
+        Assert.False(ocioso.Rodando);
         Assert.Contains(reaberta.Itens.OfType<ItemUsuario>(), u => u.Texto == "oi");
         Assert.Contains(reaberta.Itens.OfType<ItemTexto>(), t => t.Texto == "eco: oi do historico");
         chat.Encerrar(esperar: true);
@@ -142,6 +146,36 @@ public sealed class NuvemNaTelaTestes : IDisposable
         Assert.False(estado.Rodando);
         janela.Close();
         await Task.Run(() => Core.Git.ComandoGit.ExecutarAsync(repositorio, "worktree", "remove", "--force", local.Pasta));
+    });
+
+    [Fact]
+    public Task Encerrar_na_maquina_para_o_agente_e_a_proxima_mensagem_continua() => Sessao.Rodar(async () =>
+    {
+        if (!MaquinaFalsa.Disponivel) return;
+        var repositorio = await _falsa.RepositorioAsync("parar");
+        var maquina = await PrepararAsync(repositorio, permitir: true);
+        var chat = ChatVM.Nova(new Local("parar", repositorio, []), new AnfitriaoFalso(), _ => { }, _ => { });
+        chat.EscolherOndeRoda(maquina.Id);
+        Assert.False(chat.PodeEncerrarNaMaquina);
+
+        chat.EnviarTexto("primeira");
+        await Esperar(() => chat.Itens.OfType<ItemTexto>().Any(t => t.Texto.Contains("eco: primeira")));
+        await Esperar(() => chat.EstadoNuvem == EstadoDaNuvem.Rodando && chat.Estado != EstadoChat.Trabalhando);
+        Assert.True(chat.PodeEncerrarNaMaquina);
+        Assert.DoesNotContain("Pode desligar", chat.TextoNuvem);
+        await Esperar(() => chat.ExecucaoNaNuvem is not null);
+        var execucao = chat.ExecucaoNaNuvem!;
+
+        chat.EncerrarNaMaquinaCommand.Execute(null);
+        Assert.False(chat.MostraFaixaNuvem);
+        Assert.False(chat.PodeEncerrarNaMaquina);
+        Assert.Contains(chat.Itens.OfType<ItemAviso>(), a => a.Texto.Contains("foi encerrado"));
+        await Esperar(() => !EstadoDaExecucao.Ler(_falsa.Maquina.RodarAsync(ScriptRemoto.Chamar("estado", execucao)).GetAwaiter().GetResult().Saida).Rodando);
+
+        chat.EnviarTexto("segunda");
+        await Esperar(() => chat.Itens.OfType<ItemTexto>().Any(t => t.Texto.Contains("eco: segunda")));
+        Assert.DoesNotContain(chat.Itens.OfType<ItemAviso>(), a => a.Texto.Contains("erro", StringComparison.OrdinalIgnoreCase));
+        chat.Encerrar();
     });
 
     [Fact]
