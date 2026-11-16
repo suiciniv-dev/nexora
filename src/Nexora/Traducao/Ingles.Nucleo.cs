@@ -4,6 +4,14 @@ public static partial class Ingles
 {
     static readonly (string Pt, string En)[] Nucleo =
     [
+        ("Não mexi em {0} porque ele não pôde ser lido: {1}", "I left {0} untouched because it couldn't be read: {1}"),
+        ("o arquivo estava em uso quando o Nexora abriu", "the file was in use when Nexora opened"),
+        ("O {0} estava danificado e foi recuperado da última cópia boa. O arquivo danificado foi guardado ao lado.", "{0} was damaged and was restored from the last good copy. The damaged file was kept next to it."),
+        ("O {0} estava danificado e não havia cópia boa, então começou vazio. O arquivo danificado foi guardado ao lado.", "{0} was damaged and there was no good copy, so it started empty. The damaged file was kept next to it."),
+        ("Não consegui ler o {0} porque ele estava em uso. Nada será gravado nele até você reabrir o Nexora, para não sobrescrevê-lo.", "I couldn't read {0} because it was in use. Nothing will be written to it until you reopen Nexora, so it isn't overwritten."),
+        ("Configuração não lida", "Settings not read"),
+        ("Configuração recuperada", "Settings restored"),
+        ("Clique para ver a pasta e dispensar o aviso.", "Click to see the folder and dismiss this notice."),
         ("agora", "now"),
         ("há {0} min", "{0} min ago"),
         ("há {0} h", "{0} h ago"),

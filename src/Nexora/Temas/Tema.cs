@@ -193,8 +193,7 @@ public static class Catalogo
     public static string Gravar(Tema tema, string? destino = null)
     {
         destino ??= Path.Combine(Pasta, tema.Id + ".json");
-        Directory.CreateDirectory(Path.GetDirectoryName(destino)!);
-        File.WriteAllText(destino, JsonSerializer.Serialize(tema, Json));
+        Core.Arquivos.ArquivoSeguro.Gravar(destino, JsonSerializer.Serialize(tema, Json));
         return destino;
     }
 
