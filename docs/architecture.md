@@ -41,7 +41,7 @@ All agents implement `ISessaoAgente` (`src/Nexora.Core/Claude/ISessaoAgente.cs`)
 |---|---|---|---|
 | Claude | `SessaoClaude` | `claude -p --input-format stream-json --output-format stream-json --permission-prompt-tool stdio …` | Full support: resume and fork, model and effort, permission modes, MCP config, remote control. |
 | Codex | `SessaoCodex` | `codex app-server` | Resume, model and effort; messages sent mid-turn join the current turn. |
-| ACP | `SessaoAcp` | The agent's ACP mode over stdio (for example `gemini --acp`) | Gemini CLI, Antigravity, Copilot, Cursor, OpenCode, Kiro, Qwen Code, Grok, goose, or any ACP agent. |
+| ACP | `SessaoAcp` | The agent's ACP mode over stdio (for example `gemini --acp`) | Gemini CLI, Antigravity, Copilot, Cursor, OpenCode, Kiro, Qwen Code, Grok, goose. |
 
 Permission requests arrive as events. Nexora shows them in the tab and on the live board, and answers with `Permitir` / `Negar`. Subagent requests carry the subagent that asked.
 
