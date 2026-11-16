@@ -22,7 +22,7 @@ public sealed partial class ChatVM
     public partial string? MaquinaId { get; set; }
 
     [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(TextoNuvem), nameof(MostraFaixaNuvem), nameof(NuvemCaiu), nameof(NuvemOcupada), nameof(PodeTrazerDaNuvem))]
+    [NotifyPropertyChangedFor(nameof(TextoNuvem), nameof(MostraFaixaNuvem), nameof(NuvemCaiu), nameof(NuvemOcupada), nameof(PodeTrazerDaNuvem), nameof(PodeEncerrarNaMaquina))]
     public partial EstadoDaNuvem? EstadoNuvem { get; set; }
 
     [ObservableProperty]
@@ -33,7 +33,7 @@ public sealed partial class ChatVM
     public partial bool MenuOndeRodaAberto { get; set; }
 
     [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(PodeTrazerDaNuvem), nameof(TextoNuvem))]
+    [NotifyPropertyChangedFor(nameof(PodeTrazerDaNuvem), nameof(TextoNuvem), nameof(PodeEncerrarNaMaquina))]
     public partial bool TrazendoDaNuvem { get; set; }
 
     public ObservableCollection<OpcaoMenuVM> OpcoesOndeRoda { get; } = [];
@@ -67,6 +67,56 @@ public sealed partial class ChatVM
     public bool NuvemOcupada => EstadoNuvem is EstadoDaNuvem.Conectando or EstadoDaNuvem.Sincronizando or EstadoDaNuvem.Iniciando;
     public bool PodeTrazerDaNuvem => NaNuvem && _execucao is not null && !TrazendoDaNuvem;
 
+    public bool PodeEncerrarNaMaquina => NaNuvem && _execucao is not null && !TrazendoDaNuvem
+        && EstadoNuvem is EstadoDaNuvem.Rodando or EstadoDaNuvem.Desconectado
+        && Estado != EstadoChat.Trabalhando;
+
+    static readonly List<Task> _paradasNaSaida = [];
+
+    public static void EsperarParadasNaSaida(TimeSpan limite)
+    {
+        Task[] paradas;
+        lock (_paradasNaSaida) paradas = [.. _paradasNaSaida];
+        if (paradas.Length > 0) Task.WaitAll(paradas, limite);
+    }
+
+    void AtualizarFaixaNuvem()
+    {
+        OnPropertyChanged(nameof(TextoNuvem));
+        OnPropertyChanged(nameof(PodeEncerrarNaMaquina));
+    }
+
+    Task PararNaMaquinaAsync(ExecucaoSalva execucao, MaquinaNaNuvem maquina)
+    {
+        var naMaquina = App.Nuvem.Abrir(maquina);
+        return Task.Run(async () =>
+        {
+            try
+            {
+                await naMaquina.RodarAsync(ScriptRemoto.Chamar("parar", execucao.Execucao));
+            }
+            catch (Exception ex) when (ex is IOException or InvalidOperationException or System.ComponentModel.Win32Exception)
+            {
+            }
+        });
+    }
+
+    [RelayCommand]
+    void EncerrarNaMaquina()
+    {
+        if (!PodeEncerrarNaMaquina || _execucao is not { } execucao || Maquina is not { } maquina) return;
+        var sessao = _sessao;
+        _sessao = null;
+        _lancador = null;
+        ManterMaquinaAcordada(false);
+        if (sessao is not null) _ = sessao.DisposeAsync().AsTask();
+        EstadoNuvem = null;
+        DetalheNuvem = null;
+        OnPropertyChanged(nameof(Pid));
+        if (!JanelaVM.Demo) _ = PararNaMaquinaAsync(execucao, maquina);
+        Adicionar(ItemAviso.Info(Idioma.F("O agente em {0} foi encerrado. A próxima mensagem abre de novo e continua a conversa.", maquina.Nome)));
+    }
+
     public string TextoNuvem => TrazendoDaNuvem
         ? DetalheNuvem ?? Idioma.T("Trazendo o código da nuvem…")
         : EstadoNuvem switch
@@ -74,7 +124,8 @@ public sealed partial class ChatVM
             EstadoDaNuvem.Conectando => Idioma.F("Conectando a {0}…", NomeDaMaquina),
             EstadoDaNuvem.Sincronizando => DetalheNuvem ?? Idioma.T("Sincronizando o código…"),
             EstadoDaNuvem.Iniciando => Idioma.F("Abrindo o {0} na máquina…", NomeAgente),
-            EstadoDaNuvem.Rodando => Idioma.F("Rodando na nuvem, em {0}. Pode desligar este PC: o agente continua.", NomeDaMaquina),
+            EstadoDaNuvem.Rodando when Estado == EstadoChat.Trabalhando => Idioma.F("Rodando na nuvem, em {0}. Pode desligar este PC: o agente continua.", NomeDaMaquina),
+            EstadoDaNuvem.Rodando => Idioma.F("Conectado a {0}. O agente está parado, esperando a próxima mensagem.", NomeDaMaquina),
             EstadoDaNuvem.Desconectado => Idioma.F("Desconectado de {0}. O agente continua lá; tentando de novo…", NomeDaMaquina),
             EstadoDaNuvem.Terminou => Idioma.F("O agente terminou em {0}.", NomeDaMaquina),
             EstadoDaNuvem.Falhou => DetalheNuvem ?? Idioma.T("A conexão com a nuvem falhou."),
@@ -213,23 +264,19 @@ public sealed partial class ChatVM
         }
     }
 
-    void EncerrarNuvem(bool fechandoOApp)
+    void EncerrarNuvem(bool fechandoOApp, bool trabalhando)
     {
         MemoriaMediu -= AtualizarSugestaoDaNuvem;
         ManterMaquinaAcordada(false);
-        if (fechandoOApp || _execucao is not { } execucao || Maquina is not { } maquina) return;
-        var naMaquina = App.Nuvem.Abrir(maquina);
-        _ = Task.Run(async () =>
+        if (_execucao is not { } execucao || Maquina is not { } maquina || JanelaVM.Demo) return;
+        if (fechandoOApp)
         {
-            try
-            {
-                await naMaquina.RodarAsync(ScriptRemoto.Chamar("parar", execucao.Execucao));
-            }
-            catch (Exception ex) when (ex is IOException or InvalidOperationException or System.ComponentModel.Win32Exception)
-            {
-            }
-            App.Nuvem.Esquecer(execucao.Execucao);
-        });
+            if (trabalhando || _lancador is null || RemotoLigado) return;
+            var parada = PararNaMaquinaAsync(execucao, maquina);
+            lock (_paradasNaSaida) _paradasNaSaida.Add(parada);
+            return;
+        }
+        _ = PararNaMaquinaAsync(execucao, maquina).ContinueWith(_ => App.Nuvem.Esquecer(execucao.Execucao), TaskScheduler.Default);
     }
 
     [RelayCommand]
@@ -331,7 +378,11 @@ public sealed partial class ChatVM
             if (titulo is { Length: > 0 }) Titulo = titulo;
             MontarHistorico(eventos, new Dictionary<string, IReadOnlyList<EventoClaude>>(), null);
             EstadoNuvem = null;
-            if (rodando)
+            if (rodando && !noMeio)
+            {
+                await PararNaMaquinaAsync(execucao, maquina);
+            }
+            else if (rodando)
             {
                 GarantirSessao();
                 if (noMeio)

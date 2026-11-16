@@ -428,6 +428,7 @@ public sealed partial class ChatVM : CartaoVM
         AcompanharTurno(newValue == EstadoChat.Trabalhando);
         ManterMaquinaAcordada(newValue == EstadoChat.Trabalhando);
         AtualizarSugestaoDaNuvem();
+        AtualizarFaixaNuvem();
     }
 
     void Atividade(string texto)
@@ -635,6 +636,7 @@ public sealed partial class ChatVM : CartaoVM
 
     public void Encerrar(bool esperar = false)
     {
+        var trabalhando = Estado == EstadoChat.Trabalhando;
         _encerrada = true;
         _descarga.Stop();
         EncerrarTerminal();
@@ -651,7 +653,7 @@ public sealed partial class ChatVM : CartaoVM
             else _ = s.DisposeAsync().AsTask();
         }
         _sessao = null;
-        EncerrarNuvem(esperar);
+        EncerrarNuvem(esperar, trabalhando);
         if (_hub is { } hub && App.Hub is { } central) _ = central.EsquecerAsync(hub.Chave);
         _hub = null;
         EsquecerSegredos();
