@@ -11,7 +11,7 @@ public static class Erros
     static DateTime _ultimoAviso = DateTime.MinValue;
 
     public static string Arquivo { get; set; } =
-        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Nexora", "erros.log");
+        Path.Combine(global::Nexora.Core.DadosDoNexora.Pasta, "erros.log");
 
     public static Action<string, string>? Avisar { get; set; } = (titulo, texto) => Avisos.Notificar(titulo, texto);
 

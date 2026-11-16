@@ -95,7 +95,7 @@ public static class Workspaces
         var pastas = new JsonArray(new JsonObject { ["path"] = "." });
         foreach (var vinculado in origem.Vinculados.Where(v => !MesmaPasta(v, principal)))
             pastas.Add(new JsonObject { ["path"] = Path.GetRelativePath(principal, vinculado).Replace('\\', '/') });
-        File.WriteAllText(arquivo, new JsonObject { ["folders"] = pastas, ["settings"] = new JsonObject() }.ToJsonString(Escrita));
+        Nexora.Core.Arquivos.ArquivoSeguro.Gravar(arquivo, new JsonObject { ["folders"] = pastas, ["settings"] = new JsonObject() }.ToJsonString(Escrita));
         return arquivo;
     }
 
@@ -108,17 +108,16 @@ public static class Workspaces
         {
             raiz = File.Exists(arquivo) ? JsonNode.Parse(File.ReadAllText(arquivo), documentOptions: Leitura) as JsonObject ?? [] : [];
         }
-        catch (JsonException)
+        catch (JsonException ex)
         {
-            raiz = [];
+            throw new Nexora.Core.Arquivos.ArquivoIlegivelException(arquivo, ex.Message);
         }
         var pastas = new JsonArray();
         foreach (var pasta in new[] { ambiente.Principal }.Concat(ambiente.Vinculados).Distinct(StringComparer.OrdinalIgnoreCase))
             pastas.Add(new JsonObject { ["path"] = Relativo(dir, pasta) });
         raiz["folders"] = pastas;
         raiz["settings"] ??= new JsonObject();
-        Directory.CreateDirectory(dir);
-        File.WriteAllText(arquivo, raiz.ToJsonString(Escrita));
+        Nexora.Core.Arquivos.ArquivoSeguro.Gravar(arquivo, raiz.ToJsonString(Escrita));
         return ambiente with { Arquivo = arquivo };
     }
 

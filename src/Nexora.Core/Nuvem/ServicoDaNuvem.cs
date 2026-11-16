@@ -303,26 +303,25 @@ public sealed class ServicoDaNuvem
 
     public static string NovaExecucao() => DateTime.UtcNow.ToString("yyyyMMddHHmmss", System.Globalization.CultureInfo.InvariantCulture) + "-" + Guid.NewGuid().ToString("N")[..6];
 
+    public Arquivos.OrigemDaLeitura Origem { get; private set; } = Arquivos.OrigemDaLeitura.Novo;
+
+    public string? Guardado { get; private set; }
+
     Dados Carregar()
     {
-        if (_arquivo is null || !File.Exists(_arquivo)) return new Dados();
-        try
-        {
-            return JsonSerializer.Deserialize<Dados>(File.ReadAllText(_arquivo)) ?? new Dados();
-        }
-        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or JsonException)
-        {
-            return new Dados();
-        }
+        if (_arquivo is null) return new Dados();
+        var lida = Arquivos.ArquivoSeguro.LerJson(_arquivo, () => new Dados());
+        Origem = lida.Origem;
+        Guardado = lida.Guardado;
+        return lida.Valor;
     }
 
     void Gravar()
     {
-        if (_arquivo is null) return;
+        if (_arquivo is null || Origem == Arquivos.OrigemDaLeitura.Ilegivel) return;
         try
         {
-            Directory.CreateDirectory(Path.GetDirectoryName(_arquivo)!);
-            File.WriteAllText(_arquivo, JsonSerializer.Serialize(_dados, new JsonSerializerOptions { WriteIndented = true }));
+            Arquivos.ArquivoSeguro.Gravar(_arquivo, JsonSerializer.Serialize(_dados, new JsonSerializerOptions { WriteIndented = true }), manterCopia: true);
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {

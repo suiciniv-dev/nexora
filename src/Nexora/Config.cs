@@ -86,29 +86,43 @@ public sealed class Config
     public static string ChaveDePasta(string pasta) =>
         OperatingSystem.IsWindows() ? pasta.Replace('/', '\\').TrimEnd('\\').ToLowerInvariant() : pasta.TrimEnd('/').ToLowerInvariant();
 
-    static string Caminho =>
-        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Nexora", "config.json");
+    public static string CaminhoPadrao =>
+        Path.Combine(global::Nexora.Core.DadosDoNexora.Pasta, "config.json");
 
-    public static Config Carregar()
+    readonly object _trava = new();
+    string _caminho = CaminhoPadrao;
+
+    [JsonIgnore]
+    public Core.Arquivos.OrigemDaLeitura Origem { get; private set; } = Core.Arquivos.OrigemDaLeitura.Novo;
+
+    [JsonIgnore]
+    public string? Guardado { get; private set; }
+
+    [JsonIgnore]
+    public bool Recuperada => Origem is Core.Arquivos.OrigemDaLeitura.Copia or Core.Arquivos.OrigemDaLeitura.Perdido;
+
+    public static Config Carregar() => Carregar(CaminhoPadrao);
+
+    public static Config Carregar(string caminho)
     {
-        try
-        {
-            return JsonSerializer.Deserialize<Config>(File.ReadAllText(Caminho)) ?? new();
-        }
-        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or JsonException)
-        {
-            return new();
-        }
+        var lida = Core.Arquivos.ArquivoSeguro.LerJson(caminho, () => new Config());
+        var config = lida.Valor;
+        config._caminho = caminho;
+        config.Origem = lida.Origem;
+        config.Guardado = lida.Guardado;
+        return config;
     }
 
     public void Salvar()
     {
+        if (Origem == Core.Arquivos.OrigemDaLeitura.Ilegivel) return;
         try
         {
-            Directory.CreateDirectory(Path.GetDirectoryName(Caminho)!);
-            File.WriteAllText(Caminho, JsonSerializer.Serialize(this, Indentado));
+            string texto;
+            lock (_trava) texto = JsonSerializer.Serialize(this, Indentado);
+            Core.Arquivos.ArquivoSeguro.Gravar(_caminho, texto, manterCopia: true);
         }
-        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or InvalidOperationException)
         {
         }
     }

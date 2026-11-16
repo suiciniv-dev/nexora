@@ -22,7 +22,7 @@ public static class ConversasDosAgentes
     static readonly JsonSerializerOptions Opcoes = new() { WriteIndented = false };
 
     public static string ArquivoPadrao =>
-        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Nexora", "conversas-agentes.json");
+        Path.Combine(global::Nexora.Core.DadosDoNexora.Pasta, "conversas-agentes.json");
 
     public static IReadOnlyList<ConversaDeAgente> Listar(string? arquivo = null)
     {
