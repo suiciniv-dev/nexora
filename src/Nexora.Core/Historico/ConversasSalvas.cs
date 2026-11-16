@@ -24,7 +24,7 @@ public static class ConversasSalvas
     const int MaiorLinha = 64 * 1024;
     static readonly ConcurrentDictionary<string, string> Primeiras = new(StringComparer.OrdinalIgnoreCase);
 
-    public static string PastaPadrao =>
+    public static string PastaPadrao { get; set; } =
         Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".claude", "projects");
 
     public static IReadOnlyList<ConversaSalva> Listar(string? raiz = null, int maximo = 300)
