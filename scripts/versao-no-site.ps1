@@ -10,6 +10,7 @@ $trocas = [ordered]@{
   'softwareVersion' = "(?<=""softwareVersion"": "")$numero(?="")"
   'nomes dos arquivos' = "(?<=Nexora-(?:$arquivos)-)$numero(?=\.(?:exe|zip|dmg))"
   'versão no texto' = "(?<=(?:versão|version) )$numero"
+  'tabela de sistemas' = "(?<=data-versao=""$(if ($SemMac) { 'windows' } else { '(?:windows|mac)' })"">)$numero"
 }
 foreach ($pagina in 'site\index.html', 'site\en\index.html') {
   $caminho = Join-Path $raiz $pagina
