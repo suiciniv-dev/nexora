@@ -613,6 +613,7 @@ public sealed partial class JanelaVM : ObservableObject, IAnfitriao
     public void EncerrarTudo()
     {
         foreach (var chat in Abertas) chat.Encerrar(esperar: true);
+        ChatVM.EsperarParadasNaSaida(TimeSpan.FromSeconds(4));
         foreach (var painel in _execucoes.Values) painel.PararTudo();
         App.Hub?.Dispose();
         Orquestra.Dispose();
