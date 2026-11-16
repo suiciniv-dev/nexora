@@ -1,0 +1,43 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:l="using:Nexora"
+             xmlns:vm="using:Nexora.ViewModels"
+             xmlns:v="using:Nexora.Views"
+             xmlns:ae="using:AvaloniaEdit"
+             x:Class="Nexora.Views.ArquivoView"
+             x:DataType="vm:ArquivoVM">
+  <DockPanel>
+    <Border DockPanel.Dock="Top" Padding="14,4,8,4" BorderBrush="{DynamicResource Borda}" BorderThickness="0,0,0,1">
+      <Grid ColumnDefinitions="*,Auto">
+        <TextBlock Classes="fraco mono" Text="{Binding Relativo}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="4">
+          <Button Classes="fantasma" Click="Citar_Click" ToolTip.Tip="{l:T 'Mandar a seleção para o chat (Ctrl+L)'}">
+            <StackPanel Orientation="Horizontal" Spacing="6"><v:Icone Nome="citar" Tamanho="14" /><TextBlock Text="{l:T 'Citar no chat'}" FontSize="12.5" /></StackPanel>
+          </Button>
+          <Button Classes="fantasma" Command="{Binding SalvarCommand}" IsEnabled="{Binding Modificada}" IsVisible="{Binding !EhImagem}" ToolTip.Tip="{l:T 'Salvar (Ctrl+S)'}">
+            <StackPanel Orientation="Horizontal" Spacing="6"><v:Icone Nome="salvar" Tamanho="14" /><TextBlock Text="{l:T 'Salvar'}" FontSize="12.5" /></StackPanel>
+          </Button>
+        </StackPanel>
+      </Grid>
+    </Border>
+    <Border DockPanel.Dock="Top" Classes="aviso" IsVisible="{Binding MudouNoDisco}" Margin="12,8,12,0">
+      <Grid ColumnDefinitions="*,Auto,Auto">
+        <TextBlock Text="{l:T 'O arquivo mudou no disco (talvez pelo agente) e você tem alterações não salvas.'}" TextWrapping="Wrap" VerticalAlignment="Center" />
+        <Button Grid.Column="1" Classes="contorno" Content="{l:T 'Recarregar'}" Command="{Binding RecarregarCommand}" Margin="8,0,0,0" />
+        <Button Grid.Column="2" Classes="fantasma" Content="{l:T 'Manter o meu'}" Command="{Binding ManterMeuCommand}" Margin="4,0,0,0" />
+      </Grid>
+    </Border>
+    <Panel>
+      <ae:TextEditor x:Name="Texto" IsVisible="{Binding MostraTexto}" ShowLineNumbers="True" FontFamily="{DynamicResource Mono}"
+                     FontSize="13" Padding="6,4" />
+      <DockPanel IsVisible="{Binding EhImagem}">
+        <TextBlock DockPanel.Dock="Bottom" Classes="fraco" Text="{Binding InfoImagem}" HorizontalAlignment="Center" Margin="0,6,0,10" FontSize="12" />
+        <Image x:Name="Figura" Source="{Binding Imagem}" Stretch="Uniform" StretchDirection="DownOnly" Margin="16" />
+      </DockPanel>
+      <StackPanel IsVisible="{Binding !Legivel}" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="8">
+        <v:Icone Nome="arquivo" Tamanho="28" Classes="fraco" HorizontalAlignment="Center" />
+        <TextBlock Classes="suave" Text="{Binding Problema}" HorizontalAlignment="Center" />
+      </StackPanel>
+    </Panel>
+  </DockPanel>
+</UserControl>

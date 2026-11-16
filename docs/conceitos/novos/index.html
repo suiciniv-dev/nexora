@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Nexora · antes e depois</title>
+<style>
+body{margin:0;background:#0b0a0a;color:#ece9e4;font:15px/1.5 "Segoe UI",system-ui,sans-serif;padding:28px 36px 60px}
+h1{font-size:24px;margin:0 0 4px}
+h2{font-size:19px;margin:44px 0 6px}
+p{color:#a8a39b;margin:0 0 14px;max-width:980px}
+.linha{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+figure{margin:0}
+figcaption{font-size:12.5px;color:#8f8a83;margin:6px 2px 0}
+img{width:100%;border-radius:10px;border:1px solid rgba(255,255,255,.12);display:block}
+.tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:6px;background:rgba(148,139,174,.25);color:#d8d2ec;margin-right:8px}
+.antes{background:rgba(255,255,255,.08);color:#c4c0b9}
+</style>
+</head>
+<body>
+<h1>Nexora · três conceitos de layout</h1>
+<p>Mesmo tema escuro, vidro e cores de hoje. Muda o esqueleto: sai o trilho de ícones e as abas de arquivo, entram os mascotes como avatar de cada sessão e o anel de contexto. Cada conceito tem a tela inicial e a tela com uma sessão aberta. Os dados são de exemplo.</p>
+
+<h2><span class="tag antes">Antes</span>Hoje</h2>
+<div class="linha">
+ <figure><img src="antes-quadro.png"><figcaption>Quadro de sessões</figcaption></figure>
+ <figure><img src="antes-conversa.png"><figcaption>Nova conversa</figcaption></figure>
+</div>
+
+<h2><span class="tag">1</span>Mesa de comando</h2>
+<p>Sem trilho e sem abas. As sessões viram uma fileira de cartões grandes, ordenada por urgência, com Permitir, diff e Commit dentro do cartão. As telas de apoio ficam num dock embaixo. Abrir uma sessão expande o cartão, e as outras descem para uma trilha.</p>
+<div class="linha">
+ <figure><img src="mesa-inicio.png"><figcaption>Início</figcaption></figure>
+ <figure><img src="mesa-sessao.png"><figcaption>Sessão aberta</figcaption></figure>
+</div>
+
+<h2><span class="tag">2</span>Rio de sessões</h2>
+<p>Uma coluna fina de projetos à esquerda, com anel de estado em cada ícone. As abas viram chips vivos com o mascote. O centro é uma linha do tempo do que aconteceu, onde dá para agir. À direita fica o painel do dia, que vira a conversa quando uma sessão abre.</p>
+<div class="linha">
+ <figure><img src="rio-inicio.png"><figcaption>Início</figcaption></figure>
+ <figure><img src="rio-sessao.png"><figcaption>Sessão aberta</figcaption></figure>
+</div>
+
+<h2><span class="tag">3</span>Constelação</h2>
+<p>O canvas do orquestrador vira a tela inicial. Projetos são nós grandes, sessões orbitam com o mascote e o anel, e as linhas levam a issue, a branch e o PR. Abrir uma sessão afasta o resto e ancora a conversa ao nó. O replay aparece como uma linha do tempo dos passos.</p>
+<div class="linha">
+ <figure><img src="constelacao-inicio.png"><figcaption>Início</figcaption></figure>
+ <figure><img src="constelacao-sessao.png"><figcaption>Sessão aberta</figcaption></figure>
+</div>
+</body>
+</html>

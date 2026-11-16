@@ -1,0 +1,958 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bem-vindo ao Nexora</title>
+<style>
+  :root {
+    --fundo: #0E0D0C; --vidro: rgba(28, 26, 30, .72); --vidro2: rgba(255, 255, 255, .045); --linha: rgba(255, 255, 255, .1); --linha2: rgba(255, 255, 255, .2);
+    --txt: #F2F0EC; --txt2: #C4BFB8; --txt3: #8F8A84; --marca: #948BAE; --marca-clara: #BDB4DA; --marca-fim: #5B5470;
+    --verde: #7BCB9F; --laranja: #F0A860; --cod: #E6C38F;
+    --ui: "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+    --titulo: "Segoe UI Variable Display", "Segoe UI", system-ui, sans-serif;
+    --mono: "Cascadia Mono", Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html, body { height: 100%; margin: 0; overflow: hidden; }
+  body { background: var(--fundo); color: var(--txt); font: 17px/1.5 var(--ui); user-select: none; cursor: default; opacity: 0; transition: opacity .7s ease; -webkit-font-smoothing: antialiased; }
+  body.aceso { opacity: 1; }
+  canvas#grafo { position: fixed; inset: 0; width: 100vw; height: 100vh; }
+  .veu { position: fixed; inset: 0; pointer-events: none;
+    background: radial-gradient(ellipse 55% 50% at 80% 6%, rgba(148, 139, 174, .17), transparent 70%),
+                radial-gradient(ellipse 60% 55% at 8% 100%, rgba(91, 84, 112, .2), transparent 70%),
+                radial-gradient(ellipse 120% 100% at 50% 50%, transparent 50%, rgba(0, 0, 0, .6)); }
+  #tela { position: absolute; left: 0; top: 0; width: 1600px; height: 900px; transform-origin: 0 0; }
+  button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+  button:disabled { cursor: default; opacity: .45; }
+  :focus { outline: none; }
+  :focus-visible { outline: 2px solid var(--marca-clara); outline-offset: 3px; }
+  svg.i { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+
+  #hud { position: absolute; left: 56px; right: 56px; top: 34px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; }
+  .marca { display: flex; align-items: center; gap: 12px; }
+  .marca img { width: 34px; height: 34px; }
+  .marca strong { font: 600 19px var(--titulo); }
+  .marca span { color: var(--txt3); font-size: 14px; }
+  #pontos { display: flex; gap: 8px; }
+  #pontos i { width: 9px; height: 9px; border-radius: 5px; background: rgba(255, 255, 255, .16); transition: width .35s, background .35s; }
+  #pontos i.feito { background: rgba(189, 180, 218, .55); }
+  #pontos i.agora { width: 28px; background: linear-gradient(90deg, var(--marca-clara), var(--marca)); box-shadow: 0 0 12px rgba(148, 139, 174, .5); }
+  .hudbtn { justify-self: end; display: inline-flex; align-items: center; gap: 10px; padding: 9px 16px; border-radius: 12px; color: var(--txt2); font-size: 16px; transition: background .2s, color .2s; }
+  .hudbtn:hover { background: rgba(255, 255, 255, .07); color: var(--txt); }
+  kbd { font: 600 13px var(--ui); padding: 2px 8px 3px; border-radius: 7px; background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .2); border-bottom-width: 2px; color: var(--txt); white-space: nowrap; }
+
+  .cena { position: absolute; inset: 0; padding: 104px 0 150px; display: none; flex-direction: column; align-items: center; gap: 34px; }
+  .cena.ativa { display: flex; }
+  .cena.ativa .cab, .cena.ativa .corpo { animation: sobe .5s cubic-bezier(.2, .8, .2, 1) both; }
+  .cena.ativa .corpo { animation-delay: .06s; }
+  .cena.ativa.voltando .cab, .cena.ativa.voltando .corpo { animation-name: desce; }
+  @keyframes sobe { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+  @keyframes desce { from { opacity: 0; transform: translateY(-18px); } to { opacity: 1; transform: none; } }
+  .cab { text-align: center; display: grid; justify-items: center; gap: 14px; max-width: 1100px; }
+  .olho { font: 600 14px var(--ui); letter-spacing: .16em; text-transform: uppercase; color: var(--marca-clara); }
+  h1 { font: 600 56px/1.08 var(--titulo); margin: 0; letter-spacing: -.015em; text-wrap: balance; text-shadow: 0 4px 30px rgba(0, 0, 0, .5); }
+  .sub { margin: 2px 0 0; font-size: 21px; color: var(--txt2); max-width: 900px; text-wrap: pretty; }
+  .corpo { width: 1240px; min-height: 0; display: flex; flex-direction: column; align-items: center; gap: 22px; }
+
+  #rodape { position: absolute; left: 0; right: 0; bottom: 56px; display: flex; justify-content: center; align-items: center; gap: 14px; }
+  .primario { display: inline-flex; align-items: center; gap: 10px; padding: 15px 38px; border-radius: 15px; background: #F4F2EE; color: #161514; font: 600 19px var(--ui); box-shadow: 0 10px 30px rgba(0, 0, 0, .35); transition: transform .15s, background .2s; }
+  .primario:hover:not(:disabled) { background: #fff; transform: translateY(-1px); }
+  .fantasma { padding: 14px 24px; border-radius: 14px; color: var(--txt2); font-size: 18px; transition: background .2s, color .2s; }
+  .fantasma:hover { background: rgba(255, 255, 255, .07); color: var(--txt); }
+  .contorno { display: inline-flex; align-items: center; gap: 9px; padding: 11px 18px; border-radius: 12px; border: 1px solid var(--linha2); background: rgba(255, 255, 255, .04); color: var(--txt); font-size: 16px; transition: background .2s, border-color .2s; }
+  .contorno:hover:not(:disabled) { background: rgba(255, 255, 255, .09); border-color: rgba(255, 255, 255, .32); }
+  .claro { display: inline-flex; align-items: center; gap: 9px; padding: 11px 20px; border-radius: 12px; background: #F4F2EE; color: #161514; font-weight: 600; font-size: 16px; }
+  .claro:hover:not(:disabled) { background: #fff; }
+  .vidro { background: var(--vidro); border: 1px solid var(--linha); border-radius: 22px; backdrop-filter: blur(18px) saturate(1.1); box-shadow: 0 24px 70px rgba(0, 0, 0, .4); }
+
+  .boas { display: grid; grid-template-columns: 640px 1fr; gap: 56px; align-items: center; width: 100%; }
+  .recursos { display: grid; gap: 22px; }
+  .recurso { display: grid; grid-template-columns: 52px 1fr; gap: 18px; align-items: start; }
+  .recurso .ic { width: 52px; height: 52px; border-radius: 15px; display: grid; place-items: center; background: rgba(255, 255, 255, .06); border: 1px solid var(--linha); }
+  .recurso .ic svg { width: 24px; height: 24px; }
+  .recurso b { display: block; font: 600 21px var(--titulo); margin-bottom: 2px; }
+  .recurso span { color: var(--txt2); font-size: 17px; }
+  .mini { position: relative; width: 640px; height: 350px; padding: 16px; --pad: 16px; --vao: 10px; --col: calc((640px - 2px - 2 * var(--pad) - 2 * var(--vao)) / 3); }
+  .mini .cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; height: 100%; }
+  .mini .col { background: rgba(255, 255, 255, .03); border: 1px solid var(--linha); border-radius: 14px; padding: 12px 10px; }
+  .mini .col h4 { margin: 0; font-size: 14px; font-weight: 600; color: var(--txt2); display: flex; gap: 8px; align-items: center; }
+  .mini .col h4 i { width: 8px; height: 8px; border-radius: 50%; background: var(--c); }
+  .mc { position: absolute; width: calc(var(--col) - 22px); height: 84px; border-radius: 11px; background: rgba(255, 255, 255, .075); border: 1px solid var(--linha); padding: 11px 12px; }
+  .mc .t { display: flex; gap: 8px; align-items: center; font-weight: 600; font-size: 14px; white-space: nowrap; overflow: hidden; }
+  .mc .t s { text-decoration: none; width: 20px; height: 20px; border-radius: 6px; flex: none; background: linear-gradient(160deg, var(--marca), var(--marca-fim)); }
+  .mc .l { height: 5px; border-radius: 3px; background: rgba(255, 255, 255, .1); margin-top: 14px; overflow: hidden; }
+  .mc .l b { display: block; height: 100%; width: 40%; background: var(--txt2); border-radius: 3px; animation: barra 8s ease-in-out infinite; }
+  .mc.pede { border-color: rgba(240, 168, 96, .5); background: rgba(240, 168, 96, .1); }
+  .mc .bt { margin-top: 10px; display: inline-block; padding: 2px 11px; border-radius: 7px; background: #F4F2EE; color: #161514; font-weight: 600; font-size: 12.5px; animation: clique 8s ease-in-out infinite; }
+  .mc-a { left: calc(var(--pad) + 11px); top: 62px; }
+  .mc-b { left: calc(var(--pad) + var(--col) + var(--vao) + 11px); top: 62px; animation: muda 8s cubic-bezier(.6, .05, .25, 1) infinite; }
+  .mc-c { left: calc(var(--pad) + var(--col) + var(--vao) + 11px); top: 156px; }
+  .mc-d { left: calc(var(--pad) + 2 * (var(--col) + var(--vao)) + 11px); top: 62px; }
+  @keyframes muda { 0%, 35% { transform: none; } 50%, 85% { transform: translate(calc(var(--col) + var(--vao)), 94px); } 100% { transform: none; } }
+  @keyframes barra { 0% { width: 30%; } 40% { width: 92%; } 50%, 100% { width: 100%; } }
+  @keyframes clique { 0%, 60% { transform: none; } 64% { transform: scale(.9); } 68%, 100% { transform: none; } }
+
+  .grade { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; width: 100%; }
+  .req { padding: 18px 22px; display: grid; grid-template-columns: 46px minmax(0, 1fr); gap: 16px; align-items: start; }
+  .estado { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; }
+  .estado.ok { background: rgba(123, 203, 159, .14); color: var(--verde); }
+  .estado.falta { background: rgba(240, 168, 96, .14); color: var(--laranja); }
+  .estado.rodando { background: rgba(189, 180, 218, .14); color: var(--marca-clara); }
+  .estado.rodando svg { animation: gira 1s linear infinite; }
+  @keyframes gira { to { transform: rotate(360deg); } }
+  .req h3 { margin: 0; font: 600 21px var(--titulo); display: flex; align-items: baseline; gap: 10px; }
+  .req h3 small { font: 500 13px var(--ui); color: var(--verde); }
+  .req h3 small.falta { color: var(--laranja); }
+  .req h3 small.rodando { color: var(--marca-clara); }
+  .req p { margin: 2px 0 0; color: var(--txt3); font-size: 15px; }
+  .req .det { margin-top: 6px; font: 14px var(--mono); color: var(--txt2); overflow-wrap: anywhere; }
+  .req .acoes { margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap; }
+  .req .acoes .claro, .req .acoes .contorno { padding: 8px 16px; font-size: 15px; }
+  .req .linhaprog { margin-top: 10px; font: 13.5px var(--mono); color: var(--marca-clara); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .guia { width: 960px; padding: 26px 32px; display: grid; gap: 16px; }
+  .guia header { display: flex; align-items: center; gap: 14px; }
+  .guia header .estado { width: 40px; height: 40px; }
+  .guia h3 { margin: 0; font: 600 24px var(--titulo); }
+  .guia header .fantasma { margin-left: auto; font-size: 16px; padding: 8px 14px; display: inline-flex; gap: 8px; align-items: center; }
+  .guia ol { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; counter-reset: passo; }
+  .guia li { counter-increment: passo; display: grid; grid-template-columns: 32px 1fr; gap: 12px; align-items: center; color: var(--txt2); font-size: 17px; }
+  .guia li::before { content: counter(passo); width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: rgba(255, 255, 255, .07); color: var(--txt); font-weight: 600; font-size: 15px; }
+  .guia .cmd { margin-top: 0; }
+  .guia .linha-acoes { justify-content: flex-start; }
+  .cmd { margin-top: 12px; display: flex; gap: 10px; align-items: center; background: rgba(0, 0, 0, .38); border-radius: 11px; padding: 9px 9px 9px 14px; font: 15px var(--mono); color: var(--cod); user-select: text; }
+  .cmd span { flex: 1; white-space: nowrap; overflow-x: auto; }
+  .cmd button { font: 14px var(--ui); color: var(--txt2); padding: 5px 12px; border-radius: 8px; border: 1px solid var(--linha2); display: inline-flex; gap: 6px; align-items: center; }
+  .linha-acoes { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; justify-content: center; }
+  .nota { color: var(--txt3); font-size: 15px; }
+
+  .pilula { display: inline-flex; align-items: center; gap: 14px; padding: 14px 28px; border-radius: 999px; background: rgba(20, 19, 22, .75); border: 1.5px solid var(--linha); font: 600 24px var(--titulo); }
+  .pilula i { width: 14px; height: 14px; border-radius: 50%; background: var(--txt3); }
+  .pilula.espera i { background: var(--laranja); animation: pulsa 1.6s ease-in-out infinite; }
+  .pilula.ok { border-color: rgba(123, 203, 159, .45); }
+  .pilula.ok i { background: var(--verde); box-shadow: 0 0 14px rgba(123, 203, 159, .7); }
+  @keyframes pulsa { 50% { box-shadow: 0 0 0 8px rgba(240, 168, 96, 0); opacity: .55; } 0%, 100% { box-shadow: 0 0 0 0 rgba(240, 168, 96, .5); } }
+  .etapas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; width: 1040px; }
+  .etapa { padding: 22px; display: grid; gap: 10px; transition: opacity .4s, border-color .4s; }
+  .etapa .n { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: rgba(255, 255, 255, .07); font-weight: 600; }
+  .etapa b { font: 600 19px var(--titulo); }
+  .etapa span { color: var(--txt2); font-size: 15.5px; }
+  .etapas.feitas .etapa { opacity: .55; }
+  .etapas.feitas .etapa .n { background: rgba(123, 203, 159, .16); color: var(--verde); }
+
+  .proj { display: grid; grid-template-columns: 1fr 420px; gap: 20px; width: 100%; align-items: start; }
+  .painel { padding: 20px 22px; display: grid; gap: 14px; }
+  .painel header { display: flex; align-items: center; gap: 12px; }
+  .painel header h3 { margin: 0; font: 600 20px var(--titulo); }
+  .painel header .dir { margin-left: auto; }
+  .painel .nota { margin-top: -8px; }
+  .painel header .claro { padding: 9px 16px; font-size: 15px; }
+  .linhanota { display: flex; align-items: baseline; gap: 12px; margin-top: -8px; }
+  .linhanota .nota { margin: 0; flex: 1; }
+  .link { color: var(--marca-clara); font-size: 15px; }
+  .link:hover { text-decoration: underline; }
+  .itens { display: grid; gap: 6px; max-height: 330px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: rgba(255, 255, 255, .18) transparent; padding-right: 4px; }
+  .item { display: grid; grid-template-columns: 24px 22px 1fr auto; gap: 12px; align-items: center; padding: 9px 12px; border-radius: 12px; background: rgba(255, 255, 255, .035); border: 1px solid transparent; cursor: pointer; text-align: left; width: 100%; }
+  .item:hover { border-color: var(--linha); }
+  .item b { font-weight: 600; display: block; }
+  .item small { color: var(--txt3); font: 12.5px var(--mono); display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .item .tag { font-size: 12.5px; color: var(--txt3); border: 1px solid var(--linha); border-radius: 999px; padding: 1px 9px; }
+  .marcar { width: 22px; height: 22px; border-radius: 7px; border: 1.5px solid var(--linha2); display: grid; place-items: center; color: transparent; }
+  .item[aria-checked="true"] .marcar { background: var(--marca-clara); border-color: var(--marca-clara); color: #17151C; }
+  .marcar svg { width: 15px; height: 15px; stroke-width: 3; }
+  .vazio { padding: 28px; text-align: center; color: var(--txt3); border: 1px dashed var(--linha2); border-radius: 14px; }
+  .raiz { display: grid; grid-template-columns: 22px 1fr auto; gap: 10px; align-items: center; padding: 9px 8px 9px 12px; border-radius: 12px; background: rgba(255, 255, 255, .035); }
+  .raiz div { font: 14px var(--mono); overflow-wrap: anywhere; }
+  .raiz small { display: block; font: 12.5px var(--ui); color: var(--laranja); }
+  .raiz button { color: var(--txt3); padding: 4px 10px; border-radius: 8px; font-size: 14px; }
+  .raiz button:hover { background: rgba(255, 255, 255, .07); color: var(--txt); }
+  .conta { display: grid; grid-template-columns: 38px minmax(0, 1fr) auto; gap: 14px; align-items: center; padding: 10px 12px; border-radius: 12px; background: rgba(255, 255, 255, .035); }
+  .conta .avatar { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; background: rgba(255, 255, 255, .08); font: 600 16px var(--titulo); }
+  .conta b { font-weight: 600; display: block; font-size: 17px; }
+  .conta small { color: var(--txt3); font-size: 13.5px; }
+  .conta .tag { font-size: 13px; color: var(--verde); border: 1px solid rgba(123, 203, 159, .4); border-radius: 999px; padding: 2px 11px; }
+  .conta button { color: var(--txt2); padding: 6px 12px; border-radius: 9px; font-size: 14px; border: 1px solid var(--linha2); }
+  .conta button:hover { background: rgba(255, 255, 255, .07); color: var(--txt); }
+  #ghLinha { font: 13.5px var(--mono); color: var(--marca-clara); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .sugestao { display: flex; gap: 10px; align-items: center; padding: 9px 12px; border-radius: 12px; border: 1px dashed rgba(189, 180, 218, .45); color: var(--txt); text-align: left; width: 100%; font-size: 14.5px; }
+  .sugestao:hover { background: rgba(189, 180, 218, .08); }
+  .sugestao span { font-family: var(--mono); font-size: 14px; flex: 1; }
+  .sugestao em { font-style: normal; color: var(--marca-clara); font-size: 13.5px; }
+  .total { font: 600 17px var(--titulo); color: var(--txt); padding-top: 4px; border-top: 1px solid var(--linha); padding-top: 12px; }
+
+  .temas { display: flex; gap: 20px; }
+  .tema { width: 300px; padding: 14px; border-radius: 22px; border: 2px solid var(--linha); background: rgba(20, 19, 22, .6); display: grid; gap: 14px; text-align: left; transition: border-color .2s, transform .15s; }
+  .tema:hover { transform: translateY(-2px); border-color: rgba(255, 255, 255, .25); }
+  .tema[aria-pressed="true"] { border-color: var(--marca-clara); box-shadow: 0 0 0 4px rgba(189, 180, 218, .16); }
+  .tema b { font: 600 21px var(--titulo); padding: 0 4px; }
+  .tema .previa { height: 170px; border-radius: 13px; display: grid; grid-template-columns: 44px 1fr; overflow: hidden; border: 1px solid rgba(255, 255, 255, .12); }
+  .tema .previa .l { background: var(--l); }
+  .tema .previa .c { background: var(--f); padding: 20px; display: grid; gap: 12px; align-content: start; }
+  .tema .previa i { display: block; height: 12px; border-radius: 6px; background: var(--t); width: 62%; }
+  .tema .previa em { display: block; height: 52px; border-radius: 10px; background: var(--s); }
+  .tema .previa u { display: block; height: 12px; border-radius: 6px; width: 38%; background: var(--m); }
+  .tema .dupla { height: 170px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .tema .dupla .previa { height: 100%; grid-template-columns: 22px 1fr; }
+  .tema .dupla .previa .c { padding: 14px; }
+  .mais-temas { align-self: center; color: var(--txt2); padding: 7px 14px; border-radius: 10px; border: 1px solid var(--linha2); font-size: 15px; }
+  .mais-temas:hover { background: rgba(255, 255, 255, .07); color: var(--txt); }
+  .outros { display: grid; gap: 10px; justify-items: center; max-width: 980px; }
+  .outros[hidden] { display: none; }
+  .outros .lista { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+  .outros small { color: var(--txt3); font-size: 14px; }
+  .mini { width: 150px; padding: 8px; border-radius: 14px; border: 2px solid var(--linha); background: rgba(20, 19, 22, .6); display: grid; gap: 8px; text-align: left; font-size: 14px; }
+  .mini:hover { border-color: rgba(255, 255, 255, .25); }
+  .mini[aria-pressed="true"] { border-color: var(--marca-clara); }
+  .mini .previa { height: 64px; border-radius: 8px; display: grid; grid-template-columns: 18px 1fr; overflow: hidden; border: 1px solid rgba(255, 255, 255, .12); }
+  .mini .previa .l { background: var(--l); }
+  .mini .previa .c { background: var(--f); padding: 10px; display: grid; gap: 6px; align-content: start; }
+  .mini .previa i { display: block; height: 7px; border-radius: 4px; background: var(--t); width: 62%; }
+  .mini .previa u { display: block; height: 7px; border-radius: 4px; width: 38%; background: var(--m); }
+  .chave { display: inline-flex; gap: 14px; align-items: center; cursor: pointer; color: var(--txt2); font-size: 18px; }
+  .chave input { appearance: none; width: 46px; height: 26px; border-radius: 13px; background: rgba(255, 255, 255, .15); position: relative; cursor: pointer; margin: 0; transition: background .15s; }
+  .chave input::after { content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #F4F2EE; transition: transform .15s; }
+  .chave input:checked { background: var(--marca); }
+  .chave input:checked::after { transform: translateX(20px); }
+
+  .resumo { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+  .chip { display: inline-flex; align-items: center; gap: 9px; padding: 10px 18px; border-radius: 999px; background: rgba(20, 19, 22, .7); border: 1px solid var(--linha); font-size: 16px; color: var(--txt2); }
+  .chip.ok svg { color: var(--verde); }
+  .chip.falta svg { color: var(--laranja); }
+  .teclas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; width: 1100px; }
+  .tecla { padding: 18px 20px; display: grid; gap: 10px; justify-items: start; }
+  .tecla span { color: var(--txt2); font-size: 16px; }
+  .feito { width: 92px; height: 92px; border-radius: 28px; display: grid; place-items: center; background: linear-gradient(160deg, var(--marca), var(--marca-fim)); box-shadow: 0 0 60px rgba(148, 139, 174, .45); }
+  .feito svg { width: 44px; height: 44px; stroke: #fff; stroke-width: 2.4; }
+  .parado .cena.ativa .cab, .parado .cena.ativa .corpo { animation: none; }
+  @media (prefers-reduced-motion: reduce) { .cena.ativa .cab, .cena.ativa .corpo, .mc-b, .mc .l b, .mc .bt, .pilula.espera i, .estado.rodando svg { animation: none; } body { transition: none; } }
+</style>
+</head>
+<body>
+<canvas id="grafo" aria-hidden="true"></canvas>
+<div class="veu"></div>
+<div id="tela">
+  <header id="hud">
+    <div class="marca"><img src="nexora.png" alt=""><strong>Nexora</strong><span id="versao"></span></div>
+    <div id="pontos" aria-hidden="true"></div>
+    <button class="hudbtn" id="pular" title="Dá para abrir de novo pelo botão de ajuda, na barra da esquerda">Pular <kbd>Esc</kbd></button>
+  </header>
+
+  <section class="cena" data-cena="0">
+    <div class="cab">
+      <span class="olho">Bem-vindo ao Nexora</span>
+      <h1>Suas conversas com o Claude Code,<br>num lugar só.</h1>
+      <p class="sub">Seus projetos, conversas e arquivos juntos. Quem precisa de você aparece primeiro.</p>
+    </div>
+    <div class="corpo">
+      <div class="boas">
+        <div class="mini vidro" aria-hidden="true">
+          <div class="cols">
+            <div class="col" style="--c:var(--laranja)"><h4><i></i>Precisa de você</h4></div>
+            <div class="col" style="--c:var(--txt)"><h4><i></i>Trabalhando</h4></div>
+            <div class="col" style="--c:var(--verde)"><h4><i></i>Prontas</h4></div>
+          </div>
+          <div class="mc mc-a pede"><div class="t"><s></s>Migration</div><span class="bt">Permitir</span></div>
+          <div class="mc mc-b"><div class="t"><s></s>Erro na tela</div><div class="l"><b></b></div></div>
+          <div class="mc mc-c"><div class="t"><s></s>Orquestrador</div><div class="l"><b style="animation-delay:-3s"></b></div></div>
+          <div class="mc mc-d"><div class="t"><s></s>Notas offline</div><div class="l"><b style="width:100%;animation:none"></b></div></div>
+        </div>
+        <div class="recursos">
+          <div class="recurso"><span class="ic" data-i="quadro"></span><div><b>Todas as conversas num lugar</b><span>Veja o que cada agente está fazendo. Quem precisa de você aparece primeiro.</span></div></div>
+          <div class="recurso"><span class="ic" data-i="check"></span><div><b>Aprove os pedidos sem caçar janela</b><span>Quando um agente pede para rodar um comando, você permite ou nega ali mesmo.</span></div></div>
+          <div class="recurso"><span class="ic" data-i="camadas"></span><div><b>Cada conversa no projeto certo</b><span>Escolha a pasta do seu código uma vez. As conversas novas já começam nela.</span></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cena" data-cena="1">
+    <div class="cab">
+      <span class="olho">Passo 1 de 5 · Programas</span>
+      <h1>O que o Nexora precisa</h1>
+      <p class="sub" id="subReq"></p>
+    </div>
+    <div class="corpo">
+      <div class="grade" id="requisitos"></div>
+      <div class="guia vidro" id="guia" hidden></div>
+      <div class="linha-acoes" id="acoesReq">
+        <button class="claro" id="instalarTudo" hidden><span data-i="baixar"></span><span id="textoTudo">Instalar o que falta</span></button>
+        <button class="contorno" id="verificar"><span data-i="atualizar"></span>Verificar de novo</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="cena" data-cena="2">
+    <div class="cab">
+      <span class="olho">Passo 2 de 5 · Conta</span>
+      <h1>Entrar no Claude</h1>
+      <p class="sub">O Nexora usa o seu Claude Code, com a sua conta e o seu plano. Ele não vê sua senha nem seu token.</p>
+    </div>
+    <div class="corpo">
+      <div class="pilula" id="pilula"><i></i><span id="textoLogin"></span></div>
+      <div class="etapas" id="etapas">
+        <div class="etapa vidro"><span class="n">1</span><b>Clique em Entrar</b><span>Abre um terminal com o Claude Code pedindo o login.</span></div>
+        <div class="etapa vidro"><span class="n">2</span><b>Confirme no navegador</b><span>Entre com a sua conta do Claude e autorize.</span></div>
+        <div class="etapa vidro"><span class="n">3</span><b>Volte aqui</b><span>O Nexora percebe o login sozinho. Depois, pode fechar o terminal.</span></div>
+      </div>
+      <div class="linha-acoes" id="acoesLogin">
+        <button class="claro" id="entrar"><span data-i="entrar"></span>Entrar com o Claude</button>
+        <button class="contorno" id="jaEntrei">Já entrei</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="cena" data-cena="3">
+    <div class="cab">
+      <span class="olho">Passo 3 de 5 · Projetos</span>
+      <h1>Seus projetos</h1>
+      <p class="sub" id="subProj">Um projeto é a pasta do seu código. Traga os que você já abriu no VS Code ou escolha as pastas.</p>
+    </div>
+    <div class="corpo">
+      <div class="proj">
+        <div class="painel vidro">
+          <header><span data-i="vscode"></span><h3>Encontrados no seu VS Code</h3><button class="claro dir" id="importarAchados" hidden><span data-i="baixar"></span><span id="textoImportar"></span></button></header>
+          <div class="linhanota"><span class="nota" id="notaVs"></span><button class="link" id="marcarTodos" hidden>Desmarcar todos</button></div>
+          <div class="itens" id="achados"></div>
+        </div>
+        <div class="painel vidro">
+          <header><span data-i="pasta"></span><h3>Pastas vigiadas</h3></header>
+          <span class="nota">Projetos novos nessas pastas aparecem sozinhos.</span>
+          <div class="itens" id="raizes" style="max-height:130px"></div>
+          <div id="sugestoes" style="display:grid;gap:6px"></div>
+          <div class="linha-acoes" style="justify-content:flex-start;flex-wrap:wrap">
+            <button class="contorno" id="adicionarProjeto"><span data-i="pasta"></span>Pasta de um projeto</button>
+            <button class="contorno" id="adicionarPasta"><span data-i="mais"></span>Pasta com vários projetos</button>
+            <button class="contorno" id="importar"><span data-i="subir"></span>Um .code-workspace</button>
+          </div>
+          <span class="total" id="textoProjetos"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cena" data-cena="4">
+    <div class="cab">
+      <span class="olho">Passo 4 de 5 · GitHub (opcional)</span>
+      <h1>Issues e PRs do GitHub</h1>
+      <p class="sub">Com o GitHub CLI, o Nexora mostra as issues dos seus projetos e o estado do PR de cada sessão. Pode pular: o resto funciona sem ele.</p>
+    </div>
+    <div class="corpo">
+      <div class="painel vidro" style="width:820px">
+        <header><span data-i="git"></span><h3 id="ghTitulo">GitHub CLI</h3></header>
+        <span class="nota" id="ghNota"></span>
+        <div class="itens" id="ghContas" style="max-height:220px"></div>
+        <div id="ghLinha" hidden></div>
+        <div class="linha-acoes" style="justify-content:flex-start">
+          <button class="claro" id="ghInstalar" hidden><span data-i="baixar"></span>Instalar o GitHub CLI</button>
+          <button class="claro" id="ghEntrar" hidden><span data-i="entrar"></span>Entrar numa conta</button>
+          <button class="contorno" id="ghOutra" hidden><span data-i="mais"></span>Adicionar outra conta</button>
+          <button class="contorno" id="ghVerificar"><span data-i="atualizar"></span>Verificar de novo</button>
+        </div>
+        <span class="nota" id="ghDica">Usa duas contas, como a da empresa e a pessoal? Entre nas duas. Cada repositório usa a conta que tem acesso, sem trocar a principal.</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="cena" data-cena="5">
+    <div class="cab">
+      <span class="olho">Passo 5 de 5 · Visual</span>
+      <h1>Escolha o visual</h1>
+      <p class="sub">Comece por um destes. Em Configurações há mais temas, inclusive animados, e dá para aumentar o texto.</p>
+    </div>
+    <div class="corpo">
+      <div class="temas">
+        <button class="tema" data-tema="sistema" aria-pressed="true">
+          <div class="dupla">
+            <div class="previa" style="--l:#121110;--f:#1A1918;--t:#F2F0EC;--s:#2E2B28;--m:#948BAE"><div class="l"></div><div class="c"><i></i><em></em><u></u></div></div>
+            <div class="previa" style="--l:#EFEDEA;--f:#F7F6F4;--t:#1C1B1A;--s:#E9E6E2;--m:#5B5470"><div class="l"></div><div class="c"><i></i><em></em><u></u></div></div>
+          </div>
+          <b>Seguir o sistema</b>
+        </button>
+        <button class="tema" data-tema="padrao" aria-pressed="false">
+          <div class="previa" style="--l:#121110;--f:#1A1918;--t:#F2F0EC;--s:#2E2B28;--m:#948BAE"><div class="l"></div><div class="c"><i></i><em></em><u></u></div></div>
+          <b>Escuro</b>
+        </button>
+        <button class="tema" data-tema="padrao-claro" aria-pressed="false">
+          <div class="previa" style="--l:#EFEDEA;--f:#F7F6F4;--t:#1C1B1A;--s:#E9E6E2;--m:#5B5470"><div class="l"></div><div class="c"><i></i><em></em><u></u></div></div>
+          <b>Claro</b>
+        </button>
+      </div>
+      <button class="mais-temas" id="maisTemas" aria-expanded="false" aria-controls="outrosTemas">Mais temas</button>
+      <div class="outros" id="outrosTemas" hidden>
+        <small>Os temas animados só se mexem com o fundo de vidro ligado.</small>
+        <div class="lista" id="listaTemas"></div>
+      </div>
+      <label class="chave"><input type="checkbox" id="vidro">Fundo de vidro, com os temas animados em movimento</label>
+    </div>
+  </section>
+
+  <section class="cena" data-cena="6">
+    <div class="cab">
+      <div class="feito"><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></div>
+      <h1>Tudo pronto</h1>
+      <p class="sub">Alguns atalhos para começar. O botão de ajuda, na barra da esquerda, abre esta apresentação de novo.</p>
+    </div>
+    <div class="corpo">
+      <div class="resumo" id="resumo"></div>
+      <div class="teclas">
+        <div class="tecla vidro"><kbd>Ctrl+N</kbd><span>Nova sessão no projeto da aba atual</span></div>
+        <div class="tecla vidro"><kbd>Ctrl+K</kbd><span>Procurar conversas e projetos</span></div>
+        <div class="tecla vidro"><kbd>Ctrl+0</kbd><span>Quadro de sessões</span></div>
+        <div class="tecla vidro"><kbd>Ctrl+B</kbd><span>Mostrar ou esconder as conversas</span></div>
+        <div class="tecla vidro"><kbd>Ctrl+Alt+B</kbd><span>Painel da sessão: contexto, arquivos e git</span></div>
+        <div class="tecla vidro"><kbd>Ctrl+Shift+O</kbd><span>Orquestrador, que divide o trabalho entre sessões</span></div>
+        <div class="tecla vidro"><kbd>F1</kbd><span>Ver todos os atalhos de teclado</span></div>
+      </div>
+    </div>
+  </section>
+
+  <footer id="rodape">
+    <button class="fantasma" id="voltar">Voltar</button>
+    <button class="primario" id="avancar">Começar</button>
+  </footer>
+</div>
+
+<script>
+  const ponte = window.chrome && window.chrome.webview;
+  const idioma = new URLSearchParams(location.search).get("lang") === "en" ? "en" : "pt";
+  const EN = {
+    "Bem-vindo ao Nexora": "Welcome to Nexora",
+    "Dá para abrir de novo pelo botão de ajuda, na barra da esquerda": "You can open this again from the help button in the left sidebar",
+    "Pular": "Skip",
+    "Voltar": "Back",
+    "Começar": "Get started",
+    "Continuar": "Continue",
+    "Abrir o Nexora": "Open Nexora",
+    "versão {0}": "version {0}",
+    "Suas conversas com o Claude Code,": "All your Claude Code chats,",
+    "num lugar só.": "in one place.",
+    "Seus projetos, conversas e arquivos juntos. Quem precisa de você aparece primeiro.": "Your projects, chats and files together. Whatever needs you comes first.",
+    "Precisa de você": "Needs you",
+    "Trabalhando": "Working",
+    "Prontas": "Done",
+    "Permitir": "Allow",
+    "Erro na tela": "UI bug",
+    "Orquestrador": "Orchestrator",
+    "Notas offline": "Offline notes",
+    "Quadro de sessões": "Session board",
+    "Todas as conversas num lugar": "Every chat in one place",
+    "Veja o que cada agente está fazendo. Quem precisa de você aparece primeiro.": "See what each agent is doing. Whatever needs you comes first.",
+    "Aprove os pedidos sem caçar janela": "Approve requests without hunting for windows",
+    "Quando um agente pede para rodar um comando, você permite ou nega ali mesmo.": "When an agent asks to run a command, you allow or deny it right there.",
+    "Cada conversa no projeto certo": "Every chat in the right project",
+    "Escolha a pasta do seu código uma vez. As conversas novas já começam nela.": "Pick your code folder once. New chats start right there.",
+    "Passo 1 de 5 · Programas": "Step 1 of 5 · Tools",
+    "O que o Nexora precisa": "What Nexora needs",
+    "Tudo certo neste computador. Pode continuar.": "All set on this computer. You can continue.",
+    "Falta 1 programa. O Nexora instala para você, ou siga o passo a passo.": "1 tool is missing. Nexora can install it for you, or you can follow the steps.",
+    "Faltam {0} programas. O Nexora instala para você, ou siga o passo a passo.": "{0} tools are missing. Nexora can install them for you, or you can follow the steps.",
+    "Instalando": "Installing",
+    "Instalado": "Installed",
+    "Falta": "Missing",
+    "Instalar": "Install",
+    "Passo a passo": "Step by step",
+    "Instalar o que falta": "Install what's missing",
+    "Instalar os {0} que faltam": "Install the {0} missing tools",
+    "Verificar de novo": "Check again",
+    "Instalar o {0} à mão": "Install {0} manually",
+    "Voltar para a lista": "Back to the list",
+    "Copiar": "Copy",
+    "Copiado": "Copied",
+    "Selecione e copie": "Select and copy",
+    "Deixar o Nexora instalar": "Let Nexora install it",
+    "Página oficial": "Official site",
+    "Já instalei, verificar": "I installed it, check again",
+    "Começando…": "Starting…",
+    "Na fila…": "Queued…",
+    "Passo 2 de 5 · Conta": "Step 2 of 5 · Account",
+    "Entrar no Claude": "Sign in to Claude",
+    "O Nexora usa o seu Claude Code, com a sua conta e o seu plano. Ele não vê sua senha nem seu token.": "Nexora runs your own Claude Code, with your account and your plan. It never sees your password or token.",
+    "Clique em Entrar": "Click Sign in",
+    "Abre um terminal com o Claude Code pedindo o login.": "A terminal opens with Claude Code asking you to sign in.",
+    "Confirme no navegador": "Confirm in your browser",
+    "Entre com a sua conta do Claude e autorize.": "Sign in with your Claude account and authorize.",
+    "Volte aqui": "Come back here",
+    "O Nexora percebe o login sozinho. Depois, pode fechar o terminal.": "Nexora notices the sign-in on its own. You can close the terminal afterwards.",
+    "Entrar com o Claude": "Sign in with Claude",
+    "Já entrei": "I've signed in",
+    "Conectado ao Claude": "Connected to Claude",
+    "Esperando o login…": "Waiting for sign-in…",
+    "Instale o Claude Code no passo anterior": "Install Claude Code in the previous step",
+    "Passo 3 de 5 · Projetos": "Step 3 of 5 · Projects",
+    "Seus projetos": "Your projects",
+    "Um projeto é a pasta do seu código. Traga os que você já abriu no VS Code ou escolha as pastas.": "A project is your code folder. Bring in the ones you've opened in VS Code, or pick the folders.",
+    "Achei 1 projeto que você já abriu no VS Code. Escolha quais trazer.": "Found 1 project you've already opened in VS Code. Choose whether to bring it in.",
+    "Achei {0} projetos que você já abriu no VS Code. Escolha quais trazer.": "Found {0} projects you've already opened in VS Code. Choose which ones to bring in.",
+    "Encontrados no seu VS Code": "Found in your VS Code",
+    "Outro já está no Nexora.": "1 more is already in Nexora.",
+    "Outros {0} já estão no Nexora.": "{0} more are already in Nexora.",
+    "Pastas com git viram projetos sem criar nada dentro do repositório.": "Git folders become projects without adding anything to the repository.",
+    "O projeto que você abriu no VS Code já está no Nexora.": "The project you opened in VS Code is already in Nexora.",
+    "Os {0} projetos que você abriu no VS Code já estão no Nexora.": "All {0} projects you've opened in VS Code are already in Nexora.",
+    "pasta com git": "git folder",
+    "Nada novo para trazer do VS Code.": "Nothing new to bring in from VS Code.",
+    "Não achei projetos abertos no VS Code deste computador. Use as pastas vigiadas ao lado.": "No VS Code projects found on this computer. Use the watched folders on the right.",
+    "Desmarcar todos": "Deselect all",
+    "Marcar todos": "Select all",
+    "Trazer 1 projeto": "Bring in 1 project",
+    "Trazer {0} projetos": "Bring in {0} projects",
+    "Pastas vigiadas": "Watched folders",
+    "Projetos novos nessas pastas aparecem sozinhos.": "New projects in these folders show up automatically.",
+    "Essa pasta não existe neste computador.": "This folder doesn't exist on this computer.",
+    "Parar de vigiar": "Stop watching",
+    "Tirar": "Remove",
+    "Nenhuma pasta vigiada.": "No watched folders yet.",
+    "Pasta de um projeto": "A project folder",
+    "Pasta com vários projetos": "Folder with several projects",
+    "Um .code-workspace": "Import a .code-workspace",
+    "Passo 4 de 5 · GitHub (opcional)": "Step 4 of 5 · GitHub (optional)",
+    "Issues e PRs do GitHub": "GitHub issues and PRs",
+    "Com o GitHub CLI, o Nexora mostra as issues dos seus projetos e o estado do PR de cada sessão. Pode pular: o resto funciona sem ele.": "With the GitHub CLI, Nexora shows your projects' issues and each session's PR status. Feel free to skip it: everything else works without it.",
+    "GitHub CLI não instalado": "GitHub CLI not installed",
+    "GitHub CLI sem conta": "GitHub CLI without an account",
+    "1 conta conectada": "1 account connected",
+    "{0} contas conectadas": "{0} accounts connected",
+    "Instalando o GitHub CLI…": "Installing the GitHub CLI…",
+    "O Nexora instala para você pelo winget.": "Nexora installs it for you with winget.",
+    "Instale pela página oficial ou com: {0}": "Install it from the official site or with: {0}",
+    "Termine o login na janela que abriu. Esta tela atualiza sozinha.": "Finish signing in using the window that just opened. This screen updates on its own.",
+    "Entre com a sua conta do GitHub. Abre uma janela com o código e o navegador.": "Sign in with your GitHub account. A window opens with a one-time code and your browser.",
+    "A conta principal é a que o gh usa por padrão. As outras entram quando o repositório é delas.": "The main account is the one gh uses by default. The others kick in for repositories that belong to them.",
+    "principal": "main",
+    "Usar como principal": "Make main",
+    "Instalar o GitHub CLI": "Install the GitHub CLI",
+    "Entrar numa conta": "Sign in to an account",
+    "Adicionar outra conta": "Add another account",
+    "Usa duas contas, como a da empresa e a pessoal? Entre nas duas. Cada repositório usa a conta que tem acesso, sem trocar a principal.": "Have two accounts, like work and personal? Sign in to both. Each repository uses whichever account has access, without switching your main one.",
+    "Ao entrar numa conta nova, o gh passa a usá-la como principal. Se não quiser isso, volte a sua em \"Usar como principal\".": "Signing in to a new account makes it gh's main account. If you don't want that, switch back with \"Make main\".",
+    "Passo 5 de 5 · Visual": "Step 5 of 5 · Look",
+    "Escolha o visual": "Choose your look",
+    "Comece por um destes. Em Configurações há mais temas, inclusive animados, e dá para aumentar o texto.": "Start with one of these. Settings has more themes, including animated ones, and lets you make the text bigger.",
+    "Seguir o sistema": "Follow the system",
+    "Escuro": "Dark",
+    "Claro": "Light",
+    "Mais temas": "More themes",
+    "Menos temas": "Fewer themes",
+    "Os temas animados só se mexem com o fundo de vidro ligado.": "Animated themes only move with the glass background turned on.",
+    "Fundo de vidro, com os temas animados em movimento": "Glass background, with animated themes in motion",
+    "Tudo pronto": "You're all set",
+    "Alguns atalhos para começar. O botão de ajuda, na barra da esquerda, abre esta apresentação de novo.": "A few shortcuts to get you started. The help button in the left sidebar opens this tour again.",
+    "Nova sessão no projeto da aba atual": "New session in the current tab's project",
+    "Procurar conversas e projetos": "Search chats and projects",
+    "Mostrar ou esconder as conversas": "Show or hide chats",
+    "Painel da sessão: contexto, arquivos e git": "Session panel: context, files and git",
+    "Orquestrador, que divide o trabalho entre sessões": "Orchestrator, which splits work across sessions",
+    "Ver todos os atalhos de teclado": "See all keyboard shortcuts",
+    "F1": "F1",
+    "Programas instalados": "Tools installed",
+    "Falta instalar algo": "Something left to install",
+    "Sem login ainda": "Not signed in yet",
+    "Sem projetos ainda": "No projects yet",
+    "1 projeto": "1 project",
+    "{0} projetos": "{0} projects",
+    "GitHub conectado": "GitHub connected",
+    "GitHub com {0} contas": "GitHub with {0} accounts",
+    "Sem GitHub (opcional)": "No GitHub (optional)",
+    "As sessões do Nexora são o seu próprio Claude Code.": "Every Nexora session runs on your own Claude Code.",
+    "Branches, worktrees e alterações dos projetos.": "Branches, worktrees and project changes.",
+    "Os servidores MCP que os projetos usam no .mcp.json.": "The MCP servers your projects list in .mcp.json.",
+    "O próprio Nexora roda nele.": "Nexora itself runs on it.",
+    "Não encontrado": "Not found",
+    "Não encontrado: os projetos sem .mcp.json funcionam normalmente": "Not found: projects without a .mcp.json work normally",
+    "Vem junto com o Nexora (versão {0})": "Bundled with Nexora (version {0})",
+    "Abra o PowerShell.": "Open PowerShell.",
+    "Abra o PowerShell ou o Terminal.": "Open PowerShell or Terminal.",
+    "Cole o comando abaixo e aperte Enter.": "Paste the command below and press Enter.",
+    "Cole o comando abaixo e aperte Enter. O Windows pode pedir permissão.": "Paste the command below and press Enter. Windows may ask for permission.",
+    "Sem o winget, baixe o instalador na página oficial e avance com as opções padrão.": "No winget? Download the installer from the official site and click through with the default options.",
+    "Nenhum .code-workspace encontrado ainda.": "No .code-workspace files found yet.",
+    "Baixando": "Downloading",
+  };
+  const t = s => idioma === "en" && Object.hasOwn(EN, s) ? EN[s] : s;
+  const f = (s, ...v) => t(s).replace(/\{(\d+)\}/g, (_, i) => v[i]);
+
+  function traduzirPagina() {
+    document.documentElement.lang = idioma === "en" ? "en" : "pt-BR";
+    if (idioma !== "en") return;
+    document.title = t(document.title);
+    const tela = document.getElementById("tela");
+    const passeio = document.createTreeWalker(tela, NodeFilter.SHOW_TEXT);
+    for (let n = passeio.nextNode(); n; n = passeio.nextNode()) {
+      const pt = n.nodeValue.trim(), en = t(pt);
+      if (en !== pt) n.nodeValue = n.nodeValue.replace(pt, () => en);
+    }
+    tela.querySelectorAll("[title]").forEach(e => e.title = t(e.title));
+  }
+  const total = 7;
+  const I = {
+    check: '<path d="M20 6 9 17l-5-5"/>',
+    alerta: '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/>',
+    girando: '<path d="M21 12a9 9 0 1 1-6.22-8.56"/>',
+    baixar: '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/>',
+    subir: '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/>',
+    livro: '<path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>',
+    link: '<path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>',
+    copiar: '<rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>',
+    atualizar: '<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/>',
+    entrar: '<path d="m10 17 5-5-5-5"/><path d="M15 12H3"/><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>',
+    pasta: '<path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/>',
+    git: '<line x1="6" x2="6" y1="3" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/>',
+    camadas: '<path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/>',
+    quadro: '<rect x="3" y="3" width="5" height="18" rx="1.5"/><rect x="10" y="3" width="5" height="11" rx="1.5"/><rect x="17" y="3" width="4" height="14" rx="1.5"/>',
+    chip: '<rect x="5" y="5" width="14" height="14" rx="2"/><path d="M9 9h6v6H9zM9 2v3M15 2v3M9 19v3M15 19v3M19 9h3M19 15h3M2 9h3M2 15h3"/>',
+    vscode: '<path d="m16 3 5 2.5v13L16 21 6.5 12.5 3 15.5l-1-1v-5l1-1 3.5 3L16 3z"/><path d="M16 8v8l-5-4z"/>',
+    mais: '<path d="M5 12h14"/><path d="M12 5v14"/>',
+    voltar: '<path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>',
+  };
+  const ic = (n, cls = "") => `<svg class="i ${cls}" viewBox="0 0 24 24" aria-hidden="true">${I[n]}</svg>`;
+  document.querySelectorAll("[data-i]").forEach(e => { if (e.classList.contains("ic")) e.innerHTML = ic(e.dataset.i); else e.outerHTML = ic(e.dataset.i); });
+
+  let cena = 0, requisitos = [], logado = false, temClaude = true, guiaAberta = null, instalando = {}, vs = { itens: [], jaNoNexora: 0, raizes: [] }, marcados = new Set(), totalProjetos = "", temaAtual = "sistema", outrosTemas = [];
+  let gh = null, ghInstalando = null, ghEsperando = -1;
+  const $ = id => document.getElementById(id);
+  const enviar = o => { if (ponte) ponte.postMessage(JSON.stringify(o)); else demo(o); };
+  const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+  function encaixar() {
+    const s = Math.min(innerWidth / 1600, innerHeight / 900);
+    $("tela").style.transform = `translate(${(innerWidth - 1600 * s) / 2}px, ${(innerHeight - 900 * s) / 2}px) scale(${s})`;
+  }
+
+  function mostrar(nova) {
+    const voltando = nova < cena;
+    cena = Math.max(0, Math.min(total - 1, nova));
+    document.querySelectorAll(".cena").forEach(s => {
+      const ativa = Number(s.dataset.cena) === cena;
+      s.classList.toggle("ativa", ativa);
+      s.classList.toggle("voltando", ativa && voltando);
+    });
+    $("pontos").innerHTML = Array.from({ length: total }, (_, i) => `<i class="${i === cena ? "agora" : i < cena ? "feito" : ""}"></i>`).join("");
+    $("voltar").style.visibility = cena === 0 ? "hidden" : "visible";
+    $("avancar").textContent = t(cena === 0 ? "Começar" : cena === total - 1 ? "Abrir o Nexora" : "Continuar");
+    $("pular").style.visibility = cena === total - 1 ? "hidden" : "visible";
+    if (cena === 1) enviar({ type: "verificar" });
+    if (cena === 2) enviar({ type: "verificarLogin" });
+    if (cena === 3) enviar({ type: "procurar" });
+    if (cena === 4) enviar({ type: "github" });
+    if (cena === 6) resumo();
+  }
+
+  function avancar() { if (cena >= total - 1) enviar({ type: "concluir" }); else mostrar(cena + 1); }
+
+  function desenharRequisitos() {
+    const faltam = requisitos.filter(r => !r.ok);
+    const instalaveis = faltam.filter(r => r.instalavel && !instalando[r.id]);
+    $("subReq").textContent = faltam.length === 0 ? t("Tudo certo neste computador. Pode continuar.")
+      : faltam.length === 1 ? t("Falta 1 programa. O Nexora instala para você, ou siga o passo a passo.")
+      : f("Faltam {0} programas. O Nexora instala para você, ou siga o passo a passo.", faltam.length);
+    $("requisitos").innerHTML = requisitos.map(r => {
+      const rodando = instalando[r.id];
+      const estado = rodando ? "rodando" : r.ok ? "ok" : "falta";
+      const icone = rodando ? ic("girando") : r.ok ? ic("check") : ic("alerta");
+      return `<div class="req vidro">
+        <span class="estado ${estado}">${icone}</span>
+        <div>
+          <h3>${esc(r.nome)}<small class="${rodando ? "rodando" : r.ok ? "" : "falta"}">${t(rodando ? "Instalando" : r.ok ? "Instalado" : "Falta")}</small></h3>
+          <p>${esc(r.uso)}</p>
+          ${rodando ? `<div class="linhaprog">${esc(rodando)}</div>` : `<div class="det">${esc(r.detalhe)}</div>`}
+          ${!r.ok && !rodando ? `<div class="acoes">
+            ${r.instalavel ? `<button class="claro" data-instalar="${r.id}">${ic("baixar")}${t("Instalar")}</button>` : ""}
+            <button class="contorno" data-guia="${r.id}">${ic("livro")}${t("Passo a passo")}</button></div>` : ""}
+        </div></div>`;
+    }).join("");
+    $("requisitos").querySelectorAll("[data-instalar]").forEach(b => b.addEventListener("click", () => instalar(b.dataset.instalar)));
+    $("requisitos").querySelectorAll("[data-guia]").forEach(b => b.addEventListener("click", () => { guiaAberta = guiaAberta === b.dataset.guia ? null : b.dataset.guia; desenharGuia(); }));
+    $("instalarTudo").hidden = instalaveis.length < 2;
+    $("textoTudo").textContent = f("Instalar os {0} que faltam", instalaveis.length);
+    desenharGuia();
+  }
+
+  function desenharGuia() {
+    const r = requisitos.find(x => x.id === guiaAberta && !x.ok);
+    $("guia").hidden = !r;
+    $("requisitos").hidden = !!r;
+    $("acoesReq").hidden = !!r;
+    if (!r) return;
+    const rodando = instalando[r.id];
+    $("guia").innerHTML = `<header><span class="estado ${rodando ? "rodando" : "falta"}">${ic(rodando ? "girando" : "alerta")}</span><h3>${esc(f("Instalar o {0} à mão", r.nome))}</h3>
+        <button class="fantasma" id="fecharGuia">${ic("voltar")}${t("Voltar para a lista")}</button></header>
+      <ol>${r.passos.map(p => `<li>${esc(p)}</li>`).join("")}</ol>
+      <div class="cmd"><span>${esc(r.comando)}</span><button id="copiarCmd">${ic("copiar")}${t("Copiar")}</button></div>
+      ${rodando ? `<div class="linhaprog" style="font:14px var(--mono);color:var(--marca-clara)">${esc(rodando)}</div>` : ""}
+      <div class="linha-acoes">
+        ${r.instalavel && !rodando ? `<button class="claro" id="instalarGuia">${ic("baixar")}${t("Deixar o Nexora instalar")}</button>` : ""}
+        <button class="contorno" id="abrirSite">${ic("link")}${t("Página oficial")}</button>
+        <button class="contorno" id="verificarGuia">${ic("atualizar")}${t("Já instalei, verificar")}</button>
+      </div>`;
+    $("verificarGuia").addEventListener("click", () => enviar({ type: "verificar" }));
+    if ($("instalarGuia")) $("instalarGuia").addEventListener("click", () => instalar(r.id));
+    $("copiarCmd").addEventListener("click", async e => {
+      const b = e.currentTarget;
+      try { await navigator.clipboard.writeText(r.comando); b.lastChild.textContent = t("Copiado"); } catch { b.lastChild.textContent = t("Selecione e copie"); }
+      setTimeout(() => b.lastChild.textContent = t("Copiar"), 1600);
+    });
+    $("abrirSite").addEventListener("click", () => enviar({ type: "abrir", url: r.site }));
+    $("fecharGuia").addEventListener("click", () => { guiaAberta = null; desenharGuia(); });
+  }
+
+  function instalar(id) {
+    instalando[id] = t("Começando…");
+    desenharRequisitos();
+    enviar({ type: "instalar", id });
+  }
+
+  function desenharLogin() {
+    const p = $("pilula");
+    p.className = "pilula " + (logado ? "ok" : temClaude ? "espera" : "");
+    $("textoLogin").textContent = t(logado ? "Conectado ao Claude" : temClaude ? "Esperando o login…" : "Instale o Claude Code no passo anterior");
+    $("etapas").classList.toggle("feitas", logado);
+    $("acoesLogin").style.display = logado ? "none" : "flex";
+    $("entrar").disabled = !temClaude;
+  }
+
+  function desenharVs() {
+    const n = vs.itens.length;
+    const ja = vs.jaNoNexora;
+    $("subProj").textContent = n === 1 ? t("Achei 1 projeto que você já abriu no VS Code. Escolha quais trazer.")
+      : n ? f("Achei {0} projetos que você já abriu no VS Code. Escolha quais trazer.", n)
+      : t("Um projeto é a pasta do seu código. Traga os que você já abriu no VS Code ou escolha as pastas.");
+    $("notaVs").textContent = n ? (ja === 1 ? t("Outro já está no Nexora.") : ja ? f("Outros {0} já estão no Nexora.", ja) : t("Pastas com git viram projetos sem criar nada dentro do repositório."))
+      : ja === 1 ? t("O projeto que você abriu no VS Code já está no Nexora.") : ja ? f("Os {0} projetos que você abriu no VS Code já estão no Nexora.", ja) : "";
+    $("achados").innerHTML = n ? vs.itens.map((a, i) => `
+      <button class="item" role="checkbox" aria-checked="${marcados.has(a.caminho)}" data-n="${i}">
+        <span class="marcar">${ic("check")}</span>${ic(a.workspace ? "camadas" : "git")}
+        <span style="min-width:0"><b>${esc(a.nome)}</b><small>${esc(a.caminho)}</small></span>
+        <span class="tag">${a.workspace ? "workspace" : t("pasta com git")}</span>
+      </button>`).join("")
+      : `<div class="vazio">${t(ja ? "Nada novo para trazer do VS Code." : "Não achei projetos abertos no VS Code deste computador. Use as pastas vigiadas ao lado.")}</div>`;
+    $("achados").querySelectorAll(".item").forEach(b => b.addEventListener("click", () => {
+      const c = vs.itens[Number(b.dataset.n)].caminho;
+      marcados.has(c) ? marcados.delete(c) : marcados.add(c);
+      desenharVs();
+    }));
+    $("marcarTodos").hidden = n < 2;
+    $("marcarTodos").textContent = t(marcados.size === n ? "Desmarcar todos" : "Marcar todos");
+    $("importarAchados").hidden = n === 0;
+    $("importarAchados").disabled = marcados.size === 0;
+    $("textoImportar").textContent = marcados.size === 1 ? t("Trazer 1 projeto") : f("Trazer {0} projetos", marcados.size);
+    $("sugestoes").innerHTML = vs.raizes.map(r => `<button class="sugestao" data-raiz="${esc(r.pasta)}">${ic("mais")}<span>${esc(r.pasta)}</span><em>${r.quantos} workspaces</em></button>`).join("");
+    $("sugestoes").querySelectorAll("[data-raiz]").forEach(b => b.addEventListener("click", () => enviar({ type: "adicionarRaiz", pasta: b.dataset.raiz })));
+  }
+
+  function desenharPastas(raizes, texto) {
+    totalProjetos = texto;
+    $("raizes").innerHTML = raizes.length ? raizes.map(r => `
+      <div class="raiz">${ic("pasta")}<div>${esc(r.pasta)}${r.existe ? "" : `<small>${t("Essa pasta não existe neste computador.")}</small>`}</div>
+        <button data-remover="${esc(r.pasta)}" title="${t("Parar de vigiar")}">${t("Tirar")}</button></div>`).join("")
+      : `<div class="vazio" style="padding:16px">${t("Nenhuma pasta vigiada.")}</div>`;
+    $("raizes").querySelectorAll("[data-remover]").forEach(b => b.addEventListener("click", () => enviar({ type: "removerPasta", pasta: b.dataset.remover })));
+    $("textoProjetos").textContent = texto;
+  }
+
+  function desenharGh() {
+    if (!gh) return;
+    const contas = gh.contas || [];
+    const rodando = ghInstalando !== null;
+    $("ghTitulo").textContent = !gh.instalado ? t("GitHub CLI não instalado") : contas.length === 0 ? t("GitHub CLI sem conta") : contas.length === 1 ? t("1 conta conectada") : f("{0} contas conectadas", contas.length);
+    $("ghNota").textContent = rodando ? t("Instalando o GitHub CLI…")
+      : !gh.instalado ? (gh.instalavel ? t("O Nexora instala para você pelo winget.") : f("Instale pela página oficial ou com: {0}", gh.comando))
+      : ghEsperando >= 0 ? t("Termine o login na janela que abriu. Esta tela atualiza sozinha.")
+      : contas.length === 0 ? t("Entre com a sua conta do GitHub. Abre uma janela com o código e o navegador.")
+      : t("A conta principal é a que o gh usa por padrão. As outras entram quando o repositório é delas.");
+    $("ghContas").hidden = contas.length === 0;
+    $("ghContas").innerHTML = contas.map(c => `
+      <div class="conta"><span class="avatar">${esc(c.conta.slice(0, 1).toUpperCase())}</span>
+        <span style="min-width:0"><b>${esc(c.conta)}</b><small>github.com</small></span>
+        ${c.ativa ? `<span class="tag">${t("principal")}</span>` : `<button data-ativar="${esc(c.conta)}">${t("Usar como principal")}</button>`}</div>`).join("");
+    $("ghContas").querySelectorAll("[data-ativar]").forEach(b => b.addEventListener("click", () => { b.disabled = true; enviar({ type: "githubAtivar", conta: b.dataset.ativar }); }));
+    $("ghLinha").hidden = !rodando;
+    $("ghLinha").textContent = ghInstalando || "";
+    $("ghInstalar").hidden = gh.instalado || rodando || !gh.instalavel;
+    $("ghEntrar").hidden = !gh.instalado || contas.length > 0;
+    $("ghOutra").hidden = !gh.instalado || contas.length === 0;
+    $("ghDica").textContent = contas.length > 0
+      ? t("Ao entrar numa conta nova, o gh passa a usá-la como principal. Se não quiser isso, volte a sua em \"Usar como principal\".")
+      : t("Usa duas contas, como a da empresa e a pessoal? Entre nas duas. Cada repositório usa a conta que tem acesso, sem trocar a principal.");
+  }
+
+  function resumo() {
+    const ok = requisitos.length > 0 && requisitos.every(r => r.ok);
+    const n = Number((totalProjetos.match(/\d+/) || ["0"])[0]);
+    const chip = (bom, texto) => `<span class="chip ${bom ? "ok" : "falta"}">${ic(bom ? "check" : "alerta")}${esc(texto)}</span>`;
+    const contas = gh && gh.contas ? gh.contas.length : 0;
+    $("resumo").innerHTML = chip(ok, t(ok ? "Programas instalados" : "Falta instalar algo"))
+      + chip(logado, t(logado ? "Conectado ao Claude" : "Sem login ainda"))
+      + chip(n > 0, n === 0 ? t("Sem projetos ainda") : n === 1 ? t("1 projeto") : f("{0} projetos", n))
+      + (contas > 0 ? chip(true, contas === 1 ? t("GitHub conectado") : f("GitHub com {0} contas", contas)) : `<span class="chip">${ic("git")}${t("Sem GitHub (opcional)")}</span>`)
+      + `<span class="chip">${ic("camadas")}${esc(nomeDoTema())}</span>`;
+  }
+
+  function nomeDoTema() {
+    if (temaAtual === "sistema") return t("Seguir o sistema");
+    if (temaAtual === "padrao") return t("Escuro");
+    if (temaAtual === "padrao-claro") return t("Claro");
+    const outro = outrosTemas.find(o => o.id === temaAtual);
+    return outro ? outro.nome : temaAtual;
+  }
+
+  function tema(id) { temaAtual = id; document.querySelectorAll(".tema, .mini").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.tema === id))); }
+
+  function desenharOutros() {
+    $("listaTemas").innerHTML = outrosTemas.map(o =>
+      `<button class="mini" data-tema="${esc(o.id)}" aria-pressed="${o.id === temaAtual}">`
+      + `<div class="previa" style="--l:${o.l};--f:${o.f};--t:${o.t};--m:${o.m}"><div class="l"></div><div class="c"><i></i><u></u></div></div>`
+      + `<span>${esc(o.nome)}</span></button>`).join("");
+    $("listaTemas").querySelectorAll(".mini").forEach(b => b.addEventListener("click", () => { tema(b.dataset.tema); enviar({ type: "tema", id: b.dataset.tema }); }));
+    if (outrosTemas.some(o => o.id === temaAtual)) abrirOutros(true);
+  }
+
+  function abrirOutros(aberto) {
+    $("outrosTemas").hidden = !aberto;
+    $("maisTemas").setAttribute("aria-expanded", String(aberto));
+    $("maisTemas").textContent = t(aberto ? "Menos temas" : "Mais temas");
+  }
+
+  function receber(m) {
+    switch (m.type) {
+      case "estado": if (m.temas) outrosTemas = m.temas; desenharOutros(); tema(m.tema); $("vidro").checked = !m.solido; if (m.versao) $("versao").textContent = f("versão {0}", m.versao); if (m.passo) mostrar(m.passo); break;
+      case "requisitos": requisitos = m.itens; desenharRequisitos(); break;
+      case "instalando": instalando[m.id] = m.linha; desenharRequisitos(); break;
+      case "instalado": delete instalando[m.id]; if (m.ok && guiaAberta === m.id) guiaAberta = null; desenharRequisitos(); break;
+      case "login": logado = !!m.ok; temClaude = m.temClaude !== false; desenharLogin(); break;
+      case "pastas": desenharPastas(m.raizes, m.texto); break;
+      case "vscode": vs = m; marcados = new Set(m.itens.map(i => i.caminho)); desenharVs(); break;
+      case "github": gh = m; if (ghEsperando >= 0 && (m.contas || []).length > ghEsperando) ghEsperando = -1; desenharGh(); break;
+      case "githubInstalando": ghInstalando = m.linha; desenharGh(); break;
+      case "githubInstalado": ghInstalando = null; desenharGh(); break;
+    }
+    if (cena === total - 1) resumo();
+  }
+
+  function demo(o) {
+    const dados = {
+      requisitos: [
+        { id: "claude", nome: "Claude Code", uso: t("As sessões do Nexora são o seu próprio Claude Code."), ok: true, detalhe: "C:\\Users\\voce\\.local\\bin\\claude.exe", comando: "irm https://claude.ai/install.ps1 | iex", instalavel: true, site: `https://code.claude.com/docs/${idioma}/setup`, passos: [t("Abra o PowerShell."), t("Cole o comando abaixo e aperte Enter.")] },
+        { id: "git", nome: "Git", uso: t("Branches, worktrees e alterações dos projetos."), ok: false, detalhe: t("Não encontrado"), comando: "winget install Git.Git", instalavel: true, site: "https://git-scm.com/downloads/win", passos: [t("Abra o PowerShell ou o Terminal."), t("Cole o comando abaixo e aperte Enter. O Windows pode pedir permissão."), t("Sem o winget, baixe o instalador na página oficial e avance com as opções padrão.")] },
+        { id: "node", nome: "Node.js", uso: t("Os servidores MCP que os projetos usam no .mcp.json."), ok: false, detalhe: t("Não encontrado: os projetos sem .mcp.json funcionam normalmente"), comando: "winget install OpenJS.NodeJS.LTS", instalavel: true, site: idioma === "en" ? "https://nodejs.org/en/download" : "https://nodejs.org/pt-br/download", passos: [t("Abra o PowerShell ou o Terminal."), t("Cole o comando abaixo e aperte Enter.")] },
+        { id: "dotnet", nome: ".NET 10", uso: t("O próprio Nexora roda nele."), ok: true, detalhe: f("Vem junto com o Nexora (versão {0})", "10.0.10"), comando: "winget install Microsoft.DotNet.Runtime.10", instalavel: false, site: "", passos: [] },
+      ],
+    };
+    const p = new URLSearchParams(location.search);
+    switch (o.type) {
+      case "pronto":
+        receber({ type: "estado", tema: "sistema", solido: true, versao: "0.2.2", passo: Number(p.get("passo") || 0), temas: [
+          { id: "dracula", nome: "Dracula", l: "#21222C", f: "#282A36", t: "#F8F8F2", m: "#BD93F9" },
+          { id: "constelacao", nome: "Constelação", l: "#14152A", f: "#0C0D1E", t: "#ECEBE7", m: "#A9B6F2" },
+        ] });
+        receber({ type: "requisitos", itens: dados.requisitos });
+        if (p.get("instalando")) receber({ type: "instalando", id: "git", linha: `${t("Baixando")} https://github.com/git-for-windows/git/releases/download/v2.51.0/Git-2.51.0-64-bit.exe  38.2 MB / 64.1 MB` });
+        if (p.get("guia")) { guiaAberta = "node"; desenharGuia(); }
+        receber({ type: "login", ok: !!p.get("logado"), temClaude: true });
+        receber({ type: "pastas", raizes: [], texto: t("Nenhum .code-workspace encontrado ainda.") });
+        receber({ type: "vscode", jaNoNexora: 0, raizes: [{ pasta: "D:\\Repositorios", quantos: 4 }], itens: [
+          { caminho: "D:\\Repositorios\\Loja.code-workspace", nome: "Loja", workspace: true },
+          { caminho: "D:\\Repositorios\\Loja.Api", nome: "Loja.Api", workspace: false },
+          { caminho: "D:\\Repositorios\\Painel\\Painel.code-workspace", nome: "Painel", workspace: true },
+          { caminho: "C:\\Users\\voce\\source\\repos\\scripts", nome: "scripts", workspace: false },
+          { caminho: "D:\\Repositorios\\Site\\Site.code-workspace", nome: "Site", workspace: true } ] });
+        break;
+      case "github":
+        receber(p.get("semgh") ? { type: "github", instalado: false, instalavel: true, comando: "winget install GitHub.cli", contas: [] }
+          : { type: "github", instalado: true, instalavel: true, comando: "winget install GitHub.cli", contas: [{ conta: "voce-empresa", ativa: true }, { conta: "voce", ativa: false }] });
+        break;
+      case "githubInstalar":
+        setTimeout(() => receber({ type: "githubInstalando", linha: `${t("Baixando")} https://github.com/cli/cli/releases/download/v2.83.0/gh_2.83.0_windows_amd64.msi  9.1 MB / 17.4 MB` }), 400);
+        break;
+      case "instalar":
+        setTimeout(() => receber({ type: "instalando", id: o.id, linha: `${t("Baixando")}…  12.0 MB / 64.1 MB` }), 500);
+        setTimeout(() => { dados.requisitos.find(r => r.id === o.id).ok = true; receber({ type: "instalado", id: o.id, ok: true }); }, 2500);
+        break;
+    }
+  }
+
+  if (ponte) ponte.addEventListener("message", e => receber(JSON.parse(e.data)));
+  $("avancar").addEventListener("click", avancar);
+  $("voltar").addEventListener("click", () => mostrar(cena - 1));
+  $("pular").addEventListener("click", () => enviar({ type: "pular" }));
+  $("verificar").addEventListener("click", () => enviar({ type: "verificar" }));
+  $("instalarTudo").addEventListener("click", () => { requisitos.filter(r => !r.ok && r.instalavel).forEach(r => instalando[r.id] = t("Na fila…")); desenharRequisitos(); enviar({ type: "instalarTudo" }); });
+  $("entrar").addEventListener("click", () => enviar({ type: "entrar" }));
+  $("jaEntrei").addEventListener("click", () => enviar({ type: "verificarLogin" }));
+  $("marcarTodos").addEventListener("click", () => { marcados = marcados.size === vs.itens.length ? new Set() : new Set(vs.itens.map(i => i.caminho)); desenharVs(); });
+  $("importarAchados").addEventListener("click", () => { enviar({ type: "importarAchados", caminhos: [...marcados] }); });
+  $("adicionarPasta").addEventListener("click", () => enviar({ type: "adicionarPasta" }));
+  $("adicionarProjeto").addEventListener("click", () => enviar({ type: "adicionarProjeto" }));
+  $("importar").addEventListener("click", () => enviar({ type: "importar" }));
+  $("vidro").addEventListener("change", e => enviar({ type: "solido", valor: !e.target.checked }));
+  $("maisTemas").addEventListener("click", () => abrirOutros($("outrosTemas").hidden));
+  document.querySelectorAll(".tema").forEach(b => b.addEventListener("click", () => { tema(b.dataset.tema); enviar({ type: "tema", id: b.dataset.tema }); }));
+  document.addEventListener("keydown", e => {
+    if (e.target instanceof HTMLInputElement) return;
+    if (e.key === "Enter" && e.target instanceof HTMLButtonElement) return;
+    if (e.key === "Enter" || e.key === "ArrowRight") { e.preventDefault(); avancar(); }
+    else if (e.key === "ArrowLeft") { e.preventDefault(); mostrar(cena - 1); }
+    else if (e.key === "Escape") enviar({ type: "pular" });
+  });
+  $("ghInstalar").addEventListener("click", () => { ghInstalando = t("Começando…"); desenharGh(); enviar({ type: "githubInstalar" }); });
+  const entrarGh = () => { ghEsperando = gh && gh.contas ? gh.contas.length : 0; desenharGh(); enviar({ type: "githubEntrar" }); };
+  $("ghEntrar").addEventListener("click", entrarGh);
+  $("ghOutra").addEventListener("click", entrarGh);
+  $("ghVerificar").addEventListener("click", () => enviar({ type: "github" }));
+  setInterval(() => { if (cena === 2 && !logado && temClaude) enviar({ type: "verificarLogin" }); }, 2500);
+  setInterval(() => { if (cena === 4 && ghEsperando >= 0) enviar({ type: "github" }); }, 3000);
+  addEventListener("resize", encaixar);
+  traduzirPagina();
+  encaixar();
+  mostrar(0);
+  enviar({ type: "pronto" });
+  if (ponte) requestAnimationFrame(() => document.body.classList.add("aceso"));
+  else { document.body.style.transition = "none"; document.body.classList.add("aceso", "parado"); }
+
+  (() => {
+    const c = $("grafo"), g = c.getContext("2d");
+    const calma = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let L = 0, A = 0, nos = [], mouse = null, ultimo = 0;
+    function medir() {
+      const dpr = devicePixelRatio || 1; L = innerWidth; A = innerHeight;
+      c.width = L * dpr; c.height = A * dpr; g.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const n = Math.min(120, Math.round(L * A / 24000));
+      nos = Array.from({ length: n }, () => ({ x: Math.random() * L, y: Math.random() * A, vx: (Math.random() - .5) * .25, vy: (Math.random() - .5) * .25, r: Math.random() < .28 ? 4.5 : 2.2, anel: Math.random() < .28 }));
+    }
+    function quadro(t) {
+      requestAnimationFrame(quadro);
+      if (document.hidden || t - ultimo < 33) return;
+      ultimo = t;
+      g.clearRect(0, 0, L, A);
+      for (const n of nos) {
+        if (!calma) { n.x += n.vx; n.y += n.vy; }
+        if (n.x < -20) n.x = L + 20; if (n.x > L + 20) n.x = -20; if (n.y < -20) n.y = A + 20; if (n.y > A + 20) n.y = -20;
+      }
+      const lim = 170;
+      for (let i = 0; i < nos.length; i++) for (let j = i + 1; j < nos.length; j++) {
+        const a = nos[i], b = nos[j], dx = a.x - b.x, dy = a.y - b.y;
+        if (Math.abs(dx) > lim || Math.abs(dy) > lim) continue;
+        const d = Math.hypot(dx, dy);
+        if (d > lim) continue;
+        let alfa = (1 - d / lim) * .2;
+        if (mouse && Math.hypot((a.x + b.x) / 2 - mouse.x, (a.y + b.y) / 2 - mouse.y) < 190) alfa *= 2.4;
+        g.strokeStyle = `rgba(148,139,174,${alfa})`; g.lineWidth = 1;
+        g.beginPath(); g.moveTo(a.x, a.y); g.lineTo(b.x, b.y); g.stroke();
+      }
+      for (const n of nos) {
+        const perto = mouse && Math.hypot(n.x - mouse.x, n.y - mouse.y) < 190;
+        g.globalAlpha = perto ? .85 : .4;
+        g.beginPath(); g.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+        if (n.anel) { g.strokeStyle = "#F2F0EC"; g.lineWidth = 1.6; g.stroke(); }
+        else { g.fillStyle = "#D9D4E6"; g.fill(); }
+      }
+      g.globalAlpha = 1;
+    }
+    addEventListener("resize", medir);
+    addEventListener("mousemove", e => mouse = { x: e.clientX, y: e.clientY });
+    document.addEventListener("mouseleave", () => mouse = null);
+    medir(); requestAnimationFrame(quadro);
+  })();
+</script>
+</body>
+</html>

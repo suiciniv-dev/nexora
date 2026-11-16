@@ -1,0 +1,1323 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nexora · All your coding agents in one place: Claude Code, Codex, Gemini and more</title>
+<meta name="description" content="Nexora is a free Agentic Development Environment (ADE) for Windows and Mac that brings your coding agent sessions together, such as Claude Code, Codex, Gemini CLI, Antigravity, Copilot and Cursor: a board that shows which session needs you, projects and worktrees, and one MCP hub shared by every session in a project.">
+<meta name="theme-color" content="#0B0A0C">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Nexora">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="pt_BR">
+<meta property="og:title" content="Nexora · All your coding agents in one place: Claude Code, Codex, Gemini and more">
+<meta property="og:description" content="An Agentic Development Environment for Claude Code, Codex, Gemini and other agents: a session board, projects and worktrees, and one MCP hub for every session in a project. Free for Windows and Mac.">
+<meta property="og:url" content="https://nexora.suiciniv.dev/en/">
+<meta property="og:image" content="https://nexora.suiciniv.dev/og-en.png?v=0.8">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Nexora · All your coding agents in one place: Claude Code, Codex, Gemini and more">
+<meta name="twitter:description" content="An Agentic Development Environment for Claude Code, Codex, Gemini and other agents: a session board, projects and worktrees, and one MCP hub for every session in a project. Free for Windows and Mac.">
+<meta name="twitter:image" content="https://nexora.suiciniv.dev/og-en.png?v=0.8">
+<link rel="canonical" href="https://nexora.suiciniv.dev/en/">
+<link rel="alternate" hreflang="pt-BR" href="https://nexora.suiciniv.dev/">
+<link rel="alternate" hreflang="en" href="https://nexora.suiciniv.dev/en/">
+<link rel="alternate" hreflang="x-default" href="https://nexora.suiciniv.dev/en/">
+<script>try { if (localStorage.getItem("lang") === "pt" && !/[?&]rec\b/.test(location.search)) location.replace("/" + location.search + location.hash); } catch (e) {}</script>
+<link rel="preload" href="/fontes/Geist-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fontes/GeistMono-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+  @font-face { font-family: "Geist"; src: url("/fontes/Geist-Variable.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+  @font-face { font-family: "Geist Mono"; src: url("/fontes/GeistMono-Variable.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+</style>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Nexora",
+  "description": "Free app for Windows and Mac that brings your coding agent sessions together, such as Claude Code, Codex, Gemini CLI, Antigravity, Copilot and Cursor: a session board, projects and worktrees, and shared MCPs.",
+  "inLanguage": "en",
+  "url": "https://nexora.suiciniv.dev/en/",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Windows 10, Windows 11, macOS",
+  "softwareVersion": "0.8.1",
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+  "downloadUrl": "https://nexora.suiciniv.dev/baixar",
+  "image": "https://nexora.suiciniv.dev/og-en.png?v=0.8",
+  "author": {"@type": "Person", "name": "Vinícius Pires da Silva", "url": "https://suiciniv.dev/"}
+}
+</script>
+<style>
+  :root {
+    --fundo: #0B0A0C; --fundo2: #131214; --vidro: rgba(30, 28, 31, .72); --vidro2: rgba(255, 255, 255, .045);
+    --linha: rgba(255, 255, 255, .1); --linha2: rgba(255, 255, 255, .2);
+    --txt: #F2F0EC; --txt2: #C4BFB8; --txt3: #8F8A84;
+    --marca: #948BAE; --marca-clara: #BDB4DA; --marca-fim: #5B5470;
+    --verde: #7BCB9F; --laranja: #F0A860; --cod: #E6C38F;
+    --ui: "Geist", "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, sans-serif;
+    --titulo: "Geist", "Segoe UI Variable Display", "Segoe UI", system-ui, -apple-system, sans-serif;
+    --mono: "Geist Mono", "Cascadia Mono", Consolas, ui-monospace, monospace;
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--fundo); color: var(--txt); font: 17px/1.6 var(--ui); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  body::before { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    background: radial-gradient(ellipse 60% 40% at 85% 0%, rgba(148, 139, 174, .14), transparent 70%),
+                radial-gradient(ellipse 50% 40% at 0% 30%, rgba(91, 84, 112, .12), transparent 70%); }
+  a { color: inherit; }
+  :focus-visible { outline: 2px solid var(--marca-clara); outline-offset: 3px; border-radius: 6px; }
+  .larg { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
+  svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+
+  header.topo { position: sticky; top: 0; z-index: 10; backdrop-filter: blur(16px) saturate(1.2); background: rgba(14, 13, 12, .72); border-bottom: 1px solid var(--linha); }
+  header.topo .larg { display: flex; align-items: center; gap: 28px; height: 64px; }
+  .marca { display: flex; align-items: center; gap: 10px; text-decoration: none; font: 600 19px var(--titulo); }
+  .marca img { width: 30px; height: 30px; }
+  nav { display: flex; gap: 22px; margin-left: auto; }
+  nav a { text-decoration: none; color: var(--txt2); font-size: 15.5px; }
+  nav a:hover { color: var(--txt); }
+  .botao { display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 13px 26px; border-radius: 14px; background: #F4F2EE; color: #161514; font-weight: 600; text-decoration: none; transition: transform .15s, background .2s; white-space: nowrap; }
+  .botao:hover { background: #fff; transform: translateY(-1px); }
+  .botao.pequeno { padding: 9px 18px; border-radius: 11px; font-size: 15px; }
+  .botao.sec { background: rgba(255, 255, 255, .06); color: var(--txt); border: 1px solid var(--linha2); }
+  .botao.sec:hover { background: rgba(255, 255, 255, .1); }
+  .idiomas { display: inline-flex; gap: 2px; padding: 3px; border-radius: 11px; border: 1px solid var(--linha); background: rgba(255, 255, 255, .04); font: 600 13px var(--ui); letter-spacing: .06em; margin-right: -12px; }
+  .idiomas a { padding: 4px 9px; border-radius: 8px; color: var(--txt3); text-decoration: none; }
+  .idiomas a:hover { color: var(--txt); }
+  .idiomas a[aria-current] { background: rgba(255, 255, 255, .1); color: var(--txt); }
+  .sugestao { border-bottom: 1px solid var(--linha); background: rgba(148, 139, 174, .1); color: var(--txt2); font-size: 15px; }
+  .sugestao .larg { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 6px 16px; min-height: 48px; padding: 6px 0; }
+  .sugestao a { color: var(--marca-clara); font-weight: 600; text-underline-offset: 3px; }
+  .sugestao button { border: 0; background: none; color: var(--txt3); font-size: 22px; line-height: 1; padding: 2px 8px; border-radius: 8px; cursor: pointer; }
+  .sugestao button:hover { color: var(--txt); }
+
+  .hero { padding: 72px 0 40px; text-align: center; }
+  .olho { font: 600 13.5px var(--ui); letter-spacing: .16em; text-transform: uppercase; color: var(--marca-clara); }
+  h1 { font: 600 clamp(40px, 6vw, 72px)/1.04 var(--titulo); letter-spacing: -.02em; margin: 16px auto 18px; max-width: 1040px; text-wrap: balance; }
+  .hero p.sub { font-size: clamp(18px, 2vw, 21px); color: var(--txt2); max-width: 720px; margin: 0 auto; text-wrap: pretty; }
+  .acoes { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 30px; }
+  .miudo { margin-top: 14px; color: var(--txt3); font-size: 14.5px; }
+  .moldura { margin: 48px auto 0; width: min(1180px, calc(100% - 40px)); aspect-ratio: 16 / 9; border-radius: 22px; overflow: hidden; border: 1px solid var(--linha); box-shadow: 0 40px 120px rgba(0, 0, 0, .55), 0 0 0 1px rgba(255, 255, 255, .03); position: relative; background: #0E0D0C; }
+  .moldura .pausa { position: absolute; right: 14px; bottom: 14px; z-index: 3; width: 40px; height: 40px; border-radius: 12px; border: 1px solid var(--linha2); background: rgba(14, 13, 12, .6); color: var(--txt); display: grid; place-items: center; cursor: pointer; backdrop-filter: blur(8px); }
+
+  .hero .larg { position: relative; }
+  .ag { display: grid; place-items: center; flex: none; width: var(--t, 56px); height: var(--t, 56px); border-radius: 28%; background: linear-gradient(160deg, rgba(255, 255, 255, .1), rgba(255, 255, 255, .03)); border: 1px solid rgba(255, 255, 255, .13); box-shadow: 0 18px 40px rgba(0, 0, 0, .45), inset 0 1px 0 rgba(255, 255, 255, .08); }
+  .ag img { display: block; width: 54%; height: 54%; }
+
+  .agentes-topo { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 40px; }
+  .agente { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 20px; align-items: center; }
+  .cartao .ag { box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08); }
+  .agente h3 small { font: 400 15px var(--ui); color: var(--txt3); margin-left: 6px; }
+  .agentes-teste { margin-top: 16px; }
+  .agentes-teste .rot { max-width: 860px; margin-bottom: 24px; }
+  .selo-teste { display: inline-block; margin-right: 12px; padding: 2px 10px; border-radius: 999px; border: 1px solid rgba(189, 180, 218, .35); background: rgba(189, 180, 218, .1); color: var(--marca-clara); font: 600 12.5px var(--ui); letter-spacing: .1em; text-transform: uppercase; vertical-align: 2px; }
+  .agentes-linha { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 22px 10px; }
+  .agentes-linha li { width: calc((100% - 80px) / 9); display: grid; justify-items: center; align-content: start; gap: 10px; text-align: center; font-weight: 600; font-size: 15px; line-height: 1.3; }
+  .agentes-linha .ag { --t: 52px; }
+  .agentes-linha small { display: block; margin-top: 2px; font-weight: 400; font-size: 13px; color: var(--txt3); }
+  @media (max-width: 1099px) { .agentes-linha li { width: calc((100% - 40px) / 5); } }
+  @media (max-width: 900px) { .agentes-topo { grid-template-columns: 1fr; } }
+  @media (max-width: 620px) { .agentes-linha li { width: calc((100% - 20px) / 3); } }
+
+  .grupo { margin-top: 48px; }
+  .grupo-nome { display: flex; align-items: center; gap: 16px; margin: 0; font: 600 21px var(--titulo); }
+  .grupo-nome::after { content: ""; flex: 1; height: 1px; background: var(--linha); }
+  .grupo .grade { margin-top: 18px; }
+
+  section { padding: 96px 0 0; }
+  h2 { font: 600 clamp(30px, 4vw, 44px)/1.12 var(--titulo); letter-spacing: -.015em; margin: 12px 0 14px; text-wrap: balance; }
+  .intro { color: var(--txt2); font-size: 19px; max-width: 720px; margin: 0; }
+  .grade { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 40px; }
+  .cartao { background: var(--vidro); border: 1px solid var(--linha); border-radius: 20px; padding: 26px; backdrop-filter: blur(12px); }
+  .cartao .ic { width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center; background: rgba(255, 255, 255, .06); border: 1px solid var(--linha); margin-bottom: 16px; }
+  .cartao h3 { font: 600 20px var(--titulo); margin: 0 0 6px; }
+  .cartao p { margin: 0; color: var(--txt2); font-size: 16px; }
+  .foto { margin-top: 40px; border-radius: 18px; overflow: hidden; border: 1px solid var(--linha); box-shadow: 0 30px 90px rgba(0, 0, 0, .5); }
+  .foto img { display: block; width: 100%; height: auto; }
+  .duas { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; margin-top: 40px; }
+  .duas .foto { margin-top: 0; }
+  .lista { list-style: none; padding: 0; margin: 22px 0 0; display: grid; gap: 14px; }
+  .lista li { display: grid; grid-template-columns: 34px 1fr; gap: 14px; align-items: start; color: var(--txt2); }
+  .lista li b { color: var(--txt); display: block; font-weight: 600; }
+  .lista .n { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: rgba(255, 255, 255, .07); color: var(--txt); font-weight: 600; font-size: 15px; }
+
+  .numeros { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 40px; }
+  .numero { padding: 28px; }
+  .numero .rot { color: var(--txt3); font-size: 15px; }
+  .barras { display: grid; gap: 12px; margin-top: 18px; }
+  .barra { display: grid; grid-template-columns: 118px 1fr auto; gap: 14px; align-items: center; font-size: 15px; color: var(--txt2); }
+  .barra i { display: block; height: 12px; border-radius: 6px; background: rgba(255, 255, 255, .16); }
+  .barra.nexora i { background: linear-gradient(90deg, var(--marca-clara), var(--marca)); }
+  .barra b { font: 600 17px var(--titulo); color: var(--txt); min-width: 84px; text-align: right; }
+  .nota { color: var(--txt3); font-size: 14.5px; margin-top: 16px; }
+  .nota a, details p a { color: var(--marca-clara); text-underline-offset: 3px; }
+
+  .baixar { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 40px; }
+  .compara { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 40px; }
+  .compara .cartao { display: grid; gap: 14px; align-content: start; }
+  .compara h3 { font-size: 22px; }
+  .compara .quando { color: var(--txt3); font-size: 15px; }
+  .compara ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 12px; }
+  .compara li { color: var(--txt2); font-size: 16px; padding-left: 22px; position: relative; }
+  .compara li::before { content: ""; position: absolute; left: 4px; top: 9px; width: 7px; height: 7px; border-radius: 50%; background: var(--marca-clara); }
+  .compara li b { color: var(--txt); font-weight: 600; }
+  .baixar .cartao { display: grid; gap: 14px; align-content: start; }
+  .baixar .cartao .botao { justify-self: start; }
+  .baixar .botoes { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 6px; }
+  .baixar .miudo2 { color: var(--txt3); font-size: 14.5px; }
+  .baixar .miudo2 a { color: var(--marca-clara); text-decoration: underline; text-underline-offset: 3px; }
+  .tam { color: var(--txt3); font-size: 15px; }
+  .req { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+  .chip { display: inline-flex; gap: 8px; align-items: center; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--linha); background: rgba(255, 255, 255, .03); color: var(--txt2); font-size: 15px; }
+
+  details { border-bottom: 1px solid var(--linha); padding: 18px 0; }
+  details summary { cursor: pointer; font: 600 19px var(--titulo); list-style: none; display: flex; justify-content: space-between; gap: 20px; }
+  details summary::-webkit-details-marker { display: none; }
+  details summary::after { content: "+"; color: var(--txt3); font-weight: 400; }
+  details[open] summary::after { content: "–"; }
+  details p { color: var(--txt2); margin: 10px 0 0; max-width: 820px; }
+  .perguntas { margin-top: 24px; }
+  .perguntas details { scroll-margin-top: 90px; }
+
+  footer { margin-top: 110px; border-top: 1px solid var(--linha); padding: 48px 0 40px; color: var(--txt3); font-size: 14.5px; }
+  footer .rodape { display: grid; grid-template-columns: 1.4fr 1fr 1.3fr 1fr; gap: 32px; }
+  footer .marca { font-size: 16px; color: var(--txt); }
+  footer .marca img { width: 24px; height: 24px; }
+  footer .rod-marca p { margin: 12px 0 0; max-width: 270px; line-height: 1.5; }
+  footer h5 { margin: 0 0 14px; font: 600 12.5px var(--ui); letter-spacing: .12em; text-transform: uppercase; color: var(--txt3); }
+  footer .rod-col { display: grid; gap: 12px; align-content: start; }
+  footer .rod-col a { text-decoration: none; color: var(--txt2); line-height: 1.35; }
+  footer .rod-col a:hover { color: var(--txt); }
+  footer .rod-col small { display: block; color: var(--txt3); font-size: 13px; margin-top: 2px; }
+  footer .rod-base { margin-top: 36px; padding-top: 20px; border-top: 1px solid var(--linha); font-size: 13.5px; }
+
+  .grade details.recurso { padding: 0; border-bottom: 1px solid var(--linha); scroll-margin-top: 90px; transition: border-color .2s; }
+  .grade details.recurso:hover { border-color: var(--linha2); }
+  .grade details.recurso[open] { grid-column: 1 / -1; }
+  .grade details.recurso > summary { display: block; padding: 26px; cursor: pointer; font: inherit; list-style: none; }
+  .grade details.recurso > summary::after { content: none; }
+  .recurso .abrir { display: inline-flex; gap: 6px; align-items: center; margin-top: 14px; color: var(--txt3); font-size: 14.5px; }
+  .recurso .abrir svg.i { width: 16px; height: 16px; transition: transform .2s; }
+  .recurso .abrir .fechar, .recurso[open] .abrir .ver { display: none; }
+  .recurso[open] .abrir .fechar { display: inline; }
+  .recurso[open] .abrir svg.i { transform: rotate(180deg); }
+  .recurso .mais { padding: 0 26px 26px; display: grid; gap: 32px; animation: abrirRecurso .25s ease-out; }
+  .recurso .bloco { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 32px; align-items: start; }
+  .recurso .bloco.so-texto { grid-template-columns: minmax(0, 820px); }
+  .recurso .mais p { color: var(--txt2); margin: 0 0 12px; font-size: 16.5px; max-width: none; }
+  .recurso .mais h4 { font: 600 18px var(--titulo); margin: 0 0 14px; }
+  .recurso .mais .foto { margin-top: 0; box-shadow: 0 20px 60px rgba(0, 0, 0, .45); }
+  .recurso .mais .lista { margin: 0; }
+  .alterna { display: inline-flex; gap: 2px; padding: 3px; border-radius: 12px; border: 1px solid var(--linha); background: rgba(255, 255, 255, .04); margin-bottom: 12px; }
+  .alterna button { border: 0; background: transparent; color: var(--txt2); font: 500 14.5px var(--ui); padding: 6px 16px; border-radius: 9px; cursor: pointer; }
+  .alterna button.ativo { background: rgba(255, 255, 255, .1); color: var(--txt); }
+  @keyframes abrirRecurso { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+
+  #temas .vitrine { margin-top: 36px; }
+  .seletor-temas { display: grid; gap: 14px; margin-bottom: 18px; }
+  .seletor-temas .alterna { justify-self: start; margin: 0; }
+  .alterna button { white-space: nowrap; }
+  .alterna button small { color: var(--txt3); font-size: 12.5px; margin-left: 2px; }
+  .chips-temas { display: flex; flex-wrap: wrap; gap: 8px; min-height: 40px; }
+  .chip-tema { display: inline-flex; align-items: center; gap: 9px; padding: 6px 14px 6px 7px; border-radius: 999px; border: 1px solid var(--linha); background: rgba(255, 255, 255, .03); color: var(--txt2); font: 500 14.5px var(--ui); cursor: pointer; transition: border-color .2s, background .2s, color .2s; }
+  .chip-tema:hover { border-color: var(--linha2); color: var(--txt); }
+  .chip-tema.ativo { border-color: var(--marca-clara); background: rgba(189, 180, 218, .12); color: var(--txt); }
+  .chip-tema i { width: 22px; height: 22px; border-radius: 7px; background: linear-gradient(135deg, var(--b) 40%, var(--a)); border: 1px solid rgba(255, 255, 255, .16); flex: none; }
+  .dica-temas { color: var(--txt3); font-size: 14.5px; margin: 14px 0 0; }
+  .janela-tema { position: relative; aspect-ratio: 1280 / 800; border-radius: 18px; overflow: hidden; border: 1px solid var(--linha); box-shadow: 0 30px 90px rgba(0, 0, 0, .5); background: var(--t-fundo-cheio, #0E0D0C); user-select: none; -webkit-user-select: none; }
+  .janela-tema canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .janela-tema .veu { position: absolute; inset: 0; background: var(--t-fundo-cheio); opacity: .2; pointer-events: none; }
+  .janela-tema.estatico .veu { opacity: 0; }
+  .janela-tema .tela { position: absolute; left: 0; top: 0; width: 1280px; height: 800px; transform-origin: 0 0; display: grid; grid-template-columns: 64px 262px minmax(0, 1fr); grid-template-rows: 50px minmax(0, 1fr) 30px; font: 14px/1.5 var(--ui); color: var(--t-texto); text-align: left; pointer-events: none; }
+  .janela-tema.anima .veu, .anima .tela div, .anima .tela span, .anima .tela p, .anima .tela i, .anima .tela b, .anima .tela pre { transition: background-color .45s, color .45s, border-color .45s, opacity .45s; }
+  .tela svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+  .tela code { font: 12.5px var(--mono); }
+  .tela ins { color: var(--t-verde); text-decoration: none; }
+  .tela del { color: var(--t-vermelho); text-decoration: none; }
+  .jt-trilho { grid-column: 1; grid-row: 2; display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 0 0 6px; color: var(--t-texto-suave); min-height: 0; }
+  .jt-trilho .cap { width: 46px; border-radius: 23px; background: var(--t-lateral); border: 1px solid var(--t-borda); box-shadow: 0 10px 28px rgba(0, 0, 0, .3); display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 5px 0; }
+  .jt-trilho .cap.fim { margin-top: auto; }
+  .jt-trilho .cap > span { position: relative; width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; }
+  .jt-trilho .cap > .ativo { background: linear-gradient(160deg, var(--t-marca), var(--t-marca-fim)); color: #fff; }
+  .janela-tema .jt-conversa { border-radius: 14px; border: 1px solid var(--t-borda); background: rgba(128, 128, 128, .07); box-shadow: 0 8px 30px rgba(0, 0, 0, .25); overflow: hidden; margin-right: 8px; }
+  .jt-rodape { grid-column: 1 / -1; grid-row: 3; display: flex; align-items: center; gap: 20px; padding: 0 18px; font-size: 11.5px; color: var(--t-texto-suave); white-space: nowrap; }
+  .jt-rodape span { display: inline-flex; align-items: center; gap: 7px; }
+  .jt-rodape svg { width: 12px; height: 12px; }
+  .jt-rodape .faisca { color: var(--t-laranja); }
+  .jt-rodape u { display: block; width: 40px; height: 4px; border-radius: 2px; background: var(--t-superficie-alta); }
+  .jt-rodape u b { display: block; width: 8%; height: 100%; border-radius: 2px; background: var(--t-laranja); }
+  .jt-rodape .mem { margin-left: auto; }
+  .jt-trilho svg { width: 18px; height: 18px; }
+  .jt-logo { width: 32px; height: 32px; border-radius: 9px; display: grid; place-items: center; font: 700 16px var(--titulo); color: #fff; background: linear-gradient(160deg, var(--t-marca), var(--t-marca-fim)); margin-bottom: 6px; }
+  .jt-topo { grid-column: 1 / 4; grid-row: 1; display: flex; align-items: center; gap: 12px; padding: 0 14px 0 0; font-size: 13px; }
+  .jt-busca { width: 300px; height: 32px; border-radius: 9px; background: var(--t-superficie); border: 1px solid var(--t-borda); display: flex; align-items: center; gap: 8px; padding: 0 10px; color: var(--t-texto-fraco); }
+  .jt-busca span { margin-left: auto; font-size: 11.5px; padding: 1px 6px; border-radius: 5px; background: var(--t-superficie-alta); color: var(--t-texto-suave); }
+  .jt-aba { display: flex; align-items: center; gap: 8px; height: 32px; padding: 0 12px; border-radius: 9px; background: var(--t-superficie-alta); border: 1px solid var(--t-borda); white-space: nowrap; }
+  .jt-aba i { width: 7px; height: 7px; border-radius: 50%; background: var(--t-acento); flex: none; }
+  .jt-aba span { color: var(--t-texto-fraco); margin-left: 6px; }
+  .jt-mais { color: var(--t-texto-fraco); font-size: 18px; }
+  .jt-medidores { margin-left: auto; display: flex; gap: 18px; font-size: 11.5px; color: var(--t-texto-suave); }
+  .jt-medidores div { display: grid; gap: 3px; width: 76px; }
+  .jt-medidores u { display: block; height: 3px; border-radius: 2px; background: var(--t-superficie-alta); }
+  .jt-medidores b { display: block; height: 100%; border-radius: 2px; background: var(--t-marca); }
+  .jt-nova { padding: 6px 14px; border-radius: 9px; background: var(--t-acento); color: var(--t-sobre-acento); font-weight: 600; }
+  .jt-conversa { grid-column: 3; grid-row: 2; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; min-height: 0; }
+  .jt-cab { display: flex; align-items: center; gap: 12px; padding: 10px 22px; border-bottom: 1px solid var(--t-borda); }
+  .jt-cab b { display: block; font-size: 15px; }
+  .jt-cab p { margin: 0; display: flex; gap: 6px; align-items: center; font-size: 12px; color: var(--t-texto-suave); }
+  .jt-cab p svg { width: 13px; height: 13px; }
+  .jt-cab p code { font-size: 12px; margin-right: 4px; }
+  .jt-estado { margin-left: auto; display: inline-flex; gap: 7px; align-items: center; padding: 4px 12px; border-radius: 999px; border: 1px solid var(--t-borda); background: var(--t-superficie); font-size: 12.5px; font-weight: 600; }
+  .jt-estado i { width: 7px; height: 7px; border-radius: 50%; background: var(--t-acento); animation: jtPulso 1.4s ease-in-out infinite; }
+  .janela-tema.pronta .jt-estado i { background: var(--t-verde); animation: none; }
+  .jt-fio { padding: 16px 22px 8px; display: flex; flex-direction: column; justify-content: flex-end; gap: 10px; overflow: hidden; }
+  .jt-bolha { align-self: flex-end; max-width: 72%; padding: 10px 14px; border-radius: 14px 14px 4px 14px; background: var(--t-bolha-usuario); border: 1px solid var(--t-borda); font-size: 13.5px; }
+  .jt-linha { display: flex; gap: 9px; align-items: center; padding: 5px 12px; border-radius: 8px; background: var(--t-superficie); font-size: 12.5px; color: var(--t-texto-suave); }
+  .jt-linha em { font-style: italic; }
+  .jt-linha .ponto { width: 6px; height: 6px; border-radius: 50%; background: var(--t-texto-fraco); }
+  .jt-giro { width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--t-acento); border-right-color: transparent; animation: jtGiro .9s linear infinite; }
+  .janela-tema.pronta .jt-giro { width: 6px; height: 6px; border: 0; background: var(--t-texto-fraco); animation: none; }
+  .jt-ferramenta { display: flex; gap: 9px; align-items: center; padding: 6px 12px; border-radius: 8px; background: var(--t-superficie); font-size: 12.5px; }
+  .jt-ferramenta i { width: 7px; height: 7px; border-radius: 50%; }
+  .jt-ferramenta code { color: var(--t-texto-suave); font-size: 12px; }
+  .jt-ferramenta .mm { margin-left: auto; font: 12px var(--mono); }
+  .jt-resposta { display: grid; grid-template-columns: 16px minmax(0, 1fr); gap: 10px; padding: 14px 16px; border-radius: 12px; background: var(--t-superficie); border: 1px solid var(--t-borda); font-size: 13.5px; }
+  .jt-resposta .faisca { color: var(--t-acento); font-size: 16px; line-height: 1.3; }
+  .jt-resposta p { margin: 0 0 8px; }
+  .jt-resposta ul { margin: 0 0 10px; padding-left: 18px; display: grid; gap: 4px; }
+  .jt-resposta p code { color: var(--t-codigo-texto); }
+  .jt-resposta pre { margin: 0; padding: 10px 12px; border-radius: 8px; background: var(--t-codigo-fundo); font: 12.5px/1.55 var(--mono); color: var(--t-texto); white-space: pre; }
+  .jt-resposta pre .k { color: var(--t-rosa); }
+  .jt-resposta pre .f { color: var(--t-ciano); }
+  .jt-resposta pre .s { color: var(--t-verde); }
+  .jt-caixa { margin: 6px 22px 16px; padding: 12px 14px 10px; border-radius: 14px; background: var(--t-superficie); border: 1px solid var(--t-borda); }
+  .jt-caixa p { margin: 0 0 18px; color: var(--t-texto-fraco); font-size: 13.5px; }
+  .jt-acoes { display: flex; align-items: center; gap: 10px; color: var(--t-texto-suave); font-size: 12px; }
+  .jt-pilula { display: inline-flex; gap: 6px; align-items: center; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--t-borda); background: var(--t-superficie-alta); color: var(--t-texto); font-size: 12.5px; }
+  .jt-pilula svg { width: 12px; height: 12px; }
+  .jt-acoes .dica { margin-left: auto; color: var(--t-texto-fraco); }
+  .jt-enviar { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--t-acento); color: var(--t-sobre-acento); }
+  .jt-painel { grid-column: 3; grid-row: 2; background: var(--t-lateral); border-left: 1px solid var(--t-borda); padding: 12px 16px; font-size: 13px; display: flex; flex-direction: column; gap: 8px; }
+  .jt-abas { display: flex; gap: 2px; margin-bottom: 6px; color: var(--t-texto-suave); }
+  .jt-abas span { padding: 4px 10px; border-radius: 7px; }
+  .jt-abas .ativo { background: var(--t-superficie-alta); color: var(--t-texto); font-weight: 600; }
+  .jt-painel h6 { margin: 10px 0 2px; font: 600 11px var(--ui); letter-spacing: .08em; text-transform: uppercase; color: var(--t-texto-fraco); }
+  .jt-painel p { margin: 0; display: flex; gap: 8px; align-items: center; }
+  .jt-painel p svg { color: var(--t-texto-suave); }
+  .jt-ctx { display: grid; gap: 6px; color: var(--t-texto-suave); font-size: 12px; text-align: right; }
+  .jt-ctx u { display: block; height: 4px; border-radius: 2px; background: var(--t-superficie-alta); }
+  .jt-ctx b { display: block; width: 42%; height: 100%; border-radius: 2px; background: var(--t-texto); }
+  .jt-painel .arq code { color: var(--t-texto-suave); font-size: 12px; }
+  .jt-painel .arq ins { margin-left: auto; font: 12px var(--mono); }
+  .jt-painel .arq del { font: 12px var(--mono); }
+  .janela-tema.compacta .tela { width: 520px; height: 720px; grid-template-columns: minmax(0, 1fr); }
+  .janela-tema.compacta .jt-trilho, .janela-tema.compacta .jt-painel, .janela-tema.compacta .jt-busca, .janela-tema.compacta .jt-medidores, .janela-tema.compacta .jt-mais, .janela-tema.compacta .jt-acoes .dica { display: none; }
+  .janela-tema.compacta .jt-topo, .janela-tema.compacta .jt-conversa, .janela-tema.compacta .jt-rodape { grid-column: 1; }
+  .janela-tema.compacta .jt-conversa { margin: 0 8px; }
+  .janela-tema.compacta .jt-rodape .codex { display: none; }
+  .janela-tema.compacta .jt-nova, .janela-tema.compacta .jt-acoes .jt-pilula.modo { margin-left: auto; }
+  @keyframes jtPulso { 50% { opacity: .35; } }
+  @keyframes jtGiro { to { transform: rotate(360deg); } }
+  .jt-marca { display: flex; align-items: center; gap: 10px; width: 326px; padding-left: 16px; font: 600 14px var(--titulo); flex: none; }
+  .jt-icones { margin-left: auto; display: flex; gap: 16px; color: var(--t-texto-suave); }
+  .jt-aba.fraca { background: transparent; border-color: transparent; color: var(--t-texto-suave); }
+  .jt-trilho .contador { position: relative; }
+  .jt-trilho .contador::after { content: "2"; position: absolute; right: -5px; top: -4px; min-width: 15px; height: 15px; border-radius: 8px; background: var(--t-laranja); color: #1A1410; font: 700 9.5px/15px var(--ui); text-align: center; }
+  .jt-anel { width: 30px; height: 30px; }
+  .jt-anel circle { fill: none; stroke-width: 3; }
+  .jt-anel text { font: 700 8px var(--ui); fill: var(--t-texto); stroke: none; }
+  .jt-lista { grid-column: 2; grid-row: 2; background: var(--t-lateral); border: 1px solid var(--t-borda); border-radius: 16px; margin: 0 8px 0 0; box-shadow: 0 10px 28px rgba(0, 0, 0, .25); padding: 12px 10px; font-size: 13px; display: flex; flex-direction: column; gap: 2px; overflow: hidden; }
+  .jt-lista .tit { display: flex; align-items: center; gap: 8px; padding: 2px 8px 8px; font-weight: 600; color: var(--t-texto-suave); }
+  .jt-lista .tit span { margin-left: auto; display: flex; gap: 10px; color: var(--t-texto-fraco); }
+  .jt-lista .tit svg { width: 13px; height: 13px; }
+  .jt-lista .sec { padding: 8px 8px 4px; font-size: 12px; color: var(--t-texto-fraco); }
+  .jt-lista .proj { display: flex; align-items: center; gap: 8px; padding: 4px 8px; font-weight: 600; }
+  .jt-lista .proj s { text-decoration: none; width: 17px; height: 17px; border-radius: 5px; display: grid; place-items: center; font: 700 8px var(--ui); color: #fff; background: linear-gradient(160deg, var(--t-marca), var(--t-marca-fim)); }
+  .jt-lista .ramo { display: flex; align-items: center; gap: 6px; padding: 4px 8px 2px 22px; font-size: 11.5px; color: var(--t-texto-fraco); }
+  .jt-lista .ramo svg { width: 11px; height: 11px; }
+  .jt-lista .cv { padding: 5px 8px 5px 22px; border-radius: 8px; }
+  .jt-lista .cv.ativo { background: var(--t-superficie-alta); border: 1px solid var(--t-borda); }
+  .jt-lista .cv b { display: flex; align-items: center; gap: 8px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .jt-lista .cv b i { width: 7px; height: 7px; border-radius: 50%; flex: none; background: var(--c, var(--t-texto)); }
+  .jt-lista .cv small { display: block; padding-left: 15px; font-size: 11.5px; color: var(--t-texto-fraco); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .jt-lista .cv small.pede { color: var(--t-laranja); }
+  .jt-lista .hist { display: flex; justify-content: space-between; gap: 8px; padding: 4px 8px 4px 22px; color: var(--t-texto-suave); white-space: nowrap; }
+  .jt-lista .hist span { color: var(--t-texto-fraco); font-size: 11.5px; flex: none; }
+  .janela-tema.compacta .jt-lista, .janela-tema.compacta .jt-icones { display: none; }
+  .janela-tema.compacta .jt-marca { width: auto; }
+  @media (prefers-reduced-motion: reduce) { .jt-estado i, .jt-giro { animation: none; } }
+
+  @media (max-width: 900px) {
+    nav { display: none; }
+    header.topo .larg { gap: 12px; }
+    .idiomas { margin: 0 0 0 auto; }
+    .grade, .numeros, .baixar, .duas, .compara, .recurso .bloco { grid-template-columns: 1fr; }
+    .baixar { grid-template-columns: minmax(0, 1fr); }
+    .baixar .botao { white-space: normal; text-align: center; }
+    .chips-temas { flex-wrap: nowrap; overflow-x: auto; margin: 0 -20px; padding: 0 20px 4px; scrollbar-width: none; }
+    .chips-temas::-webkit-scrollbar { display: none; }
+    .chip-tema { flex: none; }
+    footer .rodape { grid-template-columns: 1fr 1fr; }
+  }
+
+  #palco { position: absolute; left: 0; top: 0; width: 1600px; height: 900px; transform-origin: 0 0; overflow: hidden; background: #0E0D0C; font: 17px/1.45 var(--ui); color: var(--txt); text-align: left; }
+  #palco .cursor, #palco .anel, #palco .mcp, #palco .pj { left: 0; top: 0; }
+  #palco canvas { position: absolute; inset: 0; }
+  #palco .veu { position: absolute; inset: 0; pointer-events: none;
+    background: radial-gradient(ellipse 55% 50% at 80% 6%, rgba(148, 139, 174, .18), transparent 70%),
+                radial-gradient(ellipse 60% 55% at 8% 100%, rgba(91, 84, 112, .22), transparent 70%),
+                radial-gradient(ellipse 120% 100% at 50% 50%, transparent 50%, rgba(0, 0, 0, .6)); }
+  #palco .abs { position: absolute; }
+  #palco .leg { left: 0; right: 0; text-align: center; font: 600 46px/1.1 var(--titulo); letter-spacing: -.015em; text-shadow: 0 4px 30px rgba(0, 0, 0, .6); }
+  #palco .leg em { font-style: normal; color: var(--laranja); }
+  #palco .leg2 { left: 0; right: 0; text-align: center; font-size: 22px; color: var(--txt2); }
+  #palco .vid { background: rgba(28, 26, 30, .82); border: 1px solid rgba(255, 255, 255, .1); border-radius: 18px; box-shadow: 0 30px 80px rgba(0, 0, 0, .5); }
+  .conv { width: 330px; height: 190px; padding: 16px 18px; }
+  .conv .bar { display: flex; gap: 7px; align-items: center; margin-bottom: 14px; font-size: 14px; color: var(--txt2); }
+  .conv .bar s { width: 10px; height: 10px; border-radius: 50%; background: rgba(255, 255, 255, .18); text-decoration: none; }
+  .conv .bar span { margin-left: 8px; font-weight: 600; color: var(--txt); }
+  .conv i { display: block; height: 9px; border-radius: 5px; background: rgba(255, 255, 255, .12); margin-bottom: 10px; }
+  .conv .selo { position: absolute; left: 18px; bottom: 16px; padding: 4px 12px; border-radius: 999px; font-size: 13.5px; font-weight: 600; }
+  .conv .selo.pede { background: rgba(240, 168, 96, .16); color: var(--laranja); border: 1px solid rgba(240, 168, 96, .45); }
+  .conv .selo.fala { background: rgba(255, 255, 255, .06); color: var(--txt2); border: 1px solid rgba(255, 255, 255, .12); }
+  .marcaGrande { left: 0; right: 0; display: grid; justify-items: center; gap: 14px; }
+  .marcaGrande img { width: 168px; height: 168px; filter: drop-shadow(0 20px 60px rgba(148, 139, 174, .45)); }
+  .marcaGrande b { font: 600 104px/1 var(--titulo); letter-spacing: -.03em; }
+  .marcaGrande span { font-size: 26px; color: var(--txt2); }
+  .app { left: 160px; top: 150px; width: 1280px; height: 700px; overflow: hidden; }
+  .app .lat { position: absolute; left: 64px; top: 58px; bottom: 36px; width: 172px; border: 1px solid rgba(255, 255, 255, .09); border-radius: 16px; background: rgba(0, 0, 0, .3); box-shadow: 0 10px 28px rgba(0, 0, 0, .35); display: flex; flex-direction: column; padding: 8px; gap: 1px; font-size: 13.5px; }
+  .conv .bar img { width: 18px; height: 18px; }
+  .app .trilho { position: absolute; left: 8px; top: 58px; bottom: 36px; width: 50px; display: flex; flex-direction: column; justify-content: space-between; }
+  .app .trilho .cap { display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 6px 0; border-radius: 25px; border: 1px solid rgba(255, 255, 255, .09); background: rgba(0, 0, 0, .3); box-shadow: 0 10px 28px rgba(0, 0, 0, .35); }
+  .app .trilho .ti { position: relative; width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; }
+  .app .trilho .ti svg { width: 17px; height: 17px; fill: none; stroke: var(--txt2); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+  .app .trilho .ti.ativo { background: linear-gradient(160deg, var(--marca), var(--marca-fim)); }
+  .app .trilho .ti.ativo svg { stroke: #fff; }
+  .app .trilho .ti em { position: absolute; right: -4px; top: -3px; min-width: 16px; font-style: normal; font-size: 10px; font-weight: 700; line-height: 16px; text-align: center; color: #1A1410; background: var(--laranja); border-radius: 999px; padding: 0 4px; }
+  .app .lat .sec { font-weight: 600; font-size: 13px; color: var(--txt2); padding: 10px 8px 6px; }
+  .app .lat .cv { padding: 6px 8px; border-radius: 9px; }
+  .app .lat .cv b { display: flex; align-items: center; gap: 8px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .app .lat .cv b i { width: 8px; height: 8px; border-radius: 50%; background: var(--c, var(--txt)); flex: none; }
+  .app .lat .cv small { display: block; padding-left: 16px; font-size: 11.5px; color: var(--txt3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .app .lat .cv.pede small { color: var(--laranja); }
+  .app .barraTopo .lt { display: flex; align-items: center; gap: 10px; font: 600 16px var(--titulo); width: 226px; flex: none; }
+  .app .barraTopo .lt img { width: 28px; height: 28px; }
+  .app .miolo { position: absolute; left: 244px; top: 58px; right: 8px; bottom: 36px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, .09); background: rgba(255, 255, 255, .025); box-shadow: 0 8px 30px rgba(0, 0, 0, .3); }
+  .app .rodapeApp { position: absolute; left: 0; right: 0; bottom: 0; height: 36px; display: flex; align-items: center; gap: 24px; padding: 0 22px; font-size: 13px; color: var(--txt3); white-space: nowrap; }
+  .app .rodapeApp span { display: inline-flex; align-items: center; gap: 8px; }
+  .app .rodapeApp svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .app .rodapeApp .fa { color: var(--laranja); }
+  .app .rodapeApp u { display: block; width: 46px; height: 4px; border-radius: 2px; background: rgba(255, 255, 255, .12); }
+  .app .rodapeApp u b { display: block; width: 8%; height: 100%; border-radius: 2px; background: var(--laranja); }
+  .app .rodapeApp .mem { margin-left: auto; }
+  .app .barraTopo .aba { padding: 7px 14px; border-radius: 10px; font-size: 14px; color: var(--txt2); }
+  .app .barraTopo .aba.ativa { background: rgba(255, 255, 255, .07); border: 1px solid rgba(255, 255, 255, .1); color: var(--txt); }
+  .app .barraTopo { position: absolute; left: 0; right: 0; top: 0; height: 58px; display: flex; align-items: center; gap: 14px; padding: 0 18px; }
+  .app .busca { width: 360px; height: 36px; border-radius: 11px; background: rgba(255, 255, 255, .06); border: 1px solid rgba(255, 255, 255, .08); color: var(--txt3); font-size: 14.5px; display: flex; align-items: center; padding: 0 14px; }
+  .app .nova { margin-left: auto; padding: 8px 18px; border-radius: 11px; background: #F4F2EE; color: #161514; font-weight: 600; font-size: 15px; }
+  .app .titulo { position: absolute; left: 256px; top: 76px; font: 600 26px var(--titulo); }
+  .col { position: absolute; top: 128px; width: 236px; height: 526px; border-radius: 16px; background: rgba(255, 255, 255, .03); border: 1px solid rgba(255, 255, 255, .08); }
+  .col h4 { margin: 14px 16px; font-size: 16px; display: flex; gap: 10px; align-items: center; }
+  .col h4 i { width: 9px; height: 9px; border-radius: 50%; background: var(--c); }
+  .col h4 small { font-size: 13px; color: var(--txt3); padding: 1px 9px; border-radius: 999px; background: rgba(255, 255, 255, .07); font-weight: 600; }
+  .ct { position: absolute; width: 212px; border-radius: 13px; background: rgba(255, 255, 255, .07); border: 1px solid rgba(255, 255, 255, .1); padding: 12px 14px; font-size: 14px; }
+  .ct .t { display: flex; gap: 9px; align-items: center; font-weight: 600; font-size: 15.5px; white-space: nowrap; overflow: hidden; }
+  .ct .t s { text-decoration: none; width: 26px; height: 26px; border-radius: 8px; flex: none; background: linear-gradient(160deg, var(--marca), var(--marca-fim)); font-size: 11px; color: #fff; display: grid; place-items: center; font-weight: 700; }
+  .ct .o { color: var(--txt3); font: 12.5px var(--mono); margin-top: 6px; }
+  .ct .a { color: var(--txt2); margin-top: 6px; font-size: 13.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ct .l { height: 5px; border-radius: 3px; background: rgba(255, 255, 255, .1); margin-top: 10px; overflow: hidden; }
+  .ct .l b { display: block; height: 100%; background: var(--txt2); border-radius: 3px; }
+  .ct .bts { display: flex; gap: 8px; margin-top: 10px; }
+  .ct .bts span { padding: 5px 14px; border-radius: 9px; font-weight: 600; font-size: 13.5px; background: rgba(255, 255, 255, .08); }
+  .ct .bts span.claro { background: #F4F2EE; color: #161514; }
+  .cursor { width: 30px; height: 30px; z-index: 5; filter: drop-shadow(0 4px 8px rgba(0, 0, 0, .5)); }
+  .anel { width: 56px; height: 56px; border-radius: 50%; border: 2px solid var(--marca-clara); z-index: 4; }
+  .aviso { right: 40px; bottom: 58px; padding: 14px 20px; display: flex; gap: 12px; align-items: center; font-size: 16px; }
+  .aviso i { width: 10px; height: 10px; border-radius: 50%; background: var(--verde); }
+  .sess { width: 210px; height: 62px; padding: 0 20px; display: flex; align-items: center; gap: 12px; font: 600 19px var(--titulo); }
+  .sess s { width: 30px; height: 30px; border-radius: 9px; background: linear-gradient(160deg, var(--marca), var(--marca-fim)); text-decoration: none; }
+  .mcp { width: 118px; height: 46px; border-radius: 12px; display: grid; place-items: center; font: 600 15px var(--mono); background: rgba(255, 255, 255, .07); border: 1px solid rgba(255, 255, 255, .14); }
+  .mcp.hub { width: 150px; height: 56px; background: rgba(189, 180, 218, .16); border-color: rgba(189, 180, 218, .5); }
+  .medidor { left: 300px; width: 1000px; top: 760px; }
+  .medidor .rot { display: flex; justify-content: space-between; font-size: 17px; color: var(--txt2); margin-bottom: 10px; }
+  .medidor .rot b { font: 600 22px var(--titulo); color: var(--txt); }
+  .medidor .tr { height: 16px; border-radius: 8px; background: rgba(255, 255, 255, .08); overflow: hidden; }
+  .medidor .tr i { display: block; height: 100%; border-radius: 8px; }
+  .selo2 { padding: 10px 22px; border-radius: 999px; background: rgba(123, 203, 159, .16); border: 1px solid rgba(123, 203, 159, .5); color: var(--verde); font: 600 28px var(--titulo); }
+  .vsl { left: 150px; top: 230px; width: 520px; padding: 22px; }
+  #palco .nv { left: 140px; top: 230px; width: 620px; padding: 28px 30px; }
+  #palco .nv h5 { margin: 0; display: flex; align-items: center; gap: 12px; font: 600 24px var(--titulo); }
+  #palco .nv h5 s { text-decoration: none; width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; background: linear-gradient(160deg, var(--marca), var(--marca-fim)); color: #fff; font: 700 13px var(--ui); }
+  #palco .nv .de { margin: 6px 0 0 46px; font: 15px var(--mono); color: var(--txt3); }
+  #palco .nv .onde { display: inline-flex; gap: 3px; margin-top: 24px; padding: 4px; border-radius: 14px; border: 1px solid rgba(255, 255, 255, .1); background: rgba(255, 255, 255, .04); font-size: 18px; }
+  #palco .nv .onde span { padding: 8px 18px; border-radius: 10px; color: var(--txt3); transition: background .35s, color .35s; }
+  #palco .nv .onde span.ativo { background: rgba(189, 180, 218, .2); color: var(--txt); }
+  #palco .nv .faixa { margin-top: 18px; padding: 16px 18px; border-radius: 14px; border: 1px solid rgba(124, 200, 232, .3); background: rgba(124, 200, 232, .08); color: var(--txt2); font-size: 18px; line-height: 1.45; }
+  #palco .nv .faixa b { color: #A9DCF2; font-weight: 600; }
+  #palco .nv .barraNv { height: 6px; margin-top: 22px; border-radius: 3px; background: rgba(255, 255, 255, .1); overflow: hidden; }
+  #palco .nv .barraNv i { display: block; height: 100%; width: 0; border-radius: 3px; background: linear-gradient(90deg, var(--marca-clara), var(--marca)); }
+  #palco .nv .pc { display: flex; align-items: center; gap: 10px; margin-top: 18px; font-size: 16px; color: var(--txt3); }
+  #palco .nv .pc i { width: 9px; height: 9px; border-radius: 50%; background: var(--verde); transition: background .35s; }
+  #palco .nv .pc.desligado i { background: rgba(255, 255, 255, .25); }
+  #palco .tm { left: 820px; top: 230px; width: 640px; min-height: 364px; padding: 26px 28px; background: rgba(8, 8, 9, .9); font: 18px/1.75 var(--mono); font-variant-ligatures: none; color: var(--txt2); white-space: pre; }
+  #palco .tm .ln { display: block; }
+  #palco .tm .cmd b { color: var(--txt); font-weight: 500; }
+  #palco .tm .fr { color: var(--txt3); }
+  #palco .tm .pd { color: var(--laranja); }
+  .vsl h5 { margin: 0 0 14px; font-size: 16px; color: var(--txt2); font-weight: 600; }
+  .vsl .r { display: grid; grid-template-columns: 26px 1fr; gap: 12px; align-items: center; padding: 12px 14px; border-radius: 12px; background: rgba(255, 255, 255, .04); margin-bottom: 8px; font-size: 16px; }
+  .vsl .r small { display: block; font: 12.5px var(--mono); color: var(--txt3); }
+  .vsl .cx { width: 24px; height: 24px; border-radius: 7px; border: 1.5px solid rgba(255, 255, 255, .25); display: grid; place-items: center; color: transparent; }
+  .vsl .cx.ok { background: var(--marca-clara); border-color: var(--marca-clara); color: #17151C; }
+  .pj { width: 330px; height: 128px; padding: 18px 20px; }
+  .pj .t { display: flex; gap: 12px; align-items: center; font: 600 20px var(--titulo); }
+  .pj .t s { width: 36px; height: 36px; border-radius: 10px; text-decoration: none; background: linear-gradient(160deg, var(--marca), var(--marca-fim)); font: 700 13px var(--ui); color: #fff; display: grid; place-items: center; }
+  .pj .d { margin-top: 12px; color: var(--txt3); font: 13.5px var(--mono); }
+  .pj .d b { color: var(--txt2); font-weight: 600; }
+  .fim { left: 0; right: 0; display: grid; justify-items: center; gap: 16px; }
+  .fim img { width: 132px; height: 132px; filter: drop-shadow(0 20px 60px rgba(148, 139, 174, .45)); }
+  .fim b { font: 600 84px/1 var(--titulo); letter-spacing: -.03em; }
+  .fim span { font-size: 24px; color: var(--txt2); }
+  .fim .url { margin-top: 10px; padding: 14px 30px; border-radius: 16px; background: #F4F2EE; color: #161514; font: 600 24px var(--titulo); }
+
+  body.rec { overflow: hidden; }
+  body.rec::before, body.rec header.topo, body.rec main > :not(.hero), body.rec .hero > :not(.moldura), body.rec footer, body.rec .pausa { display: none !important; }
+  body.rec .hero { padding: 0; }
+  body.rec .moldura { position: fixed; inset: 0; width: 100vw; height: 100vh; margin: 0; border: 0; border-radius: 0; aspect-ratio: auto; box-shadow: none; }
+  .turma { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 12px; margin-top: 18px; }
+  .bicho { display: grid; justify-items: center; gap: 6px; padding: 14px 8px 12px; border-radius: 18px; border: 1px solid var(--linha); background: var(--vidro2); text-align: center; transition: border-color .2s, background .2s; outline: none; }
+  .bicho:hover, .bicho:focus-visible { border-color: var(--linha2); background: rgba(255, 255, 255, .07); }
+  .bicho .av { width: 84px; height: 84px; }
+  .bicho .av canvas { width: 100%; height: 100%; display: block; }
+  .bicho b { font: 600 14.5px var(--ui); color: var(--txt); }
+  .bicho small { font-size: 12.5px; color: var(--txt3); margin-top: -4px; }
+  .turma-grupo { margin-top: 30px; }
+  @media (max-width: 560px) { .turma { grid-template-columns: repeat(3, 1fr); gap: 8px; } .bicho .av { width: 64px; height: 64px; } .bicho b { font-size: 13px; } }
+  .olho { display: inline-flex; align-items: center; gap: 10px; font: 500 12.5px var(--mono); letter-spacing: .14em; }
+  .olho::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; box-shadow: 0 0 0 4px rgba(189, 180, 218, .14); }
+  section { padding-top: 0; scroll-margin-top: -56px; }
+  section::before { content: ""; display: block; width: min(1180px, calc(100% - 40px)); height: 1px; margin: 96px auto 64px; background: linear-gradient(90deg, transparent, var(--linha2) 18%, var(--linha2) 82%, transparent); }
+
+  .hero { position: relative; padding: 64px 0 40px; text-align: left; }
+  .hero::before { content: ""; position: absolute; left: 0; right: 0; top: -64px; height: 820px; z-index: -1; pointer-events: none;
+    background: radial-gradient(ellipse 46% 58% at 76% 34%, rgba(148, 139, 174, .26), transparent 70%), radial-gradient(ellipse 26% 34% at 88% 66%, rgba(240, 168, 96, .08), transparent 70%); }
+  .hero-grade { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr); gap: 56px; align-items: center; }
+  .hero h1 { margin: 22px 0 18px; max-width: none; font-size: clamp(40px, 5.1vw, 66px); }
+  .hero h1 em { font-style: normal; background: linear-gradient(100deg, #EDE8FB 0%, #B3A7DE 55%, #F0A860 135%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .hero p.sub { margin: 0; max-width: 580px; }
+  .hero .acoes { justify-content: flex-start; }
+  .novidade { display: inline-flex; align-items: center; gap: 10px; padding: 5px 14px 5px 6px; border-radius: 999px; border: 1px solid var(--linha2); background: rgba(255, 255, 255, .04); color: var(--txt2); font-size: 14.5px; text-decoration: none; transition: border-color .2s, color .2s; }
+  .novidade b { padding: 2px 9px; border-radius: 999px; background: linear-gradient(160deg, var(--marca-clara), var(--marca)); color: #17151C; font: 700 12px var(--ui); letter-spacing: .04em; }
+  .novidade svg.i { width: 15px; height: 15px; color: var(--txt3); }
+  .novidade:hover { border-color: var(--marca-clara); color: var(--txt); }
+  .com { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 30px; color: var(--txt3); font-size: 14px; }
+  .com > span:first-child { flex-basis: 100%; }
+  .com .ag { --t: 38px; border-radius: 12px; box-shadow: none; }
+
+  .vivo { padding: 18px; border-radius: 24px; border: 1px solid var(--linha); background: linear-gradient(180deg, rgba(36, 33, 42, .88), rgba(20, 19, 23, .88)); box-shadow: 0 40px 110px rgba(0, 0, 0, .55), inset 0 1px 0 rgba(255, 255, 255, .07); }
+  .vivo-cab { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 2px 6px 14px; }
+  .vivo-cab b { font: 600 18px var(--titulo); }
+  .vc { display: grid; grid-template-columns: 38px minmax(0, 1fr); gap: 12px; padding: 14px; border-radius: 16px; border: 1px solid var(--linha); background: rgba(255, 255, 255, .035); }
+  .vc + .vc { margin-top: 10px; }
+  .vc .ag { --t: 38px; border-radius: 12px; box-shadow: none; }
+  .vc h4 { margin: 0; display: flex; align-items: center; gap: 10px; font: 600 15.5px var(--titulo); }
+  .vc p { margin: 0; }
+  .vc .de { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 10px; margin-top: 2px; font: 12.5px var(--mono); color: var(--txt3); }
+  .vc .que { margin-top: 8px; color: var(--txt2); font-size: 14px; }
+  .vc code { font: 12.5px var(--mono); color: var(--cod); }
+  .vc .que.ok { color: var(--verde); }
+  .vc .bts { display: flex; gap: 8px; margin-top: 10px; }
+  .vc .bts span { padding: 5px 14px; border-radius: 9px; border: 1px solid var(--linha2); font: 600 13px var(--ui); }
+  .vc .bts .claro { background: #F4F2EE; color: #161514; border-color: transparent; }
+  .vc.pede { border-color: rgba(240, 168, 96, .5); background: linear-gradient(180deg, rgba(240, 168, 96, .1), rgba(240, 168, 96, .03)); }
+  .vc .prog { height: 4px; margin-top: 10px; border-radius: 2px; background: rgba(255, 255, 255, .1); overflow: hidden; }
+  .vc .prog i { display: block; height: 100%; width: 46%; border-radius: 2px; background: linear-gradient(90deg, var(--marca-clara), var(--marca)); animation: andar 3.2s ease-in-out infinite alternate; }
+  @keyframes andar { from { width: 28%; } to { width: 74%; } }
+  .estado { margin-left: auto; display: inline-flex; align-items: center; gap: 6px; font: 500 12px var(--ui); color: var(--txt3); white-space: nowrap; }
+  .estado::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--txt); }
+  .estado.pede { color: var(--laranja); }
+  .estado.pede::before { background: var(--laranja); }
+  .estado.pronta::before { background: var(--verde); }
+  .selo-nuvem { display: inline-flex; align-items: center; gap: 5px; padding: 1px 8px; border-radius: 999px; border: 1px solid rgba(124, 200, 232, .3); background: rgba(124, 200, 232, .08); color: #A9DCF2; font: 500 11.5px var(--ui); }
+  .selo-nuvem svg.i { width: 12px; height: 12px; }
+  .rotulo-video { margin: 72px 0 0; text-align: center; }
+  .moldura { margin-top: 20px; }
+
+  .bento { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 16px; margin-top: 40px; }
+  .bento .cartao { display: flex; flex-direction: column; gap: 12px; padding: 28px; }
+  .bento .cartao h3 { margin: 0; font-size: 22px; }
+  .bento .cartao .ic { margin-bottom: 4px; }
+  .bento .visual { display: grid; gap: 10px; margin-top: auto; padding-top: 12px; }
+  .b7 { grid-column: span 7; }
+  .b5 { grid-column: span 5; }
+  .b4 { grid-column: span 4; }
+  .b-nuvem { background: radial-gradient(ellipse 80% 70% at 100% 0%, rgba(148, 139, 174, .2), transparent 70%), var(--vidro); }
+  .onde-chips { display: inline-flex; justify-self: start; gap: 2px; padding: 3px; border-radius: 12px; border: 1px solid var(--linha); background: rgba(255, 255, 255, .04); font: 500 14px var(--ui); }
+  .onde-chips span { display: inline-flex; align-items: center; gap: 7px; padding: 6px 14px; border-radius: 9px; color: var(--txt3); }
+  .onde-chips .ativo { background: rgba(189, 180, 218, .16); color: var(--txt); }
+  .onde-chips svg.i, .onde-faixa svg.i { width: 16px; height: 16px; }
+  .onde-faixa { display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; border-radius: 12px; border: 1px solid rgba(124, 200, 232, .28); background: rgba(124, 200, 232, .07); color: var(--txt2); font-size: 14.5px; line-height: 1.45; }
+  .onde-faixa svg.i { margin-top: 2px; color: #7CC8E8; }
+  .provedores { display: flex; flex-wrap: wrap; gap: 8px; }
+  .provedores .chip { padding: 5px 12px; font-size: 14px; }
+  .provedores small { margin-left: 2px; color: var(--marca-clara); font-size: 12px; }
+  .term { margin: 0; padding: 16px 18px; border-radius: 14px; border: 1px solid var(--linha); background: rgba(8, 8, 9, .7); font: 13px/1.65 var(--mono); font-variant-ligatures: none; color: var(--txt2); white-space: pre-wrap; overflow-wrap: anywhere; }
+  .term b { color: var(--txt); font-weight: 500; }
+  .term i { color: var(--txt3); font-style: normal; }
+  .term u { color: var(--laranja); text-decoration: none; }
+
+  .grupo-nome { font-size: 18px; }
+  .grupo .grade { margin-top: 14px; gap: 12px; }
+  .grade details.recurso { border-radius: 16px; transition: border-color .2s, background .2s; }
+  .grade details.recurso:hover { background: rgba(38, 35, 44, .8); }
+  .grade details.recurso > summary { display: grid; grid-template-columns: 42px minmax(0, 1fr) 18px; gap: 0 14px; align-items: start; padding: 18px 18px 18px 20px; }
+  .recurso > summary .ic { grid-row: 1 / span 2; width: 42px; height: 42px; margin: 0; border-radius: 12px; }
+  .recurso > summary h3 { grid-column: 2; margin: 0 0 3px; font-size: 17.5px; }
+  .recurso > summary p { grid-column: 2; font-size: 14.5px; line-height: 1.45; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .recurso[open] > summary p { display: block; overflow: visible; }
+  .recurso .abrir { grid-column: 3; grid-row: 1; margin: 3px 0 0; }
+  .recurso .abrir .ver, .recurso[open] .abrir .fechar { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .recurso .mais { padding: 6px 20px 22px; }
+
+  @media (max-width: 1000px) {
+    .hero-grade { grid-template-columns: 1fr; gap: 40px; }
+    .b7, .b5, .b4 { grid-column: 1 / -1; }
+    section::before { margin: 72px auto 48px; }
+    .term { white-space: pre; overflow-x: auto; }
+  }
+  @media (prefers-reduced-motion: reduce) { .vc .prog i { animation: none; } }
+</style>
+<link rel="stylesheet" href="/telas/telas.css">
+</head>
+<body>
+<header class="topo">
+  <div class="larg">
+    <a class="marca" href="#"><img src="/img/nexora.svg" alt="">Nexora</a>
+    <nav><a href="#novidades">What's new</a><a href="#recursos">Features</a><a href="#agentes">Agents</a><a href="#temas">Themes</a><a href="#perguntas">FAQ</a></nav>
+    <div class="idiomas" role="group" aria-label="Language"><a href="/" hreflang="pt-BR" lang="pt-BR" title="Português" data-idioma="pt">PT</a><a href="/en/" hreflang="en" lang="en" title="English" data-idioma="en" aria-current="page">EN</a></div>
+    <a class="botao pequeno" href="#baixar">Free download</a>
+  </div>
+</header>
+<div class="sugestao" id="sugestao" lang="pt-BR" hidden><div class="larg"><span>Este site também está em português.</span><a href="/" hreflang="pt-BR" data-idioma="pt">Ver em português</a><button type="button" aria-label="Stay in English" title="Stay in English">×</button></div></div>
+<script>
+(() => {
+  const pagina = document.documentElement.lang === "en" ? "en" : "pt";
+  const salvar = (l) => { try { localStorage.setItem("lang", l); } catch (e) {} };
+  let salvo = null;
+  try { salvo = localStorage.getItem("lang"); } catch (e) {}
+  const sugestao = document.getElementById("sugestao");
+  document.querySelectorAll("a[data-idioma]").forEach((a) => a.addEventListener("click", (e) => {
+    salvar(a.dataset.idioma);
+    if (a.dataset.idioma === pagina) { e.preventDefault(); sugestao.hidden = true; return; }
+    a.href = a.getAttribute("href").split("#")[0] + location.hash;
+  }));
+  sugestao.querySelector("button").addEventListener("click", () => { salvar(pagina); sugestao.hidden = true; });
+  const lista = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ""];
+  const navegador = lista.some((l) => /^pt\b/i.test(l)) ? "pt" : "en";
+  if (!salvo && navegador !== pagina && !/[?&]rec\b/.test(location.search)) sugestao.hidden = false;
+})();
+</script>
+
+<main>
+  <div class="hero">
+    <div class="larg hero-grade">
+      <div>
+        <a class="novidade" href="#novidades"><b>0.8</b>Cloud machines and the nexora terminal command<svg class="i" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+        <h1>All your coding agents, <em>in one place.</em></h1>
+        <p class="sub">Claude Code, Codex, Gemini CLI, Antigravity, Copilot, Cursor and five more agents on a single board that shows what needs you first. The agent itself reads and writes the code, on your own account and plan.</p>
+        <div class="acoes">
+          <a class="botao" id="baixarPrincipal" href="/baixar" data-dl="setup"><svg class="i" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg><span>Download for Windows</span></a>
+          <a class="botao sec" id="baixarOutro" href="#mac"><svg class="i" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>Download for Mac</a>
+        </div>
+        <p class="miudo">Free · Windows 10 and 11 on version 0.8.1 · Mac, Apple Silicon and Intel, still on 0.7.1</p>
+        <div class="com" role="img" aria-label="Claude Code, Codex, Gemini CLI, Antigravity, GitHub Copilot, Cursor, OpenCode, Kiro, Qwen Code, Grok and goose"><span>With the agent you already use</span><span class="ag"><img src="/img/agentes/claude.svg" alt="" width="24" height="24"></span><span class="ag"><img src="/img/agentes/codex.svg" alt="" width="24" height="24"></span><span class="ag"><img src="/img/agentes/gemini.svg" alt="" width="24" height="24"></span><span class="ag"><img src="/img/agentes/antigravity.svg" alt="" width="24" height="24"></span><span class="ag"><img src="/img/agentes/copilot.svg" alt="" width="24" height="24"></span><span class="ag"><img src="/img/agentes/cursor.svg" alt="" width="24" height="24"></span><span class="ag"><img src="/img/agentes/opencode.svg" alt="" width="24" height="24"></span><span class="ag"><img src="/img/agentes/kiro.svg" alt="" width="24" height="24"></span><span class="ag"><img src="/img/agentes/qwen.svg" alt="" width="24" height="24"></span><span class="ag"><img src="/img/agentes/grok.svg" alt="" width="24" height="24"></span><span class="ag"><img src="/img/agentes/goose.svg" alt="" width="24" height="24"></span></div>
+      </div>
+      <div class="vivo" role="img" aria-label="The Nexora Live now board: one session asking for permission, one working in the cloud and one ready">
+        <div class="vivo-cab"><b>Live now</b><span class="estado pede">1 needs you</span></div>
+        <div class="vc pede"><span class="ag"><img src="/img/agentes/codex.svg" alt="" width="24" height="24"></span><div><h4>Coupon migration<span class="estado pede">Needs you</span></h4><p class="de">Store · coupon-checkout</p><p class="que">Allow Bash: <code>dotnet ef database update</code></p><div class="bts"><span class="claro">Allow</span><span>Deny</span></div></div></div>
+        <div class="vc"><span class="ag"><img src="/img/agentes/claude.svg" alt="" width="24" height="24"></span><div><h4>Rate limiting<span class="estado">Working</span></h4><p class="de">Store.Api · rate-limit<span class="selo-nuvem"><svg class="i" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>Cloud · InstaBox</span></p><p class="que">Edit <code>src/Api/RateLimit.cs</code></p><div class="prog"><i></i></div></div></div>
+        <div class="vc"><span class="ag"><img src="/img/agentes/gemini.svg" alt="" width="24" height="24"></span><div><h4>Offline notes<span class="estado pronta">Ready</span></h4><p class="de">App.Notes · offline-notes</p><p class="que ok">PR #51 · checks ok · approved</p></div></div>
+      </div>
+    </div>
+    <p class="rotulo-video"><span class="olho">Nexora in 30 seconds</span></p>
+    <div class="moldura" id="moldura">
+      <div id="palco" aria-label="Animation showing the session board, the shared MCP hub and VS Code projects being imported" role="img">
+        <canvas id="grafo" width="1600" height="900"></canvas>
+        <div class="veu"></div>
+
+        <div class="abs leg" id="h1a" style="top:112px">Five agent conversations open.</div>
+        <div class="abs leg" id="h1b" style="top:172px"><em>Which one needs you?</em></div>
+        <div id="convs"></div>
+
+        <div class="abs marcaGrande" id="logo" style="top:250px"><img src="/img/nexora.svg" alt=""><b>Nexora</b><span>All your coding agents, in one place.</span></div>
+
+        <div class="abs leg" id="h3" style="top:62px">Sessions waiting on you come first.</div>
+        <div class="abs vid app" id="app">
+          <div class="trilho"><div class="cap"><span class="ti ativo"><svg viewBox="0 0 24 24"><path d="M3 3 L10 3 L10 10 L3 10 Z M14 3 L21 3 L21 10 L14 10 Z M14 14 L21 14 L21 21 L14 21 Z M3 14 L10 14 L10 21 L3 21 Z"/></svg><em id="nPede">1</em></span><span class="ti"><svg viewBox="0 0 24 24"><path d="M21 15 A2 2 0 0 1 19 17 L7 17 L3 21 L3 5 A2 2 0 0 1 5 3 L19 3 A2 2 0 0 1 21 5 Z"/></svg></span><span class="ti"><svg viewBox="0 0 24 24"><path d="M12.83 2.18 A2 2 0 0 0 11.17 2.18 L2.6 6.08 A1 1 0 0 0 2.6 7.91 L11.18 11.82 A2 2 0 0 0 12.84 11.82 L21.42 7.92 A1 1 0 0 0 21.42 6.09 Z M2 12 A1 1 0 0 0 2.58 12.91 L11.18 16.82 A2 2 0 0 0 12.83 16.82 L21.41 12.92 A1 1 0 0 0 22 12 M2 17 A1 1 0 0 0 2.58 17.91 L11.18 21.82 A2 2 0 0 0 12.83 21.82 L21.41 17.92 A1 1 0 0 0 22 17"/></svg></span><span class="ti"><svg viewBox="0 0 24 24"><path d="M12 2 A10 10 0 1 0 12 22 A10 10 0 1 0 12 2 M12 11 A1 1 0 1 0 12 13 A1 1 0 1 0 12 11"/></svg></span><span class="ti"><svg viewBox="0 0 24 24"><path d="M5 3 L9 3 A2 2 0 0 1 11 5 L11 9 A2 2 0 0 1 9 11 L5 11 A2 2 0 0 1 3 9 L3 5 A2 2 0 0 1 5 3 Z M7 11 L7 15 A2 2 0 0 0 9 17 L13 17 M15 13 L19 13 A2 2 0 0 1 21 15 L21 19 A2 2 0 0 1 19 21 L15 21 A2 2 0 0 1 13 19 L13 15 A2 2 0 0 1 15 13 Z"/></svg></span><span class="ti"><svg viewBox="0 0 24 24"><path d="M2 12 A10 10 0 1 0 22 12 A10 10 0 1 0 2 12 M12 6 L12 12 L16 14"/></svg></span><span class="ti"><svg viewBox="0 0 24 24"><path d="M3 3 L3 19 A2 2 0 0 0 5 21 L21 21 M18 17 L18 9 M13 17 L13 5 M8 17 L8 14"/></svg></span><span class="ti"><svg viewBox="0 0 24 24"><path d="M6 4 L18 4 A2 2 0 0 1 20 6 L20 18 A2 2 0 0 1 18 20 L6 20 A2 2 0 0 1 4 18 L4 6 A2 2 0 0 1 6 4 Z M9 9 L15 9 L15 15 L9 15 Z M9 1.5 L9 4 M15 1.5 L15 4 M9 20 L9 22.5 M15 20 L15 22.5 M20 9 L22.5 9 M20 15 L22.5 15 M1.5 9 L4 9 M1.5 15 L4 15"/></svg></span></div><div class="cap"><span class="ti"><svg viewBox="0 0 24 24"><path d="M2 12 A10 10 0 1 0 22 12 A10 10 0 1 0 2 12 M9.1 9 A3 3 0 0 1 14.9 10 C14.9 12 11.9 13 11.9 13 M12 17 L12.01 17"/></svg></span><span class="ti"><svg viewBox="0 0 24 24"><path d="M12.22 2 L11.78 2 A2 2 0 0 0 9.78 4 L9.78 4.18 A2 2 0 0 1 8.78 5.91 L8.35 6.16 A2 2 0 0 1 6.35 6.16 L6.2 6.08 A2 2 0 0 0 3.47 6.81 L3.25 7.19 A2 2 0 0 0 3.98 9.92 L4.13 10.02 A2 2 0 0 1 5.13 11.74 L5.13 12.25 A2 2 0 0 1 4.13 13.99 L3.98 14.08 A2 2 0 0 0 3.25 16.81 L3.47 17.19 A2 2 0 0 0 6.2 17.92 L6.35 17.84 A2 2 0 0 1 8.35 17.84 L8.78 18.09 A2 2 0 0 1 9.78 19.82 L9.78 20 A2 2 0 0 0 11.78 22 L12.22 22 A2 2 0 0 0 14.22 20 L14.22 19.82 A2 2 0 0 1 15.22 18.09 L15.65 17.84 A2 2 0 0 1 17.65 17.84 L17.8 17.92 A2 2 0 0 0 20.53 17.19 L20.75 16.8 A2 2 0 0 0 20.02 14.07 L19.87 13.99 A2 2 0 0 1 18.87 12.25 L18.87 11.75 A2 2 0 0 1 19.87 10.01 L20.02 9.92 A2 2 0 0 0 20.75 7.19 L20.53 6.81 A2 2 0 0 0 17.8 6.08 L17.65 6.16 A2 2 0 0 1 15.65 6.16 L15.22 5.91 A2 2 0 0 1 14.22 4.18 L14.22 4 A2 2 0 0 0 12.22 2 Z M12 9 A3 3 0 1 0 12 15 A3 3 0 1 0 12 9"/></svg></span></div></div><div class="lat"><div class="sec">Conversations</div><div class="cv pede" id="latM"><b><i id="latMi" style="--c:var(--laranja)"></i>Coupon migration</b><small id="latMs">Shop · coupon-checkout</small></div><div class="cv"><b><i style="--c:var(--txt)"></i>Orders page bug</b><small>Edit · 2 min</small></div><div class="cv"><b><i style="--c:var(--verde)"></i>Offline notes</b><small>PR #51 · checks ok</small></div></div>
+          <div class="barraTopo"><span class="lt"><img src="/img/nexora.svg" alt="">Nexora</span><span class="aba">Coupon migration</span><span class="nova">+</span></div>
+          <div class="miolo"></div>
+          <div class="titulo">Live now</div>
+          <div class="col" style="left:256px;--c:var(--laranja)"><h4><i></i>Needs you <small id="n0">0</small></h4></div>
+          <div class="col" style="left:506px;--c:var(--txt)"><h4><i></i>Working <small id="n1">2</small></h4></div>
+          <div class="col" style="left:756px;--c:var(--verde)"><h4><i></i>Ready <small id="n2">1</small></h4></div>
+          <div class="col" style="left:1006px;--c:var(--txt3)"><h4><i></i>Idle <small>1</small></h4></div>
+          <div class="ct" id="cA" style="left:518px;top:184px"><div class="t"><s>ST</s>Orders page bug</div><div class="o">Store · orders-bug</div><div class="a">Edit  src/Store.Web/Orders.razor</div><div class="l"><b style="width:62%"></b></div></div>
+          <div class="ct" id="cM"><div class="t"><s>ST</s>Coupon migration</div><div class="o">Store · coupon-checkout</div><div class="a" id="cMa">Bash  dotnet test --filter Coupon</div><div class="l" id="cMl"><b id="cMb"></b></div><div class="bts" id="cMbts"><span class="claro" id="bPerm">Allow</span><span>Deny</span></div><div class="bts" id="cMpr"><span class="claro" id="bPr">Commit &amp; PR</span></div></div>
+          <div class="ct" id="cN" style="left:768px;top:184px"><div class="t"><s>AN</s>Offline notes</div><div class="o">App.Notes · offline-notes</div><div class="a">Done: the new test passes.</div></div>
+          <div class="ct" id="cP" style="left:1018px;top:184px;opacity:.7"><div class="t"><s>SI</s>Monthly report</div><div class="o">Site · monthly-report</div><div class="a">idle for 2 days</div></div>
+          <div class="rodapeApp"><span><svg viewBox="0 0 24 24" class="fa"><path d="M12 3 L12 21 M3 12 L21 12 M6.6 6.6 L17.4 17.4 M17.4 6.6 L6.6 17.4"/></svg><u><b></b></u>4% · 3h 12m · 35% this week</span><span><svg viewBox="0 0 24 24"><path d="M4 17 L10 11 L4 5 M12 19 L20 19"/></svg>Codex 25% · 40% this week</span><span class="mem"><svg viewBox="0 0 24 24"><path d="M6 4 L18 4 A2 2 0 0 1 20 6 L20 18 A2 2 0 0 1 18 20 L6 20 A2 2 0 0 1 4 18 L4 6 A2 2 0 0 1 6 4 Z M9 9 L15 9 L15 15 L9 15 Z M9 1.5 L9 4 M15 1.5 L15 4 M9 20 L9 22.5 M15 20 L15 22.5 M20 9 L22.5 9 M20 15 L22.5 15 M1.5 9 L4 9 M1.5 15 L4 15"/></svg>2.4 GB</span></div>
+          <div class="abs vid aviso" id="aviso"><i></i>PR #52 opened on GitHub</div>
+        </div>
+        <svg class="abs cursor" id="cursor" viewBox="0 0 24 24"><path d="M5 3l14 8-6 1.6L9.6 19z" fill="#F4F2EE" stroke="#161514" stroke-width="1.4" stroke-linejoin="round"/></svg>
+        <div class="abs anel" id="anel"></div>
+
+        <div class="abs leg" id="h4" style="top:62px">One MCP hub for every session in a project.</div>
+        <div class="abs leg2" id="h4b" style="top:128px"></div>
+        <svg class="abs" id="fios" width="1600" height="900" style="left:0;top:0"></svg>
+        <div id="sessoes"></div>
+        <div id="mcpsAnim"></div>
+        <div class="abs medidor" id="medidor"><div class="rot"><span id="medRot">MCP memory, 3 sessions</span><b id="medVal">1.3 GB</b></div><div class="tr"><i id="medBar"></i></div></div>
+        <div class="abs selo2" id="selo" style="left:1140px;top:672px">about 1 GB less</div>
+
+        <div class="abs leg" id="h5" style="top:62px">Your VS Code workspaces become projects.</div>
+        <div class="abs vid vsl" id="vsl"><h5>Recently opened in VS Code</h5><div id="vslr"></div></div>
+        <div id="pjs"></div>
+        <div class="abs leg2" id="h5b" style="top:770px">Plain git folders too, without adding anything to the repo.</div>
+
+        <div class="abs leg" id="h6" style="top:62px">In the cloud, or from the terminal.</div>
+        <div class="abs vid nv" id="nv"><h5><s>LA</s>Rate limiting</h5><div class="de">Store.Api · rate-limit</div><div class="onde"><span id="nvPc" class="ativo">This PC</span><span id="nvNuvem">Cloud · InstaBox</span></div><div class="faixa" id="nvFaixa"><b>Running in the cloud.</b> You can turn this PC off: the agent keeps going.</div><div class="barraNv"><i id="nvBarra"></i></div><div class="pc" id="nvPcEstado"><i></i><span id="nvPcTexto">This PC: on</span></div></div>
+        <div class="abs vid tm" id="tm"><span class="ln cmd" id="tmL1"><span class="fr">$ </span><b>nexora iniciar . "fix the test" --espere</b></span><span class="ln fr" id="tmL2">Sessão s3 começou. Esperando…</span><span class="ln" id="tmL3">Done: the coupon test passes now.</span><span class="ln cmd" id="tmL4"><span class="fr">$ </span><b>nexora ao-vivo</b></span><span class="ln pd" id="tmL5">s1  precisa de você  Coupon migration</span><span class="ln fr" id="tmL6">    Permitir Bash: dotnet ef database update</span></div>
+        <div class="abs leg2" id="h6b" style="top:770px">New in 0.8: cloud machines and the nexora command.</div>
+
+        <div class="abs fim" id="fim" style="top:250px"><img src="/img/nexora.svg" alt=""><b>Nexora</b><span>Free for Windows and Mac</span><div class="url">nexora.suiciniv.dev</div></div>
+      </div>
+      <button class="pausa" id="pausa" aria-label="Pause the animation"><svg class="i" viewBox="0 0 24 24" id="icPausa"><path d="M9 5v14M15 5v14"/></svg></button>
+    </div>
+  </div>
+
+  <section id="novidades">
+    <div class="larg">
+      <span class="olho">New in 0.8</span>
+      <h2>Agents leave your PC. Nexora enters your terminal.</h2>
+      <p class="intro">The 0.8 release moves the heavy work to a cloud machine and lets you drive Nexora from scripts, without taking away anything that already worked.</p>
+      <div class="bento">
+        <article class="cartao b7 b-nuvem">
+          <div class="ic"><svg class="i" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg></div>
+          <h3>Cloud machines</h3>
+          <p>Connect your own machine over SSH or create one with an API key. Each conversation picks whether it runs on this PC or there, and the agent keeps working with your PC turned off. Run also works on the machine, and the server port reaches your localhost.</p>
+          <div class="visual" aria-hidden="true">
+            <div class="onde-chips"><span>This PC</span><span class="ativo"><svg class="i" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>Cloud · InstaBox</span></div>
+            <div class="onde-faixa"><svg class="i" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg><span>Running in the cloud, on InstaBox machine. You can turn this PC off: the agent keeps going.</span></div>
+          </div>
+          <div class="provedores"><span class="chip">Your machine over SSH</span><span class="chip">InstaBox</span><span class="chip">Freestyle <small>in testing</small></span></div>
+        </article>
+        <article class="cartao b5">
+          <div class="ic"><svg class="i" viewBox="0 0 24 24"><path d="m4 17 6-6-6-6"/><path d="M12 19h8"/></svg></div>
+          <h3>The nexora terminal command</h3>
+          <p>Start conversations, send messages and see what needs you without leaving the terminal. With <code>--json</code> and the exit code, it works for scripts and for other agents. The commands are in Portuguese for now: <code>iniciar</code> starts, <code>enviar</code> sends.</p>
+          <div class="visual"><pre class="term" role="img" aria-label="Terminal with the nexora iniciar and nexora ao-vivo commands"><i>$</i> <b>nexora iniciar . "fix the test" --espere</b>
+<i>Sessão s3 começou em D:\Projects\Store. Esperando…</i>
+Done: the expired coupon test passes now.
+<i>$</i> <b>nexora ao-vivo</b>
+<u>s1  precisa de você  Coupon migration · Store</u>
+<i>    Permitir Bash: dotnet ef database update</i></pre></div>
+        </article>
+        <article class="cartao b4"><div class="ic"><svg class="i" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M10 4v4"/><path d="M2 8h20"/><path d="M6 4v4"/></svg></div><h3>Built-in browser</h3><p>Open your project's site inside Nexora. In design mode, mark elements on the page and send the notes to the agent.</p></article>
+        <article class="cartao b4"><div class="ic"><svg class="i" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M13 8H7"/><path d="M17 12H7"/></svg></div><h3>Review on the diff</h3><p>Comment on diff lines and send them to the agent. PR review comments go to it with one click.</p></article>
+        <article class="cartao b4"><div class="ic"><svg class="i" viewBox="0 0 24 24"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/></svg></div><h3>Secrets through a form</h3><p>When the agent needs a password or key, it asks through a protected form. The value goes to the vault without passing through the chat.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="agentes">
+    <div class="larg">
+      <span class="olho">Agents</span>
+      <h2>The agent you already use, on the same board</h2>
+      <p class="intro">Each new conversation picks its agent with the button next to the model, among the ones installed on your computer. The account and the plan are yours, and the history shows which agent each conversation belongs to.</p>
+      <div class="agentes-topo">
+        <div class="cartao agente"><span class="ag" style="--t:64px"><img src="/img/agentes/claude.svg" alt="" width="24" height="24"></span><div><h3>Claude Code <small>Anthropic</small></h3><p>Every Nexora feature, including Remote Control, Ultracode and fast mode.</p></div></div>
+        <div class="cartao agente"><span class="ag" style="--t:64px"><img src="/img/agentes/codex.svg" alt="" width="24" height="24"></span><div><h3>Codex <small>OpenAI</small></h3><p>Per-turn modes, summarized reasoning, questions and access requests on the card, and your plan limits in the bottom bar.</p></div></div>
+      </div>
+      <div class="cartao agentes-teste">
+        <p class="rot"><span class="selo-teste">In beta</span>Newly added, through the Agent Client Protocol. Each one brings its own models, slash commands and permission requests, which show up on the card just like Claude's.</p>
+        <ul class="agentes-linha">
+          <li><span class="ag"><img src="/img/agentes/gemini.svg" alt="" width="24" height="24"></span><span>Gemini CLI<small>Google</small></span></li>
+          <li><span class="ag"><img src="/img/agentes/antigravity.svg" alt="" width="24" height="24"></span><span>Antigravity<small>Google</small></span></li>
+          <li><span class="ag"><img src="/img/agentes/copilot.svg" alt="" width="24" height="24"></span><span>GitHub Copilot<small>GitHub</small></span></li>
+          <li><span class="ag"><img src="/img/agentes/cursor.svg" alt="" width="24" height="24"></span><span>Cursor<small>Anysphere</small></span></li>
+          <li><span class="ag"><img src="/img/agentes/opencode.svg" alt="" width="24" height="24"></span><span>OpenCode<small>SST</small></span></li>
+          <li><span class="ag"><img src="/img/agentes/kiro.svg" alt="" width="24" height="24"></span><span>Kiro<small>Amazon</small></span></li>
+          <li><span class="ag"><img src="/img/agentes/qwen.svg" alt="" width="24" height="24"></span><span>Qwen Code<small>Alibaba</small></span></li>
+          <li><span class="ag"><img src="/img/agentes/grok.svg" alt="" width="24" height="24"></span><span>Grok<small>xAI</small></span></li>
+          <li><span class="ag"><img src="/img/agentes/goose.svg" alt="" width="24" height="24"></span><span>goose<small>Block</small></span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="avatares">
+    <div class="larg">
+      <span class="olho">Avatars</span>
+      <h2>Every agent gets its own face</h2>
+      <p class="intro">Each agent and each subagent gets a little character of its own. It looks at your mouse, blinks, thinks while it works and cheers when it finishes. Hover over one.</p>
+      <div role="group" aria-label="Nexora avatars">
+        <p class="grupo-nome turma-grupo">Agents</p>
+        <div class="turma"><div class="bicho" tabindex="0"><span class="av" data-avatar="agentes:claude"></span><b>Claude Code</b></div><div class="bicho" tabindex="0"><span class="av" data-avatar="agentes:codex"></span><b>Codex</b></div><div class="bicho" tabindex="0"><span class="av" data-avatar="agentes:gemini"></span><b>Gemini CLI</b></div><div class="bicho" tabindex="0"><span class="av" data-avatar="agentes:antigravity"></span><b>Antigravity</b></div><div class="bicho" tabindex="0"><span class="av" data-avatar="agentes:copilot"></span><b>GitHub Copilot</b></div><div class="bicho" tabindex="0"><span class="av" data-avatar="agentes:cursor"></span><b>Cursor</b></div><div class="bicho" tabindex="0"><span class="av" data-avatar="agentes:opencode"></span><b>OpenCode</b></div><div class="bicho" tabindex="0"><span class="av" data-avatar="agentes:kiro"></span><b>Kiro</b></div><div class="bicho" tabindex="0"><span class="av" data-avatar="agentes:qwen"></span><b>Qwen Code</b></div><div class="bicho" tabindex="0"><span class="av" data-avatar="agentes:grok"></span><b>Grok</b></div><div class="bicho" tabindex="0"><span class="av" data-avatar="agentes:goose"></span><b>goose</b></div></div>
+        <p class="grupo-nome turma-grupo">Subagents and orchestrator</p>
+        <div class="turma"><div class="bicho" tabindex="0"><span class="av" data-avatar="subagentes:Explore"></span><b>Explore</b><small>searches the code</small></div><div class="bicho" tabindex="0"><span class="av" data-avatar="subagentes:Plan"></span><b>Plan</b><small>plans</small></div><div class="bicho" tabindex="0"><span class="av" data-avatar="subagentes:general-purpose"></span><b>General</b><small>does a bit of everything</small></div><div class="bicho" tabindex="0"><span class="av" data-avatar="subagentes:*"></span><b>Others</b><small>your own subagents</small></div><div class="bicho" tabindex="0"><span class="av" data-avatar="orquestrador"></span><b>Orchestrator</b><small>splits the work</small></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="recursos">
+    <div class="larg">
+      <span class="olho">Features</span>
+      <h2>Built for running many sessions at once</h2>
+      <p class="intro">With three or four agent conversations going at once, the hard part is knowing which one stopped to wait for you. Nexora solves that first.</p>
+      <div class="foto desenho" data-tela="quadro" role="img" aria-label="Nexora's session board with one session asking for permission, two working and one ready"></div>
+      <div class="grupo" role="group" aria-labelledby="grupoSessoes">
+        <p class="grupo-nome" id="grupoSessoes">Across all sessions</p>
+        <div class="grade">
+          <details class="cartao recurso" id="quadro"><summary><div class="ic"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="3" width="5" height="18" rx="1.5"/><rect x="10" y="3" width="5" height="11" rx="1.5"/><rect x="17" y="3" width="4" height="14" rx="1.5"/></svg></div><h3>Live now</h3><p>Every session on one board: needs you, working, ready and idle, with search. Allow, deny, answer the agent and commit without opening the conversation, with the PR status on every card.</p><span class="abrir"><span class="ver">See more</span><span class="fechar">Close</span><svg class="i" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span></summary><div class="mais"><div class="bloco"><div><p>Each session is a card in the column for its state. Whatever needs you sits at the top: permission requests, the agent's questions and plans to approve, all answered right on the card.</p><p>Space opens a quick view of the conversation, the arrow keys move from one session to the next and Esc closes it. Each card also shows the PR status and how many lines changed.</p></div><div class="foto desenho" data-tela="quadro" role="img" aria-label="Nexora's session board with one session asking for permission, two working and one ready"></div></div></div></details>
+          <details class="cartao recurso" id="lateral"><summary><div class="ic"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/><path d="M5.5 8h1.5M5.5 11h1.5M5.5 14h1.5"/></svg></div><h3>Rail and conversations</h3><p>An icon rail that is always at hand, with conversations in a panel beside it that opens and closes with Ctrl+B without hiding the shortcuts.</p><span class="abrir"><span class="ver">See more</span><span class="fechar">Close</span><svg class="i" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span></summary><div class="mais"><div class="bloco so-texto"><div><p>The rail holds Live now, Conversations, Projects, Issues, Orchestrator, Scheduled, Usage and Resources, and it widens with each shortcut's name when you hover it. The conversations panel groups by project and branch, each showing what it is doing right now. Pages open in place instead of as tabs, so the tabs up top are just for conversations.</p><p>The session panel on the right starts closed and opens with one click. A bar at the bottom shows plan usage and Nexora's memory. F11 opens the big screen: full screen, everything larger and your sessions driven by the keyboard.</p></div></div></div></details>
+          <details class="cartao recurso" id="orquestrador"><summary><div class="ic"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="5" r="2.5"/><circle cx="5" cy="19" r="2.5"/><circle cx="19" cy="19" r="2.5"/><path d="M12 7.5v4M12 11.5 6.5 17M12 11.5l5.5 5.5"/></svg></div><h3>Orchestrator</h3><p>Hand it a big task and it splits the work across sessions, each in its own worktree, then lets you know when it's ready for review.</p><span class="abrir"><span class="ver">See more</span><span class="fechar">Close</span><svg class="i" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span></summary><div class="mais"><div class="bloco so-texto"><div><p>For a task too big for a single session. The orchestrator breaks it into parts, starts an agent for each one in its own worktree, tracks them all on a canvas and tells you when there's something to review.</p></div></div></div></details>
+          <details class="cartao recurso" id="agendados"><summary><div class="ic"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 10h18M12 13.5v3l2 1"/></svg></div><h3>Scheduled prompts</h3><p>Prompts that run on their own at a set time, like reviewing PRs every morning, each in a new session on the board.</p><span class="abrir"><span class="ver">See more</span><span class="fechar">Close</span><svg class="i" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span></summary><div class="mais"><div class="bloco"><div><p>Pick the project, the time, the days and the prompt. When the time comes, Nexora opens a new session with that prompt, and it shows up on the board like any other.</p><p>It works while Nexora is open. If it was closed at the scheduled time, the prompt runs when you open it, as long as it's the same day.</p></div><div class="foto desenho" data-tela="agendados" role="img" aria-label="Nexora's Scheduled page with three scheduled prompts and the form for a new one"></div></div></div></details>
+          <details class="cartao recurso" id="fluxos"><summary><div class="ic"><svg class="i" viewBox="0 0 24 24"><circle cx="5" cy="6" r="2"/><circle cx="5" cy="18" r="2"/><circle cx="19" cy="12" r="2"/><path d="M7 6h4a4 4 0 0 1 4 4v0M7 18h4a4 4 0 0 0 4-4v0M15 12h2"/></svg></div><h3>Multi-step flows</h3><p>A template with several prompts in a row: the first goes right away and the rest wait for the agent to finish.</p><span class="abrir"><span class="ver">See more</span><span class="fechar">Close</span><svg class="i" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span></summary><div class="mais"><div class="bloco so-texto"><div><p>Split the steps with a "--- next step ---" line. When you send it, the first step goes to the agent and the rest wait in the queue, one at a time, as each turn ends.</p><p>Two come ready: from issue to PR (implement, test, review and open a draft PR) and review and test.</p></div></div></div></details>
+          <details class="cartao recurso" id="telagrande"><summary><div class="ic"><svg class="i" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M7 7h3M7 10h2M14 11l3-3"/></svg></div><h3>Big screen</h3><p>F11 makes everything bigger, to use from across the room with just the keyboard: the session in focus up front and the others in rows.</p><span class="abrir"><span class="ver">See more</span><span class="fechar">Close</span><svg class="i" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span></summary><div class="mais"><div class="bloco so-texto"><div><p>The home view puts the session in focus up front and the others in rows: needs you, working, ready and idle. Enter opens, P and N allow or deny, 1 to 9 answer, Tab switches rows and F opens focus mode.</p><p>The top menu is always visible and pages open below it. The arrow keys move around any page, with a ring showing where the focus is.</p></div></div></div></details>
+        </div>
+      </div>
+      <div class="grupo" role="group" aria-labelledby="grupoConversa">
+        <p class="grupo-nome" id="grupoConversa">Inside the conversation</p>
+        <div class="grade">
+          <details class="cartao recurso" id="raciocinio"><summary><div class="ic"><svg class="i" viewBox="0 0 24 24"><path d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6 5.6 18.4"/></svg></div><h3>Thinking in plain sight</h3><p>Watch the agent think as the token count climbs, see what it's doing right now and which model answered each turn.</p><span class="abrir"><span class="ver">See more</span><span class="fechar">Close</span><svg class="i" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span></summary><div class="mais"><div class="bloco"><div><p>While the agent thinks, the conversation shows a live indicator with the token count going up, and afterwards how long it thought for.</p><p>At the bottom of the conversation you can see what it's doing right now (thinking, writing or running a command), with a running clock. Every turn ends with its duration and the model that answered, without dollar amounts.</p></div><div class="foto desenho" data-tela="conversa" role="img" aria-label="A conversation in Nexora with Claude's reasoning, its answer, the commands it ran and a permission request"></div></div></div></details>
+          <details class="cartao recurso" id="modelo"><summary><div class="ic"><svg class="i" viewBox="0 0 24 24"><path d="M4 6h9M17 6h3M4 12h3M11 12h9M4 18h12"/><circle cx="15" cy="6" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg></div><h3>Model and effort at hand</h3><p>Model, effort, fast mode and Ultracode in a single menu. Your last pick carries over to new sessions.</p><span class="abrir"><span class="ver">See more</span><span class="fechar">Close</span><svg class="i" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span></summary><div class="mais"><div class="bloco"><div><p>The pill in the message box shows the model and effort in use. The menu lists the models your Claude Code offers, the effort levels, fast mode and Ultracode.</p><p>Your last choice applies to new sessions, and a reopened conversation comes back on the model and mode it had.</p></div><div class="foto desenho" data-tela="modelo" role="img" aria-label="Nexora's model menu with the models, effort levels, fast mode and Ultracode"></div></div></div></details>
+          <details class="cartao recurso" id="fila"><summary><div class="ic"><svg class="i" viewBox="0 0 24 24"><path d="M4 6h12M4 12h8M4 18h6"/><circle cx="17.5" cy="15.5" r="4"/><path d="M17.5 13.5v2l1.3 1"/></svg></div><h3>Message queue</h3><p>Write your next message while the agent works. It waits in line and goes out as soon as the turn ends.</p><span class="abrir"><span class="ver">See more</span><span class="fechar">Close</span><svg class="i" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span></summary><div class="mais"><div class="bloco so-texto"><div><p>Got an idea while the agent is busy? Type it and send it. The message waits in a queue above the input and goes out when the turn ends, one at a time.</p><p>You can edit it, take it out of the queue or send it right away. If the turn stops on an error, the queue waits for you to decide.</p></div></div></div></details>
+          <details class="cartao recurso" id="desfazer"><summary><div class="ic"><svg class="i" viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg></div><h3>Undo a turn</h3><p>Every turn shows what changed in your files, and one click takes them back to before that message, without touching your commits.</p><span class="abrir"><span class="ver">See more</span><span class="fechar">Close</span><svg class="i" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span></summary><div class="mais"><div class="bloco so-texto"><div><p>Before each message you send, Nexora saves how your files looked, without touching your commits, branches or stash. Every turn shows how many files changed, with lines added and removed, and a button to see just that turn's diff in the Git panel.</p><p>Undo takes the files back to before that message. With Claude Code and Codex the conversation rewinds too; with other agents, Nexora warns you that the agent still remembers what it did. Files ignored by git stay as they are, and restore points are cleared after 14 days.</p></div></div></div></details>
+          <details class="cartao recurso" id="painel"><summary><div class="ic"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M15 4v16"/></svg></div><h3>Session panel</h3><p>Context usage, edited files, git, search and the session's PR beside the conversation. It tells you when it's time to compact and when the cache has expired.</p><span class="abrir"><span class="ver">See more</span><span class="fechar">Close</span><svg class="i" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span></summary><div class="mais"><div class="bloco so-texto"><div><p>Next to the conversation you get the session's environment (folder, branch, linked folders and MCPs), context usage by category and the files the session edited, each with its diff.</p><p>The Files, Git and Search tabs open the project tree, the changes and code search. When context passes 80%, the conversation offers /compact; when a session has sat idle long enough for the cache to expire, it warns you before everything gets re-read.</p><p>The PR tab shows the checks, failed ones first, the reviewers, review comments grouped by file and any conflict. You can merge, turn on auto-merge and get a request ready for the agent to fix a check or answer a comment.</p></div></div></div></details>
+          <details class="cartao recurso" id="terminal"><summary><div class="ic"><svg class="i" viewBox="0 0 24 24"><path d="m4 17 6-6-6-6M12 19h8"/></svg></div><h3>Terminal and Run</h3><p>A terminal in each session's folder, right below the conversation (Windows), and your project running on the right port for each worktree.</p><span class="abrir"><span class="ver">See more</span><span class="fechar">Close</span><svg class="i" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span></summary><div class="mais"><div class="bloco so-texto"><div><p>A PowerShell in the session's folder, below the conversation, that you toggle with Ctrl+`. It keeps running while hidden, and every session gets its own.</p><p>The Run button starts the project (dotnet, npm) on the right port for each worktree, so several copies of the same app can run side by side. The built-in terminal is Windows-only for now.</p></div></div></div></details>
+        </div>
+      </div>
+      <div class="grupo" role="group" aria-labelledby="grupoAmbiente">
+        <p class="grupo-nome" id="grupoAmbiente">In your setup</p>
+        <div class="grade">
+          <details class="cartao recurso" id="projetos"><summary><div class="ic"><svg class="i" viewBox="0 0 24 24"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/></svg></div><h3>Projects and worktrees</h3><p>Your .code-workspace files become projects, with the main folder and the linked ones. Every session starts on the right branch and worktree, and you can switch the branch in the panel before you begin.</p><span class="abrir"><span class="ver">See more</span><span class="fechar">Close</span><svg class="i" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span></summary><div class="mais"><div class="bloco so-texto"><div><p>Nexora finds your .code-workspace files and git folders from VS Code, Cursor and Windsurf. A new task becomes a worktree with its own branch, off the project's base (dev, main…).</p><p>Each worktree gets its own port so it can run alongside the others, and the folder's branch can be switched in the session panel before you start.</p></div></div></div></details>
+          <details class="cartao recurso" id="github"><summary><div class="ic"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="1.6"/></svg></div><h3>GitHub</h3><p>Your GitHub Projects issues as a kanban or a list, sessions started straight from an issue, and each session's PR watched: a failing check, a conflict or a new review lets you know or goes straight to the agent.</p><span class="abrir"><span class="ver">See more</span><span class="fechar">Close</span><svg class="i" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span></summary><div class="mais"><div class="bloco"><div><p>Your team's GitHub Project inside Nexora, with the same views. In kanban, drag an issue to another status; in the list, see assignees, labels, priority, size, PRs and iteration.</p><p>Open an issue to read the description, change its status and comment without leaving Nexora.</p><p>Two accounts work side by side, like your work and personal ones: each repository uses whichever gh account has access to it.</p><p>Every 2 minutes Nexora checks the PR of each open session. For a failed check, a conflict or a review comment, you choose in Settings: do nothing, just let you know, or ask the agent to fix it, with at most 3 automatic requests per PR each hour.</p></div><div><div class="alterna" role="group" aria-label="Issue view" data-alvo="fotoIssues"><button type="button" class="ativo" data-tela="issues-kanban" data-alt="Issues in Nexora as a kanban, with a column per status">Kanban</button><button type="button" data-tela="issues-lista" data-alt="Issues in Nexora as a list, grouped by status">List</button></div><div class="foto desenho" id="fotoIssues" data-tela="issues-kanban" role="img" aria-label="Issues in Nexora as a kanban, with a column per status"></div></div></div><div class="bloco"><div><h4>From issue to PR</h4><ol class="lista"><li><span class="n">1</span><div><b>A worktree or a new session</b>The session starts in a fresh worktree off the project's base branch, like dev or main, after a fetch, or in a new conversation without a worktree, so you can pick the folder before sending.</div></li><li><span class="n">2</span><div><b>The issue goes into the prompt</b>The issue link and its text, as bullet points, land in the draft of the first message, so the agent starts out knowing what to fix.</div></li><li><span class="n">3</span><div><b>The status moves on its own</b>The issue moves to In progress when the session starts and to In review when the PR shows up.</div></li><li><span class="n">4</span><div><b>The PR on the board</b>Commit and open the PR from the session card, and the PR's checks, review and approval show up right on it.</div></li></ol></div><div class="foto desenho" data-tela="issue" role="img" aria-label="An issue open in Nexora, with its status, the description and buttons to start in a worktree or a new session and to copy the link"></div></div></div></details>
+          <details class="cartao recurso" id="mcps"><summary><div class="ic"><svg class="i" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="2"/><path d="M9 9h6v6H9zM9 2v3M15 2v3M9 19v3M15 19v3M19 9h3M19 15h3M2 9h3M2 15h3"/></svg></div><h3>Shared MCPs</h3><p>The servers in .mcp.json start once per project and serve every session. They start when something needs them and shut down on their own.</p><span class="abrir"><span class="ver">See more</span><span class="fechar">Close</span><svg class="i" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span></summary><div class="mais"><div class="bloco so-texto"><div><p>With three sessions in the same project, each one would start its own copy of the servers in .mcp.json. In Nexora they run just once, in a hub the sessions share.</p><p>Each server starts on its first call and shuts itself down after 10 idle minutes. The browser is the exception: one per session, so no session messes with another's page.</p></div></div></div></details>
+          <details class="cartao recurso" id="vscode"><summary><div class="ic"><svg class="i" viewBox="0 0 24 24"><path d="m16 3 5 2.5v13L16 21 6.5 12.5 3 15.5l-1-1v-5l1-1 3.5 3L16 3z"/><path d="M16 8v8l-5-4z"/></svg></div><h3>VS Code conversations too</h3><p>Sessions open in the VS Code extension show up on the board, and you can pick up any of them in Nexora without duplicating the conversation.</p><span class="abrir"><span class="ver">See more</span><span class="fechar">Close</span><svg class="i" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span></summary><div class="mais"><div class="bloco so-texto"><div><p>Sessions open in the VS Code extension appear on the board, each with its state.</p><p>When you reply to one of them from Nexora, the conversation continues in a copy with the full history, leaving the VS Code one untouched, and the list only shows the newest version.</p></div></div></div></details>
+          <details class="cartao recurso" id="uso"><summary><div class="ic"><svg class="i" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15v3M12 10v8M17 6v12"/></svg></div><h3>Plan usage</h3><p>How much of your 5-hour session and your week you have used, always in view in the bottom bar, with a heads-up near the limit and each project's share. No tokens spent.</p><span class="abrir"><span class="ver">See more</span><span class="fechar">Close</span><svg class="i" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span></summary><div class="mais"><div class="bloco so-texto"><div><p>The bar at the bottom of the window shows how much of the 5-hour session you have used, with the time until it resets, and how much of the week, read straight from Claude Code. The little bar turns orange near the limit and red when you're almost out. If you use Codex, its limits sit right beside.</p><p>The Usage page breaks the week down by project, without spending tokens.</p></div></div></div></details>
+          <details class="cartao recurso" id="sistemas"><summary><div class="ic"><svg class="i" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div><h3>Windows and Mac, always up to date</h3><p>The same app on Windows 10 and 11 and on macOS, on Apple Silicon or Intel. When a new version is out, one click updates it, no website needed.</p><span class="abrir"><span class="ver">See more</span><span class="fechar">Close</span><svg class="i" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span></summary><div class="mais"><div class="bloco so-texto"><div><p>On Windows 10 and 11, an installer that doesn't ask for admin rights, or a portable version for PCs with stricter antivirus.</p><p>On Mac, builds for Apple Silicon and Intel, with the system's glass and ⌘ shortcuts. The built-in terminal and memory cleanup are still Windows-only.</p><p>When a new version comes out, an Update button appears at the top of the window. One click downloads it, closes Nexora, installs the update and opens it again.</p></div></div></div></details>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="temas">
+    <div class="larg">
+      <span class="olho">Themes</span>
+      <h2>Try the themes right here</h2>
+      <p class="intro">There are 12 themes: Nexora's four color themes and eight animated skies made of stars, nodes and light. The animated ones react to your mouse and clicks, and any theme can become your own, with different colors, fonts or a background image.</p>
+      <div class="vitrine">
+        <div class="seletor-temas">
+          <div class="alterna" id="abasTemas" role="group" aria-label="Theme groups"></div>
+          <div class="chips-temas" id="chipsTemas" role="group" aria-label="Themes"></div>
+        </div>
+        <div class="janela-tema" id="janelaTema" role="img" aria-label="A Nexora conversation in the selected theme">
+          <canvas></canvas>
+          <div class="veu"></div>
+          <div class="tela" aria-hidden="true">
+            <div class="jt-topo"><span class="jt-marca"><span class="jt-logo">N</span>Nexora</span><div class="jt-aba"><i></i>Discount coupon at checkout<span>×</span></div><span class="jt-mais">+</span><span class="jt-icones"><svg viewBox="0 0 24 24"><path d="M3 11 A8 8 0 1 0 19 11 A8 8 0 1 0 3 11 M21 21 L16.7 16.7"/></svg><svg viewBox="0 0 24 24"><path d="M3 8 L3 5 A2 2 0 0 1 5 3 L8 3 M16 3 L19 3 A2 2 0 0 1 21 5 L21 8 M21 16 L21 19 A2 2 0 0 1 19 21 L16 21 M8 21 L5 21 A2 2 0 0 1 3 19 L3 16 M9 12 A3 3 0 1 0 15 12 A3 3 0 1 0 9 12"/></svg><svg viewBox="0 0 24 24"><path d="M15 3 L21 3 L21 9 M9 21 L3 21 L3 15 M21 3 L14 10 M3 21 L10 14"/></svg></span></div>
+            <div data-lat></div>
+            <div class="jt-conversa">
+              <div class="jt-cab">
+                <div><b>Discount coupon at checkout</b><p><svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Store <svg viewBox="0 0 24 24"><circle cx="6" cy="5" r="2"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="7" r="2"/><path d="M6 7v10M18 9c0 4-6 4-12 8"/></svg><code>coupon-checkout</code></p></div>
+                <span class="jt-estado"><i></i><span data-estado>Working</span></span>
+              </div>
+              <div class="jt-fio">
+                <div class="jt-bolha">Review the checkout discount coupon and tell me what's left before we can close issue 48.</div>
+                <div class="jt-linha"><i class="ponto"></i><em>Thought for 7 s · 2.1k tokens</em></div>
+                <div class="jt-ferramenta"><i style="background:var(--t-verde)"></i><b>Read</b><code>src/Store.Application/Coupons/CouponService.cs</code></div>
+                <div class="jt-resposta">
+                  <span class="faisca">✻</span>
+                  <div>
+                    <p>I went through the issue and the <code>CouponService</code> code. The groundwork is done and the discount already shows up in the cart, but <b>two things</b> are missing before we can close #48:</p>
+                    <ul><li><b>Expired coupons:</b> right now the service throws an exception; it should return a failure the screen can display.</li><li><b>Per-customer limit:</b> the same coupon can be applied twice if someone clicks fast enough.</li></ul>
+                    <pre><span class="k">if</span> (coupon.<span class="f">IsExpired</span>(now))
+    <span class="k">return</span> Result.<span class="f">Failure</span>(<span class="s">"This coupon has expired"</span>);</pre>
+                  </div>
+                </div>
+                <div class="jt-ferramenta"><i style="background:var(--t-laranja)"></i><b>Edit</b><code>CouponService.cs</code><span class="mm"><ins>+6</ins> <del>−2</del></span></div>
+                <div class="jt-linha"><span class="jt-giro"></span><em data-pensando>Thinking… · 0 tokens</em></div>
+              </div>
+              <div class="jt-caixa">
+                <p>Message Claude · @ to mention a file · / for commands</p>
+                <div class="jt-acoes"><svg viewBox="0 0 24 24"><path d="m21 11-8.5 8.5a5 5 0 0 1-7-7L14 4a3.5 3.5 0 0 1 5 5l-8.5 8.5a2 2 0 0 1-3-3L15 7"/></svg><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg><span class="jt-pilula">✻ Claude Code</span><span class="jt-pilula">Opus 5.5 · High <svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></span><span class="dica">Enter to send</span><span class="jt-pilula modo"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>Auto</span><span class="jt-enviar"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg></span></div>
+              </div>
+            </div>
+            <div class="jt-rodape" aria-hidden="true"><span><svg viewBox="0 0 24 24" class="faisca"><path d="M12 3 L12 21 M3 12 L21 12 M6.6 6.6 L17.4 17.4 M17.4 6.6 L6.6 17.4"/></svg><u><b></b></u>4% · 3h 12m · 35% this week</span><span class="codex"><svg viewBox="0 0 24 24"><path d="M4 17 L10 11 L4 5 M12 19 L20 19"/></svg>Codex 25% · 40% this week</span><span class="mem"><svg viewBox="0 0 24 24"><path d="M6 4 L18 4 A2 2 0 0 1 20 6 L20 18 A2 2 0 0 1 18 20 L6 20 A2 2 0 0 1 4 18 L4 6 A2 2 0 0 1 6 4 Z M9 9 L15 9 L15 15 L9 15 Z M9 1.5 L9 4 M15 1.5 L15 4 M9 20 L9 22.5 M15 20 L15 22.5 M20 9 L22.5 9 M20 15 L22.5 15 M1.5 9 L4 9 M1.5 15 L4 15"/></svg>2.4 GB</span></div>
+          </div>
+        </div>
+        <p class="dica-temas">Move your mouse over the background and click it: each theme responds in its own way, and the background stirs while the agent works.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="porque">
+    <div class="larg">
+      <span class="olho">Why Nexora</span>
+      <h2>Why not just VS Code, or just the agent in a terminal?</h2>
+      <p class="intro">Nexora doesn't replace your agent: its sessions are the same agent you already use, whether Claude Code, Codex, Gemini or another, with your account and your setup, such as CLAUDE.md, hooks, skills and MCPs. What changes is everything around it.</p>
+      <div class="compara">
+        <div class="cartao">
+          <h3>Instead of VS Code</h3>
+          <p class="quando">For when you open VS Code just to talk to the agent and look at the code it changed.</p>
+          <ul>
+            <li><b>Every session in view.</b> In VS Code, each conversation lives in its own tab or panel. In Nexora, the board shows who needs you first.</li>
+            <li><b>Much lighter.</b> About a tenth of VS Code's memory, in a single process.</li>
+            <li><b>One MCP hub per project.</b> The servers in .mcp.json start once and serve every session, instead of one set per conversation.</li>
+            <li><b>Code within reach.</b> File tree, editor, diffs of what changed, git and search, right next to the conversation.</li>
+            <li><b>One task, one worktree.</b> New sessions start on the right branch and folder, off each project's base.</li>
+          </ul>
+          <p class="quando">For breakpoint debugging or extensions, VS Code is still the place to be. Nexora opens the project there in one click.</p>
+        </div>
+        <div class="cartao">
+          <h3>Alongside your agents</h3>
+          <p class="quando">For when you run several agent sessions at once, in the terminal or in the app.</p>
+          <ul>
+            <li><b>Answer without hunting.</b> Allow, deny and answer the agent's questions right on the card, with a system notification when a session is waiting.</li>
+            <li><b>Real projects.</b> Your .code-workspace files become projects with linked folders, branches and worktrees.</li>
+            <li><b>Orchestrator.</b> A big task split across sessions, each in its own worktree.</li>
+            <li><b>GitHub built in.</b> Your team's issue board, PR status on each card and sessions that start from an issue.</li>
+            <li><b>Usage by project.</b> How much of your plan each project used this week, read from /usage without spending tokens.</li>
+          </ul>
+          <p class="quando">Conversations you started in the terminal or the extension show up on the board, and you can carry on with them in Nexora.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="leve">
+    <div class="larg">
+      <span class="olho">Lighter</span>
+      <h2>Less memory for the same sessions</h2>
+      <p class="intro">Measured on the same PC with the apps idle: VS Code with the Claude Code extension, the Claude app, and Nexora with 11 projects open.</p>
+      <div class="numeros">
+        <div class="cartao numero">
+          <span class="rot">The app itself, not counting sessions (28, 9 and 1 processes)</span>
+          <div class="barras">
+            <div class="barra"><span>VS Code</span><i style="width:100%"></i><b>3.1 GB</b></div>
+            <div class="barra"><span>Claude app</span><i style="width:24%"></i><b>730 MB</b></div>
+            <div class="barra nexora"><span>Nexora</span><i style="width:10%"></i><b>320 MB</b></div>
+          </div>
+        </div>
+        <div class="cartao numero">
+          <span class="rot">MCPs for 3 sessions in the same project</span>
+          <div class="barras">
+            <div class="barra"><span>VS Code</span><i style="width:100%"></i><b>1.3 GB</b></div>
+            <div class="barra nexora"><span>Nexora</span><i style="width:19%"></i><b>242 MB</b></div>
+          </div>
+        </div>
+      </div>
+      <p class="nota">Windows 11, November 4, 2026, memory in use. VS Code does more, as a full editor with extensions and a terminal; the comparison is for people who open VS Code just to talk to Claude. Each Claude Code session costs the same in both, since it's the same program. MCPs were measured once they had settled. Nexora's Resources page also shows and frees the .NET build processes that linger after a compile.</p>
+    </div>
+  </section>
+
+  <section id="comeca">
+    <div class="larg">
+      <span class="olho">Getting started</span>
+      <h2>The first launch sets everything up</h2>
+      <div class="duas">
+        <ol class="lista">
+          <li><span class="n">1</span><div><b>Picks your agent and installs what's missing</b>Shows the agents already on your computer, such as Claude Code, Codex and Gemini CLI, and checks for Git and Node.js. If anything is missing, it installs it in one click or walks you through it.</div></li>
+          <li><span class="n">2</span><div><b>Signs in with your account</b>You sign in through the agent itself. Nexora notices when you're done and never sees your password.</div></li>
+          <li><span class="n">3</span><div><b>Brings in your projects</b>Finds the workspaces and git folders you've already opened in VS Code, Cursor or Windsurf.</div></li>
+          <li><span class="n">4</span><div><b>Connects GitHub, if you like</b>Installs the GitHub CLI and signs in to your accounts, so you can see issues and PR status. You can skip this step.</div></li>
+        </ol>
+        <div class="foto desenho" data-tela="abertura" role="img" aria-label="Nexora's first launch showing the projects it found in VS Code"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="baixar">
+    <div class="larg">
+      <span class="olho">Download</span>
+      <h2>Free, for Windows and Mac</h2>
+      <div class="baixar">
+        <div class="cartao">
+          <h3>Windows</h3>
+          <p>Windows 10 and 11 (x64). Installs for your user only, without admin rights, with a Start menu shortcut.</p>
+          <span class="tam">Nexora-Setup-0.8.1.exe</span>
+          <div class="botoes">
+            <a class="botao" href="/baixar" data-dl="setup"><svg class="i" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>Download for Windows</a>
+            <a class="botao sec" href="/baixar/portatil" data-dl="portatil">Portable version</a>
+          </div>
+        </div>
+        <div class="cartao" id="mac">
+          <h3>Mac</h3>
+          <p>macOS 12 or later. Open the .dmg and drag Nexora into Applications. Not sure which chip you have? Apple menu › About This Mac will tell you.</p>
+          <span class="tam">Nexora-Mac-AppleSilicon-0.7.1.dmg · Nexora-Mac-Intel-0.7.1.dmg</span>
+          <p class="miudo2">0.8 is Windows-only for now. The Mac build is still 0.7.1, without cloud machines and the terminal command.</p>
+          <div class="botoes">
+            <a class="botao" href="/baixar/mac" data-dl="mac"><svg class="i" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>Apple Silicon (M1 or later)</a>
+            <a class="botao sec" href="/baixar/mac-intel" data-dl="mac-intel">Intel</a>
+          </div>
+        </div>
+      </div>
+      <div class="req">
+        <span class="chip">Claude Code, Codex, Gemini and more, on your account</span>
+        <span class="chip">Git</span>
+        <span class="chip">Node.js, for MCPs</span>
+        <span class="chip">Windows 10 or 11, x64</span>
+        <span class="chip">macOS 12 or later</span>
+      </div>
+      <p class="nota">Got a Windows or Mac warning on first launch? Here's how to open it on <a href="#smartscreen">Windows</a> or <a href="#aviso-mac">Mac</a>.</p>
+    </div>
+  </section>
+
+  <section id="perguntas">
+    <div class="larg">
+      <span class="olho">FAQ</span>
+      <h2>Frequently asked questions</h2>
+      <div class="perguntas">
+        <details><summary>What exactly does Nexora do?</summary><p>It's an app for working with several coding agent sessions at once, such as Claude Code, Codex and Gemini CLI, a kind of IDE built around them. It puts your conversations on a board that shows which ones need you, organizes projects and worktrees, brings in your GitHub issues and has an orchestrator that splits big tasks across sessions.</p></details>
+        <details id="quem-executa"><summary>Who runs the builds and commands: Nexora or the agent?</summary><p>The AI agent you already use, such as Claude Code, Codex or Gemini CLI. It's the one reading your code, editing files and running builds, tests and commands, on your account and your plan. Nexora has no AI of its own and doesn't run anything inside your conversations: it organizes your sessions, shows what Claude is doing and passes its permission requests to you, depending on the mode you pick. What Nexora does by itself is only what you ask for, like creating the worktree for a new task, running the project with the Run button or opening the built-in terminal.</p></details>
+        <details><summary>Is it really free?</summary><p>Yes. Nexora is free. The only thing you pay for is your agent's plan, from Claude or OpenAI, same as you do today.</p></details>
+        <details><summary>Do I need a subscription?</summary><p>You need the account of the agent you'll use: a Claude plan or an Anthropic key for Claude Code, a ChatGPT plan for Codex, a Google account for Gemini CLI and Antigravity, and so on. Nexora's sessions are your own agent, and the first launch helps you sign in to Claude Code if you haven't yet.</p></details>
+        <details><summary>Is the app in English?</summary><p>Yes. The whole app is in English and Brazilian Portuguese, and it follows your system language by default. To switch, open Themes, pick the language and reopen Nexora. The agent replies in whatever language you write in.</p></details>
+        <details><summary>Does my code leave my computer?</summary><p>Through Nexora, only if you tell it to. It doesn't send your code or your conversations anywhere and doesn't collect usage data. The exception is cloud machines, which are off by default: if you turn on Can go to the cloud for a project and pick the machine in a conversation, that project's code goes to the machine you connected. The agent talks to Anthropic or OpenAI as always, the same way it does in the terminal or in VS Code. Nexora itself only goes online to check for a new version, to talk to GitHub and to your cloud machine, if you connect them, and to download what you ask it to install on first launch.</p></details>
+        <details id="nuvem"><summary>What are cloud machines?</summary><p>A way to take the load off your PC. The agent runs on a Linux machine of your own, over SSH, or on one Nexora creates on InstaBox or Freestyle with your API key. It is off by default, set per project, and each conversation picks where it runs. The agent keeps working with your PC turned off, and Bring it here brings the branch and the changes back to a worktree on this PC. The machine and its plan are yours, and Freestyle is still in testing.</p></details>
+        <details><summary>Does Nexora see my password or token?</summary><p>Sign-in is done by the agent itself, and Nexora only checks that it exists, without reading it. It only stores what you paste yourself: the cloud machine's API key, the <code>claude setup-token</code> token and the secrets an agent asks for through the form. All of it stays in the system vault, on this computer.</p></details>
+        <details><summary>Can I use it alongside the VS Code extension?</summary><p>Yes. Both use the same Claude Code, and conversations opened in the extension also show up on Nexora's board.</p></details>
+        <details><summary>What happens to my projects' MCPs?</summary><p>The stdio servers in .mcp.json start once per project and serve every session. Browser servers stay one per session, so sessions don't touch each other's tabs.</p></details>
+        <details id="smartscreen"><summary>Windows says "Windows protected your PC" (SmartScreen). Is it safe?</summary><p>The warning shows up because the installer doesn't have a digital signature yet (those are paid), and SmartScreen is wary of programs it hasn't seen before. It doesn't mean anything is wrong with the file. To install, click More info in the blue window, then Run anyway. If your browser blocks the download first, open the downloads list, click the three dots next to the file, choose Keep, and confirm with Keep anyway.</p></details>
+        <details id="aviso-mac"><summary>My Mac says Apple couldn't verify Nexora. How do I open it?</summary><p>The app doesn't have Apple's paid signature (Developer ID), so macOS blocks the first launch. Drag Nexora from the DMG into Applications and try to open it once; when the message appears, dismiss it without moving the app to the Trash. Then go to System Settings › Privacy &amp; Security, scroll down to Security, click Open Anyway next to the Nexora message and confirm with your password or Touch ID. After that it opens normally. On macOS 12 to 14 you can also Control-click Nexora, choose Open and confirm.</p></details>
+        <details><summary>My antivirus blocked it. Now what?</summary><p>Use the portable version: it runs on the .NET already installed on Windows, which usually gets past corporate antivirus software.</p></details>
+        <details><summary>Does it work on Mac? What about Linux?</summary><p>On Mac, yes: there are builds for Apple Silicon and Intel, on macOS 12 or later. 0.8 is Windows-only for now, and the Mac build is still 0.7.1. The built-in terminal and the memory release are also Windows-only. Linux isn't supported yet.</p></details>
+        <details><summary>How do I update?</summary><p>Nexora lets you know when a new version is out and shows an Update button at the top of the window. It downloads the update, closes, installs it and opens again.</p></details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="larg rodape">
+    <div class="rod-marca">
+      <a class="marca" href="#"><img src="/img/nexora.svg" alt="">Nexora</a>
+      <p>For people with more agent sessions open than browser tabs.</p>
+    </div>
+    <div class="rod-col">
+      <h5>Product</h5>
+      <a href="#baixar">Download</a>
+      <a href="#agentes">Agents</a>
+      <a href="#avatares">Avatars</a>
+      <a href="#recursos">Features</a>
+      <a href="#temas">Themes</a>
+      <a href="#perguntas">FAQ</a>
+      <a href="https://github.com/suiciniv-dev/nexora-releases/releases">What's new</a>
+    </div>
+    <div class="rod-col">
+      <h5>More apps</h5>
+      <a href="https://toca.suiciniv.dev/en/">Toca<small>A dock for Windows</small></a>
+      <a href="https://banditboard.suiciniv.dev/en/">Banditboard<small>Claude Code usage on your phone, watch and desktop</small></a>
+      <a href="https://smartoca.suiciniv.dev/en/">Smartoca<small>A smart home in 3D</small></a>
+    </div>
+    <div class="rod-col">
+      <h5>More from Vinícius</h5>
+      <a href="https://suiciniv.dev/en/">Portfolio<small>Vinícius Pires da Silva</small></a>
+      <a href="https://github.com/suiciniv-dev">GitHub<small>suiciniv-dev</small></a>
+    </div>
+  </div>
+  <div class="larg rod-base">© 2026 suiciniv.dev</div>
+</footer>
+
+<script>
+(() => {
+  const DUR = 38;
+  const TXT_LIGADO = "This PC: on", TXT_DESLIGADO = "This PC: off";
+  const $ = id => document.getElementById(id);
+  const cl = x => Math.max(0, Math.min(1, x));
+  const k = (t, a, b) => cl((t - a) / (b - a));
+  const io = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+  const sai = x => 1 - Math.pow(1 - x, 3);
+  const volta = x => { const c = 1.70158; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+  const mix = (a, b, x) => a + (b - a) * x;
+  const vis = (t, a, b, ent = .5, sa = .5) => Math.min(sai(k(t, a, a + ent)), 1 - k(t, b - sa, b));
+  function pos(el, o, tf) {
+    el.style.opacity = o.toFixed(3);
+    el.style.transform = tf || "";
+    el.style.visibility = o < .002 ? "hidden" : "visible";
+  }
+  const params = new URLSearchParams(location.search);
+  const rec = params.has("rec");
+  if (rec) document.body.classList.add("rec");
+
+  const convs = $("convs");
+  const CV = [[210, 300, "claude|Claude Code", "fala"], [635, 262, "codex|Codex", "pede"], [1060, 310, "gemini|Gemini CLI", "fala"], [420, 560, "cursor|Cursor", "pede"], [850, 585, "copilot|GitHub Copilot", "fala"]];
+  const convEls = CV.map(([x, y, nome, tipo]) => {
+    const d = document.createElement("div");
+    d.className = "abs vid conv";
+    d.style.left = x + "px"; d.style.top = y + "px";
+    d.innerHTML = `<div class="bar"><img src="/img/agentes/${nome.split("|")[0]}.svg" alt=""><span>${nome.split("|")[1]}</span></div><i style="width:86%"></i><i style="width:64%"></i><i style="width:74%"></i><span class="selo ${tipo}">${tipo === "pede" ? "Needs permission" : "responding…"}</span>`;
+    convs.appendChild(d);
+    return d;
+  });
+
+  const S = [[300, 330, "Session 1"], [300, 450, "Session 2"], [300, 570, "Session 3"]];
+  const sessEls = S.map(([x, y, nome]) => {
+    const d = document.createElement("div");
+    d.className = "abs vid sess";
+    d.style.left = x + "px"; d.style.top = y + "px";
+    d.innerHTML = `<s></s>${nome}`;
+    $("sessoes").appendChild(d);
+    return d;
+  });
+  const mcpEls = [];
+  for (let s = 0; s < 3; s++) for (let m = 0; m < 3; m++) {
+    const d = document.createElement("div");
+    d.className = "abs mcp";
+    d.textContent = "MCP";
+    $("mcpsAnim").appendChild(d);
+    mcpEls.push({ el: d, s, m, x0: 1000 + m * 150, y0: S[s][1] + 8 + (m - 1) * 34 });
+  }
+  const hubX = 840, hubY = [370, 460, 550];
+  const NS = "http://www.w3.org/2000/svg";
+  const fios = [];
+  for (let i = 0; i < 9; i++) { const l = document.createElementNS(NS, "line"); l.setAttribute("stroke", "rgba(189,180,218,.55)"); l.setAttribute("stroke-width", "2"); $("fios").appendChild(l); fios.push(l); }
+
+  const VS = [["store.code-workspace", "D:\\Projects\\Store"], ["Store.Api", "D:\\Projects\\Store.Api"], ["App.Notes", "D:\\Projects\\App.Notes"], ["site.code-workspace", "D:\\Projects\\Site"]];
+  const vsRows = VS.map(([nome, caminho]) => {
+    const r = document.createElement("div");
+    r.className = "r";
+    r.innerHTML = `<span class="cx"><svg class="i" viewBox="0 0 24 24" style="width:15px;height:15px;stroke-width:3"><path d="M20 6 9 17l-5-5"/></svg></span><span>${nome}<small>${caminho}</small></span>`;
+    $("vslr").appendChild(r);
+    return r;
+  });
+  const PJ = [["ST", "Store", "main", "2 sessions"], ["SA", "Store.Api", "main", "1 session"], ["AN", "App.Notes", "offline-notes", "1 session"], ["SI", "Site", "main", "no sessions"]];
+  const pjEls = PJ.map(([sigla, nome, branch, sessoes], i) => {
+    const d = document.createElement("div");
+    d.className = "abs vid pj";
+    d.innerHTML = `<div class="t"><s>${sigla}</s>${nome}</div><div class="d">⎇ <b>${branch}</b> · ${sessoes}</div>`;
+    $("pjs").appendChild(d);
+    return { el: d, x: 790 + (i % 2) * 350, y: 230 + Math.floor(i / 2) * 150, sx: 170, sy: 290 + i * 66 };
+  });
+
+  const COL = [268, 518, 768, 1018];
+  const LIN = [184, 314];
+  function cartaoM(t) {
+    let c, r;
+    const p1 = io(k(t, 10.0, 10.7)), p2 = io(k(t, 12.0, 12.6)), p3 = io(k(t, 14.1, 14.7));
+    let x = COL[1], y = LIN[1];
+    x = mix(x, COL[0], p1); y = mix(y, LIN[0], p1);
+    x = mix(x, COL[1], p2); y = mix(y, LIN[1], p2);
+    x = mix(x, COL[2], p3); y = mix(y, LIN[1], p3);
+    return { x, y, pede: p1 * (1 - p2), pronta: p3 };
+  }
+
+  const grafo = $("grafo"), g = grafo.getContext("2d");
+  let semente = 7;
+  const rnd = () => (semente = (semente * 16807) % 2147483647) / 2147483647;
+  const nos = Array.from({ length: 64 }, () => ({ x: rnd() * 1600, y: rnd() * 900, ax: 20 + rnd() * 40, ay: 20 + rnd() * 40, f: .08 + rnd() * .12, ph: rnd() * 6.28, r: rnd() < .28 ? 4.5 : 2.2, anel: rnd() < .28 }));
+  function fundo(t) {
+    g.clearRect(0, 0, 1600, 900);
+    const P = nos.map(n => [n.x + Math.sin(t * n.f + n.ph) * n.ax, n.y + Math.cos(t * n.f * .8 + n.ph) * n.ay]);
+    g.lineWidth = 1;
+    for (let i = 0; i < P.length; i++) for (let j = i + 1; j < P.length; j++) {
+      const dx = P[i][0] - P[j][0], dy = P[i][1] - P[j][1];
+      if (Math.abs(dx) > 190 || Math.abs(dy) > 190) continue;
+      const d = Math.hypot(dx, dy);
+      if (d > 190) continue;
+      g.strokeStyle = `rgba(148,139,174,${((1 - d / 190) * .2).toFixed(3)})`;
+      g.beginPath(); g.moveTo(P[i][0], P[i][1]); g.lineTo(P[j][0], P[j][1]); g.stroke();
+    }
+    nos.forEach((n, i) => {
+      g.globalAlpha = .42;
+      g.beginPath(); g.arc(P[i][0], P[i][1], n.r, 0, 6.283);
+      if (n.anel) { g.strokeStyle = "#F2F0EC"; g.lineWidth = 1.6; g.stroke(); g.lineWidth = 1; }
+      else { g.fillStyle = "#D9D4E6"; g.fill(); }
+    });
+    g.globalAlpha = 1;
+  }
+
+  function render(t) {
+    t = Math.max(0, Math.min(DUR, t));
+    fundo(t);
+
+    const v1 = vis(t, 0, 5.0, .5, .6);
+    pos($("h1a"), vis(t, .4, 5.0, .5, .6), `translateY(${(1 - sai(k(t, .4, .9))) * 16}px)`);
+    pos($("h1b"), vis(t, 1.9, 5.0, .5, .6), `translateY(${(1 - sai(k(t, 1.9, 2.4))) * 16}px)`);
+    convEls.forEach((el, i) => {
+      const a = .3 + i * .32, e = volta(k(t, a, a + .5)), s = io(k(t, 4.2, 5.0));
+      const pulsa = CV[i][3] === "pede" && t > 2.2 ? 1 + Math.sin((t - 2.2) * 7) * .012 : 1;
+      const cx = 800 - (CV[i][0] + 165), cy = 470 - (CV[i][1] + 95);
+      pos(el, Math.min(cl(e * 1.4), v1) * (1 - s), `translate(${cx * s}px, ${cy * s}px) scale(${(.85 + .15 * e) * pulsa * (1 - .5 * s)})`);
+    });
+
+    const vl = vis(t, 5.0, 8.6, .6, .6);
+    pos($("logo"), vl, `translateY(${(1 - sai(k(t, 5.0, 5.7))) * 30 - io(k(t, 8.0, 8.6)) * 40}px) scale(${.8 + .2 * volta(k(t, 5.0, 5.7))})`);
+
+    const va = vis(t, 8.6, 16.6, .7, .6);
+    pos($("h3"), vis(t, 8.8, 16.6, .5, .6));
+    pos($("app"), va, `translateY(${(1 - sai(k(t, 8.6, 9.3))) * 60}px) scale(${1 - io(k(t, 16.0, 16.6)) * .06})`);
+    const m = cartaoM(t);
+    const cM = $("cM");
+    cM.style.left = m.x + "px"; cM.style.top = m.y + "px";
+    cM.style.borderColor = m.pede > .01 ? `rgba(240,168,96,${.6 * m.pede})` : m.pronta > .5 ? "rgba(123,203,159,.35)" : "rgba(255,255,255,.1)";
+    cM.style.background = m.pede > .01 ? `rgba(240,168,96,${.14 * m.pede})` : "rgba(255,255,255,.07)";
+    $("cMbts").style.display = m.pede > .3 && t < 12.2 ? "flex" : "none";
+    $("cMpr").style.display = m.pronta > .9 ? "flex" : "none";
+    $("cMl").style.display = m.pede > .3 && t < 12.2 || m.pronta > .9 ? "none" : "block";
+    $("cMb").style.width = (t < 12.6 ? 30 : mix(30, 100, io(k(t, 12.6, 14.0)))) + "%";
+    $("cMa").textContent = m.pronta > .9 ? "Done: 42 tests passing." : m.pede > .3 && t < 12.2 ? "Allow Bash: dotnet ef database update" : t < 10 ? "Bash  dotnet test --filter Coupon" : "Edit  src/Store.Infra/Migrations/Coupon.cs";
+    $("n0").textContent = m.pede > .5 && t < 12.3 ? "1" : "0";
+    $("nPede").style.visibility = m.pede > .5 && t < 12.3 ? "visible" : "hidden";
+    const pedeAgora = m.pede > .5 && t < 12.3;
+    $("latM").className = "cv" + (pedeAgora ? " pede" : "");
+    $("latMi").style.setProperty("--c", m.pronta > .5 ? "var(--verde)" : pedeAgora ? "var(--laranja)" : "var(--txt)");
+    $("latMs").textContent = m.pronta > .5 ? "Ready · 42 tests" : pedeAgora ? "waiting for you" : "Bash · dotnet test";
+    $("n1").textContent = m.pede > .5 && t < 12.3 || m.pronta > .5 ? "1" : "2";
+    $("n2").textContent = m.pronta > .5 ? "2" : "1";
+    const bp = t > 11.75 && t < 12.05 ? .88 : 1, bc = t > 15.3 && t < 15.6 ? .88 : 1;
+    $("bPerm").style.transform = `scale(${bp})`; $("bPr").style.transform = `scale(${bc})`;
+    const ax = 160, ay = 150;
+    const permX = ax + COL[0] + 40, permY = ay + LIN[0] + 106, prX = ax + COL[2] + 50, prY = ay + LIN[1] + 102;
+    let cx = 1380, cy = 820;
+    cx = mix(cx, permX, io(k(t, 10.9, 11.7))); cy = mix(cy, permY, io(k(t, 10.9, 11.7)));
+    cx = mix(cx, 1250, io(k(t, 12.3, 13.4))); cy = mix(cy, 760, io(k(t, 12.3, 13.4)));
+    cx = mix(cx, prX, io(k(t, 14.7, 15.3))); cy = mix(cy, prY, io(k(t, 14.7, 15.3)));
+    pos($("cursor"), Math.min(vis(t, 10.8, 16.2, .3, .4), va), `translate(${cx}px, ${cy}px)`);
+    const clique = t > 11.8 && t < 12.3 ? [permX, permY, k(t, 11.8, 12.3)] : t > 15.4 && t < 15.9 ? [prX, prY, k(t, 15.4, 15.9)] : null;
+    if (clique) pos($("anel"), 1 - clique[2], `translate(${clique[0] - 28}px, ${clique[1] - 28}px) scale(${.4 + clique[2]})`);
+    else pos($("anel"), 0);
+    pos($("aviso"), vis(t, 15.7, 16.6, .3, .4), `translateY(${(1 - sai(k(t, 15.7, 16.0))) * 20}px)`);
+
+    const vh = vis(t, 16.6, 22.6, .5, .6);
+    pos($("h4"), vh);
+    const junta = io(k(t, 19.0, 20.4));
+    $("h4b").textContent = junta < .5 ? "Without Nexora, every session starts its own." : "With Nexora, one set serves all three.";
+    pos($("h4b"), Math.min(vis(t, 17.0, 22.6, .4, .6), 1 - Math.sin(junta * Math.PI) * .9));
+    sessEls.forEach((el, i) => pos(el, Math.min(vis(t, 16.8 + i * .15, 22.6, .5, .6), vh), `translateX(${(1 - sai(k(t, 16.8 + i * .15, 17.4 + i * .15))) * -40}px)`));
+    mcpEls.forEach((p, i) => {
+      const ent = sai(k(t, 17.4 + i * .08, 17.9 + i * .08));
+      const destinoX = hubX, destinoY = hubY[p.m];
+      const x = mix(p.x0, destinoX, junta), y = mix(p.y0, destinoY, junta);
+      const principal = p.s === 1;
+      const o = Math.min(ent, vh) * (principal ? 1 : 1 - k(t, 20.0, 20.4));
+      pos(p.el, o, `translate(${x}px, ${y}px) scale(${principal ? 1 + .15 * junta : 1})`);
+      p.el.classList.toggle("hub", principal && junta > .9);
+      if (principal && junta > .9) p.el.textContent = ["db", "docs", "search"][p.m]; else p.el.textContent = "MCP";
+    });
+    fios.forEach((l, i) => {
+      const p = mcpEls[i];
+      const x2 = mix(p.x0, hubX, junta), y2 = mix(p.y0, hubY[p.m], junta) + 23;
+      const desenho = k(t, 17.6 + i * .08, 18.2 + i * .08);
+      const x1 = 510, y1 = S[p.s][1] + 31;
+      const fx = junta > .9 ? hubX : x2, fy = junta > .9 ? hubY[p.m] + 28 : y2;
+      l.setAttribute("x1", x1); l.setAttribute("y1", y1);
+      l.setAttribute("x2", mix(x1, fx, desenho)); l.setAttribute("y2", mix(y1, fy, desenho));
+      l.setAttribute("opacity", (vh * desenho).toFixed(3));
+    });
+    pos($("medidor"), Math.min(vis(t, 18.0, 22.6, .5, .6), vh));
+    const largura = mix(100, 19, io(k(t, 19.4, 20.4)));
+    $("medBar").style.width = largura + "%";
+    $("medBar").style.background = junta > .5 ? "linear-gradient(90deg, #BDB4DA, #948BAE)" : "linear-gradient(90deg, #F0A860, #D9814A)";
+    $("medVal").textContent = junta > .6 ? "242 MB" : "1.3 GB";
+    $("medRot").textContent = junta > .6 ? "MCP memory, 3 sessions, with Nexora" : "MCP memory, 3 sessions, one set each";
+    pos($("selo"), Math.min(vis(t, 20.5, 22.6, .4, .6), vh), `scale(${.7 + .3 * volta(k(t, 20.5, 21.0))})`);
+
+    const vv = vis(t, 22.6, 27.6, .5, .6);
+    pos($("h5"), vv);
+    pos($("vsl"), Math.min(vis(t, 22.7, 27.6, .5, .6), 1 - io(k(t, 24.8, 25.4)) * .65), `translateX(${(1 - sai(k(t, 22.7, 23.3))) * -40}px)`);
+    vsRows.forEach((r, i) => r.querySelector(".cx").classList.toggle("ok", t > 23.3 + i * .3));
+    pjEls.forEach((p, i) => {
+      const a = 24.6 + i * .18, e = io(k(t, a, a + .7));
+      pos(p.el, Math.min(cl(e * 2), vv), `translate(${mix(p.sx, p.x, e)}px, ${mix(p.sy, p.y, e)}px) scale(${mix(.6, 1, e)})`);
+    });
+    pos($("h5b"), vis(t, 26.0, 27.6, .5, .6));
+
+    const vn = vis(t, 27.6, 33.6, .5, .6);
+    pos($("h6"), vn, `translateY(${(1 - sai(k(t, 27.6, 28.1))) * 16}px)`);
+    pos($("nv"), Math.min(vis(t, 27.8, 33.6, .5, .6), vn), `translateX(${(1 - sai(k(t, 27.8, 28.4))) * -40}px)`);
+    const naNuvem = t > 28.9;
+    $("nvPc").className = naNuvem ? "" : "ativo";
+    $("nvNuvem").className = naNuvem ? "ativo" : "";
+    pos($("nvFaixa"), k(t, 29.1, 29.5), `translateY(${(1 - sai(k(t, 29.1, 29.5))) * 10}px)`);
+    $("nvBarra").style.width = (mix(4, 92, io(k(t, 29.3, 33.2)))).toFixed(1) + "%";
+    const pcDesligado = t > 30.6;
+    $("nvPcEstado").className = "pc" + (pcDesligado ? " desligado" : "");
+    $("nvPcTexto").textContent = pcDesligado ? TXT_DESLIGADO : TXT_LIGADO;
+    pos($("tm"), Math.min(vis(t, 28.3, 33.6, .5, .6), vn), `translateX(${(1 - sai(k(t, 28.3, 28.9))) * 40}px)`);
+    [[$("tmL1"), 29.0, 1.0], [$("tmL2"), 30.2, .3], [$("tmL3"), 31.0, .3], [$("tmL4"), 31.6, .5], [$("tmL5"), 32.3, .3], [$("tmL6"), 32.5, .3]].forEach(([el, a, d]) => {
+      const p = k(t, a, a + d);
+      el.style.opacity = p > 0 ? 1 : 0;
+      el.style.clipPath = el.classList.contains("cmd") ? `inset(0 ${((1 - p) * 100).toFixed(1)}% 0 0)` : "none";
+      if (!el.classList.contains("cmd")) el.style.opacity = p.toFixed(3);
+    });
+    pos($("h6b"), Math.min(vis(t, 30.4, 33.6, .5, .6), vn));
+
+    const vf = rec ? sai(k(t, 33.6, 34.3)) : vis(t, 33.6, DUR, .7, .8);
+    pos($("fim"), vf, `translateY(${(1 - sai(k(t, 33.6, 34.3))) * 30}px) scale(${.9 + .1 * volta(k(t, 33.6, 34.3))})`);
+  }
+  window.render = render;
+  window.seek = t => { render(t); return true; };
+
+  const palco = $("palco"), moldura = $("moldura");
+  function encaixar() {
+    const w = moldura.clientWidth, h = moldura.clientHeight;
+    const s = Math.min(w / 1600, h / 900);
+    palco.style.transform = `translate(${(w - 1600 * s) / 2}px, ${(h - 900 * s) / 2}px) scale(${s})`;
+  }
+  addEventListener("resize", encaixar);
+  encaixar();
+
+  const calma = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let tocando = !rec && !calma, base = performance.now(), parado = calma ? 9.9 : 0, visivel = true;
+  if (!rec) new IntersectionObserver(e => visivel = e[0].isIntersecting).observe(moldura);
+  function quadro(agora) {
+    requestAnimationFrame(quadro);
+    if (!tocando || !visivel || document.hidden) return;
+    render(((agora - base) / 1000) % DUR);
+  }
+  render(rec ? Number(params.get("t") || 0) : parado);
+  if (!rec) requestAnimationFrame(quadro);
+  $("pausa").addEventListener("click", () => {
+    const agora = performance.now();
+    if (tocando) { parado = ((agora - base) / 1000) % DUR; tocando = false; }
+    else { base = agora - parado * 1000; tocando = true; }
+    $("pausa").setAttribute("aria-label", tocando ? "Pause the animation" : "Play the animation");
+    $("icPausa").innerHTML = tocando ? '<path d="M9 5v14M15 5v14"/>' : '<path d="M7 4v16l13-8z"/>';
+  });
+  if (calma) $("icPausa").innerHTML = '<path d="M7 4v16l13-8z"/>';
+})();
+</script>
+<script>
+  document.querySelectorAll('details.recurso').forEach((cartao) => cartao.addEventListener('toggle', () => {
+    if (!cartao.open) return;
+    document.querySelectorAll('details.recurso[open]').forEach((outro) => { if (outro !== cartao) outro.open = false; });
+  }));
+  document.querySelectorAll('.alterna').forEach((grupo) => grupo.addEventListener('click', (e) => {
+    const botao = e.target.closest('button[data-tela]');
+    if (!botao) return;
+    grupo.querySelectorAll('button').forEach((b) => b.classList.toggle('ativo', b === botao));
+    const foto = document.getElementById(grupo.dataset.alvo);
+    foto.dataset.tela = botao.dataset.tela;
+    foto.setAttribute('aria-label', botao.dataset.alt);
+    window.desenharTela(foto);
+  }));
+  function abrirRecursoDoEndereco() {
+    const alvo = location.hash.length > 1 && document.getElementById(location.hash.slice(1));
+    if (!alvo || !alvo.matches('details')) return;
+    alvo.open = true;
+    setTimeout(() => alvo.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
+  }
+  window.addEventListener('hashchange', abrirRecursoDoEndereco);
+  abrirRecursoDoEndereco();
+</script>
+<script src="/avatares/avatares.js" defer></script>
+<script src="/telas/telas.js"></script>
+<script type="module" src="/temas/vitrine.js"></script>
+</body>
+</html>

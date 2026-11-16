@@ -1,0 +1,60 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <NexoraMac Condition="$(RuntimeIdentifier.StartsWith('osx'))">true</NexoraMac>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(NexoraMac)' != 'true'">
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
+    <PublishReadyToRun>true</PublishReadyToRun>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(NexoraMac)' == 'true'">
+    <TargetFramework>net10.0</TargetFramework>
+    <DefineConstants>$(DefineConstants);MAC</DefineConstants>
+    <CFBundleName>Nexora</CFBundleName>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>Nexora</RootNamespace>
+    <AssemblyName>Nexora</AssemblyName>
+    <UseAppHost>true</UseAppHost>
+    <ApplicationIcon Condition="'$(NexoraMac)' != 'true'">Assets\nexora.ico</ApplicationIcon>
+    <ApplicationManifest Condition="'$(NexoraMac)' != 'true'">app.manifest</ApplicationManifest>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+    <Version>0.8.1</Version>
+    <Product>Nexora</Product>
+    <SatelliteResourceLanguages>pt-BR</SatelliteResourceLanguages>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <Target Name="SoOCoreDoWebView2" BeforeTargets="ResolveAssemblyReferences">
+    <ItemGroup>
+      <Reference Remove="@(Reference)" Condition="'%(Filename)' == 'Microsoft.Web.WebView2.Wpf' Or '%(Filename)' == 'Microsoft.Web.WebView2.WinForms'" />
+    </ItemGroup>
+  </Target>
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="12.1.6" />
+    <PackageReference Include="Avalonia.AvaloniaEdit" Version="12.0.0" />
+    <PackageReference Include="Avalonia.Controls.ColorPicker" Version="12.1.6" />
+    <PackageReference Include="Avalonia.Desktop" Version="12.1.6" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="12.1.6" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="12.1.6" />
+    <PackageReference Include="AvaloniaEdit.TextMate" Version="12.0.0" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+    <PackageReference Include="TextMateSharp.Grammars" Version="2.0.4" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(NexoraMac)' != 'true'">
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3179.45" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Nexora.Core\Nexora.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <AvaloniaResource Include="Assets\**" Exclude="Assets\Apresentacao\**;Assets\Terminal\**;Assets\Navegador\**" />
+    <Content Include="Assets\nexora.ico" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="Assets\nexora.png" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="Assets\Apresentacao\**" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="Assets\Terminal\**" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="Assets\Navegador\**" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

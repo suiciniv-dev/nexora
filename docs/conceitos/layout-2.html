@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nexora · conceitos D, E e F</title>
+<style>
+:root{
+  --fundo:#181716;--lateral:#121110;--sup:#24221F;--supa:#2E2B28;--borda:rgba(255,255,255,.14);--borda2:rgba(255,255,255,.08);
+  --txt:#F2F0EC;--txt2:#C4C0B9;--txt3:#9C978F;--acento:#F2F0EC;--sobre:#161514;
+  --rosa:#E59AC4;--verde:#7BCB9F;--laranja:#F0A860;--verm:#E8806C;--ciano:#86C5E6;
+  --cod:#0F0E0D;--codt:#E6C38F;--bolha:#332F2C;--marca:#948BAE;--marca2:#5B5470;--estrela:255,255,255;
+  --ui:Inter,"Segoe UI Variable","Segoe UI",system-ui,sans-serif;--mono:"Cascadia Mono",Consolas,"SF Mono",monospace;
+}
+.claro{
+  --fundo:#F7F6F4;--lateral:#EFEDEA;--sup:#FFFFFF;--supa:#E9E6E2;--borda:rgba(0,0,0,.15);--borda2:rgba(0,0,0,.08);
+  --txt:#1C1B1A;--txt2:#45423E;--txt3:#615D58;--acento:#1C1B1A;--sobre:#FFFFFF;
+  --rosa:#A3477A;--verde:#2F7D4F;--laranja:#A35E00;--verm:#B8402F;--ciano:#1F6F9E;
+  --cod:#EFEDE9;--codt:#8A4B12;--bolha:#ECE9E4;--marca:#5B5470;--marca2:#3A3548;--estrela:60,50,90;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:#0b0a0a;color:#e8e6e2;font:14px/1.5 var(--ui);display:flex;flex-direction:column;align-items:center;padding:18px 18px 28px;gap:14px;min-height:100%}
+body.claro-pagina{background:#d9d6d0;color:#1c1b1a}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+.controle{width:min(1280px,100%);display:grid;gap:10px}
+.linha{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.titulo-pg{font-size:20px;font-weight:600;letter-spacing:-.01em}
+.sub-pg{color:#9c978f;font-size:13.5px}
+.claro-pagina .sub-pg{color:#615d58}
+.conceitos{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.conceito{border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:12px 14px;text-align:left;background:rgba(255,255,255,.03);transition:.2s}
+.claro-pagina .conceito{border-color:rgba(0,0,0,.14);background:rgba(255,255,255,.5)}
+.conceito:hover{border-color:rgba(255,255,255,.3)}
+.conceito.ativo{border-color:#948bae;background:rgba(148,139,174,.14)}
+.conceito b{display:block;font-size:15px}
+.conceito span{display:block;color:#a8a39b;font-size:12.8px;margin-top:3px}
+.claro-pagina .conceito span{color:#55514c}
+.alterna{display:inline-flex;border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:3px;gap:2px}
+.claro-pagina .alterna{border-color:rgba(0,0,0,.15)}
+.alterna button{padding:5px 12px;border-radius:7px;font-size:13px;color:#a8a39b}
+.alterna button.ativo{background:rgba(255,255,255,.12);color:inherit}
+.claro-pagina .alterna button.ativo{background:rgba(0,0,0,.08)}
+.nota{color:#9c978f;font-size:12.5px}
+.palco{width:min(1280px,100%);aspect-ratio:1280/800;position:relative}
+.janela{position:absolute;left:0;top:0;width:1280px;height:800px;transform-origin:0 0;border-radius:12px;overflow:hidden;border:1px solid var(--borda);background:var(--fundo);color:var(--txt);font:13.5px/1.5 var(--ui);box-shadow:0 30px 80px rgba(0,0,0,.55)}
+.janela canvas.ceu{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.janela .app{position:absolute;inset:0}
+.fraco{color:var(--txt3)}.suave{color:var(--txt2)}
+.mono{font-family:var(--mono)}
+.ponto{width:8px;height:8px;border-radius:50%;display:inline-block;flex:none}
+.p-laranja{background:var(--laranja)}.p-verde{background:var(--verde)}.p-branco{background:var(--txt)}.p-cinza{background:var(--txt3)}
+.ic{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.pilula{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--borda);border-radius:999px;padding:4px 11px;font-size:12.5px;white-space:nowrap}
+.btn{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--borda);border-radius:8px;padding:6px 12px;font-size:13px;white-space:nowrap}
+.btn:hover{background:var(--supa)}
+.btn.prim{background:var(--acento);color:var(--sobre);border-color:transparent}
+.cartao{background:color-mix(in srgb,var(--sup) 78%,transparent);border:1px solid var(--borda2);border-radius:12px}
+.bolha{background:var(--bolha);border-radius:12px;padding:9px 14px;align-self:flex-end;max-width:76%}
+.ferr{display:flex;gap:9px;align-items:center;padding:6px 12px;border-radius:9px;background:color-mix(in srgb,var(--sup) 70%,transparent);font-size:12.8px}
+.ferr b{font-weight:600}
+.codigo{background:var(--cod);color:var(--codt);font:12.5px/1.6 var(--mono);border-radius:9px;padding:10px 14px;white-space:pre}
+.perm{border:1px solid color-mix(in srgb,var(--laranja) 60%,transparent);background:color-mix(in srgb,var(--laranja) 9%,var(--sup));border-radius:12px;padding:12px 14px;display:grid;gap:8px}
+.perm .acoes{display:flex;gap:8px}
+.subag{border:1px solid var(--borda2);border-radius:10px;padding:8px 12px;display:flex;gap:10px;align-items:center;font-size:12.8px}
+.etq{font-size:11px;padding:1px 7px;border-radius:5px;background:color-mix(in srgb,var(--marca) 30%,transparent)}
+.composer{border:1px solid var(--borda);border-radius:14px;background:color-mix(in srgb,var(--sup) 85%,transparent);padding:11px 14px;display:grid;gap:12px}
+.composer .rodape{display:flex;gap:8px;align-items:center}
+.enviar{width:28px;height:28px;border-radius:50%;background:var(--acento);color:var(--sobre);display:grid;place-items:center;margin-left:auto}
+.barra{height:5px;border-radius:9px;background:var(--supa);overflow:hidden}.barra i{display:block;height:100%;background:var(--txt);border-radius:9px}
+.chave{width:34px;height:19px;border-radius:99px;background:var(--supa);border:1px solid var(--borda);position:relative;flex:none;cursor:pointer;transition:.2s}
+.chave::after{content:"";position:absolute;left:2px;top:2px;width:13px;height:13px;border-radius:50%;background:var(--txt3);transition:.2s}
+.chave.lig{background:var(--marca)}.chave.lig::after{left:17px;background:#fff}
+.seg{display:inline-flex;border:1px solid var(--borda);border-radius:9px;padding:2px;gap:2px}
+.seg button{padding:4px 11px;border-radius:7px;font-size:12.8px;color:var(--txt2)}
+.seg button.ativo{background:var(--supa);color:var(--txt)}
+.campo{border:1px solid var(--borda);border-radius:8px;padding:6px 10px;font-size:13px;min-width:200px;display:inline-flex;justify-content:space-between;gap:10px;background:color-mix(in srgb,var(--sup) 60%,transparent)}
+.temas{display:flex;gap:8px;flex-wrap:wrap}
+.tema{width:96px;border:1px solid var(--borda);border-radius:10px;overflow:hidden;font-size:11.5px;cursor:pointer}
+.tema.ativo{outline:2px solid var(--marca);outline-offset:1px}
+.tema i{display:block;height:44px}
+.tema span{display:block;padding:4px 7px}
+.opcao{display:flex;align-items:center;gap:16px;padding:12px 0;border-top:1px solid var(--borda2)}
+.opcao:first-child{border-top:0}
+.opcao .txt{flex:1;min-width:0}
+.opcao .txt b{display:block;font-weight:500}
+.opcao .txt small{display:block;color:var(--txt3);font-size:12.3px}
+.lista-pastas{display:grid;gap:6px;min-width:300px}
+.lista-pastas div{display:flex;justify-content:space-between;align-items:center;border:1px solid var(--borda2);border-radius:8px;padding:5px 10px;font:12.5px var(--mono)}
+.secao-t{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--txt3);font-weight:600}
+.estado-cor{color:var(--laranja)}
+.sombra{box-shadow:0 18px 50px rgba(0,0,0,.35)}
+.oculto{display:none!important}
+</style>
+</head>
+<body>
+<div class="controle">
+  <div class="linha" style="justify-content:space-between">
+    <div>
+      <div class="titulo-pg">Nexora · conceitos D, E e F (a partir do A)</div>
+      <div class="sub-pg">Clique nos conceitos, troque a tela e o tema. Dentro da janela, os botões, abas, seções e chaves funcionam.</div>
+    </div>
+    <div class="linha">
+      <div class="alterna" id="telas"><button data-tela="visao" class="ativo">Visão geral</button><button data-tela="conversa">Conversa</button><button data-tela="config">Configurações</button></div>
+      <div class="alterna" id="temaSel"><button data-tema="escuro" class="ativo">Escuro</button><button data-tema="claro">Claro</button></div>
+    </div>
+  </div>
+  <div class="conceitos" id="conceitos"></div>
+</div>
+<div class="palco" id="palco"><div class="janela" id="janela"><canvas class="ceu" id="ceu"></canvas><div class="app" id="app"></div></div></div>
+<div class="controle"><div class="nota" id="notaConceito"></div></div>
+
+<script>
+const I = {
+  quadro:'<path d="M4 5h4v14H4zM10 5h4v9h-4zM16 5h4v6h-4z"/>',
+  chat:'<path d="M5 5h14v10H9l-4 4z"/>',
+  projetos:'<path d="m12 3 9 5-9 5-9-5z"/><path d="m3 13 9 5 9-5"/>',
+  issues:'<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="1.5"/>',
+  relogio:'<circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/>',
+  grafico:'<path d="M5 19V9M10 19V5M15 19v-7M20 19v-4"/>',
+  chip:'<rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/>',
+  engrenagem:'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/>',
+  busca:'<circle cx="11" cy="11" r="6"/><path d="m20 20-4.5-4.5"/>',
+  mais:'<path d="M12 5v14M5 12h14"/>',
+  painel:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M15 4v16"/>',
+  lateral:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/>',
+  pasta:'<path d="M3 6h6l2 2h10v11H3z"/>',
+  branch:'<circle cx="6" cy="5" r="2"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="8" r="2"/><path d="M6 7v10M18 10c0 4-6 3-12 7"/>',
+  terminal:'<path d="m5 7 5 5-5 5M12 17h7"/>',
+  play:'<path d="M7 5v14l11-7z"/>',
+  seta:'<path d="M12 19V5M6 11l6-6 6 6"/>',
+  clipe:'<path d="M20 11 12 19a5 5 0 0 1-7-7l8-8a3.5 3.5 0 0 1 5 5l-8 8a2 2 0 0 1-3-3l7-7"/>',
+  baixo:'<path d="m6 9 6 6 6-6"/>',
+  fechar:'<path d="M6 6l12 12M18 6 6 18"/>',
+  raio:'<path d="M13 2 4 14h7l-1 8 9-12h-7z"/>',
+  robo:'<rect x="5" y="8" width="14" height="11" rx="2"/><path d="M12 4v4M9 13h.01M15 13h.01"/>',
+  paleta:'<circle cx="12" cy="12" r="9"/><circle cx="8" cy="10" r="1"/><circle cx="12" cy="7" r="1"/><circle cx="16" cy="10" r="1"/>',
+  globo:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/>',
+  pessoa:'<circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/>',
+  janela:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/>',
+  info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7h.01"/>',
+  estrela:'<path d="m12 3 2.6 5.6 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6L3.4 9.3l6-.7z"/>'
+};
+const ic = (n, t) => `<svg class="ic" viewBox="0 0 24 24"${t?` style="width:${t}px;height:${t}px"`:''}>${I[n]}</svg>`;
+
+const SESSOES = [
+  {t:'Cupom de desconto no checkout', p:'Loja', b:'cupom-checkout', e:'Precisa de você', c:'p-laranja'},
+  {t:'Orquestrador', p:'Loja', b:'dev', e:'Trabalhando', c:'p-branco'},
+  {t:'Erro na tela de pedidos', p:'Loja-pedidos', b:'erro-tela-pedidos', e:'Precisa de você', c:'p-laranja'},
+  {t:'Notas offline', p:'App.Notas', b:'notas-offline', e:'Pronta', c:'p-verde'},
+];
+
+const conversa = () => `
+  <div class="bolha">Revise o cupom de desconto do checkout e me diga o que falta para fechar a issue 48.</div>
+  <div class="fraco" style="font-size:12.5px;font-style:italic">Pensou por 7 s · 2,1 mil tokens</div>
+  <div class="subag">${ic('robo',14)}<b style="font-weight:600">Mapear onde o cupom é validado</b><span class="etq">Explore</span><span class="fraco">terminou · 41 s · 7 ferramentas</span></div>
+  <div style="display:grid;gap:8px">
+    <div>Olhei a issue e o código do <span class="mono" style="color:var(--codt)">CupomService</span>. Faltam <b>duas coisas</b> antes de fechar a 48:</div>
+    <div style="padding-left:14px">• <b>Cupom vencido:</b> hoje o serviço lança exceção; o certo é devolver uma falha que a tela mostre.<br>• <b>Limite por cliente:</b> o mesmo cupom pode ser usado duas vezes no mesmo pedido.</div>
+    <div class="codigo">if (cupom.Vencido(agora))
+    return Resultado.Falha("Este cupom venceu");</div>
+  </div>
+  <div class="ferr"><span class="ponto p-verde"></span><b>Read</b><span class="mono fraco">src/Loja.Application/Cupons/CupomService.cs</span></div>
+  <div class="perm"><div style="display:flex;gap:8px;align-items:center"><span class="estado-cor">${ic('info',15)}</span><b>Permitir Bash: aplica a migration</b></div>
+    <div class="codigo" style="padding:7px 12px">dotnet ef database update --project src/Loja.Infra</div>
+    <div class="acoes"><button class="btn prim">Permitir</button><button class="btn">Não perguntar de novo</button><button class="btn">Negar</button></div></div>`;
+
+const composer = (extra='') => `<div class="composer">
+  <div class="fraco">Mensagem para o Claude · @ cita um arquivo · / lista comandos</div>
+  <div class="rodape"><span class="fraco">${ic('clipe',15)}</span><span class="pilula">Opus 5.5 · Alto ${ic('baixo',12)}</span>${extra}<span class="pilula">${ic('raio',12)} Perguntar sempre</span><span class="enviar">${ic('seta',14)}</span></div></div>`;
+
+const contexto = () => `<div style="display:grid;gap:7px">
+  <div style="display:flex;justify-content:space-between"><b style="font-weight:600">28% usado</b><span class="fraco">291k de 1M</span></div>
+  <div class="barra"><i style="width:28%"></i></div></div>`;
+
+const SECOES = [
+  {id:'aparencia', n:'Aparência', i:'paleta', d:'Tema, fundo animado e fontes'},
+  {id:'idioma', n:'Idioma', i:'globo', d:'Português, English ou o do sistema'},
+  {id:'conversas', n:'Conversas', i:'chat', d:'Modelo, esforço e permissões padrão'},
+  {id:'projetos', n:'Projetos e pastas', i:'pasta', d:'Onde o Nexora procura repositórios'},
+  {id:'mcp', n:'Servidores MCP', i:'chip', d:'Hub compartilhado entre sessões'},
+  {id:'orquestrador', n:'Orquestrador', i:'robo', d:'Modelo da sessão chefe'},
+  {id:'janela', n:'Janela', i:'janela', d:'Abertura, painéis e terminal'},
+  {id:'sobre', n:'Sobre', i:'info', d:'Versão, atualizações e dados'},
+];
+const TEMAS = [
+  ['Padrão','#181716','#948BAE'],['Padrão claro','#F7F6F4','#5B5470'],['Dracula','#282A36','#BD93F9'],['Alucard','#FFFBEB','#644AC9'],
+  ['Aurora','#0B0E14','#7BCB9F'],['Nebulosa','#120F1A','#E59AC4'],['Carta celeste','#F4F1E8','#3A3548'],['Pulso','#0E0D12','#86C5E6']];
+const opcao = (t, s, controle) => `<div class="opcao"><div class="txt"><b>${t}</b>${s?`<small>${s}</small>`:''}</div>${controle}</div>`;
+const chave = (lig) => `<span class="chave${lig?' lig':''}" data-chave></span>`;
+const seg = (ops, i=0) => `<span class="seg" data-seg>${ops.map((o,k)=>`<button class="${k===i?'ativo':''}">${o}</button>`).join('')}</span>`;
+const campo = (v) => `<span class="campo">${v}${ic('baixo',13)}</span>`;
+const CONTEUDO = {
+  aparencia: () => opcao('Tema','O app inteiro muda na hora; os animados reagem ao mouse.', '') +
+    `<div class="temas" style="padding:0 0 12px">${TEMAS.map((t,k)=>`<div class="tema${k===0?' ativo':''}" data-tema-card><i style="background:linear-gradient(135deg,${t[1]} 55%,${t[2]})"></i><span>${t[0]}</span></div>`).join('')}</div>` +
+    opcao('Fundo','Animado, parado ou sem fundo', seg(['Animado','Parado','Sólido'])) +
+    opcao('Escurecer o fundo','Deixa o texto mais legível sobre o céu', `<input type="range" value="20" style="width:180px;accent-color:var(--marca)">`) +
+    opcao('Fonte da interface','', campo('Inter')) + opcao('Fonte do código','', campo('Cascadia Mono')),
+  idioma: () => opcao('Idioma do app','Vale depois de reabrir o Nexora', seg(['Automático','Português','English'])) +
+    opcao('Datas e números','Seguem o idioma escolhido', `<span class="fraco">06/11/2026 · 1.234,5</span>`),
+  conversas: () => opcao('Modelo padrão','Usado nas conversas novas', campo('Opus 5.5')) + opcao('Esforço','', seg(['Baixo','Médio','Alto','Máximo'],2)) +
+    opcao('Modo de permissão','Shift+Tab troca durante a conversa', campo('Perguntar sempre')) + opcao('Modo rápido','', chave(false)) +
+    opcao('Avisar quando uma sessão precisar de você','Notificação do sistema', chave(true)),
+  projetos: () => opcao('Pastas de projetos','O Nexora procura repositórios nestas pastas',
+    `<div class="lista-pastas"><div>D:\\Repositorios <span class="fraco">${ic('fechar',12)}</span></div><div>D:\\Workspaces <span class="fraco">${ic('fechar',12)}</span></div><button class="btn" style="justify-self:start">${ic('mais',13)} Adicionar pasta</button></div>`) +
+    opcao('Workspaces do VS Code','Cada .code-workspace vira um projeto', `<button class="btn">${ic('mais',13)} Importar</button>`) +
+    opcao('Projetos escondidos','3 projetos fora da lista', `<button class="btn">Mostrar</button>`),
+  mcp: () => opcao('Hub de MCP','Um servidor por projeto para todas as sessões, em vez de uma cópia por sessão', chave(true)) +
+    opcao('Desligar MCP parado depois de','', campo('10 minutos')),
+  orquestrador: () => opcao('Modelo da sessão chefe','', campo('Opus 5.5')) + opcao('Esforço','', seg(['Médio','Alto','Máximo'],1)),
+  janela: () => opcao('Abrir pelo Nexora.exe','Abre mais rápido; desligue se o antivírus barrar', chave(true)) +
+    opcao('Detalhes da sessão ao lado','Em janela em pé eles abrem por cima', chave(true)) +
+    opcao('Altura do terminal','', campo('260 px')),
+  sobre: () => opcao('Nexora 0.5.1','Atualizado hoje', `<button class="btn">Procurar atualização</button>`) +
+    opcao('Boas-vindas','Rever o passeio de apresentação', `<button class="btn">Abrir</button>`) +
+    opcao('Pasta de dados','%APPDATA%\\Nexora', `<button class="btn">Abrir pasta</button>`),
+};
+let secao = 'aparencia';
+
+const C = {};
+
+const logo = (t=26) => `<span style="width:${t}px;height:${t}px;border-radius:8px;background:linear-gradient(160deg,var(--marca),var(--marca2));display:grid;place-items:center;color:#fff;font-weight:700;font-size:${Math.round(t/2)}px;flex:none">N</span>`;
+const medidores = () => `<span class="fraco" style="font-size:12px;display:flex;gap:14px;align-items:center;white-space:nowrap"><span>5h <b style="color:var(--txt2);font-weight:500">4%</b></span><span>Semana <b style="color:var(--txt2);font-weight:500">35%</b></span></span>`;
+const ABAS = [{t:'Visão geral', fixa:true, i:'quadro', tela:'visao'}, {t:'Cupom de desconto no checkout', c:'p-laranja', tela:'conversa'}, {t:'Orquestrador', c:'p-branco'}, {t:'Issues', i:'issues'}];
+const abas = (extra='') => `<div style="display:flex;gap:4px;align-items:center;min-width:0;overflow:hidden">${ABAS.map(a=>{
+  const ativa = (a.tela===estado.tela) || (estado.tela==='config' && false);
+  return `<button ${a.tela?`data-ir="${a.tela}"`:''} style="display:flex;gap:8px;align-items:center;padding:6px ${a.fixa?'10px':'12px'};border-radius:9px;max-width:230px;white-space:nowrap;${ativa?'background:var(--supa);color:var(--txt)':'color:var(--txt2)'}">${a.i?ic(a.i,14):`<span class="ponto ${a.c}"></span>`}<span style="overflow:hidden;text-overflow:ellipsis">${a.t}</span>${a.fixa?'':`<span class="fraco" style="opacity:.7">${ic('fechar',11)}</span>`}</button>`}).join('')}
+  ${estado.tela==='config'?`<button style="display:flex;gap:8px;align-items:center;padding:6px 12px;border-radius:9px;background:var(--supa)">${ic('engrenagem',14)} Configurações <span class="fraco">${ic('fechar',11)}</span></button>`:''}
+  <button class="btn" style="border:0;padding:5px 8px" title="Nova sessão">${ic('mais',14)}</button>${extra}</div>`;
+
+const COLS = [['Precisa de você','p-laranja',[0,2]],['Trabalhando','p-branco',[1]],['Prontas','p-verde',[3]],['Paradas','p-cinza',[]]];
+const cartaoSessao = (k, compacto) => { const s=SESSOES[k]; return `<button data-ir="conversa" class="cartao" style="text-align:left;padding:${compacto?'9px 11px':'12px 14px'};display:grid;gap:${compacto?3:6}px;width:100%;${s.c==='p-laranja'?'border-color:color-mix(in srgb,var(--laranja) 45%,transparent)':''}">
+  <span style="display:flex;gap:8px;align-items:center"><span style="width:20px;height:20px;border-radius:6px;background:var(--supa);font-size:10px;display:grid;place-items:center;font-weight:600">${s.p.slice(0,2).toUpperCase()}</span><b style="font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${s.t}</b></span>
+  <span class="fraco mono" style="font-size:11.5px">${s.p} · ${s.b}</span>
+  ${compacto?'':`<span class="suave" style="font-size:12.8px">${['Permitir Bash: dotnet ef database update','esperar s1, s2, s3','O Claude tem uma pergunta','Pronto: notas sincronizam offline'][k]}</span>
+  <span style="display:flex;gap:8px;align-items:center"><span class="fraco" style="font-size:11.5px">${['esperando há 3 min','trabalhando há 9 min','esperando há 31 s','há 12 min'][k]}</span><span class="barra" style="flex:1"><i style="width:${[42,12,85,4][k]}%"></i></span></span>
+  ${s.c==='p-laranja'&&k===0?`<span style="display:flex;gap:6px"><span class="btn prim" style="padding:4px 10px">Permitir</span><span class="btn" style="padding:4px 10px">Negar</span></span>`:''}`}
+</button>`};
+const quadro = () => `<div style="display:grid;gap:14px;padding:18px 22px;height:100%;grid-template-rows:auto auto 1fr">
+  <div style="display:flex;align-items:center;gap:12px"><b style="font-size:20px">Sessões</b><span class="seg"><button class="ativo">Quadro</button><button>Lista</button></span><span class="campo" style="min-width:180px">Todos os projetos ${ic('baixo',13)}</span><span class="fraco" style="margin-left:auto">4 sessões</span></div>
+  <div class="perm" style="display:flex;align-items:center;gap:14px;padding:10px 14px"><span class="estado-cor">${ic('info',15)}</span><b>1 pedido de permissão</b><span class="suave">Cupom de desconto no checkout · Permitir Bash: aplica a migration</span><span style="margin-left:auto;display:flex;gap:6px"><span class="btn prim">Permitir</span><span class="btn">Negar</span></span></div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;min-height:0">${COLS.map(([n,c,ids])=>`<div style="background:color-mix(in srgb,var(--lateral) 55%,transparent);border:1px solid var(--borda2);border-radius:14px;padding:10px;display:flex;flex-direction:column;gap:9px"><div style="display:flex;gap:8px;align-items:center;padding:2px 4px"><span class="ponto ${c}"></span><b style="font-weight:600">${n}</b><span class="fraco">${ids.length}</span></div>${ids.map(k=>cartaoSessao(k)).join('')}${n==='Trabalhando'?`<button class="fraco" style="text-align:left;padding:6px 8px">${ic('mais',13)} Nova sessão</button>`:''}</div>`).join('')}</div></div>`;
+
+const cabecalhoSessao = (painelBtn=true) => `<header style="display:flex;align-items:center;gap:12px;padding:12px 22px;border-bottom:1px solid var(--borda2)">
+  <div style="min-width:0"><div style="font-weight:600;font-size:15px">Cupom de desconto no checkout</div><div class="fraco" style="font-size:12.3px;display:flex;gap:10px;align-items:center">${ic('pasta',13)} Loja ${ic('branch',13)} <span class="mono">cupom-checkout</span></div></div>
+  <span class="pilula" style="margin-left:auto"><span class="ponto p-laranja"></span>Precisa de você</span>
+  ${['terminal','play','branch'].map(i=>`<button class="btn" style="border:0;padding:5px 7px">${ic(i,15)}</button>`).join('')}
+  ${painelBtn?`<button class="btn" data-acao="painel" title="Contexto e arquivos" style="${estado.painel?'background:var(--supa)':''}">${ic('painel',16)}</button>`:''}</header>`;
+const painelContexto = () => `<div style="width:290px;padding:18px;display:grid;gap:18px;align-content:start">
+  <div class="secao-t">Contexto</div>${contexto()}
+  <div class="secao-t">Ambiente</div>
+  <div style="display:grid;gap:8px" class="suave"><span>${ic('pasta',14)} Loja</span><span class="mono">${ic('branch',14)} cupom-checkout</span><span style="display:flex;justify-content:space-between;align-items:center">Remote Control ${chave(false)}</span></div>
+  <div class="secao-t">Subagents</div><div class="suave" style="font-size:12.8px;display:grid;gap:5px"><span><span class="ponto p-verde"></span> Mapear o cupom · terminou</span><span><span class="ponto p-branco"></span> Teste de concorrência · em segundo plano</span></div>
+  <div class="secao-t">Saídas · 2 arquivos</div>
+  <div class="mono" style="display:grid;gap:6px;font-size:12.3px"><span>CupomService.cs <span style="color:var(--verde)">+6</span> <span style="color:var(--verm)">−2</span></span><span>CupomTests.cs <span style="color:var(--verde)">+24</span></span></div></div>`;
+const conversaCentro = () => `<div style="flex:1;overflow:auto;padding:22px 0"><div style="max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:14px;padding:0 24px">${conversa()}</div></div>
+  <div style="max-width:768px;width:100%;margin:0 auto;padding:0 24px 18px">${composer()}</div>`;
+const configSecoes = (larguraIndice=230) => `<div style="display:grid;grid-template-columns:${larguraIndice}px 1fr;height:100%">
+  <aside style="padding:22px 12px;display:flex;flex-direction:column;gap:3px;border-right:1px solid var(--borda2)"><div style="font-size:20px;font-weight:600;padding:0 10px 12px">Configurações</div>
+    <div class="campo" style="min-width:0;margin:0 4px 10px"><span class="fraco">${ic('busca',13)} Procurar</span></div>
+    ${SECOES.map(s=>`<button data-secao="${s.id}" style="text-align:left;display:flex;gap:10px;align-items:center;padding:7px 10px;border-radius:9px;${s.id===secao?'background:var(--supa)':''}">${ic(s.i,15)}<span>${s.n}</span></button>`).join('')}</aside>
+  <main style="overflow:auto;padding:28px 40px">${(()=>{const s=SECOES.find(x=>x.id===secao);return `<div style="max-width:760px;display:grid;gap:18px"><div><div style="font-size:22px;font-weight:600">${s.n}</div><div class="fraco">${s.d}</div></div><div class="cartao" style="padding:6px 20px">${CONTEUDO[s.id]()}</div></div>`})()}</main></div>`;
+
+C.D = {
+  nome:'D · Estação com abas',
+  desc:'O A com as abas no topo e a Visão geral como primeira aba fixa. A lateral mostra as sessões por estado.',
+  nota:'Estação com abas: a lateral do conceito A (áreas do app em texto e sessões agrupadas por estado) fica à esquerda, e no topo continuam as abas de hoje. A Visão geral vira a primeira aba, fixa, com o ícone do quadro, e as conversas e páginas abertas entram depois dela. O contexto da sessão é um painel que se recolhe. Configurações abrem como uma aba, com o índice de seções à esquerda.',
+  moldura(conteudo){
+    const grupos = [['Precisa de você','p-laranja',[0,2]],['Trabalhando','p-branco',[1]],['Prontas','p-verde',[3]]];
+    return `<div style="display:grid;grid-template-columns:250px 1fr;grid-template-rows:52px 1fr;height:100%">
+      <div style="grid-row:1/3;background:color-mix(in srgb,var(--lateral) 88%,transparent);border-right:1px solid var(--borda2);display:flex;flex-direction:column;padding:12px 10px;gap:12px">
+        <div style="display:flex;align-items:center;gap:9px;padding:2px 6px">${logo()}<b style="font-size:15px">Nexora</b></div>
+        <div class="campo" style="min-width:0"><span class="fraco" style="display:flex;gap:7px;align-items:center">${ic('busca',13)} Procurar</span><span class="fraco mono" style="font-size:11px">Ctrl K</span></div>
+        <nav style="display:grid;gap:1px">${[['quadro','Visão geral','visao'],['projetos','Projetos'],['issues','Issues'],['relogio','Agendados'],['grafico','Uso e recursos']].map(([i,n,t])=>`<button ${t?`data-ir="${t}"`:''} class="btn" style="border:0;justify-content:flex-start;padding:6px 8px;${t===estado.tela?'background:var(--supa)':''}">${ic(i,15)}<span class="suave">${n}</span></button>`).join('')}</nav>
+        <div style="display:grid;gap:11px;overflow:auto">${grupos.map(([g,c,ids])=>`<div style="display:grid;gap:3px"><div class="secao-t" style="padding:0 8px">${g} · ${ids.length}</div>${ids.map(k=>{const s=SESSOES[k];return `<button data-ir="conversa" style="text-align:left;padding:7px 9px;border-radius:9px;${k===0&&estado.tela==='conversa'?'background:var(--supa)':''};display:grid;gap:1px"><span style="display:flex;gap:8px;align-items:center"><span class="ponto ${s.c}"></span><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${s.t}</span></span><span class="fraco" style="font-size:11.8px;padding-left:16px">${s.p} · ${s.b}</span></button>`}).join('')}</div>`).join('')}</div>
+        <button class="btn" data-ir="config" style="border:0;justify-content:flex-start;margin-top:auto;${estado.tela==='config'?'background:var(--supa)':''}">${ic('engrenagem',15)} <span class="suave">Configurações</span></button>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;padding:0 16px;border-bottom:1px solid var(--borda2)">${abas()}<span style="margin-left:auto">${medidores()}</span></div>
+      <div style="min-height:0;position:relative">${conteudo}</div></div>`;
+  },
+  visao(){ return this.moldura(quadro()); },
+  conversa(){ return this.moldura(`<div style="display:grid;grid-template-columns:1fr ${estado.painel?'290px':'0px'};height:100%;transition:grid-template-columns .25s"><main style="display:flex;flex-direction:column;min-width:0">${cabecalhoSessao()}${conversaCentro()}</main><aside style="overflow:hidden;border-left:1px solid var(--borda2);background:color-mix(in srgb,var(--lateral) 80%,transparent)">${painelContexto()}</aside></div>`); },
+  config(){ return this.moldura(configSecoes()); },
+};
+
+C.E = {
+  nome:'E · Abas e trilho com nomes',
+  desc:'Abas de largura inteira no topo, um trilho fino com ícone e nome embaixo, e as sessões numa gaveta.',
+  nota:'Abas e trilho com nomes: o topo é uma faixa só, com o logo, as abas (Visão geral fixa primeiro) e os medidores. À esquerda fica um trilho estreito, mas cada ícone tem o nome embaixo, o que já tira a cara de VS Code. A lista de sessões não ocupa espaço fixo: abre como gaveta pelo primeiro botão do trilho. Na conversa, o contexto vira cartões flutuantes no canto, e as Configurações usam abas de seção no alto da página.',
+  moldura(conteudo){
+    const itens = [['chat','Sessões','gaveta'],['quadro','Visão','visao'],['projetos','Projetos'],['issues','Issues'],['relogio','Agenda'],['grafico','Uso']];
+    return `<div style="display:grid;grid-template-columns:72px 1fr;grid-template-rows:52px 1fr;height:100%;position:relative">
+      <div style="grid-column:1/3;display:flex;align-items:center;gap:12px;padding:0 16px 0 22px;border-bottom:1px solid var(--borda2);background:color-mix(in srgb,var(--lateral) 70%,transparent)">${logo(24)}${abas()}<span style="margin-left:auto;display:flex;gap:14px;align-items:center"><span class="campo" style="min-width:220px"><span class="fraco">${ic('busca',13)} Procurar</span><span class="fraco mono" style="font-size:11px">Ctrl K</span></span>${medidores()}</span></div>
+      <nav style="display:flex;flex-direction:column;gap:4px;align-items:center;padding:10px 0;border-right:1px solid var(--borda2);background:color-mix(in srgb,var(--lateral) 70%,transparent)">
+        ${itens.map(([i,n,t])=>`<button ${t==='gaveta'?'data-acao="gaveta"':t?`data-ir="${t}"`:''} style="display:grid;justify-items:center;gap:3px;width:58px;padding:7px 0;border-radius:10px;font-size:10.5px;${(t===estado.tela)||(t==='gaveta'&&estado.gaveta)?'background:var(--supa);color:var(--txt)':'color:var(--txt3)'}">${ic(i,18)}${n}</button>`).join('')}
+        <button data-ir="config" style="margin-top:auto;display:grid;justify-items:center;gap:3px;width:58px;padding:7px 0;border-radius:10px;font-size:10.5px;${estado.tela==='config'?'background:var(--supa);color:var(--txt)':'color:var(--txt3)'}">${ic('engrenagem',18)}Ajustes</button></nav>
+      <div style="min-height:0;position:relative;overflow:hidden">${conteudo}
+        <div data-fundo-gaveta style="position:absolute;inset:0;background:rgba(0,0,0,${estado.gaveta?'.28':'0'});pointer-events:${estado.gaveta?'auto':'none'};transition:.25s"></div>
+        <aside class="sombra" style="position:absolute;top:0;bottom:0;left:0;width:310px;background:var(--lateral);border-right:1px solid var(--borda);transform:translateX(${estado.gaveta?'0':'-102%'});transition:transform .28s;padding:16px;display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;align-items:center"><b style="font-size:15px">Sessões</b><button class="btn" style="margin-left:auto">${ic('mais',13)} Nova</button></div>
+          ${COLS.slice(0,3).map(([n,c,ids])=>`<div style="display:grid;gap:4px"><div class="secao-t">${n} · ${ids.length}</div>${ids.map(k=>{const s=SESSOES[k];return `<button data-ir="conversa" style="text-align:left;padding:8px 10px;border-radius:9px;display:grid;gap:1px"><span style="display:flex;gap:8px;align-items:center"><span class="ponto ${s.c}"></span>${s.t}</span><span class="fraco" style="font-size:11.8px;padding-left:16px">${s.p} · ${s.b}</span></button>`}).join('')}</div>`).join('')}
+        </aside></div></div>`;
+  },
+  visao(){ return this.moldura(quadro()); },
+  conversa(){ return this.moldura(`<main style="display:flex;flex-direction:column;height:100%;position:relative">${cabecalhoSessao()}<div style="display:flex;flex-direction:column;flex:1;min-height:0;padding-right:${estado.painel?270:0}px;transition:padding .25s">${conversaCentro()}</div>
+      <div style="position:absolute;right:18px;top:78px;display:grid;gap:10px;width:250px;opacity:${estado.painel?1:0};transform:translateX(${estado.painel?'0':'20px'});transition:.25s;pointer-events:${estado.painel?'auto':'none'}">
+        <div class="cartao sombra" style="padding:14px;display:grid;gap:8px;background:color-mix(in srgb,var(--sup) 92%,transparent)"><div class="secao-t">Contexto</div>${contexto()}</div>
+        <div class="cartao sombra" style="padding:14px;display:grid;gap:7px;background:color-mix(in srgb,var(--sup) 92%,transparent)"><div class="secao-t">Saídas · 2 arquivos</div><span class="mono" style="font-size:12px">CupomService.cs <span style="color:var(--verde)">+6</span></span><span class="mono" style="font-size:12px">CupomTests.cs <span style="color:var(--verde)">+24</span></span></div>
+        <div class="cartao sombra" style="padding:14px;display:grid;gap:7px;background:color-mix(in srgb,var(--sup) 92%,transparent)"><div class="secao-t">Ambiente</div><span class="suave" style="font-size:12.8px">${ic('pasta',13)} Loja · <span class="mono">cupom-checkout</span></span><span style="display:flex;justify-content:space-between;align-items:center" class="suave">Remote Control ${chave(false)}</span></div>
+      </div></main>`); },
+  config(){ return this.moldura(`<div style="display:flex;flex-direction:column;height:100%"><div style="padding:22px 40px 0;display:grid;gap:14px"><div style="font-size:22px;font-weight:600">Configurações</div>
+      <div style="display:flex;gap:4px;border-bottom:1px solid var(--borda2)">${SECOES.map(s=>`<button data-secao="${s.id}" style="padding:8px 12px;display:flex;gap:7px;align-items:center;border-bottom:2px solid ${s.id===secao?'var(--marca)':'transparent'};${s.id===secao?'':'color:var(--txt3)'}">${ic(s.i,14)}${s.n}</button>`).join('')}</div></div>
+      <div style="flex:1;overflow:auto;padding:22px 40px">${(()=>{const s=SECOES.find(x=>x.id===secao);return `<div style="max-width:780px;display:grid;gap:12px"><div class="fraco">${s.d}</div><div class="cartao" style="padding:6px 20px">${CONTEUDO[s.id]()}</div></div>`})()}</div></div>`); },
+};
+
+C.F = {
+  nome:'F · Quadro que vira lateral',
+  desc:'A Visão geral é a casa. Ao abrir uma sessão, o quadro encolhe e vira a coluna da esquerda, sem perder os estados.',
+  nota:'Quadro que vira lateral: as abas ficam no topo como hoje, e a Visão geral é a tela inicial em quadro. Ao abrir uma conversa, as colunas do quadro se juntam numa lateral de cartões pequenos, na mesma ordem de estados. Assim a lateral é sempre o quadro, em tamanho grande ou compacto, e não uma árvore de pastas como no VS Code. Configurações aparecem como uma folha grande por cima do app, com as seções à esquerda, e fecham com Esc.',
+  moldura(conteudo, comLateral){
+    return `<div style="display:grid;grid-template-columns:${comLateral?'280px ':''}1fr;grid-template-rows:52px 1fr;height:100%;position:relative">
+      <div style="grid-column:1/-1;display:flex;align-items:center;gap:12px;padding:0 16px;border-bottom:1px solid var(--borda2);background:color-mix(in srgb,var(--lateral) 60%,transparent)">${logo(24)}<span class="campo" style="min-width:200px"><span class="fraco">${ic('busca',13)} Procurar</span><span class="fraco mono" style="font-size:11px">Ctrl K</span></span>${abas()}<span style="margin-left:auto;display:flex;gap:12px;align-items:center">${medidores()}<button class="btn" data-ir="config" style="border:0">${ic('engrenagem',16)}</button></span></div>
+      ${comLateral?`<aside style="border-right:1px solid var(--borda2);background:color-mix(in srgb,var(--lateral) 75%,transparent);padding:12px;display:flex;flex-direction:column;gap:12px;overflow:auto">
+        <button data-ir="visao" class="fraco" style="text-align:left;display:flex;gap:7px;align-items:center;font-size:12.5px">${ic('quadro',14)} Abrir a Visão geral</button>
+        ${COLS.slice(0,3).map(([n,c,ids])=>`<div style="display:grid;gap:6px"><div style="display:flex;gap:7px;align-items:center"><span class="ponto ${c}"></span><span class="secao-t">${n} · ${ids.length}</span></div>${ids.map(k=>`<div style="${k===0?'outline:1.5px solid var(--marca);border-radius:12px':''}">${cartaoSessao(k,true)}</div>`).join('')}</div>`).join('')}</aside>`:''}
+      <div style="min-height:0;position:relative">${conteudo}</div></div>`;
+  },
+  visao(){ return this.moldura(quadro(), false); },
+  conversa(){ return this.moldura(`<div style="display:grid;grid-template-columns:1fr ${estado.painel?'280px':'0px'};height:100%;transition:grid-template-columns .25s"><main style="display:flex;flex-direction:column;min-width:0">${cabecalhoSessao()}${conversaCentro()}</main><aside style="overflow:hidden;border-left:1px solid var(--borda2)">${painelContexto()}</aside></div>`, true); },
+  config(){ return this.moldura(quadro(), false) + `<div data-ir="visao" style="position:absolute;inset:0;background:rgba(0,0,0,.4)"></div>
+    <div class="sombra" style="position:absolute;left:90px;right:90px;top:60px;bottom:40px;border-radius:16px;overflow:hidden;background:var(--fundo);border:1px solid var(--borda)">${configSecoes(240)}<button data-ir="visao" class="btn" style="position:absolute;right:14px;top:14px;border:0">${ic('fechar',16)}</button></div>`; },
+};
+
+const estado = {conceito:'D', tela:'visao', tema:'escuro', painel:true, gaveta:false, cardAberto:null};
+{
+  const q = new URLSearchParams(location.search);
+  if (C[q.get('c')]) estado.conceito = q.get('c');
+  if (['config','conversa','visao'].includes(q.get('t'))) estado.tela = q.get('t');
+  if (q.get('tema') === 'claro') estado.tema = 'claro';
+  if (q.get('gaveta')) estado.gaveta = true;
+  if (q.get('card')) estado.cardAberto = q.get('card');
+}
+
+function desenhar(){
+  document.getElementById('conceitos').innerHTML = Object.entries(C).map(([k,c])=>`<button class="conceito${estado.conceito===k?' ativo':''}" data-conceito="${k}"><b>${c.nome}</b><span>${c.desc}</span></button>`).join('');
+  const c = C[estado.conceito];
+  document.getElementById('app').innerHTML = c[estado.tela]();
+  document.getElementById('notaConceito').textContent = c.nota;
+  document.querySelectorAll('#telas button').forEach(b=>b.classList.toggle('ativo', b.dataset.tela===estado.tela));
+  document.querySelectorAll('#temaSel button').forEach(b=>b.classList.toggle('ativo', b.dataset.tema===estado.tema));
+  const j = document.getElementById('janela');
+  j.classList.toggle('claro', estado.tema==='claro');
+  document.body.classList.toggle('claro-pagina', estado.tema==='claro');
+}
+
+document.addEventListener('click', e=>{
+  const t = e.target.closest('[data-conceito],[data-tela],[data-tema],[data-ir],[data-acao],[data-secao],[data-card],[data-fechar],[data-fundo],[data-fundo-gaveta],[data-chave],[data-seg] button,[data-tema-card],[data-rolar]');
+  if(!t) return;
+  if(t.dataset.conceito){estado.conceito=t.dataset.conceito;estado.cardAberto=null;estado.gaveta=false;}
+  else if(t.dataset.tela){estado.tela=t.dataset.tela;}
+  else if(t.dataset.tema){estado.tema=t.dataset.tema;}
+  else if(t.dataset.ir){estado.tela=t.dataset.ir;estado.cardAberto=null;estado.gaveta=false;}
+  else if(t.dataset.acao==='painel'){estado.painel=!estado.painel;}
+  else if(t.dataset.acao==='gaveta'){estado.gaveta=!estado.gaveta;}
+  else if(t.dataset.secao){secao=t.dataset.secao;}
+  else if(t.dataset.card){estado.cardAberto=t.dataset.card;}
+  else if(t.hasAttribute('data-fechar')){estado.cardAberto=null;}
+  else if(t.hasAttribute('data-fundo')){if(e.target.closest('[data-nao-fecha]'))return;estado.cardAberto=null;}
+  else if(t.hasAttribute('data-fundo-gaveta')){estado.gaveta=false;}
+  else if(t.hasAttribute('data-chave')){t.classList.toggle('lig');return;}
+  else if(t.closest('[data-seg]')){t.parentElement.querySelectorAll('button').forEach(b=>b.classList.toggle('ativo',b===t));return;}
+  else if(t.hasAttribute('data-tema-card')){t.parentElement.querySelectorAll('.tema').forEach(b=>b.classList.toggle('ativo',b===t));return;}
+  else if(t.dataset.rolar){secao=t.dataset.rolar;const alvo=document.getElementById('s-'+secao);const r=document.getElementById('rolagemC');desenhar();const a2=document.getElementById('s-'+secao);document.getElementById('rolagemC').scrollTop=a2.offsetTop-10;return;}
+  desenhar();
+});
+document.addEventListener('keydown', e=>{ if(e.key==='Escape'){estado.cardAberto=null;estado.gaveta=false;desenhar();} });
+
+function escalar(){
+  const p = document.getElementById('palco');
+  document.getElementById('janela').style.transform = `scale(${p.clientWidth/1280})`;
+}
+addEventListener('resize', escalar);
+
+const ceu = document.getElementById('ceu'), g = ceu.getContext('2d');
+const estrelas = Array.from({length:140},()=>({x:Math.random(),y:Math.random(),r:Math.random()*1.2+.3,f:Math.random()*6.28,v:.4+Math.random()*1.2}));
+const lig = [];
+for(let i=0;i<18;i++){const a=estrelas[i*3],b=estrelas[i*3+1];if(Math.hypot(a.x-b.x,a.y-b.y)<.25)lig.push([a,b]);}
+function animar(t){
+  const w=ceu.width=1280,h=ceu.height=800;
+  const cor=getComputedStyle(document.getElementById('janela')).getPropertyValue('--estrela').trim();
+  g.clearRect(0,0,w,h);
+  g.strokeStyle=`rgba(${cor},.08)`;g.lineWidth=1;
+  for(const [a,b] of lig){g.beginPath();g.moveTo(a.x*w,a.y*h);g.lineTo(b.x*w,b.y*h);g.stroke();}
+  for(const s of estrelas){const al=.25+.35*(.5+.5*Math.sin(t/1000*s.v+s.f));g.fillStyle=`rgba(${cor},${al})`;g.beginPath();g.arc(s.x*w,s.y*h,s.r,0,6.28);g.fill();}
+  requestAnimationFrame(animar);
+}
+desenhar();escalar();requestAnimationFrame(animar);
+</script>
+</body>
+</html>

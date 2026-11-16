@@ -1,0 +1,182 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:l="using:Nexora"
+             xmlns:vm="using:Nexora.ViewModels"
+             xmlns:v="using:Nexora.Views"
+             x:Class="Nexora.Views.NavegadorView"
+             x:DataType="vm:NavegadorVM">
+  <DockPanel>
+    <Border DockPanel.Dock="Top" Theme="{StaticResource BarraDoNavegador}">
+      <Grid ColumnDefinitions="Auto,Auto,Auto,*,Auto,Auto,Auto,Auto">
+        <Button Classes="icone pequeno" Command="{Binding VoltarCommand}" IsEnabled="{Binding PodeVoltar}"
+                ToolTip.Tip="{l:T 'Voltar'}" AutomationProperties.Name="{l:T 'Voltar'}">
+          <v:Icone Nome="esquerda" Tamanho="13" />
+        </Button>
+        <Button Grid.Column="1" Classes="icone pequeno" Command="{Binding AvancarCommand}" IsEnabled="{Binding PodeAvancar}"
+                ToolTip.Tip="{l:T 'Avançar'}" AutomationProperties.Name="{l:T 'Avançar'}">
+          <v:Icone Nome="direita" Tamanho="13" />
+        </Button>
+        <Button Grid.Column="2" Classes="icone pequeno" Command="{Binding RecarregarCommand}"
+                ToolTip.Tip="{l:T 'Recarregar'}" AutomationProperties.Name="{l:T 'Recarregar a página'}">
+          <v:Icone Nome="atualizar" Tamanho="13" v:Animacoes.Girar="{Binding Carregando}" />
+        </Button>
+        <TextBox x:Name="CampoEndereco" Grid.Column="3" Classes="campo mono" Text="{Binding Endereco}" FontSize="12.5" Margin="6,0"
+                 PlaceholderText="{l:T 'localhost:5173 ou um endereço'}" AutomationProperties.Name="{l:T 'Endereço da página'}" />
+        <Button x:Name="BotaoServidores" Grid.Column="4" Classes="icone pequeno" Classes.ligado="{Binding MenuServidoresAberto}" Command="{Binding AlternarServidoresCommand}"
+                ToolTip.Tip="{l:T 'Servidores do painel Executar'}" AutomationProperties.Name="{l:T 'Servidores do painel Executar'}">
+          <v:Icone Nome="executar" Tamanho="13" />
+        </Button>
+        <Button Grid.Column="5" Classes="icone pequeno" Classes.ligado="{Binding ModoDesign}" Command="{Binding AlternarDesignCommand}"
+                ToolTip.Tip="{l:T 'Modo design: clique nos elementos da página e comente (Esc sai)'}" AutomationProperties.Name="{l:T 'Modo design'}">
+          <v:Icone Nome="lapis" Tamanho="13" />
+        </Button>
+        <Button Grid.Column="6" Classes="icone pequeno" Command="{Binding DestacarCommand}" IsVisible="{Binding !Destacado}"
+                ToolTip.Tip="{l:T 'Abrir numa janela flutuante'}" AutomationProperties.Name="{l:T 'Abrir numa janela flutuante'}">
+          <v:Icone Nome="maximizar" Tamanho="13" />
+        </Button>
+        <Button Grid.Column="6" Classes="icone pequeno" Command="{Binding EncaixarCommand}" IsVisible="{Binding Destacado}"
+                ToolTip.Tip="{l:T 'Voltar para o painel da conversa'}" AutomationProperties.Name="{l:T 'Voltar para o painel da conversa'}">
+          <v:Icone Nome="painel-direito" Tamanho="13" />
+        </Button>
+        <Button Grid.Column="7" Classes="icone pequeno" Command="{Binding AbrirNoNavegadorCommand}"
+                ToolTip.Tip="{l:T 'Abrir no navegador do sistema'}" AutomationProperties.Name="{l:T 'Abrir no navegador do sistema'}">
+          <v:Icone Nome="externo" Tamanho="13" />
+        </Button>
+        <Popup PlacementTarget="{Binding #BotaoServidores}" Placement="BottomEdgeAlignedRight" VerticalOffset="4" IsLightDismissEnabled="True"
+               IsOpen="{Binding MenuServidoresAberto, Mode=TwoWay}">
+          <Border Theme="{DynamicResource Flutuante}" Padding="6" Width="300" v:Animacoes.Entrada="True">
+            <StackPanel Spacing="2">
+              <TextBlock Classes="fraco" Text="{l:T 'SERVIDORES DE DESENVOLVIMENTO'}" FontSize="11" FontWeight="SemiBold" Margin="8,4,8,4" />
+              <TextBlock Classes="fraco" Text="{l:T 'Nenhum servidor no ar. Suba um no painel Executar.'}" IsVisible="{Binding !TemServidores}"
+                         TextWrapping="Wrap" FontSize="12" Margin="8,2,8,6" />
+              <ItemsControl ItemsSource="{Binding Servidores}">
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate x:DataType="vm:ServidorNoAr">
+                    <Button Classes="opcao-menu" Margin="0,1" Command="{Binding $parent[v:NavegadorView].((vm:NavegadorVM)DataContext).AbrirServidorCommand}" CommandParameter="{Binding}">
+                      <Grid ColumnDefinitions="Auto,*">
+                        <Ellipse Width="7" Height="7" Margin="0,0,10,0" VerticalAlignment="Center" Classes="estado" Classes.pronta="{Binding NoAr}" />
+                        <StackPanel Grid.Column="1" Spacing="1">
+                          <TextBlock Classes="mono" Text="{Binding Endereco}" FontSize="12.5" TextTrimming="CharacterEllipsis" />
+                          <TextBlock Classes="fraco" Text="{Binding Nome}" FontSize="11.5" TextTrimming="CharacterEllipsis" />
+                        </StackPanel>
+                      </Grid>
+                    </Button>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+              <Button Classes="opcao-menu" Command="{Binding AbrirExecutarCommand}" Margin="0,4,0,0">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                  <v:Icone Nome="executar" Tamanho="12" />
+                  <TextBlock Text="{l:T 'Abrir o painel Executar'}" FontSize="12.5" />
+                </StackPanel>
+              </Button>
+            </StackPanel>
+          </Border>
+        </Popup>
+      </Grid>
+    </Border>
+
+    <Border DockPanel.Dock="Top" Theme="{StaticResource BarraDoNavegador}" IsVisible="{Binding MostraBarraDesign}" Padding="10,6">
+      <Grid ColumnDefinitions="*,Auto,Auto">
+        <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+          <v:Icone Nome="lapis" Tamanho="13" Foreground="{DynamicResource Acento}" />
+          <TextBlock Classes="suave" FontSize="12" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"
+                     Text="{l:T 'Clique num elemento e escreva o que mudar · Esc sai'}" IsVisible="{Binding !TemAnotacoes}" />
+          <TextBlock Classes="suave" FontSize="12" VerticalAlignment="Center" Text="{Binding TextoAnotacoes}" IsVisible="{Binding TemAnotacoes}" />
+        </StackPanel>
+        <Button Grid.Column="1" Classes="fantasma pequeno" Command="{Binding LimparAnotacoesCommand}" IsVisible="{Binding TemAnotacoes}"
+                Content="{l:T 'Limpar'}" Margin="0,0,6,0" />
+        <Button Grid.Column="2" Classes="primario pequeno" Command="{Binding MandarParaAgenteCommand}"
+                ToolTip.Tip="{l:T 'Manda as anotações e um print da página para a conversa'}">
+          <StackPanel Orientation="Horizontal" Spacing="6">
+            <v:Icone Nome="enviar" Tamanho="12" />
+            <TextBlock Text="{l:T 'Mandar para o agente'}" />
+          </StackPanel>
+        </Button>
+      </Grid>
+    </Border>
+
+    <Border DockPanel.Dock="Bottom" IsVisible="{Binding TemAnotacoes}" BorderBrush="{DynamicResource Borda}" BorderThickness="0,1,0,0"
+            Background="{DynamicResource Lateral}">
+      <ScrollViewer MaxHeight="170" HorizontalScrollBarVisibility="Disabled">
+        <ItemsControl ItemsSource="{Binding Anotacoes}" Margin="8,6">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="vm:AnotacaoVM">
+              <Grid ColumnDefinitions="Auto,*,Auto" Margin="0,3">
+                <Border Theme="{StaticResource MarcadorDeAnotacao}" Margin="0,1,10,0">
+                  <TextBlock Text="{Binding Numero}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Border>
+                <StackPanel Grid.Column="1" Spacing="1">
+                  <TextBlock Text="{Binding Comentario}" TextWrapping="Wrap" FontSize="12.5" />
+                  <TextBlock Classes="fraco mono" Text="{Binding Seletor}" FontSize="11" TextTrimming="CharacterEllipsis" ToolTip.Tip="{Binding Seletor}" />
+                </StackPanel>
+                <Button Grid.Column="2" Classes="icone pequeno" Command="{Binding RemoverCommand}" VerticalAlignment="Top"
+                        ToolTip.Tip="{l:T 'Tirar esta anotação'}" AutomationProperties.Name="{l:T 'Tirar esta anotação'}">
+                  <v:Icone Nome="fechar" Tamanho="10" />
+                </Button>
+              </Grid>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </ScrollViewer>
+    </Border>
+
+    <Border DockPanel.Dock="Bottom" IsVisible="{Binding TemAviso}" Classes="aviso" Margin="8" Padding="10,6">
+      <TextBlock Text="{Binding Aviso}" TextWrapping="Wrap" FontSize="12" />
+    </Border>
+
+    <Panel>
+      <Panel x:Name="Hospedeiro" IsVisible="{Binding MostraPagina}" />
+
+      <StackPanel IsVisible="{Binding TemFalha}" VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="10" MaxWidth="380" Margin="20">
+        <v:Icone Nome="alerta" Tamanho="26" Foreground="{DynamicResource Laranja}" HorizontalAlignment="Center" />
+        <TextBlock Text="{Binding TituloFalha}" FontSize="15" FontWeight="SemiBold" TextWrapping="Wrap" TextAlignment="Center" />
+        <TextBlock Classes="suave" Text="{Binding DicaFalha}" TextWrapping="Wrap" TextAlignment="Center" FontSize="12.5" />
+        <TextBlock Classes="fraco mono" Text="{Binding Endereco}" TextWrapping="Wrap" TextAlignment="Center" FontSize="11.5" />
+        <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center" Margin="0,6,0,0">
+          <Button Classes="primario pequeno" Command="{Binding RecarregarCommand}" Content="{l:T 'Tentar de novo'}" />
+          <Button Classes="contorno pequeno" Command="{Binding AbrirExecutarCommand}" IsVisible="{Binding FalhaDeServidor}" Content="{l:T 'Abrir o painel Executar'}" />
+        </StackPanel>
+      </StackPanel>
+
+      <ScrollViewer IsVisible="{Binding Vazio}" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="22,26" Spacing="12" MaxWidth="420" HorizontalAlignment="Center">
+          <v:Icone Nome="globo" Tamanho="28" Classes="suave" HorizontalAlignment="Center" />
+          <TextBlock Text="{l:T 'Veja o app que o agente está fazendo'}" FontSize="15" FontWeight="SemiBold" TextAlignment="Center" TextWrapping="Wrap" />
+          <TextBlock Classes="suave" TextWrapping="Wrap" TextAlignment="Center" FontSize="12.5"
+                     Text="{l:T 'Digite um endereço acima ou abra um servidor do painel Executar. No modo design, clique nos elementos da página, comente e mande tudo para o agente.'}" />
+          <ItemsControl ItemsSource="{Binding Servidores}" Margin="0,6,0,0">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="vm:ServidorNoAr">
+                <Button Classes="opcao-menu" Margin="0,2" HorizontalAlignment="Stretch"
+                        Command="{Binding $parent[v:NavegadorView].((vm:NavegadorVM)DataContext).AbrirServidorCommand}" CommandParameter="{Binding}">
+                  <Grid ColumnDefinitions="Auto,*,Auto">
+                    <Ellipse Width="7" Height="7" Margin="0,0,10,0" VerticalAlignment="Center" Classes="estado" Classes.pronta="{Binding NoAr}" />
+                    <StackPanel Grid.Column="1" Spacing="1">
+                      <TextBlock Classes="mono" Text="{Binding Endereco}" FontSize="12.5" TextTrimming="CharacterEllipsis" />
+                      <TextBlock Classes="fraco" Text="{Binding Detalhe}" FontSize="11.5" TextTrimming="CharacterEllipsis" />
+                    </StackPanel>
+                    <v:Icone Grid.Column="2" Nome="direita" Tamanho="12" Classes="fraco" VerticalAlignment="Center" />
+                  </Grid>
+                </Button>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+          <Button Classes="contorno pequeno" Command="{Binding AbrirExecutarCommand}" HorizontalAlignment="Center" IsVisible="{Binding !TemServidores}">
+            <StackPanel Orientation="Horizontal" Spacing="6">
+              <v:Icone Nome="executar" Tamanho="12" />
+              <TextBlock Text="{l:T 'Abrir o painel Executar'}" />
+            </StackPanel>
+          </Button>
+        </StackPanel>
+      </ScrollViewer>
+
+      <StackPanel x:Name="SemNavegador" IsVisible="False" VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="10" MaxWidth="360" Margin="20">
+        <v:Icone Nome="globo" Tamanho="26" Classes="suave" HorizontalAlignment="Center" />
+        <TextBlock Text="{l:T 'O navegador embutido ainda não funciona no Mac'}" FontSize="14" FontWeight="SemiBold" TextWrapping="Wrap" TextAlignment="Center" />
+        <TextBlock Classes="suave" Text="{l:T 'Por enquanto, a página abre no navegador do sistema.'}" TextWrapping="Wrap" TextAlignment="Center" FontSize="12.5" />
+        <Button Classes="primario pequeno" Command="{Binding AbrirNoNavegadorCommand}" HorizontalAlignment="Center" Content="{l:T 'Abrir no navegador do sistema'}" />
+      </StackPanel>
+    </Panel>
+  </DockPanel>
+</UserControl>

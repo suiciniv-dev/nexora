@@ -1,0 +1,1171 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:l="using:Nexora"
+             xmlns:vm="using:Nexora.ViewModels"
+             xmlns:v="using:Nexora.Views"
+             xmlns:arq="using:Nexora.Core.Arquivos"
+             xmlns:claude="using:Nexora.Core.Claude"
+             xmlns:img="using:Avalonia.Media.Imaging"
+             x:Class="Nexora.Views.ChatView"
+             x:DataType="vm:ChatVM">
+  <UserControl.KeyBindings>
+    <KeyBinding Gesture="Ctrl+OemTilde" Command="{Binding AlternarTerminalCommand}" />
+  </UserControl.KeyBindings>
+  <UserControl.Styles>
+    <Style Selector="StackPanel.botoes-chat">
+      <Setter Property="Grid.Column" Value="1" />
+    </Style>
+    <Style Selector="Border.cabecalho-chat.estreito StackPanel.botoes-chat">
+      <Setter Property="Grid.Row" Value="1" />
+      <Setter Property="Grid.Column" Value="0" />
+      <Setter Property="Grid.ColumnSpan" Value="2" />
+      <Setter Property="HorizontalAlignment" Value="Left" />
+      <Setter Property="Margin" Value="0,10,0,0" />
+    </Style>
+    <Style Selector="Border.cabecalho-chat.estreito TextBlock.titulo-chat">
+      <Setter Property="TextWrapping" Value="Wrap" />
+      <Setter Property="MaxLines" Value="2" />
+    </Style>
+    <Style Selector="v|ChatView.estreita TextBlock.rotulo-compactavel">
+      <Setter Property="IsVisible" Value="False" />
+    </Style>
+    <Style Selector="Button.copiar-msg">
+      <Setter Property="Opacity" Value="0" />
+      <Setter Property="Padding" Value="8,4" />
+      <Setter Property="MinHeight" Value="28" />
+      <Setter Property="Margin" Value="0,2,0,0" />
+      <Setter Property="Foreground" Value="{DynamicResource TextoSuave}" />
+      <Setter Property="Transitions">
+        <Transitions><DoubleTransition Property="Opacity" Duration="0:0:0.12" /></Transitions>
+      </Setter>
+    </Style>
+    <Style Selector="StackPanel.mensagem:pointerover Button.copiar-msg, Button.copiar-msg:focus-visible, Button.copiar-msg.copiado">
+      <Setter Property="Opacity" Value="1" />
+    </Style>
+  </UserControl.Styles>
+  <Grid x:Name="Divisao" ColumnDefinitions="*,0,0,Auto">
+  <DockPanel x:Name="Conversa">
+    <Border DockPanel.Dock="Bottom" IsVisible="{Binding TerminalAberto}" Height="{Binding AlturaTerminal}"
+            BorderBrush="{DynamicResource Borda}" BorderThickness="0,1,0,0" Background="{DynamicResource FundoSolido}">
+      <DockPanel>
+        <Thumb DockPanel.Dock="Top" Height="6" Cursor="SizeNorthSouth" DragDelta="AlcaTerminal_DragDelta" DragCompleted="AlcaTerminal_DragCompleted">
+          <Thumb.Template>
+            <ControlTemplate>
+              <Border Background="Transparent" />
+            </ControlTemplate>
+          </Thumb.Template>
+        </Thumb>
+        <Grid DockPanel.Dock="Top" ColumnDefinitions="Auto,Auto,*,Auto,Auto" Margin="14,0,8,2">
+          <v:Icone Nome="terminal" Tamanho="13" Classes="suave" VerticalAlignment="Center" />
+          <TextBlock Grid.Column="1" Classes="secao-geral" Text="TERMINAL" Margin="8,0,10,0" VerticalAlignment="Center" />
+          <TextBlock Grid.Column="2" Classes="fraco" Text="{Binding Pasta}" FontSize="11.5" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+          <Button Grid.Column="3" Classes="icone pequeno" Command="{Binding Terminal.ReiniciarCommand}" ToolTip.Tip="{l:T 'Abrir um terminal novo nesta pasta'}"
+                  AutomationProperties.Name="{l:T 'Reiniciar o terminal'}">
+            <v:Icone Nome="atualizar" Tamanho="12" />
+          </Button>
+          <Button Grid.Column="4" Classes="icone pequeno" Command="{Binding AlternarTerminalCommand}" ToolTip.Tip="{l:T 'Esconder o terminal (Ctrl+`). Ele continua rodando.'}"
+                  AutomationProperties.Name="{l:T 'Esconder o terminal'}">
+            <v:Icone Nome="fechar" Tamanho="11" />
+          </Button>
+        </Grid>
+        <ContentControl Content="{Binding TerminalExibido}">
+          <ContentControl.DataTemplates>
+            <DataTemplate DataType="vm:TerminalVM">
+              <v:TerminalView />
+            </DataTemplate>
+          </ContentControl.DataTemplates>
+        </ContentControl>
+      </DockPanel>
+    </Border>
+    <Border x:Name="Cabecalho" Classes="cabecalho-chat" DockPanel.Dock="Top"
+            BorderBrush="{DynamicResource BordaVidro}" BorderThickness="0,0,0,1" Padding="22,12,16,12">
+      <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto">
+        <v:Avatar Width="46" Height="46" HorizontalAlignment="Left" VerticalAlignment="Center" Imagem="{Binding IconeRepo}" Iniciais="{Binding Iniciais}"
+                   Trabalhando="{Binding Trabalhando}" Precisa="{Binding Precisa}" Pronta="{Binding EstaPronta}" Erro="{Binding TemErro}"
+                   Fracao="{Binding ContextoFracao}" ToolTip.Tip="{Binding ContextoTexto}" />
+        <StackPanel Spacing="3" Margin="60,0,0,0">
+          <TextBlock Classes="titulo-chat" Text="{Binding Titulo}" FontSize="16" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" ToolTip.Tip="{Binding Titulo}" />
+          <WrapPanel>
+            <StackPanel Orientation="Horizontal" Spacing="6" Margin="0,0,14,0">
+              <v:Icone Nome="pasta" Tamanho="13" Classes="fraco" />
+              <TextBlock Classes="fraco" Text="{Binding NomePasta}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Spacing="6" Margin="0,0,14,0" IsVisible="{Binding Branch, Converter={x:Static ObjectConverters.IsNotNull}}">
+              <v:Icone Nome="branch" Tamanho="13" Classes="fraco" />
+              <TextBlock Classes="fraco mono" Text="{Binding Branch}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Spacing="6" Margin="0,0,14,0">
+              <StackPanel.IsVisible>
+                <MultiBinding Converter="{x:Static BoolConverters.And}">
+                  <Binding Path="TemVinculados" />
+                  <Binding Path="!DetalhesAoLado" />
+                </MultiBinding>
+              </StackPanel.IsVisible>
+              <v:Icone Nome="vinculo" Tamanho="13" Classes="fraco" />
+              <TextBlock Classes="fraco" Text="{Binding TextoVinculados}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Spacing="6" Margin="0,0,14,0" ToolTip.Tip="{l:T 'Contexto usado na última resposta'}">
+              <StackPanel.IsVisible>
+                <MultiBinding Converter="{x:Static BoolConverters.And}">
+                  <Binding Path="TemContexto" />
+                  <Binding Path="!DetalhesAoLado" />
+                </MultiBinding>
+              </StackPanel.IsVisible>
+              <ProgressBar Classes="contexto" Classes.cheio="{Binding ContextoCheio}" Width="48" Minimum="0" Maximum="1" Value="{Binding ContextoFracao}" VerticalAlignment="Center" />
+              <TextBlock Classes="fraco" Text="{Binding ContextoTexto}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Spacing="6" Margin="0,0,14,0">
+              <StackPanel.IsVisible>
+                <MultiBinding Converter="{x:Static BoolConverters.And}">
+                  <Binding Path="TemCache" />
+                  <Binding Path="!DetalhesAoLado" />
+                </MultiBinding>
+              </StackPanel.IsVisible>
+              <v:Icone Nome="relogio" Tamanho="13" Classes="fraco" />
+              <TextBlock Classes="cache" Classes.acabando="{Binding CacheAcabando}" Classes.expirado="{Binding CacheExpirado}" Text="{Binding CacheTexto}" />
+            </StackPanel>
+          </WrapPanel>
+        </StackPanel>
+        <StackPanel Classes="botoes-chat" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+        <Button Classes="contorno pequeno" Command="{Binding AbrirRemotoCommand}" IsVisible="{Binding RemotoLigado}" ToolTip.Tip="{Binding EnderecoRemoto}">
+          <StackPanel Orientation="Horizontal" Spacing="6"><Ellipse Classes="estado pronta" VerticalAlignment="Center" /><TextBlock Text="Remote Control" /></StackPanel>
+        </Button>
+        <Border Classes="pilula" VerticalAlignment="Center">
+          <StackPanel Orientation="Horizontal" Spacing="8">
+            <Ellipse Classes="estado"
+                     Classes.trabalhando="{Binding Trabalhando}"
+                     Classes.precisa="{Binding Precisa}"
+                     Classes.pronta="{Binding EstaPronta}"
+                     Classes.erro="{Binding TemErro}"
+                     VerticalAlignment="Center" />
+            <TextBlock Text="{Binding EstadoTexto}" FontSize="12.5" VerticalAlignment="Center" />
+          </StackPanel>
+        </Border>
+        <Button Theme="{StaticResource PilulaPr}" Classes.falhou="{Binding PrFalhou}" Classes.aprovado="{Binding PrAprovado}" Classes.mergeado="{Binding PrMergeado}"
+                Classes.fechado="{Binding PrFechado}" IsVisible="{Binding TemPr}" Command="{Binding MostrarAbaCommand}" CommandParameter="pr" Padding="9,4"
+                ToolTip.Tip="{Binding TextoPr}" AutomationProperties.Name="{l:T 'Painel do PR'}">
+          <StackPanel Orientation="Horizontal" Spacing="5">
+            <v:Icone Nome="pr" Tamanho="12" VerticalAlignment="Center" />
+            <TextBlock Text="{Binding Pr.Numero, StringFormat='#{0}', FallbackValue=''}" FontSize="12" VerticalAlignment="Center" />
+          </StackPanel>
+        </Button>
+        <v:BotaoLigado Classes="icone" Classes.ligado="{Binding TerminalAberto}" IsChecked="{Binding TerminalAberto, Mode=OneWay}" Command="{Binding AlternarTerminalCommand}" IsVisible="{x:Static vm:ChatVM.TemTerminal}"
+                ToolTip.Tip="{l:T 'Terminal nesta pasta (Ctrl+`)'}" AutomationProperties.Name="Terminal">
+          <v:Icone Nome="terminal" />
+        </v:BotaoLigado>
+        <v:BotaoLigado Classes="icone" Classes.ligado="{Binding DetalhesLigados}" IsChecked="{Binding DetalhesLigados, Mode=OneWay}" Command="{Binding AlternarDetalhesAquiCommand}" IsVisible="{Binding DetalhesDisponiveis}"
+                ToolTip.Tip="{l:T 'Detalhes da sessão: ambiente, contexto e arquivos alterados (Ctrl+Alt+B)'}" AutomationProperties.Name="{l:T 'Detalhes da sessão'}">
+          <v:Icone Nome="painel-direito" />
+        </v:BotaoLigado>
+        <Button x:Name="MaisAcoes" Classes="icone" ToolTip.Tip="{l:T 'Mais ações: arquivos, git, executar e Remote Control'}" AutomationProperties.Name="{l:T 'Mais ações da conversa'}">
+          <v:Icone Nome="mais-acoes" />
+          <Button.Flyout>
+            <MenuFlyout Placement="BottomEdgeAlignedRight">
+              <MenuItem Header="{l:T 'Arquivos do projeto'}" InputGesture="Ctrl+Shift+E" Command="{Binding MostrarAbaCommand}" CommandParameter="arquivos">
+                <MenuItem.Icon><v:Icone Nome="arquivos" Tamanho="14" /></MenuItem.Icon>
+              </MenuItem>
+              <MenuItem Header="{l:T 'Alterações do git'}" InputGesture="Ctrl+Shift+G" Command="{Binding MostrarAbaCommand}" CommandParameter="git">
+                <MenuItem.Icon><v:Icone Nome="branch" Tamanho="14" /></MenuItem.Icon>
+              </MenuItem>
+              <MenuItem Header="{l:T 'Executar o projeto desta pasta'}" Command="{Binding ExecutarCommand}">
+                <MenuItem.Icon><v:Icone Nome="executar" Tamanho="14" /></MenuItem.Icon>
+              </MenuItem>
+              <Separator />
+              <MenuItem Header="{Binding TextoRemoto}" Command="{Binding AlternarRemotoCommand}" IsEnabled="{Binding RemotoDisponivel}">
+                <MenuItem.Icon><v:Icone Nome="celular" Tamanho="14" /></MenuItem.Icon>
+              </MenuItem>
+            </MenuFlyout>
+          </Button.Flyout>
+        </Button>
+        </StackPanel>
+      </Grid>
+    </Border>
+
+    <Border x:Name="Caixa" DockPanel.Dock="Bottom" Classes="cartao" Margin="24,8,24,18" Padding="14,10,10,10" MaxWidth="{StaticResource LarguraConversa}" DragDrop.AllowDrop="True"
+            BoxShadow="{DynamicResource BrilhoCaixa}">
+      <StackPanel Spacing="6">
+        <StackPanel Spacing="4" IsVisible="{Binding TemFila}" Margin="0,0,0,4">
+          <TextBlock Classes="secao-geral" Text="{Binding TextoFila}" Margin="2,0,0,2" />
+          <ItemsControl ItemsSource="{Binding Fila}">
+            <ItemsControl.ItemsPanel><ItemsPanelTemplate><StackPanel Spacing="4" /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="vm:MensagemNaFilaVM">
+                <Border Classes="na-fila" v:Animacoes.Entrada="True">
+                  <Grid ColumnDefinitions="Auto,*,Auto,Auto,Auto,Auto">
+                    <v:Icone Nome="relogio" Tamanho="13" Classes="suave" VerticalAlignment="Center" Margin="0,0,8,0" />
+                    <TextBlock Grid.Column="1" Text="{Binding Resumo}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" ToolTip.Tip="{Binding Texto}" />
+                    <TextBlock Grid.Column="2" Classes="fraco" Text="{Binding TextoImagens}" IsVisible="{Binding TemImagens}" FontSize="12" VerticalAlignment="Center" Margin="8,0,0,0" />
+                    <Button Grid.Column="3" Classes="icone pequeno" Command="{Binding EnviarAgoraCommand}" Margin="8,0,0,0"
+                            ToolTip.Tip="{l:T 'Mandar agora: o agente recebe no meio do que está fazendo'}" AutomationProperties.Name="{l:T 'Mandar agora'}">
+                      <v:Icone Nome="enviar" Tamanho="13" />
+                    </Button>
+                    <Button Grid.Column="4" Classes="icone pequeno" Command="{Binding EditarCommand}"
+                            ToolTip.Tip="{l:T 'Voltar para o campo e editar'}" AutomationProperties.Name="{l:T 'Editar a mensagem da fila'}">
+                      <v:Icone Nome="lapis" Tamanho="13" />
+                    </Button>
+                    <Button Grid.Column="5" Classes="icone pequeno" Command="{Binding RemoverCommand}"
+                            ToolTip.Tip="{l:T 'Tirar da fila'}" AutomationProperties.Name="{l:T 'Tirar da fila'}">
+                      <v:Icone Nome="fechar" Tamanho="11" />
+                    </Button>
+                  </Grid>
+                </Border>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </StackPanel>
+        <ItemsControl ItemsSource="{Binding Anexos}" IsVisible="{Binding TemAnexos}">
+          <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="vm:AnexoVM">
+              <Panel Margin="0,0,8,4" ToolTip.Tip="{Binding Nome}">
+                <Border CornerRadius="8" ClipToBounds="True" BorderBrush="{DynamicResource Borda}" BorderThickness="1">
+                  <Image Source="{Binding Miniatura}" Height="64" MaxWidth="140" Stretch="Uniform" />
+                </Border>
+                <Button Classes="icone pequeno" Command="{Binding RemoverCommand}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,2,2,0"
+                        Width="24" Height="24" Padding="0" Background="{DynamicResource Superficie}" ToolTip.Tip="{l:T 'Tirar a imagem'}" AutomationProperties.Name="{l:T 'Tirar a imagem'}">
+                  <v:Icone Nome="fechar" Tamanho="10" />
+                </Button>
+              </Panel>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <ItemsControl ItemsSource="{Binding Citados}" IsVisible="{Binding TemCitados}">
+          <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="vm:CitadoVM">
+              <Border Classes="citado" ToolTip.Tip="{Binding Caminho}">
+                <StackPanel Orientation="Horizontal" Spacing="6">
+                  <v:Icone Nome="arquivo" Tamanho="12" VerticalAlignment="Center" />
+                  <TextBlock Text="{Binding Nome}" FontSize="12.5" FontWeight="Medium" VerticalAlignment="Center" />
+                  <TextBlock Classes="fraco" Text="{Binding Pasta}" IsVisible="{Binding TemPasta}" FontSize="11.5" MaxWidth="240" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+                  <Button Classes="icone pequeno" Command="{Binding RemoverCommand}" Width="24" Height="24" Padding="0" VerticalAlignment="Center"
+                          ToolTip.Tip="{l:T 'Tirar a citação'}" AutomationProperties.Name="{l:T 'Tirar a citação'}">
+                    <v:Icone Nome="fechar" Tamanho="9" />
+                  </Button>
+                </StackPanel>
+              </Border>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <ContentControl Content="{Binding Citacao}" ContentTemplate="{StaticResource CartaoDeCitacao}" IsVisible="{Binding TemCitacao}" />
+        <TextBox x:Name="Composer" Classes="composer" Text="{Binding Rascunho}" AcceptsReturn="True" TextWrapping="Wrap"
+                 MaxHeight="240" PlaceholderText="{Binding DicaDoCampo}" />
+        <Popup x:Name="Comandos" PlacementTarget="{Binding #Composer}" Placement="TopEdgeAlignedLeft" IsLightDismissEnabled="True" VerticalOffset="-6">
+          <Border Theme="{DynamicResource Flutuante}" MinWidth="520" MaxWidth="720" v:Animacoes.Entrada="True">
+            <ListBox x:Name="ListaComandos" Classes="lista" ItemsSource="{Binding ComandosSugeridos}" MaxHeight="340">
+              <ListBox.ItemTemplate>
+                <DataTemplate x:DataType="claude:ComandoBarra">
+                  <Grid ColumnDefinitions="Auto,Auto,*">
+                    <TextBlock Classes="mono" Text="{Binding Nome, StringFormat='/{0}'}" FontWeight="SemiBold" VerticalAlignment="Center" Margin="0,0,8,0" />
+                    <TextBlock Grid.Column="1" Classes="fraco mono" Text="{Binding Dica}" FontSize="12" VerticalAlignment="Center" Margin="0,0,10,0" MaxWidth="200" TextTrimming="CharacterEllipsis" />
+                    <TextBlock Grid.Column="2" Classes="fraco" Text="{Binding Descricao}" FontSize="12" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                  </Grid>
+                </DataTemplate>
+              </ListBox.ItemTemplate>
+            </ListBox>
+          </Border>
+        </Popup>
+        <Popup x:Name="Mencoes" PlacementTarget="{Binding #Composer}" Placement="TopEdgeAlignedLeft" IsLightDismissEnabled="True" VerticalOffset="-6">
+          <Border Theme="{DynamicResource Flutuante}" MinWidth="460" MaxWidth="640" v:Animacoes.Entrada="True">
+            <StackPanel>
+            <StackPanel Orientation="Horizontal" Spacing="8" Margin="12,8" IsVisible="{Binding Indexando}">
+              <Border Classes="esqueleto" Width="14" Height="14" CornerRadius="7" />
+              <TextBlock Classes="fraco" Text="{l:T 'Indexando os arquivos do ambiente…'}" />
+            </StackPanel>
+            <ListBox x:Name="ListaMencoes" Classes="lista" ItemsSource="{Binding Sugestoes}" MaxHeight="320">
+              <ListBox.ItemTemplate>
+                <DataTemplate x:DataType="arq:ArquivoIndexado">
+                  <Grid ColumnDefinitions="Auto,Auto,*">
+                    <v:Icone Nome="arquivo" Tamanho="14" Classes="suave" VerticalAlignment="Center" Margin="0,0,8,0" />
+                    <TextBlock Grid.Column="1" Text="{Binding Nome}" VerticalAlignment="Center" Margin="0,0,10,0" />
+                    <TextBlock Grid.Column="2" Classes="fraco" Text="{Binding Local}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                  </Grid>
+                </DataTemplate>
+              </ListBox.ItemTemplate>
+            </ListBox>
+            </StackPanel>
+          </Border>
+        </Popup>
+        <Popup x:Name="MenuOndeRoda" PlacementTarget="{Binding #BotaoOndeRoda}" Placement="TopEdgeAlignedLeft" IsLightDismissEnabled="True" VerticalOffset="-8">
+          <Border Theme="{DynamicResource Flutuante}" Padding="6" Width="372" v:Animacoes.Entrada="True">
+            <StackPanel Spacing="2">
+              <TextBlock Classes="secao-geral" Text="{l:T 'ONDE ESTA CONVERSA RODA'}" Margin="10,6,10,4" />
+              <ItemsControl ItemsSource="{Binding OpcoesOndeRoda}" ItemTemplate="{StaticResource OpcaoDeMenu}" />
+              <TextBlock Classes="fraco" FontSize="11.5" TextWrapping="Wrap" Margin="10,4,10,6"
+                         Text="{l:T 'Na nuvem, o Nexora leva o código para a máquina e o agente continua lá mesmo com este PC desligado. Depois da primeira mensagem não dá para trocar.'}" />
+            </StackPanel>
+          </Border>
+        </Popup>
+        <Popup x:Name="MenuAgente" PlacementTarget="{Binding #BotaoAgente}" Placement="TopEdgeAlignedLeft" IsLightDismissEnabled="True" VerticalOffset="-8">
+          <v:Adiado Mostrar="{Binding MenuAgenteAberto}">
+            <DataTemplate x:DataType="vm:ChatVM">
+              <Border Theme="{DynamicResource Flutuante}" Padding="6" Width="372" v:Animacoes.Entrada="True">
+                <StackPanel Spacing="2">
+                  <TextBlock Classes="secao-geral" Text="{l:T 'AGENTE DESTA CONVERSA'}" Margin="10,6,10,4" />
+                  <ScrollViewer MaxHeight="360" HorizontalScrollBarVisibility="Disabled">
+                    <ItemsControl ItemsSource="{Binding OpcoesAgente}">
+                      <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="vm:OpcaoMenuVM">
+                          <Button Classes="opcao-menu" Classes.selecionada="{Binding Selecionada}" Command="{Binding EscolherCommand}" Margin="0,1">
+                            <Grid ColumnDefinitions="*,Auto">
+                              <StackPanel Spacing="1">
+                                <TextBlock Text="{Binding Nome}" FontWeight="Medium" />
+                                <TextBlock Classes="fraco" Text="{Binding Descricao}" IsVisible="{Binding TemDescricao}" FontSize="11.5" TextWrapping="Wrap" />
+                              </StackPanel>
+                              <v:Icone Grid.Column="1" Nome="ok" Tamanho="14" IsVisible="{Binding Selecionada}" VerticalAlignment="Center" Margin="10,0,2,0" />
+                            </Grid>
+                          </Button>
+                        </DataTemplate>
+                      </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                  </ScrollViewer>
+                  <TextBlock Classes="fraco" FontSize="11.5" TextWrapping="Wrap" Margin="10,4,10,6"
+                             Text="{l:T 'Só aparecem os agentes instalados neste computador. Depois da primeira mensagem, a conversa fica com o agente escolhido.'}" />
+                </StackPanel>
+              </Border>
+            </DataTemplate>
+          </v:Adiado>
+        </Popup>
+        <Popup x:Name="MenuModelo" PlacementTarget="{Binding #BotaoModelo}" Placement="TopEdgeAlignedLeft" IsLightDismissEnabled="True" VerticalOffset="-8">
+          <v:Adiado Mostrar="{Binding MenuModeloAberto}">
+            <DataTemplate x:DataType="vm:ChatVM">
+              <Border Theme="{DynamicResource Flutuante}" Padding="6" Width="372" v:Animacoes.Entrada="True">
+                <StackPanel Spacing="2">
+                  <Grid ColumnDefinitions="*,Auto" Margin="10,6,10,4">
+                    <TextBlock Classes="secao-geral" Text="{l:T 'MODELO'}" Margin="0" VerticalAlignment="Center" />
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="6" IsVisible="{Binding BuscandoModelos}">
+                      <Border Classes="esqueleto" Width="10" Height="10" CornerRadius="5" VerticalAlignment="Center" />
+                      <TextBlock Classes="fraco" Text="{l:T 'buscando a lista de modelos…'}" FontSize="11.5" VerticalAlignment="Center" />
+                    </StackPanel>
+                  </Grid>
+                  <ContentControl Content="{Binding AvisoCustoTroca}" ContentTemplate="{StaticResource AvisoDeCustoDaTroca}" IsVisible="{Binding TemAvisoCustoTroca}" />
+                  <ScrollViewer MaxHeight="330" HorizontalScrollBarVisibility="Disabled">
+                    <ItemsControl ItemsSource="{Binding OpcoesModelo}">
+                      <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="vm:OpcaoMenuVM">
+                          <Button Classes="opcao-menu" Classes.selecionada="{Binding Selecionada}" Command="{Binding EscolherCommand}" Margin="0,1">
+                            <Grid ColumnDefinitions="*,Auto">
+                              <StackPanel Spacing="1">
+                                <TextBlock Text="{Binding Nome}" FontWeight="Medium" />
+                                <TextBlock Classes="fraco" Text="{Binding Descricao}" IsVisible="{Binding TemDescricao}" FontSize="11.5" TextWrapping="Wrap" />
+                              </StackPanel>
+                              <v:Icone Grid.Column="1" Nome="ok" Tamanho="14" IsVisible="{Binding Selecionada}" VerticalAlignment="Center" Margin="10,0,2,0" />
+                            </Grid>
+                          </Button>
+                        </DataTemplate>
+                      </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                  </ScrollViewer>
+                  <Border Height="1" Background="{DynamicResource Borda}" Margin="4,6" IsVisible="{Binding TemEsforco}" />
+                  <StackPanel Spacing="8" Margin="10,2,10,8" IsVisible="{Binding TemEsforco}">
+                    <Grid ColumnDefinitions="Auto,*,Auto">
+                      <TextBlock Classes="secao-geral" Text="{l:T 'ESFORÇO'}" Margin="0" VerticalAlignment="Center" />
+                      <TextBlock Grid.Column="1" Classes="fraco" Text="{Binding EsforcoOrigem}" FontSize="11.5" Margin="8,0,0,0" VerticalAlignment="Center" />
+                      <Button Grid.Column="2" Classes="mini" Content="{l:T 'Usar o padrão'}" Command="{Binding VoltarEsforcoPadraoCommand}" IsVisible="{Binding PodeVoltarEsforco}" />
+                    </Grid>
+                    <Border Background="{DynamicResource Superficie}" BorderBrush="{DynamicResource Borda}" BorderThickness="1" CornerRadius="9" Padding="3">
+                      <ItemsControl ItemsSource="{Binding OpcoesEsforco}">
+                        <ItemsControl.ItemsPanel>
+                          <ItemsPanelTemplate><UniformGrid Rows="1" /></ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                          <DataTemplate x:DataType="vm:OpcaoEsforcoVM">
+                            <Button Classes="nivel" Classes.ativa="{Binding Ativa}" Command="{Binding EscolherCommand}" ToolTip.Tip="{Binding Dica}" Margin="1,0">
+                              <TextBlock Text="{Binding Rotulo}" />
+                            </Button>
+                          </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                      </ItemsControl>
+                    </Border>
+                    <TextBlock Classes="fraco" FontSize="11.5" TextWrapping="Wrap"
+                               Text="{l:T 'Trocar o esforço com a sessão aberta reinicia o agente no fim do turno, na mesma conversa.'}" />
+                  </StackPanel>
+                  <Border Height="1" Background="{DynamicResource Borda}" Margin="4,2,4,6" IsVisible="{Binding SuportaUltracode}" />
+                  <Grid ColumnDefinitions="*,Auto" Margin="10,2,10,6" IsVisible="{Binding SuportaRapido}">
+                    <StackPanel Spacing="1">
+                      <TextBlock Text="{l:T 'Modo rápido'}" FontWeight="Medium" />
+                      <TextBlock Classes="fraco" FontSize="11.5" TextWrapping="Wrap" Text="{l:T 'Respostas mais rápidas do mesmo modelo, gastando mais do plano.'}" />
+                    </StackPanel>
+                    <ToggleSwitch Grid.Column="1" IsChecked="{Binding ModoRapido, Mode=OneWay}" Command="{Binding AlternarRapidoCommand}"
+                                  OnContent="" OffContent="" VerticalAlignment="Center" Margin="12,0,0,0" />
+                  </Grid>
+                  <Grid ColumnDefinitions="*,Auto" Margin="10,2,10,8" IsVisible="{Binding SuportaUltracode}">
+                    <StackPanel Spacing="1">
+                      <TextBlock Text="Ultracode" FontWeight="Medium" />
+                      <TextBlock Classes="fraco" FontSize="11.5" TextWrapping="Wrap" Text="{l:T 'Para tarefas grandes: o Claude orquestra vários agentes em paralelo. Gasta bem mais tokens.'}" />
+                    </StackPanel>
+                    <ToggleSwitch Grid.Column="1" IsChecked="{Binding Ultracode, Mode=OneWay}" Command="{Binding AlternarUltracodeCommand}"
+                                  OnContent="" OffContent="" VerticalAlignment="Center" Margin="12,0,0,0" />
+                  </Grid>
+                </StackPanel>
+              </Border>
+            </DataTemplate>
+          </v:Adiado>
+        </Popup>
+        <Popup x:Name="MenuPassagens" PlacementTarget="{Binding #BotaoPassagens}" Placement="TopEdgeAlignedLeft" IsLightDismissEnabled="True" VerticalOffset="-8">
+          <Border Theme="{DynamicResource Flutuante}" Padding="6" Width="440" v:Animacoes.Entrada="True">
+            <StackPanel Spacing="2">
+              <TextBlock Classes="secao-geral" Text="{l:T 'HANDOFFS · CLIQUE PARA COPIAR O NOME'}" Margin="10,6,10,4" />
+              <TextBlock Classes="suave" Text="{l:T 'Nenhum handoff salvo no Senna ainda (ou o Senna está fechado).'}" TextWrapping="Wrap" Margin="10,4,10,8"
+                         IsVisible="{Binding SemPassagens}" />
+              <TextBox x:Name="BuscaPassagens" Classes="campo" Text="{Binding BuscaPassagens}" Margin="4,0,4,6"
+                       PlaceholderText="{l:T 'Buscar por palavra-chave ou projeto'}" IsVisible="{Binding !SemPassagens}" />
+              <TextBlock Classes="suave" Text="{l:T 'Nenhum handoff com essas palavras.'}" Margin="10,4,10,8" IsVisible="{Binding SemResultadoPassagens}" />
+              <ScrollViewer MaxHeight="420" HorizontalScrollBarVisibility="Disabled">
+                <ItemsControl ItemsSource="{Binding TodasPassagens}">
+                  <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="vm:PassagemVM">
+                      <Grid ColumnDefinitions="*,Auto" Margin="0,1">
+                        <Button Classes="opcao-menu" Click="CopiarPassagem_Click" ToolTip.Tip="{Binding Titulo}">
+                          <StackPanel Spacing="1">
+                            <TextBlock Text="{Binding Rotulo}" FontWeight="Medium" TextTrimming="CharacterEllipsis" />
+                            <TextBlock Classes="fraco" Text="{Binding Situacao}" FontSize="11.5" TextTrimming="CharacterEllipsis" />
+                          </StackPanel>
+                        </Button>
+                        <Button Grid.Column="1" Classes="mini" Command="{Binding RetomarCommand}" VerticalAlignment="Center" Margin="6,0,4,0"
+                                ToolTip.Tip="{l:T 'Escreve no campo o pedido para retomar este handoff aqui'}">
+                          <TextBlock Text="{l:T 'Retomar aqui'}" />
+                        </Button>
+                      </Grid>
+                    </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+                </ItemsControl>
+              </ScrollViewer>
+            </StackPanel>
+          </Border>
+        </Popup>
+        <Popup x:Name="MenuModo" PlacementTarget="{Binding #BotaoModo}" Placement="TopEdgeAlignedRight" IsLightDismissEnabled="True" VerticalOffset="-8">
+          <v:Adiado Mostrar="{Binding MenuModoAberto}">
+            <DataTemplate x:DataType="vm:ChatVM">
+              <Border Theme="{DynamicResource Flutuante}" Padding="6" Width="340" v:Animacoes.Entrada="True">
+                <StackPanel Spacing="2">
+                  <TextBlock Classes="secao-geral" Text="{l:T 'MODO DE PERMISSÃO'}" Margin="10,6,10,4" />
+                  <ItemsControl ItemsSource="{Binding OpcoesModo}">
+                    <ItemsControl.ItemTemplate>
+                      <DataTemplate x:DataType="vm:OpcaoMenuVM">
+                        <Button Classes="opcao-menu" Classes.selecionada="{Binding Selecionada}" Command="{Binding EscolherCommand}" Margin="0,1">
+                          <Grid ColumnDefinitions="*,Auto">
+                            <StackPanel Spacing="1">
+                              <TextBlock Text="{Binding Nome}" FontWeight="Medium" />
+                              <TextBlock Classes="fraco" Text="{Binding Descricao}" IsVisible="{Binding TemDescricao}" FontSize="11.5" TextWrapping="Wrap" />
+                            </StackPanel>
+                            <v:Icone Grid.Column="1" Nome="ok" Tamanho="14" IsVisible="{Binding Selecionada}" VerticalAlignment="Center" Margin="10,0,2,0" />
+                          </Grid>
+                        </Button>
+                      </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                  </ItemsControl>
+                  <TextBlock Classes="fraco" FontSize="11.5" Margin="10,6,10,6" Text="{l:T 'Alt+M alterna entre Padrão, Aceitar edições e Planejar.'}" TextWrapping="Wrap" />
+                </StackPanel>
+              </Border>
+            </DataTemplate>
+          </v:Adiado>
+        </Popup>
+        <Popup x:Name="MenuTemplates" PlacementTarget="{Binding #BotaoTemplates}" Placement="TopEdgeAlignedLeft" IsLightDismissEnabled="True" VerticalOffset="-8">
+          <v:Adiado Mostrar="{Binding MenuTemplatesAberto}">
+            <DataTemplate x:DataType="vm:ChatVM">
+              <Border Theme="{DynamicResource Flutuante}" Padding="6" Width="420" v:Animacoes.Entrada="True">
+                <StackPanel Spacing="2">
+                  <TextBlock Classes="secao-geral" Text="{l:T 'TEMPLATES'}" Margin="10,6,10,4" />
+                  <ScrollViewer MaxHeight="360" HorizontalScrollBarVisibility="Disabled">
+                    <ItemsControl ItemsSource="{Binding OpcoesTemplates}">
+                      <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="vm:OpcaoTemplateVM">
+                          <Button Classes="opcao-menu" Command="{Binding EscolherCommand}" Margin="0,1">
+                            <StackPanel Spacing="1">
+                              <TextBlock Text="{Binding Nome}" FontWeight="Medium" />
+                              <TextBlock Classes="fraco" Text="{Binding Previa}" FontSize="11.5" TextTrimming="CharacterEllipsis" />
+                            </StackPanel>
+                          </Button>
+                        </DataTemplate>
+                      </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                  </ScrollViewer>
+                  <Border Height="1" Background="{DynamicResource Borda}" Margin="4,4" />
+                  <Button Classes="opcao-menu" Command="{Binding EditarTemplatesCommand}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                      <v:Icone Nome="lapis" Tamanho="13" Classes="suave" />
+                      <TextBlock Text="{l:T 'Editar templates…'}" />
+                    </StackPanel>
+                  </Button>
+                </StackPanel>
+              </Border>
+            </DataTemplate>
+          </v:Adiado>
+        </Popup>
+        <Popup x:Name="MenuSubagentes" PlacementTarget="{Binding #BotaoSubagentes}" Placement="TopEdgeAlignedLeft" IsLightDismissEnabled="True" VerticalOffset="-8">
+          <v:Adiado Mostrar="{Binding MenuSubagentesAberto}">
+            <DataTemplate x:DataType="vm:ChatVM">
+              <Border Theme="{DynamicResource Flutuante}" Padding="8" Width="460" v:Animacoes.Entrada="True">
+                <StackPanel Spacing="4">
+                  <Grid ColumnDefinitions="*,Auto" Margin="6,4,6,6">
+                    <TextBlock Classes="secao-geral" Text="{l:T 'SUBAGENTS'}" VerticalAlignment="Center" />
+                    <TextBlock Grid.Column="1" Classes="fraco" FontSize="12" Text="{Binding TextoSubagentes}" IsVisible="{Binding TemSubagentesRodando}" />
+                  </Grid>
+                  <ScrollViewer MaxHeight="440" HorizontalScrollBarVisibility="Disabled">
+                    <ItemsControl ItemsSource="{Binding PainelSubagentes}">
+                      <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                          <StackPanel Spacing="2" />
+                        </ItemsPanelTemplate>
+                      </ItemsControl.ItemsPanel>
+                      <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="vm:ItemSubagente">
+                          <StackPanel>
+                            <Button Classes="linha-subagente" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Command="{Binding AlternarCommand}"
+                                    ToolTip.Tip="{l:T 'Ver o pedido, as ferramentas e o resultado deste subagent'}" AutomationProperties.Name="{Binding Descricao}">
+                              <Grid ColumnDefinitions="Auto,*,Auto" Margin="0,4">
+                                <v:AvatarVivo Subagente="{Binding Tipo}" Humor="{Binding Humor}" Comemorar="{Binding Ok}" Desbotado="{Binding Falhou}" Rotulo=""
+                                              Width="44" Height="44" Margin="2,0,12,0" VerticalAlignment="Top" />
+                                <StackPanel Grid.Column="1" Spacing="2">
+                                  <TextBlock Text="{Binding Descricao}" FontWeight="SemiBold" FontSize="13.5" TextTrimming="CharacterEllipsis" />
+                                  <StackPanel Orientation="Horizontal" Spacing="6">
+                                    <TextBlock Classes="fraco" FontSize="12" Text="{Binding Tipo}" />
+                                    <TextBlock Classes="fraco" FontSize="12" Text="·" IsVisible="{Binding TemModelo}" />
+                                    <TextBlock Classes="fraco" FontSize="12" Text="{Binding ModeloPedido}" IsVisible="{Binding TemModelo}" />
+                                  </StackPanel>
+                                  <Grid ColumnDefinitions="*,Auto" Margin="0,2,0,0">
+                                    <TextBlock Classes="fraco" FontSize="12" Text="{Binding TextoFerramentas}" />
+                                    <TextBlock Grid.Column="1" Classes="fraco mono" FontSize="12" Text="{Binding TempoTexto}" />
+                                  </Grid>
+                                  <TextBlock Classes="fraco" FontSize="12" Text="{Binding TokensTexto}" IsVisible="{Binding TemTokens}" />
+                                  <ProgressBar Classes="subagente" Margin="0,3,0,0" Minimum="0" Maximum="1" Value="1"
+                                               IsIndeterminate="{Binding Rodando}" Classes.ok="{Binding Ok}" Classes.erro="{Binding Falhou}" />
+                                  <TextBlock Classes="suave mono" FontSize="12" Text="{Binding Atividade}" IsVisible="{Binding MostraAtividade}" TextTrimming="CharacterEllipsis" />
+                                  <TextBlock Classes="suave" FontSize="12.5" Text="{Binding Previa}" IsVisible="{Binding MostraPrevia}" TextTrimming="CharacterEllipsis" />
+                                </StackPanel>
+                                <Ellipse Grid.Column="2" Classes="estado" Width="8" Height="8" Margin="10,5,4,0" VerticalAlignment="Top"
+                                         Classes.trabalhando="{Binding Rodando}" Classes.pronta="{Binding Ok}" Classes.erro="{Binding Falhou}" />
+                              </Grid>
+                            </Button>
+                            <StackPanel Spacing="4" Margin="60,0,10,8" IsVisible="{Binding Aberto}">
+                              <StackPanel IsVisible="{Binding TemPedido}">
+                                <TextBlock Classes="secao-geral" Text="{l:T 'PEDIDO'}" Margin="0,4,0,4" />
+                                <ScrollViewer MaxHeight="120" HorizontalScrollBarVisibility="Disabled">
+                                  <SelectableTextBlock Classes="suave" Text="{Binding Pedido}" TextWrapping="Wrap" FontSize="12.5" />
+                                </ScrollViewer>
+                              </StackPanel>
+                              <StackPanel IsVisible="{Binding TemResultado}">
+                                <TextBlock Classes="secao-geral" Text="{l:T 'RESULTADO'}" Margin="0,8,0,4" />
+                                <Border Classes="mdCodigo" MaxHeight="220">
+                                  <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+                                    <v:MarkdownTexto Texto="{Binding Resultado}" />
+                                  </ScrollViewer>
+                                </Border>
+                              </StackPanel>
+                            </StackPanel>
+                          </StackPanel>
+                        </DataTemplate>
+                      </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                  </ScrollViewer>
+                </StackPanel>
+              </Border>
+            </DataTemplate>
+          </v:Adiado>
+        </Popup>
+        <Grid ColumnDefinitions="Auto,Auto,Auto,*,Auto,Auto,Auto">
+          <Button Classes="icone pequeno" Click="Anexar_Click" Margin="0,0,4,0" VerticalAlignment="Center"
+                  ToolTip.Tip="{l:T 'Anexar imagem ou arquivo (ou cole com Ctrl+V, ou arraste para cá)'}" AutomationProperties.Name="{l:T 'Anexar imagem ou arquivo'}">
+            <v:Icone Nome="clipe" Tamanho="14" />
+          </Button>
+          <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+            <Button Classes="icone pequeno" Click="Ditar_Click" Margin="0,0,4,0" VerticalAlignment="Center"
+                    IsVisible="{x:Static v:ChatView.TemDitado}"
+                    ToolTip.Tip="{l:T 'Ditar por voz (digitação por voz do Windows, Win+H). Fale e o texto entra no campo.'}" AutomationProperties.Name="{l:T 'Ditar por voz'}">
+              <v:Icone Nome="microfone" Tamanho="14" />
+            </Button>
+            <v:BotaoLigado x:Name="BotaoPassagens" Classes="icone pequeno" Classes.ligado="{Binding MenuPassagensAberto}" IsChecked="{Binding MenuPassagensAberto, Mode=OneWay}" Command="{Binding AbrirPassagensCommand}"
+                    Margin="0,0,4,0" VerticalAlignment="Center" IsVisible="{x:Static vm:ChatVM.SennaDisponivel}"
+                    ToolTip.Tip="{l:T 'Handoffs salvos no Senna: clique num para copiar o nome'}" AutomationProperties.Name="{l:T 'Handoffs'}">
+              <v:Icone Nome="passagem" Tamanho="14" />
+            </v:BotaoLigado>
+            <v:BotaoLigado x:Name="BotaoSubagentes" Classes="icone pequeno" Classes.ligado="{Binding MenuSubagentesAberto}" IsChecked="{Binding MenuSubagentesAberto, Mode=OneWay}" Command="{Binding AbrirSubagentesCommand}"
+                    Margin="0,0,4,0" VerticalAlignment="Center" IsVisible="{Binding TemSubagentes}"
+                    ToolTip.Tip="{l:T 'Subagents desta conversa: o que cada um está fazendo e o que entregou'}" AutomationProperties.Name="{l:T 'Subagents'}">
+              <StackPanel Orientation="Horizontal" Spacing="5">
+                <v:Icone Nome="subagente" Tamanho="14" />
+                <TextBlock Text="{Binding TextoBotaoSubagentes}" FontSize="12" FontWeight="SemiBold" VerticalAlignment="Center" />
+                <Ellipse Classes="estado trabalhando" Width="6" Height="6" VerticalAlignment="Center" IsVisible="{Binding TemSubagentesRodando}" />
+              </StackPanel>
+            </v:BotaoLigado>
+            <v:BotaoLigado x:Name="BotaoTemplates" Classes="icone pequeno" Classes.ligado="{Binding MenuTemplatesAberto}" IsChecked="{Binding MenuTemplatesAberto, Mode=OneWay}" Command="{Binding AbrirTemplatesCommand}"
+                    Margin="0,0,4,0" VerticalAlignment="Center"
+                    ToolTip.Tip="{l:T 'Templates de tarefa: um pedido pronto, com a issue e a branch preenchidas'}" AutomationProperties.Name="{l:T 'Templates'}">
+              <v:Icone Nome="modelo" Tamanho="14" />
+            </v:BotaoLigado>
+          </StackPanel>
+          <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
+          <Button x:Name="BotaoOndeRoda" Classes="seletor onde-roda" Classes.nuvem="{Binding NaNuvem}" Classes.aberto="{Binding MenuOndeRodaAberto}" Command="{Binding AbrirOndeRodaCommand}" IsEnabled="{Binding PodeTrocarOndeRoda}"
+                  IsVisible="{Binding MostraOndeRoda}" ToolTip.Tip="{Binding DicaOndeRoda}" AutomationProperties.Name="{l:T 'Onde roda'}">
+            <StackPanel Orientation="Horizontal" Spacing="6">
+              <v:Icone Nome="nuvem" Tamanho="13" IsVisible="{Binding NaNuvem}" VerticalAlignment="Center" />
+              <v:Icone Nome="monitor" Tamanho="13" IsVisible="{Binding !NaNuvem}" Classes="suave" VerticalAlignment="Center" />
+              <TextBlock Classes="rotulo-compactavel" Text="{Binding OndeRodaRotulo}" FontWeight="Medium" VerticalAlignment="Center" />
+              <v:Icone Nome="abaixo" Tamanho="12" Classes="fraco" VerticalAlignment="Center" IsVisible="{Binding PodeTrocarOndeRoda}" />
+            </StackPanel>
+          </Button>
+          <Button x:Name="BotaoAgente" Classes="seletor agente" Classes.codex="{Binding !EhClaude}" Classes.aberto="{Binding MenuAgenteAberto}" Command="{Binding TrocarAgenteCommand}" IsEnabled="{Binding PodeTrocarAgente}"
+                  IsVisible="{Binding MostraTrocaDeAgente}" ToolTip.Tip="{Binding DicaDoAgente}" AutomationProperties.Name="{l:T 'Agente da conversa'}">
+            <StackPanel Orientation="Horizontal" Spacing="6">
+              <v:AvatarVivo Agente="{Binding Agente}" Parado="True" Rotulo="" Width="18" Height="18" Margin="-2,-2,0,-2" VerticalAlignment="Center" />
+              <TextBlock Classes="rotulo-compactavel" Text="{Binding NomeAgente}" FontWeight="Medium" VerticalAlignment="Center" />
+            </StackPanel>
+          </Button>
+          <Button x:Name="BotaoModelo" Classes="seletor" Classes.aberto="{Binding MenuModeloAberto}" Command="{Binding AbrirMenuModeloCommand}"
+                  ToolTip.Tip="{l:T 'Modelo e esforço'}" AutomationProperties.Name="{l:T 'Escolher o modelo e o esforço'}">
+            <StackPanel Orientation="Horizontal" Spacing="7">
+              <TextBlock Text="{Binding ModeloRotulo}" FontWeight="Medium" VerticalAlignment="Center" />
+              <TextBlock Classes="fraco" Text="{Binding EsforcoRotulo}" IsVisible="{Binding TemEsforcoRotulo}" VerticalAlignment="Center" />
+              <Border Classes="etiqueta-pilula" IsVisible="{Binding MostraRapido}" ToolTip.Tip="{l:T 'Modo rápido ligado'}">
+                <v:Icone Nome="raio" Tamanho="11" />
+              </Border>
+              <Border Classes="etiqueta-pilula" IsVisible="{Binding MostraUltracode}" ToolTip.Tip="{l:T 'Ultracode ligado'}">
+                <TextBlock Text="Ultracode" FontSize="11" />
+              </Border>
+              <v:Icone Nome="abaixo" Tamanho="12" Classes="fraco" VerticalAlignment="Center" />
+            </StackPanel>
+          </Button>
+          </StackPanel>
+          <TextBlock Grid.Column="3" Classes="fraco rotulo-compactavel" Text="{l:T 'Enter envia · Shift+Enter quebra a linha'}" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="12,0,10,0"
+                     TextTrimming="CharacterEllipsis" />
+          <Button x:Name="BotaoModo" Grid.Column="4" Classes="seletor" Classes.aberto="{Binding MenuModoAberto}" Command="{Binding AbrirMenuModoCommand}" Margin="0,0,8,0"
+                  ToolTip.Tip="{l:T 'Modo de permissão (Alt+M alterna)'}" AutomationProperties.Name="{l:T 'Escolher o modo de permissão'}">
+            <StackPanel Orientation="Horizontal" Spacing="6">
+              <v:Icone Nome="raio" Tamanho="12" Classes="suave" VerticalAlignment="Center" />
+              <TextBlock Classes="rotulo-compactavel" Text="{Binding ModoRotulo}" VerticalAlignment="Center" />
+              <v:Icone Nome="abaixo" Tamanho="12" Classes="fraco" VerticalAlignment="Center" />
+            </StackPanel>
+          </Button>
+          <Button Grid.Column="5" Classes="redondo contorno" Command="{Binding PararCommand}" IsVisible="{Binding Trabalhando}" Margin="0,0,8,0"
+                  ToolTip.Tip="{l:T 'Parar'}" AutomationProperties.Name="{l:T 'Parar'}">
+            <v:Icone Nome="parar" Tamanho="14" />
+          </Button>
+          <Button Grid.Column="6" Classes="redondo primario" Command="{Binding EnviarCommand}" ToolTip.Tip="{l:T 'Enviar (Enter)'}" AutomationProperties.Name="{l:T 'Enviar'}">
+            <v:Icone Nome="enviar" Tamanho="16" />
+          </Button>
+        </Grid>
+      </StackPanel>
+    </Border>
+
+    <ContentControl DockPanel.Dock="Bottom" Content="{Binding}" ContentTemplate="{StaticResource FaixaDaNuvem}" IsVisible="{Binding MostraFaixaNuvem}"
+                    Margin="24,8,24,0" MaxWidth="{StaticResource LarguraConversa}" />
+
+    <ContentControl DockPanel.Dock="Bottom" Content="{Binding}" ContentTemplate="{StaticResource SugestaoDaNuvem}" IsVisible="{Binding MostraSugestaoNuvem}"
+                    Margin="24,8,24,0" MaxWidth="{StaticResource LarguraConversa}" />
+
+    <Border DockPanel.Dock="Bottom" Classes="faixa-subagentes" Margin="24,8,24,0" MaxWidth="{StaticResource LarguraConversa}"
+            IsVisible="{Binding TemSubagentesRodando}" v:Animacoes.Entrada="True">
+      <StackPanel Spacing="2">
+        <StackPanel Orientation="Horizontal" Spacing="8" Margin="4,0,0,2">
+          <v:Icone Nome="subagente" Tamanho="13" Classes="suave" VerticalAlignment="Center" />
+          <TextBlock Classes="secao-geral" Text="{Binding TextoSubagentes}" VerticalAlignment="Center" />
+        </StackPanel>
+        <ScrollViewer MaxHeight="150" HorizontalScrollBarVisibility="Disabled">
+          <ItemsControl ItemsSource="{Binding SubagentesAtivos}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="vm:ItemSubagente">
+                <Button Classes="linha-subagente" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Command="{Binding AbrirCommand}"
+                        ToolTip.Tip="{l:T 'Ver o pedido, as ferramentas e o resultado deste subagent'}" AutomationProperties.Name="{Binding Descricao}">
+                  <Grid ColumnDefinitions="Auto,Auto,Auto,*,Auto">
+                    <Ellipse Classes="estado trabalhando" Width="6" Height="6" Margin="0,0,8,0" VerticalAlignment="Center" />
+                    <TextBlock Grid.Column="1" Text="{Binding Tipo}" FontWeight="SemiBold" FontSize="12.5" Margin="0,0,8,0" VerticalAlignment="Center" />
+                    <TextBlock Grid.Column="2" Text="{Binding Descricao}" FontSize="12.5" MaxWidth="320" TextTrimming="CharacterEllipsis" Margin="0,0,10,0" VerticalAlignment="Center" />
+                    <TextBlock Grid.Column="3" Classes="fraco" Text="{Binding Atividade}" FontSize="12" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+                    <TextBlock Grid.Column="4" Classes="fraco" Text="{Binding TempoTexto}" FontSize="12" Margin="10,0,2,0" VerticalAlignment="Center" />
+                  </Grid>
+                  <Button.Flyout>
+                    <Flyout Placement="TopEdgeAlignedLeft" ShowMode="Standard" FlyoutPresenterClasses="largo">
+                      <ScrollViewer MaxHeight="480" Width="680" HorizontalScrollBarVisibility="Disabled">
+                        <ContentControl Content="{Binding}" ContentTemplate="{StaticResource CartaoDeSubagente}">
+                          <ContentControl.DataTemplates>
+                            <DataTemplate DataType="vm:ItemFerramenta">
+                              <Grid ColumnDefinitions="Auto,Auto,*" Margin="0,2">
+                                <Ellipse Classes="estado" Width="6" Height="6" Margin="0,0,8,0" VerticalAlignment="Center"
+                                         Classes.pronta="{Binding Ok}" Classes.erro="{Binding Erro}" Classes.trabalhando="{Binding Rodando}" />
+                                <TextBlock Grid.Column="1" Text="{Binding Rotulo}" FontWeight="SemiBold" FontSize="12.5" Margin="0,0,8,0" VerticalAlignment="Center" />
+                                <TextBlock Grid.Column="2" Classes="suave mono" Text="{Binding Resumo}" FontSize="12" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+                              </Grid>
+                            </DataTemplate>
+                          </ContentControl.DataTemplates>
+                        </ContentControl>
+                      </ScrollViewer>
+                    </Flyout>
+                  </Button.Flyout>
+                </Button>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </ScrollViewer>
+      </StackPanel>
+    </Border>
+
+    <Border DockPanel.Dock="Bottom" Classes="aviso-compactar" Margin="24,8,24,0" MaxWidth="{StaticResource LarguraConversa}"
+            IsVisible="{Binding AvisoCacheVisivel}" v:Animacoes.Entrada="True">
+      <Grid ColumnDefinitions="Auto,*">
+        <v:Icone Nome="relogio" Tamanho="15" Foreground="{DynamicResource Laranja}" VerticalAlignment="Center" Margin="0,0,10,0" />
+        <TextBlock Grid.Column="1" Text="{Binding AvisoCache}" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="12.5" />
+      </Grid>
+    </Border>
+
+    <ItemsControl DockPanel.Dock="Bottom" Margin="24,6,24,0" HorizontalAlignment="Center" ItemsSource="{Binding SelosRevisao}" IsVisible="{Binding TemRevisao}">
+      <ItemsControl.ItemsPanel>
+        <ItemsPanelTemplate>
+          <WrapPanel Orientation="Horizontal" ItemSpacing="6" LineSpacing="6" HorizontalAlignment="Center" />
+        </ItemsPanelTemplate>
+      </ItemsControl.ItemsPanel>
+      <ItemsControl.ItemTemplate>
+        <DataTemplate x:DataType="vm:SeloRevisao">
+          <Border Classes="selo-revisao" Classes.ok="{Binding Ok}" Classes.erro="{Binding Falhou}" Classes.alerta="{Binding Alerta}" ToolTip.Tip="{Binding Dica}">
+            <StackPanel Orientation="Horizontal" Spacing="6">
+              <v:Icone Nome="{Binding Icone}" Tamanho="12" VerticalAlignment="Center" Classes="selo" />
+              <TextBlock Text="{Binding Texto}" FontSize="12" VerticalAlignment="Center" />
+              <Button Classes="fantasma pequeno" IsVisible="{Binding PodeCorrigir}" Command="{Binding $parent[UserControl].((vm:ChatVM)DataContext).PedirCorrecaoCommand}" CommandParameter="{Binding}"
+                      ToolTip.Tip="{l:T 'Escreve no campo um pedido de correção para o agente; você revisa e manda'}" VerticalAlignment="Center" Padding="4,0,0,0">
+                <TextBlock Text="{l:T 'Pedir correção'}" FontSize="12" />
+              </Button>
+            </StackPanel>
+          </Border>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
+
+    <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Spacing="8" Margin="24,6,24,0" HorizontalAlignment="Center"
+                IsVisible="{Binding MostraAcoesRapidas}">
+      <Button Classes="mini" Command="{Binding ComitarEPrCommand}" ToolTip.Tip="{l:T 'Abre o painel do PR com título e descrição prontos para revisar antes de criar'}">
+        <StackPanel Orientation="Horizontal" Spacing="6"><v:Icone Nome="pr" Tamanho="12" /><TextBlock Text="{l:T 'Commit e PR'}" /></StackPanel>
+      </Button>
+      <Button Classes="mini" Command="{Binding ComitarCommand}" ToolTip.Tip="{l:T 'Pede ao agente só o commit'}">
+        <StackPanel Orientation="Horizontal" Spacing="6"><v:Icone Nome="commit" Tamanho="12" /><TextBlock Text="{l:T 'Só o commit'}" /></StackPanel>
+      </Button>
+    </StackPanel>
+
+    <Border DockPanel.Dock="Bottom" Classes="aviso-compactar" Margin="24,8,24,0" MaxWidth="{StaticResource LarguraConversa}"
+            IsVisible="{Binding SugerirCompactar}" v:Animacoes.Entrada="True">
+      <Grid ColumnDefinitions="Auto,*,Auto,Auto">
+        <v:Icone Nome="alerta" Tamanho="15" Foreground="{DynamicResource Laranja}" VerticalAlignment="Center" Margin="0,0,10,0" />
+        <TextBlock Grid.Column="1" Text="{Binding TextoCompactar}" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="12.5" />
+        <Button Grid.Column="2" Classes="mini" Command="{Binding CompactarCommand}" Margin="12,0,6,0" VerticalAlignment="Center"
+                ToolTip.Tip="{l:T 'Manda o /compact: o Claude resume a conversa e continua dali'}">
+          <TextBlock Text="{l:T 'Compactar'}" />
+        </Button>
+        <Button Grid.Column="3" Classes="icone pequeno" Command="{Binding DispensarCompactarCommand}" VerticalAlignment="Center"
+                ToolTip.Tip="{l:T 'Agora não'}" AutomationProperties.Name="{l:T 'Dispensar o aviso de contexto'}">
+          <v:Icone Nome="fechar" Tamanho="11" />
+        </Button>
+      </Grid>
+    </Border>
+
+    <ScrollViewer x:Name="Rolagem" HorizontalScrollBarVisibility="Disabled">
+      <StackPanel MaxWidth="{StaticResource LarguraConversa}" Margin="24,20,24,12">
+        <StackPanel IsVisible="{Binding Vazia}" HorizontalAlignment="Center" Spacing="14" Margin="0,36,0,0" MaxWidth="700">
+          <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center">
+            <TextBlock Text="✻" FontSize="22" Foreground="{DynamicResource Acento}" VerticalAlignment="Center" IsVisible="{Binding EhClaude}" />
+            <v:Icone Nome="terminal" Tamanho="20" Foreground="{DynamicResource Acento}" VerticalAlignment="Center" IsVisible="{Binding !EhClaude}" />
+            <TextBlock Text="{Binding NomeAgente}" FontSize="21" FontWeight="SemiBold" VerticalAlignment="Center" />
+          </StackPanel>
+          <Image Source="/Assets/nexora.png" Width="76" Height="76" HorizontalAlignment="Center" Margin="0,22,0,6"
+                 RenderOptions.BitmapInterpolationMode="HighQuality" />
+          <TextBlock Classes="suave" Text="{Binding TextoDoInicio}" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" />
+          <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,4,0,0" IsEnabled="{Binding PodeTrocarLocal}">
+            <ComboBox ItemsSource="{Binding Locais}" SelectedItem="{Binding LocalEscolhido}" MinWidth="260" Margin="0,0,8,8" ToolTip.Tip="{l:T 'Ambiente da sessão'}">
+              <ComboBox.ItemTemplate>
+                <DataTemplate x:DataType="vm:Local">
+                  <StackPanel Orientation="Horizontal" Spacing="8">
+                    <v:Icone Nome="camadas" Tamanho="14" Classes="suave" VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding Nome}" VerticalAlignment="Center" />
+                    <TextBlock Classes="fraco mono" Text="{Binding Branch}" VerticalAlignment="Center" />
+                  </StackPanel>
+                </DataTemplate>
+              </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Button Classes="contorno" Click="OutraPasta_Click" ToolTip.Tip="{l:T 'Usar outra pasta'}" Margin="0,0,0,8">
+              <StackPanel Orientation="Horizontal" Spacing="6"><v:Icone Nome="pasta" Tamanho="14" /><TextBlock Text="{l:T 'Outra pasta'}" /></StackPanel>
+            </Button>
+          </WrapPanel>
+          <StackPanel Orientation="Horizontal" Spacing="6" HorizontalAlignment="Center" IsVisible="{Binding TemVinculados}">
+            <v:Icone Nome="vinculo" Tamanho="13" Classes="fraco" />
+            <TextBlock Classes="fraco" Text="{Binding TextoVinculados}" />
+            <TextBlock Classes="fraco" Text="{l:T 'entram como diretórios extras'}" />
+          </StackPanel>
+          <WrapPanel HorizontalAlignment="Center" Margin="0,6,0,0">
+            <Border Classes="tecla"><TextBlock Text="Enter" /></Border>
+            <TextBlock Classes="dica" Text="{l:T 'envia'}" />
+            <Border Classes="tecla"><TextBlock Text="Shift" /></Border>
+            <TextBlock Classes="dica" Text="+" Margin="2,0,4,6" />
+            <Border Classes="tecla"><TextBlock Text="Enter" /></Border>
+            <TextBlock Classes="dica" Text="{l:T 'nova linha'}" />
+            <Border Classes="tecla"><TextBlock Text="Shift" /></Border>
+            <TextBlock Classes="dica" Text="+" Margin="2,0,4,6" />
+            <Border Classes="tecla"><TextBlock Text="Tab" /></Border>
+            <TextBlock Classes="dica" Text="{l:T 'troca o modo'}" />
+            <Border Classes="tecla"><TextBlock Text="@" /></Border>
+            <TextBlock Classes="dica" Text="{l:T 'cita um arquivo'}" />
+          </WrapPanel>
+          <StackPanel Spacing="8" Margin="0,18,0,0" IsVisible="{Binding TemPassagens}">
+            <TextBlock Classes="secao-geral" Text="{l:T 'HANDOFFS SALVOS · CLIQUE PARA COPIAR O NOME'}" HorizontalAlignment="Center" />
+            <ItemsControl ItemsSource="{Binding Passagens}" HorizontalAlignment="Center">
+              <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                  <WrapPanel HorizontalAlignment="Center" />
+                </ItemsPanelTemplate>
+              </ItemsControl.ItemsPanel>
+              <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="vm:PassagemVM">
+                  <Button Classes="cartao-conversa" Click="CopiarPassagem_Click" ToolTip.Tip="{Binding Titulo}">
+                    <StackPanel Spacing="6">
+                      <StackPanel Spacing="3">
+                        <TextBlock Text="{Binding Rotulo}" FontWeight="Medium" TextTrimming="CharacterEllipsis" />
+                        <TextBlock Classes="fraco" Text="{Binding Situacao}" TextTrimming="CharacterEllipsis" />
+                      </StackPanel>
+                      <Button Classes="mini" Command="{Binding RetomarCommand}" HorizontalAlignment="Left"
+                              ToolTip.Tip="{l:T 'Escreve no campo o pedido para retomar este handoff aqui'}">
+                        <TextBlock Text="{l:T 'Retomar aqui'}" />
+                      </Button>
+                    </StackPanel>
+                  </Button>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <Button Classes="mini" Command="{Binding AbrirPassagensCommand}" HorizontalAlignment="Center" IsVisible="{Binding TemMaisPassagens}"
+                    ToolTip.Tip="{l:T 'Abre a lista com todos os handoffs e a busca'}">
+              <TextBlock Text="{Binding VerMaisPassagens}" />
+            </Button>
+          </StackPanel>
+          <StackPanel Spacing="8" Margin="0,18,0,0" IsVisible="{Binding TemRecentes}">
+            <TextBlock Classes="secao-geral" Text="{l:T 'CONVERSAS RECENTES NESTE AMBIENTE'}" HorizontalAlignment="Center" />
+            <ItemsControl ItemsSource="{Binding Recentes}" HorizontalAlignment="Center">
+              <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                  <WrapPanel HorizontalAlignment="Center" />
+                </ItemsPanelTemplate>
+              </ItemsControl.ItemsPanel>
+              <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="vm:ConversaVM">
+                  <Button Classes="cartao-conversa" Command="{Binding AbrirCommand}" ToolTip.Tip="{l:T 'Continuar esta conversa'}">
+                    <StackPanel Spacing="4">
+                      <TextBlock Text="{Binding Titulo}" FontWeight="Medium" TextTrimming="CharacterEllipsis" />
+                      <Grid ColumnDefinitions="*,Auto">
+                        <TextBlock Classes="fraco" Text="{Binding Local}" TextTrimming="CharacterEllipsis" />
+                        <TextBlock Grid.Column="1" Classes="fraco" Text="{Binding Quando}" Margin="8,0,0,0" />
+                      </Grid>
+                    </StackPanel>
+                  </Button>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </StackPanel>
+        </StackPanel>
+
+        <StackPanel IsVisible="{Binding Carregando}" Spacing="12">
+          <Border Classes="esqueleto" Height="40" Width="340" CornerRadius="14" HorizontalAlignment="Right" />
+          <Border Classes="esqueleto" Height="13" Width="560" />
+          <Border Classes="esqueleto" Height="13" Width="500" />
+          <Border Classes="esqueleto" Height="13" Width="530" />
+          <Border Classes="esqueleto" Height="26" Width="380" Margin="0,6,0,0" />
+          <Border Classes="esqueleto" Height="13" Width="460" />
+        </StackPanel>
+
+        <Button Classes="mini" HorizontalAlignment="Center" Margin="0,0,0,12" IsVisible="{Binding TemEscondidas}" IsEnabled="{Binding !CarregandoAnteriores}" Command="{Binding MostrarAnterioresCommand}">
+          <StackPanel Orientation="Horizontal" Spacing="6"><v:Icone Nome="acima" Tamanho="12" /><TextBlock Text="{Binding TextoEscondidas}" /></StackPanel>
+        </Button>
+
+        <ItemsControl ItemsSource="{Binding ItensNaTela}">
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <StackPanel Spacing="10" />
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+          <ItemsControl.DataTemplates>
+            <DataTemplate DataType="vm:ItemUsuario">
+              <StackPanel Classes="mensagem" v:Animacoes.Entrada="True" HorizontalAlignment="Right" Margin="80,8,0,4">
+              <Border HorizontalAlignment="Right" MaxWidth="900" Background="{DynamicResource BolhaUsuario}"
+                      CornerRadius="14,14,4,14" Padding="14,9">
+                <StackPanel Spacing="8">
+                  <ItemsControl ItemsSource="{Binding Imagens}" IsVisible="{Binding TemImagens}">
+                    <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                      <DataTemplate x:DataType="img:Bitmap">
+                        <Border CornerRadius="8" ClipToBounds="True" Margin="0,0,6,6">
+                          <Image Source="{Binding}" MaxHeight="220" MaxWidth="320" Stretch="Uniform" />
+                        </Border>
+                      </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                  </ItemsControl>
+                  <StackPanel Orientation="Horizontal" Spacing="6" IsVisible="{Binding TemImagensSalvas}">
+                    <v:Icone Nome="imagem" Tamanho="13" Classes="suave" VerticalAlignment="Center" />
+                    <TextBlock Classes="suave" Text="{Binding TextoImagens}" FontSize="12.5" VerticalAlignment="Center" />
+                  </StackPanel>
+                  <ItemsControl ItemsSource="{Binding Citados}" IsVisible="{Binding TemCitados}">
+                    <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                      <DataTemplate x:DataType="vm:CitadoVM">
+                        <Border Classes="citado" ToolTip.Tip="{Binding Caminho}">
+                          <StackPanel Orientation="Horizontal" Spacing="6">
+                            <v:Icone Nome="arquivo" Tamanho="12" VerticalAlignment="Center" />
+                            <TextBlock Text="{Binding Nome}" FontSize="12.5" FontWeight="Medium" VerticalAlignment="Center" />
+                          </StackPanel>
+                        </Border>
+                      </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                  </ItemsControl>
+                  <ContentControl Content="{Binding Citacao}" ContentTemplate="{StaticResource CitacaoNaMensagem}" IsVisible="{Binding TemCitacao}" />
+                  <SelectableTextBlock Text="{Binding Texto}" TextWrapping="Wrap" IsVisible="{Binding TemTexto}" />
+                </StackPanel>
+              </Border>
+              <Button Classes="fantasma copiar-msg" HorizontalAlignment="Right" Click="CopiarMensagem_Click" IsVisible="{Binding TemTexto}"
+                      ToolTip.Tip="{l:T 'Copiar a mensagem inteira'}" AutomationProperties.Name="{l:T 'Copiar a mensagem'}">
+                <StackPanel Orientation="Horizontal" Spacing="6">
+                  <v:Icone Nome="copiar" Tamanho="13" VerticalAlignment="Center" />
+                  <TextBlock Text="{l:T 'Copiar'}" FontSize="12.5" VerticalAlignment="Center" />
+                </StackPanel>
+              </Button>
+              </StackPanel>
+            </DataTemplate>
+
+            <DataTemplate DataType="vm:ItemTexto">
+              <StackPanel Classes="mensagem" v:Animacoes.Entrada="True">
+                <Border Classes="bolha-claude">
+                  <Grid ColumnDefinitions="Auto,*">
+                    <TextBlock Classes="marca-claude" Text="✻" />
+                    <v:MarkdownTexto Grid.Column="1" Texto="{Binding Texto}" />
+                  </Grid>
+                </Border>
+                <StackPanel Orientation="Horizontal" Spacing="2">
+                  <Button Classes="fantasma copiar-msg" Click="CopiarMensagem_Click"
+                          ToolTip.Tip="{l:T 'Copiar a mensagem inteira'}" AutomationProperties.Name="{l:T 'Copiar a mensagem'}">
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                      <v:Icone Nome="copiar" Tamanho="13" VerticalAlignment="Center" />
+                      <TextBlock Text="{l:T 'Copiar'}" FontSize="12.5" VerticalAlignment="Center" />
+                    </StackPanel>
+                  </Button>
+                  <Button Classes="fantasma copiar-msg responder-msg" Click="ResponderMensagem_Click" Focusable="False"
+                          ToolTip.Tip="{l:T 'Responder a esta mensagem. Com um trecho selecionado, cita só o trecho'}" AutomationProperties.Name="{l:T 'Responder a esta mensagem'}">
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                      <v:Icone Nome="responder" Tamanho="13" VerticalAlignment="Center" />
+                      <TextBlock Text="{l:T 'Responder'}" FontSize="12.5" VerticalAlignment="Center" />
+                    </StackPanel>
+                  </Button>
+                </StackPanel>
+              </StackPanel>
+            </DataTemplate>
+
+            <DataTemplate DataType="vm:ItemPensamento">
+              <StackPanel Spacing="4" v:Animacoes.Entrada="True">
+                <Button Classes="ferramenta" Command="{Binding AlternarCommand}">
+                  <Grid ColumnDefinitions="Auto,*,Auto">
+                    <Ellipse Classes="estado" Width="7" Height="7" Margin="0,0,10,0" VerticalAlignment="Center" Classes.trabalhando="{Binding Rodando}" />
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                      <TextBlock Classes="suave" Text="{Binding Fase}" FontStyle="Italic" FontSize="13" />
+                      <TextBlock Classes="fraco" Text="  ·  " FontStyle="Italic" FontSize="13" IsVisible="{Binding TemTokens}" />
+                      <v:Contador Classes="suave" Valor="{Binding Tokens}" FontStyle="Italic" FontSize="13" IsVisible="{Binding TemTokens}" />
+                    </StackPanel>
+                    <v:Icone Grid.Column="2" Nome="abaixo" Tamanho="14" Classes="fraco" Margin="8,0,0,0" IsVisible="{Binding TemTexto}" />
+                  </Grid>
+                </Button>
+                <Border Classes="mdCodigo" IsVisible="{Binding Aberto}" Margin="17,0,0,4" MaxHeight="320">
+                  <ScrollViewer>
+                    <SelectableTextBlock Classes="suave" Text="{Binding Texto}" TextWrapping="Wrap" FontSize="12.5" />
+                  </ScrollViewer>
+                </Border>
+              </StackPanel>
+            </DataTemplate>
+
+            <DataTemplate DataType="vm:ItemFerramenta">
+              <StackPanel Spacing="4" v:Animacoes.Entrada="True">
+                <Button Classes="ferramenta" Command="{Binding AlternarCommand}">
+                  <Grid ColumnDefinitions="Auto,Auto,*,Auto">
+                    <Ellipse Classes="estado" Width="7" Height="7" Margin="0,0,10,0" VerticalAlignment="Center"
+                             Classes.pronta="{Binding Ok}" Classes.erro="{Binding Erro}" Classes.trabalhando="{Binding Rodando}" />
+                    <TextBlock Grid.Column="1" Text="{Binding Rotulo}" FontWeight="SemiBold" FontSize="13" Margin="0,0,10,0" VerticalAlignment="Center" />
+                    <TextBlock Grid.Column="2" Classes="suave mono" Text="{Binding Resumo}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+                    <v:Icone Grid.Column="3" Nome="abaixo" Tamanho="14" Classes="fraco" Margin="8,0,0,0" IsVisible="{Binding Concluida}" />
+                  </Grid>
+                </Button>
+                <StackPanel Orientation="Horizontal" Spacing="6" Margin="23,0,0,0" IsVisible="{Binding TemArquivo}">
+                  <Button Classes="mini" Command="{Binding VerDiffCommand}" IsVisible="{Binding TemDiff}">
+                    <StackPanel Orientation="Horizontal" Spacing="5"><v:Icone Nome="diff" Tamanho="12" /><TextBlock Text="{l:T 'Ver diff'}" /></StackPanel>
+                  </Button>
+                  <Button Classes="mini" Command="{Binding AbrirArquivoCommand}">
+                    <StackPanel Orientation="Horizontal" Spacing="5"><v:Icone Nome="arquivo" Tamanho="12" /><TextBlock Text="{l:T 'Abrir'}" /></StackPanel>
+                  </Button>
+                </StackPanel>
+                <Border Classes="mdCodigo" IsVisible="{Binding Aberta}" Margin="17,0,0,4" MaxHeight="320">
+                  <ScrollViewer>
+                    <SelectableTextBlock Text="{Binding Resultado}" FontFamily="{DynamicResource Mono}" FontSize="12.5" TextWrapping="Wrap" />
+                  </ScrollViewer>
+                </Border>
+              </StackPanel>
+            </DataTemplate>
+
+            <DataTemplate DataType="vm:ItemExploracao">
+              <StackPanel Spacing="4" v:Animacoes.Entrada="True">
+                <ContentControl Content="{Binding Primeira}" IsVisible="{Binding Unica}" />
+                <StackPanel Spacing="4" IsVisible="{Binding Varias}">
+                  <Button Classes="ferramenta" Command="{Binding AlternarCommand}">
+                    <Grid ColumnDefinitions="Auto,Auto,*,Auto">
+                      <Ellipse Classes="estado" Width="7" Height="7" Margin="0,0,10,0" VerticalAlignment="Center"
+                               Classes.pronta="{Binding Ok}" Classes.erro="{Binding Erro}" Classes.trabalhando="{Binding Rodando}" />
+                      <TextBlock Grid.Column="1" Text="{Binding Rotulo}" FontWeight="SemiBold" FontSize="13" Margin="0,0,10,0" VerticalAlignment="Center" />
+                      <TextBlock Grid.Column="2" Classes="suave" Text="{Binding Resumo}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+                      <Panel Grid.Column="3" Margin="8,0,0,0">
+                        <v:Icone Nome="direita" Tamanho="14" Classes="fraco" IsVisible="{Binding !Aberta}" />
+                        <v:Icone Nome="abaixo" Tamanho="14" Classes="fraco" IsVisible="{Binding Aberta}" />
+                      </Panel>
+                    </Grid>
+                  </Button>
+                  <ItemsControl ItemsSource="{Binding Partes}" IsVisible="{Binding Aberta}" Margin="17,0,0,0" />
+                </StackPanel>
+              </StackPanel>
+            </DataTemplate>
+
+            <DataTemplate DataType="vm:ItemSubagentes">
+              <ContentControl v:Animacoes.Entrada="True" Content="{Binding}" ContentTemplate="{StaticResource GrupoDeSubagentes}" />
+            </DataTemplate>
+
+            <DataTemplate DataType="vm:ItemSegredo">
+              <ContentControl v:Animacoes.Entrada="True" Content="{Binding}" ContentTemplate="{StaticResource CartaoDeSegredo}" />
+            </DataTemplate>
+
+            <DataTemplate DataType="vm:ItemPermissao">
+              <Border Classes="pedido" v:Animacoes.Entrada="True" Classes.respondida="{Binding Respondida}">
+                <StackPanel Spacing="10">
+                  <ContentControl Content="{Binding}" ContentTemplate="{StaticResource OrigemDoPedido}" IsVisible="{Binding TemSubagente}" />
+                  <StackPanel Orientation="Horizontal" Spacing="8">
+                    <v:Icone Nome="alerta" Tamanho="16" Foreground="{DynamicResource Laranja}" IsVisible="{Binding Pendente}" />
+                    <v:Icone Nome="ok" Tamanho="16" Classes="fraco" IsVisible="{Binding Respondida}" />
+                    <TextBlock Text="{Binding Titulo}" FontWeight="SemiBold" TextWrapping="Wrap" />
+                  </StackPanel>
+                  <TextBlock Classes="suave" Text="{Binding Motivo}" IsVisible="{Binding TemMotivo}" TextWrapping="Wrap" FontSize="12.5" />
+                  <Border Classes="mdCodigo" IsVisible="{Binding TemDetalhe}" MaxHeight="260">
+                    <ScrollViewer>
+                      <SelectableTextBlock Text="{Binding Detalhe}" FontFamily="{DynamicResource Mono}" FontSize="12.5" TextWrapping="Wrap" />
+                    </ScrollViewer>
+                  </Border>
+                  <v:MarkdownTexto Texto="{Binding Plano}" IsVisible="{Binding TemPlano}" />
+                  <ItemsControl ItemsSource="{Binding Perguntas}" IsVisible="{Binding EhPergunta}">
+                    <ItemsControl.ItemTemplate>
+                      <DataTemplate x:DataType="vm:PerguntaVM">
+                        <StackPanel Spacing="8" Margin="0,0,0,4">
+                          <TextBlock Text="{Binding Texto}" TextWrapping="Wrap" />
+                          <ItemsControl ItemsSource="{Binding Opcoes}">
+                            <ItemsControl.ItemsPanel>
+                              <ItemsPanelTemplate>
+                                <WrapPanel />
+                              </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                              <DataTemplate x:DataType="vm:OpcaoVM">
+                                <ToggleButton Classes="opcao" IsChecked="{Binding Selecionada}" Margin="0,0,8,8">
+                                  <StackPanel Spacing="2">
+                                    <TextBlock Text="{Binding Rotulo}" FontWeight="SemiBold" />
+                                    <TextBlock Classes="fraco" Text="{Binding Descricao}" IsVisible="{Binding TemDescricao}" TextWrapping="Wrap" MaxWidth="280" />
+                                  </StackPanel>
+                                </ToggleButton>
+                              </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                          </ItemsControl>
+                          <TextBox Classes="campo" Text="{Binding Outra}" PlaceholderText="{l:T 'Ou escreva outra resposta'}" />
+                        </StackPanel>
+                      </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                  </ItemsControl>
+                  <StackPanel Orientation="Horizontal" Spacing="8" IsVisible="{Binding MostraBotoes}">
+                    <Button Classes="primario" Content="{Binding RotuloPermitir}" Command="{Binding PermitirCommand}" />
+                    <Button Classes="contorno" Content="{l:T 'Não perguntar de novo'}" Command="{Binding PermitirSempreCommand}" IsVisible="{Binding PodeSempre}" />
+                    <Button Classes="contorno" Content="{Binding RotuloNegar}" Command="{Binding NegarCommand}" />
+                  </StackPanel>
+                  <Button Classes="primario" Content="{l:T 'Responder'}" Command="{Binding ResponderCommand}" IsVisible="{Binding MostraResponder}" />
+                  <TextBlock Classes="fraco" Text="{Binding Resposta}" IsVisible="{Binding Respondida}" TextWrapping="Wrap" />
+                </StackPanel>
+              </Border>
+            </DataTemplate>
+
+            <DataTemplate DataType="vm:ItemTurno">
+              <Border Theme="{StaticResource ResumoDoTurno}" Classes.confirmando="{Binding Confirmando}" IsVisible="{Binding Visivel}" v:Animacoes.Entrada="True">
+                <StackPanel Spacing="8">
+                  <WrapPanel Orientation="Horizontal">
+                    <v:Icone Nome="diff" Tamanho="12" Classes="fraco" VerticalAlignment="Center" Margin="0,0,7,0" />
+                    <TextBlock Classes="suave" Text="{Binding TextoArquivos}" FontSize="12" VerticalAlignment="Center" />
+                    <TextBlock Classes="mais" Text="{Binding TextoMais}" FontSize="12" VerticalAlignment="Center" Margin="8,0,0,0" IsVisible="{Binding TemArquivos}" />
+                    <TextBlock Classes="menos" Text="{Binding TextoMenos}" FontSize="12" VerticalAlignment="Center" Margin="5,0,0,0" IsVisible="{Binding TemArquivos}" />
+                    <Button Classes="mini" Command="{Binding VerCommand}" IsVisible="{Binding TemArquivos}" Margin="12,0,0,0"
+                            ToolTip.Tip="{l:T 'Abre o painel Git só com o que este turno mudou'}">
+                      <StackPanel Orientation="Horizontal" Spacing="5"><v:Icone Nome="diff" Tamanho="12" /><TextBlock Text="{l:T 'Ver o que mudou'}" /></StackPanel>
+                    </Button>
+                    <Button Classes="mini" Command="{Binding DesfazerCommand}" IsVisible="{Binding MostraAcoes}" Margin="6,0,0,0"
+                            ToolTip.Tip="{l:T 'Volta os arquivos e a conversa para antes desta mensagem'}">
+                      <StackPanel Orientation="Horizontal" Spacing="5"><v:Icone Nome="desfazer" Tamanho="12" /><TextBlock Text="{l:T 'Desfazer este turno'}" /></StackPanel>
+                    </Button>
+                    <TextBlock Classes="suave" Text="{l:T 'Desfazendo…'}" FontSize="12" VerticalAlignment="Center" Margin="12,0,0,0" IsVisible="{Binding Desfazendo}" />
+                  </WrapPanel>
+                  <StackPanel Spacing="8" IsVisible="{Binding Confirmando}">
+                    <TextBlock Text="{Binding TextoConfirmar}" TextWrapping="Wrap" FontSize="12.5" MaxWidth="560" HorizontalAlignment="Left" />
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                      <Button Classes="primario pequeno" Content="{l:T 'Desfazer'}" Command="{Binding ConfirmarCommand}" />
+                      <Button Classes="fantasma pequeno" Content="{l:T 'Cancelar'}" Command="{Binding CancelarCommand}" />
+                    </StackPanel>
+                  </StackPanel>
+                </StackPanel>
+              </Border>
+            </DataTemplate>
+
+            <DataTemplate DataType="vm:ItemAviso">
+              <Panel v:Animacoes.Entrada="True">
+                <TextBlock Classes="suave" Text="{Binding Texto}" IsVisible="{Binding EhRodape}" FontSize="12" Margin="2,0,0,10" />
+                <Grid ColumnDefinitions="*,Auto,*" IsVisible="{Binding EhTroca}" Margin="0,6">
+                  <Border Height="1" VerticalAlignment="Center" Background="{DynamicResource SelecaoBorda}">
+                    <Border.OpacityMask>
+                      <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,0%">
+                        <GradientStop Color="Transparent" Offset="0" />
+                        <GradientStop Color="Black" Offset="1" />
+                      </LinearGradientBrush>
+                    </Border.OpacityMask>
+                  </Border>
+                  <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="7" Margin="12,0">
+                    <v:Icone Nome="faisca" Tamanho="11" Classes="suave" VerticalAlignment="Center" />
+                    <TextBlock Classes="suave" Text="{Binding Texto}" FontSize="12" VerticalAlignment="Center" />
+                  </StackPanel>
+                  <Border Grid.Column="2" Height="1" VerticalAlignment="Center" Background="{DynamicResource SelecaoBorda}">
+                    <Border.OpacityMask>
+                      <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,0%">
+                        <GradientStop Color="Black" Offset="0" />
+                        <GradientStop Color="Transparent" Offset="1" />
+                      </LinearGradientBrush>
+                    </Border.OpacityMask>
+                  </Border>
+                </Grid>
+                <TextBlock Classes="fraco" Text="{Binding Texto}" IsVisible="{Binding EhInfo}" HorizontalAlignment="Center" TextWrapping="Wrap" Margin="0,8" />
+                <ContentControl Content="{Binding}" ContentTemplate="{StaticResource DivisorDeSessao}" IsVisible="{Binding EhNovaSessao}" />
+                <Border Classes="erro" IsVisible="{Binding EhErro}">
+                  <SelectableTextBlock Text="{Binding Texto}" TextWrapping="Wrap" FontFamily="{DynamicResource Mono}" FontSize="12.5" />
+                </Border>
+              </Panel>
+            </DataTemplate>
+          </ItemsControl.DataTemplates>
+        </ItemsControl>
+
+        <StackPanel Orientation="Horizontal" Spacing="8" Margin="4,14,0,6" IsVisible="{Binding Trabalhando}">
+          <v:Icone Nome="faisca" Tamanho="15" Width="18" Height="18" Foreground="{DynamicResource Acento}" VerticalAlignment="Center"
+                   v:Animacoes.Girar="{Binding Trabalhando}" />
+          <TextBlock Classes="suave" Text="{Binding AndamentoTexto}" FontSize="13" VerticalAlignment="Center" />
+        </StackPanel>
+      </StackPanel>
+    </ScrollViewer>
+  </DockPanel>
+  <GridSplitter x:Name="Alca" Grid.Column="1" Background="{DynamicResource Borda}" ResizeDirection="Columns" />
+  <v:EditorView x:Name="PainelEditor" Grid.Column="2" DataContext="{Binding Editor}" IsVisible="{Binding TemAbas}" />
+  <Border Grid.Column="3" Width="{Binding LarguraDetalhes}" IsVisible="{Binding DetalhesLateral}" IsHitTestVisible="False" />
+  <Panel x:Name="Camada" Grid.ColumnSpan="4">
+    <Button Theme="{StaticResource VeuSobreposto}" Command="{Binding FecharDetalhesSobrepostosCommand}" IsVisible="{Binding DetalhesPorCima}"
+            AutomationProperties.Name="{l:T 'Fechar os detalhes da sessão'}" />
+    <Border Theme="{StaticResource GavetaSobreposta}" Classes.sobreposta="{Binding DetalhesSobrepostos}" HorizontalAlignment="Right">
+      <v:Adiado Mostrar="{Binding DetalhesNaTela}">
+        <DataTemplate x:DataType="vm:ChatVM">
+          <v:DetalhesSessaoView />
+        </DataTemplate>
+      </v:Adiado>
+    </Border>
+  </Panel>
+  </Grid>
+</UserControl>

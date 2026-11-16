@@ -1,0 +1,9 @@
+bin/
+obj/
+.vs/
+.idea/
+*.user
+publish/
+*.log
+site/video/
+.wrangler/

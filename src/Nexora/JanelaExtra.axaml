@@ -1,0 +1,39 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Nexora.ViewModels"
+        xmlns:v="using:Nexora.Views"
+        x:Class="Nexora.JanelaExtra"
+        x:DataType="vm:AreaVM"
+        Title="{Binding Titulo}"
+        Icon="/Assets/nexora.ico"
+        Width="1100" Height="760" MinWidth="560" MinHeight="420"
+        WindowStartupLocation="CenterScreen"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaTitleBarHeightHint="40">
+  <Window.KeyBindings>
+    <KeyBinding Gesture="Ctrl+Tab" Command="{Binding ProximaCommand}" />
+    <KeyBinding Gesture="Ctrl+Shift+Tab" Command="{Binding AnteriorCommand}" />
+    <KeyBinding Gesture="Ctrl+W" Command="{Binding FecharAtualCommand}" />
+    <KeyBinding Gesture="Ctrl+N" Command="{Binding NovaSessaoCommand}" />
+    <KeyBinding Gesture="Ctrl+OemPlus" Command="{Binding Janela.AumentarTextoCommand}" />
+    <KeyBinding Gesture="Ctrl+Shift+OemPlus" Command="{Binding Janela.AumentarTextoCommand}" />
+    <KeyBinding Gesture="Ctrl+Add" Command="{Binding Janela.AumentarTextoCommand}" />
+    <KeyBinding Gesture="Ctrl+OemMinus" Command="{Binding Janela.DiminuirTextoCommand}" />
+    <KeyBinding Gesture="Ctrl+Subtract" Command="{Binding Janela.DiminuirTextoCommand}" />
+  </Window.KeyBindings>
+  <LayoutTransformControl x:Name="Escalador">
+  <Grid RowDefinitions="44,*">
+    <Image Grid.RowSpan="2" Source="{Binding Janela.ImagemFundo}" Stretch="UniformToFill" IsVisible="{Binding Janela.TemImagem}" IsHitTestVisible="False" />
+    <Border Grid.RowSpan="2" Background="{DynamicResource BrilhoFundo}" IsHitTestVisible="False" />
+    <v:FundoVivo Grid.RowSpan="2" Estilo="{Binding Janela.FundoAnimado}" Modo="{Binding Janela.ModoFundo}" Agitado="{Binding Janela.TemTrabalhando}" />
+    <Border Grid.RowSpan="2" Background="{DynamicResource Fundo}" Opacity="{Binding Janela.Escurecer}" IsVisible="{Binding Janela.TemVeu}" IsHitTestVisible="False" />
+    <Border WindowDecorationProperties.ElementRole="TitleBar">
+      <Grid x:Name="BarraTitulo" ColumnDefinitions="Auto,*,150">
+        <Image x:Name="MarcaTitulo" Source="/Assets/nexora.png" Width="24" Height="24" Margin="14,0,10,0" VerticalAlignment="Center" RenderOptions.BitmapInterpolationMode="HighQuality" />
+        <v:AbasView x:Name="Abas" Grid.Column="1" />
+      </Grid>
+    </Border>
+    <v:AreaView Grid.Row="1" />
+  </Grid>
+  </LayoutTransformControl>
+</Window>

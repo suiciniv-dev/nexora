@@ -1,0 +1,71 @@
+name: Bug report
+description: Something does not work as expected
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. Please do not paste secrets, tokens or private code. For security problems, use the private reporting described in SECURITY.md instead of this form.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What you did, what you expected, and what happened instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open ...
+        2. Click ...
+        3. See ...
+    validations:
+      required: false
+  - type: input
+    id: version
+    attributes:
+      label: Nexora version
+      description: The version number of the installer you used, for example 0.8.1.
+      placeholder: "0.8.1"
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system
+      options:
+        - Windows 11
+        - Windows 10
+        - macOS
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: agent
+    attributes:
+      label: Agent and version
+      description: Which agent CLI the problem involves, if any.
+      placeholder: "Claude Code 2.x, Codex, Gemini CLI..."
+    validations:
+      required: false
+  - type: dropdown
+    id: where
+    attributes:
+      label: Where does the agent run?
+      options:
+        - This PC
+        - Cloud machine over SSH
+        - InstaBox
+        - Freestyle
+        - Not applicable
+    validations:
+      required: false
+  - type: textarea
+    id: extra
+    attributes:
+      label: Screenshots or logs
+      description: Drag images here. Remove anything private first.
+    validations:
+      required: false
