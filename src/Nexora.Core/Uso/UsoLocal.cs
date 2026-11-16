@@ -48,7 +48,7 @@ public static class UsoLocal
     static readonly JsonSerializerOptions Json = new() { WriteIndented = false };
 
     public static string RaizPadrao =>
-        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".claude", "projects");
+        Historico.ConversasSalvas.PastaPadrao;
 
     static string Casa => Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 

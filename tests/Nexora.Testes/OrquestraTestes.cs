@@ -126,7 +126,7 @@ public sealed class OrquestraTestes : IDisposable
         }
 
         Directory.Delete(pasta, recursive: true);
-        foreach (var d in new DirectoryInfo(Nexora.Core.Historico.ConversasSalvas.PastaPadrao).EnumerateDirectories($"*{Path.GetFileName(pasta).Replace('.', '-')}"))
+        foreach (var d in new DirectoryInfo(DadosIsolados.ClaudeReal).EnumerateDirectories($"*{Path.GetFileName(pasta).Replace('.', '-')}"))
             d.Delete(recursive: true);
         Assert.Contains(_chamadas, c => c is ("chefe-real", Ferramentas.ListarSessoes, _));
     }

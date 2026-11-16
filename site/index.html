@@ -57,6 +57,7 @@
     <a class="marca" href="#"><img src="/img/nexora.svg" alt="" width="30" height="30">Nexora</a>
     <nav aria-label="Seções"><a href="#como">Como funciona</a><a href="#diferenciais">Recursos</a><a href="#agentes">Agentes</a><a href="#confianca">Segurança</a><a href="#perguntas">Perguntas</a></nav>
     <div class="idiomas" role="group" aria-label="Idioma"><a href="/" hreflang="pt-BR" lang="pt-BR" title="Português" data-idioma="pt" aria-current="page">PT</a><a href="/en/" hreflang="en" lang="en" title="English" data-idioma="en">EN</a></div>
+    <a class="estrelas" href="https://github.com/suiciniv-dev/nexora" aria-label="Dar uma estrela ao Nexora no GitHub"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg><span>Estrelas no GitHub</span><span class="contagem" id="estrelas" hidden><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.8 2.8 5.7 6.3.9-4.6 4.4 1.1 6.2L12 17l-5.6 3 1.1-6.2L2.9 9.4l6.3-.9z"/></svg><b></b></span></a>
     <a class="botao pequeno" href="#baixar">Baixar</a>
   </div>
 </header>
@@ -130,20 +131,33 @@
   <section id="diferenciais">
     <div class="larg">
       <span class="olho">O que muda</span>
-      <h2>Feito para agentes trabalhando em paralelo</h2>
-      <div class="destaque-grande">
+      <h2>Veja todos os agentes. Responda de um lugar só.</h2>
+      <div class="destaque-grande video-primeiro">
+        <div>
+          <h3>Quadro ao vivo e aprovações</h3>
+          <p>Cada sessão é um cartão que anda entre precisa de você, trabalhando, pronta e parada. Quando um agente pede permissão, o pedido sobe para o topo do quadro. Aprove ali mesmo e o agente continua, sem abrir a janela dele.</p>
+          <ul class="checks"><li>Aprovações de todas as sessões reunidas num lugar só</li><li>Quando o mesmo pedido se repete, responda uma vez para todas</li><li>Notificação no sistema quando uma sessão está esperando</li></ul>
+        </div>
+        <figure class="janela video">
+          <video autoplay muted loop playsinline preload="metadata" poster="/img/app/demo-pt.webp" width="1280" height="800" aria-label="Três agentes trabalhando no quadro Ao vivo. Um pede para rodar uma migration no banco, o pedido aparece no topo, é aprovado com um clique e o agente termina a tarefa.">
+            <source src="/img/app/demo-pt.mp4" type="video/mp4">
+          </video>
+          <figcaption>Gravado no app de verdade, com três sessões de agentes rodando. 18 segundos, sem som.</figcaption>
+        </figure>
+      </div>
+      <div class="destaque-grande invertido">
+        <figure class="janela"><img src="/img/app/orquestrador-pt.webp" width="1440" height="900" loading="lazy" alt="O canvas do orquestrador: o agente orquestrador ligado a dois agentes do projeto Loja e a um de outro projeto, com a conversa do orquestrador à direita."></figure>
         <div>
           <h3>Orquestração de agentes</h3>
           <p>Entregue uma tarefa grande a um agente orquestrador. Ele abre outros agentes pelas ferramentas MCP do próprio Nexora, pode colocar cada um na sua branch e no seu worktree, espera por eles e responde às aprovações. Você acompanha tudo num canvas e pode entrar a qualquer momento.</p>
           <ul class="checks"><li>Os agentes que ele cria são sessões normais no seu quadro</li><li>Cada um pode usar um modelo e um esforço diferentes</li><li>As ferramentas MCP dele são cobertas por testes de ponta a ponta</li></ul>
         </div>
-        <figure class="janela"><img src="/img/app/orquestrador-pt.webp" width="1440" height="900" loading="lazy" alt="O canvas do orquestrador: o agente orquestrador ligado a dois agentes do projeto Loja e a um de outro projeto, com a conversa do orquestrador à direita."></figure>
       </div>
-      <div class="grade4">
+      <div class="grade3">
         <article class="cartao">
-          <div class="ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="5" height="18" rx="1.5"/><rect x="10" y="3" width="5" height="11" rx="1.5"/><rect x="17" y="3" width="4" height="14" rx="1.5"/></svg></div>
-          <h3>Quadro ao vivo</h3>
-          <p>Um quadro para todas as sessões, com as aprovações de todas reunidas no topo. Quando o mesmo pedido se repete, responda uma vez para todas.</p>
+          <div class="ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="5" r="2"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="7" r="2"/><path d="M6 7v10M18 9c0 4-6 4-12 8"/></svg></div>
+          <h3>Worktrees para trabalhar em paralelo</h3>
+          <p>Cada tarefa nova ganha a sua branch e o seu worktree a partir da base do projeto, para os agentes trabalharem em paralelo sem pisar um no outro. Os arquivos de configuração locais vão junto e cada worktree ganha a sua porta.</p>
         </article>
         <article class="cartao">
           <div class="ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="2"/><path d="M9 9h6v6H9zM9 2v3M15 2v3M9 19v3M15 19v3M19 9h3M19 15h3M2 9h3M2 15h3"/></svg></div>
@@ -153,14 +167,9 @@
         </article>
         <article class="cartao">
           <div class="ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="7" cy="7" r="3"/><circle cx="17" cy="7" r="3"/><circle cx="7" cy="17" r="3"/><circle cx="17" cy="17" r="3"/></svg></div>
-          <h3>Vários agentes</h3>
+          <h3>Funciona com os seus agentes</h3>
           <p>Claude Code e Codex pelos protocolos nativos, e mais nove agentes pelo Agent Client Protocol (ACP). Cada conversa escolhe o seu.</p>
           <a class="mais" href="#agentes">Ver compatibilidade</a>
-        </article>
-        <article class="cartao">
-          <div class="ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="5" r="2"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="7" r="2"/><path d="M6 7v10M18 9c0 4-6 4-12 8"/></svg></div>
-          <h3>Worktrees do Git</h3>
-          <p>Cada tarefa nova ganha a sua branch e o seu worktree a partir da base do projeto, para os agentes trabalharem em paralelo sem pisar um no outro. Os arquivos de configuração locais vão junto e cada worktree ganha a sua porta.</p>
         </article>
       </div>
     </div>
@@ -170,7 +179,7 @@
     <div class="larg">
       <span class="olho">Compatibilidade</span>
       <h2>Use os agentes que você já tem</h2>
-      <p class="intro">O Nexora roda o CLI oficial de cada agente, com o login dele. Não vende acesso a modelo e nunca vê o token do seu agente.</p>
+      <p class="intro">O Nexora roda o CLI oficial de cada agente, com o login da própria conta do agente. Não vende acesso a modelo e nunca lê o login dos seus agentes.</p>
       <div class="niveis">
         <div class="cartao nivel">
           <p class="nivel-rot"><span class="tag estavel">Nativo</span>Integração mais completa</p>
@@ -218,36 +227,35 @@
     <div class="larg">
       <span class="olho">E mais</span>
       <h2>Tudo o que fica em volta da conversa</h2>
+      <p class="intro">Não é preciso para começar. Abra um grupo para ver o que ele faz.</p>
       <div class="grupos">
-        <article class="cartao grupo larga">
-          <div class="grupo-texto">
-            <h3>GitHub e tarefas</h3>
-            <ul><li>As issues do seu GitHub Projects em kanban ou em lista</li><li>Comece uma sessão a partir de uma issue, com o texto dela na primeira mensagem</li><li>Checks, revisões e conflitos do PR em cada cartão, e comentários de revisão enviados ao agente</li></ul>
-          </div>
+        <details class="cartao grupo">
+          <summary><h3>GitHub e tarefas</h3><p>Issues, pull requests e revisões ao lado das sessões.</p></summary>
+          <ul><li>As issues do seu GitHub Projects em kanban ou em lista</li><li>Comece uma sessão a partir de uma issue, com o texto dela na primeira mensagem</li><li>Checks, revisões e conflitos do PR em cada cartão, e comentários de revisão enviados ao agente</li></ul>
           <figure class="janela"><img src="/img/app/issues-pt.webp" width="1376" height="420" loading="lazy" alt="A página Issues em kanban, com as colunas de status do GitHub: Ready, In progress, In review e Done."></figure>
-        </article>
-        <article class="cartao grupo">
-          <h3>Histórico, fila e desfazer</h3>
+        </details>
+        <details class="cartao grupo">
+          <summary><h3>Histórico, fila e desfazer</h3><p>Retome conversas antigas e volte um turno.</p></summary>
           <ul><li>Continue conversas abertas no terminal ou na extensão do VS Code</li><li>Deixe a próxima mensagem na fila enquanto o agente trabalha</li><li>Desfaça as mudanças de um turno sem mexer nos seus commits</li></ul>
-        </article>
-        <article class="cartao grupo">
-          <h3>Terminal, navegador e Executar</h3>
+        </details>
+        <details class="cartao grupo">
+          <summary><h3>Terminal, navegador e Executar</h3><p>Rode e confira o projeto sem sair do app.</p></summary>
           <ul><li>Um terminal na pasta de cada sessão</li><li>Um navegador embutido com modo design que manda anotações ao agente</li><li>Rode o projeto na porta de cada worktree</li></ul>
           <p class="obs">Terminal e navegador por enquanto só no Windows.</p>
-        </article>
-        <article class="cartao grupo">
-          <h3>Agendamentos e fluxos</h3>
+        </details>
+        <details class="cartao grupo">
+          <summary><h3>Agendamentos e fluxos</h3><p>Pedidos que rodam sozinhos.</p></summary>
           <ul><li>Pedidos que rodam num horário marcado, cada um numa sessão nova</li><li>Modelos com várias etapas: a próxima sai quando o turno acaba</li></ul>
-        </article>
-        <article class="cartao grupo">
-          <h3>Trabalho remoto <span class="tag exp">Experimental</span></h3>
+        </details>
+        <details class="cartao grupo">
+          <summary><h3>Trabalho remoto <span class="tag exp">Experimental</span></h3><p>Máquinas na nuvem e o comando <code>nexora</code> no terminal.</p></summary>
           <ul><li>Rode uma conversa do Claude Code no seu servidor Linux por SSH ou no InstaBox, e ela continua com o PC desligado</li><li>O comando <code>nexora</code> no terminal, para scripts e outros agentes</li></ul>
           <p class="obs">As máquinas da Freestyle ainda não foram testadas com uma conta de verdade. Só no Windows.</p>
-        </article>
-        <article class="cartao grupo dupla">
-          <h3>Do seu jeito</h3>
+        </details>
+        <details class="cartao grupo">
+          <summary><h3>Do seu jeito</h3><p>Temas, avatares, tela grande e idioma.</p></summary>
           <ul><li>12 temas, incluindo os animados, ou um seu</li><li>Um avatar para cada agente e subagent</li><li>Modo tela grande (F11), todo pelo teclado</li><li>Em português e em inglês</li></ul>
-        </article>
+        </details>
       </div>
     </div>
   </section>
@@ -262,12 +270,12 @@
           <p>Licença MIT. O app inteiro está no <a href="https://github.com/suiciniv-dev/nexora">GitHub</a>: leia, compile você mesmo, abra issues ou contribua.</p>
         </article>
         <article class="cartao">
-          <h3>As contas dos seus agentes</h3>
-          <p>Cada agente faz o próprio login. O Nexora só confere que o login existe e nunca o lê. Você não paga nada além do plano do seu agente.</p>
+          <h3>O que o Nexora nunca toca</h3>
+          <p>O login dos seus agentes. Cada agente entra sozinho, e o Nexora só confere que o login existe, sem lê-lo. Você não paga nada além do plano do seu agente.</p>
         </article>
         <article class="cartao">
-          <h3>Credenciais protegidas</h3>
-          <p>Quando um agente precisa de uma senha ou chave, ele pede por um formulário protegido. O valor fica no DPAPI do Windows ou no Keychain do macOS e nunca passa pelo chat.</p>
+          <h3>O que o Nexora guarda</h3>
+          <p>Só o que você escolhe entregar a ele: segredos que um agente pede pelo formulário protegido, chaves de API de provedores de nuvem e, para as máquinas na nuvem, um <code>claude setup-token</code>. Tudo fica criptografado no DPAPI do Windows ou no Keychain do macOS, no seu computador, e nunca passa pelo chat.</p>
         </article>
         <article class="cartao">
           <h3>Seu código fica com você</h3>
@@ -337,7 +345,7 @@
         <details><summary>É grátis mesmo? É de código aberto?</summary><p>Sim para as duas. O Nexora é grátis e tem licença MIT, com o código no GitHub. Você só paga o plano do seu agente, como já faz hoje.</p></details>
         <details><summary>Quais agentes funcionam, e quão bem?</summary><p>Claude Code e Codex têm integração nativa e a maioria dos recursos. Antigravity, GitHub Copilot, Cursor, OpenCode, Kiro, Qwen Code, Grok, goose e Gemini CLI funcionam pelo Agent Client Protocol e estão em beta: os recursos dependem do que cada agente informa. A <a href="#agentes">tabela de compatibilidade</a> tem os detalhes.</p></details>
         <details><summary>Meu código sai do meu computador?</summary><p>Não pelo Nexora, a não ser que você ligue as máquinas na nuvem para um projeto, e elas vêm desligadas. O agente conversa com o próprio provedor, como faz no terminal. O Nexora só acessa a internet para buscar atualizações, falar com o GitHub e com as máquinas na nuvem que você conectar, e não coleta dados de uso. Um resumo semanal de desempenho, opcional e desligado por padrão, envia só números de recursos, como memória e CPU.</p></details>
-        <details><summary>O Nexora vê minha senha ou meu token?</summary><p>Não. O login é feito pelo próprio agente, e o Nexora só confere que ele existe. Ele guarda só o que você cola nele: a chave de API de um provedor de nuvem, o token do <code>claude setup-token</code> e os segredos que um agente pede pelo formulário, tudo no cofre do sistema, no seu computador.</p></details>
+        <details><summary>O Nexora vê minha senha ou meu token?</summary><p>O login dos seus agentes, não: cada agente entra sozinho, e o Nexora só confere que o login existe. O Nexora guarda só credenciais que você mesmo cola nele: um segredo que um agente pede pelo formulário protegido, a chave de API de um provedor de nuvem e, se você usar máquinas na nuvem, o token do <code>claude setup-token</code>. Tudo fica criptografado no cofre do sistema, no seu computador.</p></details>
         <details id="smartscreen"><summary>O Windows diz "O Windows protegeu o computador". É seguro?</summary><p>O aviso aparece porque o instalador ainda não tem assinatura digital, e o SmartScreen desconfia de programas que ainda não conhece. Clique em Mais informações e depois em Executar assim mesmo. Se o navegador bloquear o download, abra a lista de downloads, escolha Manter e confirme. O código é aberto, se você preferir compilar.</p></details>
         <details id="aviso-mac"><summary>O Mac diz que a Apple não conseguiu verificar o Nexora. Como abro?</summary><p>O app ainda não tem a assinatura paga da Apple. Arraste o Nexora para Aplicativos e tente abrir uma vez; feche a mensagem sem mandar para o Lixo. Depois vá em Ajustes do Sistema › Privacidade e Segurança, clique em Abrir Mesmo Assim ao lado da mensagem do Nexora e confirme. No macOS 12 a 14 também dá para clicar com o Control no Nexora, escolher Abrir e confirmar.</p></details>
         <details><summary>Meu antivírus bloqueou. E agora?</summary><p>Use a versão portátil: ela roda no .NET instalado no Windows, que os antivírus corporativos costumam liberar.</p></details>
@@ -390,5 +398,6 @@
   <div class="larg rod-base">© 2026 suiciniv.dev · Licença MIT</div>
 </footer>
 <script src="/idioma.js"></script>
+<script src="/estrelas.js" defer></script>
 </body>
 </html>
