@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="xterm.css">
+<style>
+  html, body { margin: 0; height: 100%; overflow: hidden; background: transparent; }
+  #terminal { position: absolute; inset: 6px 4px 4px 10px; }
+  .xterm-viewport::-webkit-scrollbar { width: 10px; }
+  .xterm-viewport::-webkit-scrollbar-thumb { background: rgba(160, 160, 180, .35); border-radius: 5px; border: 2px solid transparent; background-clip: padding-box; }
+  .xterm-viewport::-webkit-scrollbar-thumb:hover { background: rgba(160, 160, 180, .6); background-clip: padding-box; }
+</style>
+</head>
+<body>
+<div id="terminal"></div>
+<script src="xterm.js"></script>
+<script src="addon-fit.js"></script>
+<script>
+  const enviar = (mensagem) => window.chrome.webview.postMessage(JSON.stringify(mensagem));
+  const terminal = new Terminal({
+    fontFamily: "'Cascadia Mono', Consolas, 'Courier New', monospace",
+    fontSize: 13,
+    lineHeight: 1.15,
+    cursorBlink: true,
+    scrollback: 8000,
+    allowTransparency: true,
+  });
+  const ajuste = new FitAddon.FitAddon();
+  terminal.loadAddon(ajuste);
+  terminal.open(document.getElementById('terminal'));
+
+  let ultimo = '';
+  function ajustar() {
+    try { ajuste.fit(); } catch { return; }
+    const tamanho = terminal.cols + 'x' + terminal.rows;
+    if (tamanho === ultimo) return;
+    ultimo = tamanho;
+    enviar({ t: 'tamanho', c: terminal.cols, l: terminal.rows });
+  }
+  new ResizeObserver(ajustar).observe(document.getElementById('terminal'));
+
+  terminal.attachCustomKeyEventHandler((e) => {
+    if (e.type === 'keydown' && e.ctrlKey && !e.altKey && e.key.toLowerCase() === 'c' && terminal.hasSelection()) {
+      navigator.clipboard.writeText(terminal.getSelection());
+      terminal.clearSelection();
+      return false;
+    }
+    if (e.type === 'keydown' && e.ctrlKey && e.key === '`') {
+      enviar({ t: 'fechar' });
+      return false;
+    }
+    return true;
+  });
+  terminal.onData((dados) => enviar({ t: 'entrada', d: dados }));
+
+  window.chrome.webview.addEventListener('message', (e) => {
+    const m = JSON.parse(e.data);
+    if (m.t === 'saida') terminal.write(m.d);
+    else if (m.t === 'limpar') { terminal.reset(); ultimo = ''; ajustar(); }
+    else if (m.t === 'foco') terminal.focus();
+    else if (m.t === 'tema') {
+      terminal.options.theme = m.tema;
+      document.body.style.background = m.tema.background;
+    }
+  });
+
+  ajustar();
+  enviar({ t: 'pronto' });
+</script>
+</body>
+</html>

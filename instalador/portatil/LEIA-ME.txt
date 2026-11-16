@@ -1,0 +1,18 @@
+Nexora, versão portátil
+
+Para computadores em que o antivírus da empresa barra programas instalados.
+O Nexora roda pelo dotnet.exe, que já é assinado pela Microsoft.
+
+1. Extraia este .zip inteiro numa pasta.
+2. Dê dois cliques em instalar.cmd.
+   Ele copia o app para D:\NexoraApp (ou para NexoraApp na sua pasta de usuário, se não houver D:),
+   confere o .NET 10 e cria os atalhos na Área de Trabalho e no menu Iniciar.
+3. Abra pelo atalho Nexora. Na primeira vez, um guia confere o que falta e pede a pasta dos seus projetos.
+
+Para outra pasta: instalar.cmd -Destino "C:\Caminho\Nexora"
+Para atualizar: rode o instalar.cmd da versão nova. As conversas e as configurações ficam como estão.
+
+O que precisa ter:
+- .NET 10 (winget install Microsoft.DotNet.Runtime.10)
+- Claude Code com login (irm https://claude.ai/install.ps1 | iex). A extensão do VS Code também serve.
+- Git e Node.js, para branches, worktrees e os MCPs dos projetos.

@@ -1,0 +1,100 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:l="using:Nexora"
+             xmlns:vm="using:Nexora.ViewModels"
+             xmlns:v="using:Nexora.Views"
+             x:Class="Nexora.Views.AgendadosView"
+             x:DataType="vm:AgendadosVM">
+  <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+    <StackPanel MaxWidth="1100" Margin="40,30,40,36" Spacing="20">
+      <StackPanel Spacing="4">
+        <TextBlock Text="{l:T 'Agendados'}" FontSize="26" FontWeight="SemiBold" />
+        <TextBlock Classes="suave" TextWrapping="Wrap"
+                   Text="{l:T 'Pedidos que o agente roda sozinho num projeto, no horário marcado. Cada um abre uma sessão nova, que aparece no quadro. Só rodam com o Nexora aberto: se ele estava fechado na hora, roda quando você abrir no mesmo dia.'}" />
+      </StackPanel>
+
+      <Border Classes="painel">
+        <StackPanel Spacing="12">
+          <TextBlock Classes="titulo-painel" Text="{l:T 'Novo agendado'}" />
+          <Grid ColumnDefinitions="*,16,260,16,90" RowDefinitions="Auto,Auto">
+            <TextBlock Classes="fraco" Text="{l:T 'Nome (opcional)'}" Margin="0,0,0,4" />
+            <TextBox Grid.Row="1" Classes="campo" Text="{Binding NovoNome}" PlaceholderText="{l:T 'Ex.: revisar PRs da manhã'}" />
+            <TextBlock Grid.Column="2" Classes="fraco" Text="{l:T 'Projeto'}" Margin="0,0,0,4" />
+            <ComboBox Grid.Row="1" Grid.Column="2" ItemsSource="{Binding Projetos}" SelectedItem="{Binding NovoProjeto}" HorizontalAlignment="Stretch"
+                      PlaceholderText="{l:T 'Escolha o projeto'}">
+              <ComboBox.ItemTemplate>
+                <DataTemplate x:DataType="vm:Local">
+                  <TextBlock Text="{Binding Nome}" TextTrimming="CharacterEllipsis" />
+                </DataTemplate>
+              </ComboBox.ItemTemplate>
+            </ComboBox>
+            <TextBlock Grid.Column="4" Classes="fraco" Text="{l:T 'Hora'}" Margin="0,0,0,4" />
+            <TextBox Grid.Row="1" Grid.Column="4" Classes="campo" Text="{Binding NovaHora}" PlaceholderText="09:00" />
+          </Grid>
+          <StackPanel Spacing="4">
+            <TextBlock Classes="fraco" Text="{l:T 'Dias'}" />
+            <ItemsControl ItemsSource="{Binding Dias}">
+              <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+              <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="vm:DiaDaAgendaVM">
+                  <ToggleButton Classes="opcao" IsChecked="{Binding Marcado}" Content="{Binding Rotulo}" MinWidth="52" Margin="0,0,6,6" />
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </StackPanel>
+          <StackPanel Spacing="4">
+            <TextBlock Classes="fraco" Text="{l:T 'Pedido'}" />
+            <TextBox Classes="campo" Text="{Binding NovoTexto}" AcceptsReturn="True" TextWrapping="Wrap" MinHeight="84"
+                     PlaceholderText="{l:T 'O que o agente deve fazer. Ex.: liste os PRs abertos que esperam a minha revisão e resuma cada um.'}" />
+          </StackPanel>
+          <Grid ColumnDefinitions="*,Auto">
+            <TextBlock Text="{Binding Erro}" Foreground="{DynamicResource Vermelho}" VerticalAlignment="Center" TextWrapping="Wrap"
+                       IsVisible="{Binding Erro, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+            <StackPanel Orientation="Horizontal" Spacing="7" VerticalAlignment="Center" v:Animacoes.Entrada="True"
+                        IsVisible="{Binding Confirmacao, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+              <v:Icone Nome="ok" Tamanho="14" Foreground="{DynamicResource Verde}" VerticalAlignment="Center" />
+              <TextBlock Text="{Binding Confirmacao}" TextWrapping="Wrap" VerticalAlignment="Center" />
+            </StackPanel>
+            <Button Grid.Column="1" Classes="primario" Command="{Binding SalvarCommand}">
+              <StackPanel Orientation="Horizontal" Spacing="7"><v:Icone Nome="relogio" Tamanho="14" /><TextBlock Text="{l:T 'Agendar'}" /></StackPanel>
+            </Button>
+          </Grid>
+        </StackPanel>
+      </Border>
+
+      <TextBlock Classes="suave" Text="{l:T 'Nenhum agendado ainda.'}" IsVisible="{Binding Vazio}" />
+      <ItemsControl ItemsSource="{Binding Itens}">
+        <ItemsControl.ItemsPanel><ItemsPanelTemplate><StackPanel Spacing="10" /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+        <ItemsControl.ItemTemplate>
+          <DataTemplate x:DataType="vm:AgendamentoVM">
+            <Border Classes="painel">
+              <Grid ColumnDefinitions="*,Auto,Auto,Auto">
+                <StackPanel Spacing="3">
+                  <TextBlock Text="{Binding Nome}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+                  <StackPanel Orientation="Horizontal" Spacing="6">
+                    <v:Icone Nome="pasta" Tamanho="12" Classes="fraco" VerticalAlignment="Center" />
+                    <TextBlock Classes="fraco" Text="{Binding Projeto}" />
+                    <TextBlock Classes="fraco" Text="·" />
+                    <TextBlock Classes="fraco" Text="{Binding Quando}" />
+                  </StackPanel>
+                  <TextBlock Classes="suave" Text="{Binding Texto}" TextWrapping="Wrap" MaxLines="2" TextTrimming="CharacterEllipsis" />
+                  <TextBlock Classes="fraco" Text="{Binding Situacao}" FontSize="12" />
+                </StackPanel>
+                <ToggleSwitch Grid.Column="1" IsChecked="{Binding Ativo, Mode=OneWay}" Command="{Binding AlternarCommand}" OnContent="" OffContent=""
+                              VerticalAlignment="Center" Margin="16,0,12,0" ToolTip.Tip="{l:T 'Ligar ou desligar este agendado'}" />
+                <Button Grid.Column="2" Classes="mini" Command="{Binding RodarAgoraCommand}" VerticalAlignment="Center" Margin="0,0,8,0"
+                        ToolTip.Tip="{l:T 'Abre a sessão e manda o pedido agora'}">
+                  <StackPanel Orientation="Horizontal" Spacing="5"><v:Icone Nome="executar" Tamanho="12" /><TextBlock Text="{l:T 'Rodar agora'}" /></StackPanel>
+                </Button>
+                <Button Grid.Column="3" Classes="icone pequeno" Command="{Binding ExcluirCommand}" VerticalAlignment="Center"
+                        ToolTip.Tip="{l:T 'Excluir este agendado'}" AutomationProperties.Name="{l:T 'Excluir o agendado'}">
+                  <v:Icone Nome="lixeira" Tamanho="14" />
+                </Button>
+              </Grid>
+            </Border>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

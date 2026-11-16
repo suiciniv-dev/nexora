@@ -1,0 +1,40 @@
+:root{
+  --txt:#F2F0EC;--txt2:#C4C0B9;--txt3:#8F8A83;--borda:rgba(255,255,255,.10);--borda2:rgba(255,255,255,.06);
+  --vidro:rgba(34,32,30,.52);
+  --rosa:#E59AC4;--verde:#7BCB9F;--laranja:#F0A860;--verm:#E8806C;--ciano:#86C5E6;--marca:#948BAE;--marca2:#5B5470;
+  --ui:Inter,"Segoe UI Variable Display","Segoe UI",system-ui,sans-serif;--mono:"Cascadia Mono",Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{width:1440px;height:900px;overflow:hidden;background:#0e0d0d;color:var(--txt);font:13.5px/1.45 var(--ui);position:relative}
+canvas#ceu{position:absolute;inset:0;z-index:0}
+#app{position:absolute;inset:0;z-index:1}
+.vidro{background:var(--vidro);backdrop-filter:blur(24px) saturate(150%);border:1px solid var(--borda);box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 12px 40px rgba(0,0,0,.35)}
+.fraco{color:var(--txt3)}.suave{color:var(--txt2)}.mono{font-family:var(--mono)}
+.ic{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.btn{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--borda);border-radius:9px;padding:6px 12px;font-size:12.8px;white-space:nowrap;background:rgba(255,255,255,.03)}
+.btn.prim{background:#F2F0EC;color:#161514;border-color:transparent;font-weight:500}
+.btn.ambar{background:var(--laranja);color:#1d1408;border-color:transparent;font-weight:600}
+.btn.peq{padding:4px 10px;font-size:12px;border-radius:8px}
+.kbd{font:11px var(--mono);border:1px solid var(--borda);border-radius:5px;padding:1px 6px;color:var(--txt3)}
+.chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--borda);border-radius:999px;padding:2px 9px;font-size:11.8px;color:var(--txt2);white-space:nowrap}
+.ponto{width:8px;height:8px;border-radius:50%;display:inline-block;flex:none}
+.logo{width:34px;height:34px;border-radius:10px;background:linear-gradient(180deg,#9d93bb,#4f4866);display:grid;place-items:center;font:700 18px/1 Georgia,serif;color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 4px 14px rgba(91,84,112,.5);flex:none}
+.medidores{display:flex;gap:18px;align-items:center;font-size:11.5px}
+.medidor b{font-weight:600}.medidor .trilho{width:80px;height:3px;border-radius:3px;background:rgba(255,255,255,.1);margin-top:4px}.medidor .trilho i{display:block;height:100%;border-radius:3px;background:var(--txt2)}
+.janbtns{display:flex;gap:22px;color:var(--txt2);margin-left:16px}
+.codigo{background:rgba(10,9,9,.6);border:1px solid var(--borda2);color:#E6C38F;font:12px/1.55 var(--mono);border-radius:9px;padding:8px 11px;white-space:pre;overflow:hidden}
+.perm{border:1px solid rgba(240,168,96,.55);background:linear-gradient(180deg,rgba(240,168,96,.13),rgba(240,168,96,.05));border-radius:12px;padding:11px 12px;display:grid;gap:9px}
+.secao{font-size:10.8px;letter-spacing:.1em;text-transform:uppercase;color:var(--txt3);font-weight:600}
+.diffbar{display:flex;gap:2px}.diffbar i{width:7px;height:7px;border-radius:2px;background:rgba(255,255,255,.12)}.diffbar i.m{background:var(--verde)}.diffbar i.r{background:var(--verm)}
+.anel{position:relative;display:grid;place-items:center;flex:none}
+.anel svg.r{position:absolute;inset:0}
+.bolha{background:rgba(64,59,55,.7);border-radius:14px;padding:9px 14px;align-self:flex-end;max-width:72%}
+.ferr{display:flex;gap:9px;align-items:center;padding:7px 12px;border-radius:10px;background:rgba(255,255,255,.035);border:1px solid var(--borda2);font-size:12.6px}
+.ferr b{font-weight:600}
+.subag{border:1px solid rgba(148,139,174,.35);background:rgba(148,139,174,.08);border-radius:11px;padding:9px 12px;display:flex;gap:10px;align-items:center;font-size:12.6px}
+.composer{border:1px solid var(--borda);border-radius:16px;background:rgba(30,28,26,.7);backdrop-filter:blur(20px);padding:12px 14px;display:grid;gap:12px}
+.composer .rod{display:flex;gap:8px;align-items:center}
+.enviar{width:30px;height:30px;border-radius:50%;background:#F2F0EC;color:#161514;display:grid;place-items:center;margin-left:auto}
+.fila{display:flex;gap:8px;align-items:center;font-size:12px;color:var(--txt2);border:1px dashed var(--borda);border-radius:10px;padding:6px 10px}
+.etq{font-size:10.5px;font-weight:700;letter-spacing:.06em;padding:1px 6px;border-radius:5px;background:rgba(148,139,174,.3);color:#d8d2ec}
+.mascotes{position:absolute;left:0;right:0;bottom:4px;height:22px;pointer-events:none}

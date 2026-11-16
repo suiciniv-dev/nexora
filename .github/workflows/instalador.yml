@@ -1,0 +1,118 @@
+name: Instalador
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag que já existe, para criar a release dela (ex.: v0.6.0)"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+jobs:
+  instalador:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Versão
+        id: versao
+        shell: pwsh
+        run: |
+          $tag = if ("${{ inputs.tag }}") { "${{ inputs.tag }}" } elseif ($env:GITHUB_REF_TYPE -eq "tag") { $env:GITHUB_REF_NAME } else { "" }
+          $v = if ($tag) { $tag.TrimStart("v") } else { "0.0.0" }
+          "valor=$v" >> $env:GITHUB_OUTPUT
+          "tag=$tag" >> $env:GITHUB_OUTPUT
+
+      - name: Testes
+        run: dotnet test tests/Nexora.Testes -nologo
+
+      - name: Publicar
+        shell: pwsh
+        run: |
+          $v = "${{ steps.versao.outputs.valor }}"
+          dotnet publish src/Nexora -c Release -r win-x64 --self-contained -p:UseAppHost=true -p:Version=$v -o publicado
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          dotnet publish src/Nexora -c Release -r win-x64 --self-contained false -p:Version=$v -o portatil/app
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          Get-ChildItem publicado, portatil/app -Recurse -Filter *.pdb | Remove-Item
+
+      - name: Montar o instalador e o portátil
+        shell: pwsh
+        run: |
+          $v = "${{ steps.versao.outputs.valor }}"
+          $iscc = Join-Path ${env:ProgramFiles(x86)} "Inno Setup 6\ISCC.exe"
+          if (-not (Test-Path $iscc)) { choco install innosetup -y --no-progress | Out-Null }
+          & $iscc "/DVersao=$v" instalador\Nexora.iss
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          Copy-Item instalador\portatil\* portatil\
+          Compress-Archive -Path portatil\* -DestinationPath "instalador\saida\Nexora-Portatil-$v.zip"
+
+      - uses: actions/upload-artifact@v4
+        continue-on-error: true
+        with:
+          name: Nexora
+          path: instalador/saida/*
+          retention-days: 3
+
+      - name: Release
+        if: steps.versao.outputs.tag != ''
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $arquivos = (Get-ChildItem instalador\saida\*).FullName
+          gh release create "${{ steps.versao.outputs.tag }}" $arquivos --title "Nexora ${{ steps.versao.outputs.valor }}" --notes "Nexora-Setup e Nexora-Portatil para Windows; Nexora-Mac-AppleSilicon e Nexora-Mac-Intel para macOS."
+
+  mac:
+    runs-on: macos-latest
+    needs: instalador
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Montar os DMGs
+        run: |
+          v="0.0.0"
+          tag="${{ inputs.tag }}"
+          if [ -z "$tag" ] && [ "$GITHUB_REF_TYPE" = "tag" ]; then tag="$GITHUB_REF_NAME"; fi
+          if [ -n "$tag" ]; then v="${tag#v}"; fi
+          mkdir -p saida
+          for rid in osx-arm64 osx-x64; do
+            if [ "$rid" = "osx-arm64" ]; then nome="AppleSilicon"; else nome="Intel"; fi
+            dotnet publish src/Nexora -c Release -r "$rid" --self-contained -p:UseAppHost=true -p:Version="$v" -o "pub-$rid" -nologo
+            find "pub-$rid" -name '*.pdb' -delete
+            bash scripts/mac/montar-app.sh "pub-$rid" "app-$rid" "$v"
+            find "app-$rid/Nexora.app/Contents/MacOS" -type f | while read -r arquivo; do codesign --force --sign - "$arquivo" 2>/dev/null || true; done
+            codesign --force --sign - "app-$rid/Nexora.app"
+            codesign --verify --deep --strict --verbose "app-$rid/Nexora.app"
+            mkdir -p "dmg-$rid"
+            cp -R "app-$rid/Nexora.app" "dmg-$rid/"
+            ln -s /Applications "dmg-$rid/Applications"
+            hdiutil create -volname "Nexora" -srcfolder "dmg-$rid" -ov -format UDZO "saida/Nexora-Mac-$nome-$v.dmg"
+          done
+          ls -la saida
+
+      - uses: actions/upload-artifact@v4
+        continue-on-error: true
+        with:
+          name: Nexora-Mac
+          path: saida/*.dmg
+          retention-days: 3
+
+      - name: Release
+        if: github.ref_type == 'tag' || inputs.tag != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "${{ inputs.tag || github.ref_name }}" saida/*.dmg --clobber

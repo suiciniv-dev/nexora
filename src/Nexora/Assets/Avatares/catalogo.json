@@ -1,0 +1,70 @@
+{
+  "agentes": {
+    "claude": {
+      "avatar": "lantern",
+      "cor": "#D97757"
+    },
+    "codex": {
+      "avatar": "book",
+      "cor": "#10A37F"
+    },
+    "gemini": {
+      "avatar": "star",
+      "cor": "#4F86F7"
+    },
+    "antigravity": {
+      "avatar": "hot-air-balloon",
+      "cor": "#38BDF8"
+    },
+    "copilot": {
+      "avatar": "toy-plane",
+      "cor": "#EC4899"
+    },
+    "cursor": {
+      "avatar": "pointer",
+      "cor": "#14B8A6"
+    },
+    "opencode": {
+      "avatar": "open-box",
+      "cor": "#C8873A"
+    },
+    "kiro": {
+      "avatar": "kite",
+      "cor": "#9B6BFF"
+    },
+    "qwen": {
+      "avatar": "cloud",
+      "cor": "#6366F1"
+    },
+    "grok": {
+      "avatar": "rocket",
+      "cor": "#E5484D"
+    },
+    "goose": {
+      "avatar": "egg",
+      "cor": "#E0A21B"
+    }
+  },
+  "subagentes": {
+    "general-purpose": {
+      "avatar": "briefcase",
+      "cor": "#FF8A3D"
+    },
+    "Explore": {
+      "avatar": "magnifier",
+      "cor": "#22B8CF"
+    },
+    "Plan": {
+      "avatar": "brain",
+      "cor": "#F48FB1"
+    },
+    "*": {
+      "avatar": "robot",
+      "cor": "#7C9CBF"
+    }
+  },
+  "orquestrador": {
+    "avatar": "octopus",
+    "cor": "#A855F7"
+  }
+}
