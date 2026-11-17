@@ -14,7 +14,7 @@ static class Program
             return 0;
         }
         if (args is ["--cli", ..]) return Cli.Rodar(args[1..]);
-        if (args is [Core.Servidor.ServidorDoNucleo.Argumento, var cano, ..]) return ProcessoDoNucleo.Servir(cano);
+        if (args is [Core.Servidor.ServidorDoNucleo.Argumento, var cano, .. var resto]) return ProcessoDoNucleo.Servir(cano, resto);
         if (App.Config.AbrirPeloExe && Trampolim.Pular(args)) return 0;
         IdentidadeJanela.DoProcesso();
         Instalacao.PathDoMac();

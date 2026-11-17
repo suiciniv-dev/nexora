@@ -11,6 +11,13 @@ Settings are saved in `config.json`:
 
 Almost everything is set from the app (**Settings**). `--isolada` runs without reading or writing this file, which is what tests and screenshots use.
 
+A few switches exist only in the file, for troubleshooting:
+
+| Key | Default | Does |
+|---|---|---|
+| `NucleoNoProprioProcesso` | `false` | `true` keeps history, usage and `git` work inside the app instead of the separate core process (see [architecture.md](architecture.md#core-process)) |
+| `DesenhoPeloProcessador` | `false` | `true` draws the window on the CPU instead of the GPU, like `--software` |
+
 ## Credentials
 
 Nexora keeps as few credentials as it can. Each kind lives in a different place:
