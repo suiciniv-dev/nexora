@@ -63,6 +63,16 @@ The UI thread only lays out and draws. These rules come from measured stalls:
 - Hidden views do no work for content nobody sees; they catch up when shown.
 - Memory is bounded: caches have a size limit and history loads in pages. A chat view keeps the last 40 rows mounted (up to 60), three tab views stay mounted, and the Live board keeps two peeks.
 - Global styles cost every control of the targeted type, even controls without the class: each one gets a style instance and an activator per matching style. Style classed boxes with `c|Caixa.classe` (`<c:Caixa Classes="…">`) and classed buttons with `c|Botao.classe` (`<c:Botao Classes="…">`, which keeps the Fluent button theme); never add `Border.classe` or `Button.classe` styles, since both types are in every template. A control that should look like a classed button reports `Botao` as its style key.
+- Allocation budgets in `tests/Nexora.Testes/Tela/OrcamentoTestes.cs` fail when a hot path allocates far more than it should. They count bytes on the test thread, not milliseconds.
+
+## Core process
+
+Garbage collection pauses the whole process, so heavy reads in the app process pause the UI even when they run off the UI thread. Work moves to a second process step by step, behind `INucleo` (`src/Nexora.Core/Servidor`):
+
+- The app starts the same executable as `Nexora --servidor <pipe>` (`Aplicativo/ProcessoDoNucleo.cs`), adds it to its job object, and talks to it over a named pipe restricted to the current user, one JSON message per line with request ids, so requests run in parallel.
+- `App.Nucleo` starts as `NucleoLocal` (in process) and switches to `NucleoRemoto` once the pipe connects. Every remote call falls back to the local implementation when the server is missing, answers with an error or does not answer within 60 seconds; if the pipe breaks, the app stays local for the rest of the session. The server exits when the app disconnects.
+- Demo and isolated windows, tests, and `"NucleoNoProprioProcesso": true` in the settings keep everything in process.
+- Moved so far: the saved chat list, usage reading and the session tails read by the Live board. Next: git and `gh`, history loading, then agent sessions, which need server-to-app events.
 
 ## Agent sessions
 

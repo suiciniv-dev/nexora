@@ -14,12 +14,14 @@ static class Program
             return 0;
         }
         if (args is ["--cli", ..]) return Cli.Rodar(args[1..]);
+        if (args is [Core.Servidor.ServidorDoNucleo.Argumento, var cano, ..]) return ProcessoDoNucleo.Servir(cano);
         if (App.Config.AbrirPeloExe && Trampolim.Pular(args)) return 0;
         IdentidadeJanela.DoProcesso();
         Instalacao.PathDoMac();
         Sistema.PrepararMac();
         Rodando = true;
         Core.Arquivos.ArquivoSeguro.SegundoPlano = true;
+        ProcessoDoNucleo.Iniciar(args);
         PeloProcessador = DesenhoPeloProcessador(args);
         return BuildAvaloniaApp(PeloProcessador).StartWithClassicDesktopLifetime(args);
     }

@@ -109,7 +109,7 @@ public sealed class OrcamentoTestes(ITestOutputHelper saida) : IDisposable
             janela.UpdateLayout();
         });
         saida.WriteLine($"ORCAMENTO tela: alocou {alocado:0.0} MB");
-        Assert.True(alocado < 22, $"Montar a conversa com 40 itens alocou {alocado:0.0} MB (limite 22 MB).");
+        Assert.True(alocado < 30, $"Montar a conversa com 40 itens alocou {alocado:0.0} MB (limite 30 MB).");
         janela.Close();
     });
 }

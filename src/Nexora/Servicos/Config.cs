@@ -17,6 +17,7 @@ public sealed class Config
     public List<string>? FeedsDoDashboard { get; set; }
     public string? ProjetoDoDashboard { get; set; }
     public bool DesenhoPeloProcessador { get; set; }
+    public bool NucleoNoProprioProcesso { get; set; }
     public List<string> Workspaces { get; set; } = [];
     public List<string> Ocultos { get; set; } = [];
     public bool LateralVisivel { get; set; } = true;
