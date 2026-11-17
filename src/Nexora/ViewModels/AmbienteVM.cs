@@ -12,6 +12,7 @@ public sealed record Local(string Nome, string Pasta, IReadOnlyList<string> Vinc
 {
     public string? Branch => Repositorio.BranchAtual(Pasta);
     public string Descricao => Branch is { Length: > 0 } b ? $"{Nome}  ·  {b}" : Nome;
+    public override string ToString() => Nome;
 }
 
 public interface IAnfitriao
