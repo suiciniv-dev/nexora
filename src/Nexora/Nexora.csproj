@@ -22,7 +22,7 @@
     <ApplicationIcon Condition="'$(NexoraMac)' != 'true'">Assets\nexora.ico</ApplicationIcon>
     <ApplicationManifest Condition="'$(NexoraMac)' != 'true'">app.manifest</ApplicationManifest>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
-    <Version>0.8.1</Version>
+    <Version>0.9.0</Version>
     <Product>Nexora</Product>
     <SatelliteResourceLanguages>pt-BR</SatelliteResourceLanguages>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>

@@ -332,4 +332,29 @@ public sealed class LayoutVerticalTestes : IDisposable
         Assert.Equal(new Rect(210, 0, 200, 60), grade.Children[1].Bounds);
         Assert.Equal(new Rect(0, 66, 200, 30), grade.Children[2].Bounds);
     });
+
+    [Fact]
+    public Task Sem_editor_nao_ha_alca_para_puxar_e_a_conversa_vai_ate_o_painel() => Sessao.Rodar(() =>
+    {
+        var arquivo = Path.Combine(_pasta, "Cupom.cs");
+        File.WriteAllText(arquivo, "class Cupom { }\n");
+        var chat = Conversa();
+        chat.DetalhesVisivel = true;
+        var view = new ChatView { DataContext = chat };
+        var janela = Mostrar(view, 1600, 900);
+        var divisao = view.FindControl<Grid>("Divisao")!;
+        var alca = view.FindControl<GridSplitter>("Alca")!;
+
+        Assert.False(alca.IsVisible);
+        Assert.True(Math.Abs(divisao.ColumnDefinitions[0].ActualWidth + divisao.ColumnDefinitions[3].ActualWidth - divisao.Bounds.Width) < 1);
+
+        chat.Editor.Abrir(arquivo);
+        Atualizar(janela);
+        Assert.True(alca.IsVisible);
+
+        chat.Editor.Abas.ToList().ForEach(chat.Editor.Fechar);
+        Atualizar(janela);
+        Assert.False(alca.IsVisible);
+        janela.Close();
+    });
 }
