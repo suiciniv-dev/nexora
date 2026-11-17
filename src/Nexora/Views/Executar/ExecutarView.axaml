@@ -26,9 +26,9 @@
             </ComboBox.ItemTemplate>
           </ComboBox>
         </StackPanel>
-        <Button Classes="contorno pequeno" Command="{Binding RecarregarCommand}" ToolTip.Tip="{l:T 'Procurar de novo'}">
+        <c:Botao Classes="contorno pequeno" Command="{Binding RecarregarCommand}" ToolTip.Tip="{l:T 'Procurar de novo'}">
           <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="atualizar" Tamanho="12" /><TextBlock Text="{l:T 'Atualizar'}" /></StackPanel>
-        </Button>
+        </c:Botao>
         </StackPanel>
       </Grid>
     </Border>
@@ -51,15 +51,15 @@
                              VerticalAlignment="Center" Margin="0,0,10,0" />
                     <TextBlock Grid.Column="1" Text="{Binding Nome}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
                     <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="4">
-                      <Button Classes="icone pequeno" Command="{Binding ExecutarCommand}" IsVisible="{Binding Parado}" ToolTip.Tip="{l:T 'Executar'}" AutomationProperties.Name="{l:T 'Executar'}">
+                      <c:Botao Classes="icone pequeno" Command="{Binding ExecutarCommand}" IsVisible="{Binding Parado}" ToolTip.Tip="{l:T 'Executar'}" AutomationProperties.Name="{l:T 'Executar'}">
                         <c:Icone Nome="executar" Tamanho="12" />
-                      </Button>
-                      <Button Classes="icone pequeno" Command="{Binding ReiniciarCommand}" IsVisible="{Binding Ativo}" ToolTip.Tip="{l:T 'Reiniciar'}" AutomationProperties.Name="{l:T 'Reiniciar'}">
+                      </c:Botao>
+                      <c:Botao Classes="icone pequeno" Command="{Binding ReiniciarCommand}" IsVisible="{Binding Ativo}" ToolTip.Tip="{l:T 'Reiniciar'}" AutomationProperties.Name="{l:T 'Reiniciar'}">
                         <c:Icone Nome="atualizar" Tamanho="12" />
-                      </Button>
-                      <Button Classes="icone pequeno" Command="{Binding PararCommand}" IsVisible="{Binding Ativo}" ToolTip.Tip="{l:T 'Parar'}" AutomationProperties.Name="{l:T 'Parar'}">
+                      </c:Botao>
+                      <c:Botao Classes="icone pequeno" Command="{Binding PararCommand}" IsVisible="{Binding Ativo}" ToolTip.Tip="{l:T 'Parar'}" AutomationProperties.Name="{l:T 'Parar'}">
                         <c:Icone Nome="parar" Tamanho="12" />
-                      </Button>
+                      </c:Botao>
                     </StackPanel>
                   </Grid>
                   <TextBlock Classes="fraco" Text="{Binding Detalhe}" FontSize="12" TextTrimming="CharacterEllipsis" />
@@ -70,12 +70,12 @@
                     </StackPanel>
                     <TextBlock Classes="fraco" Text="{Binding EstadoTexto}" FontSize="12" VerticalAlignment="Center" />
                   </WrapPanel>
-                  <Button Classes="fantasma pequeno" Command="{Binding AbrirCommand}" IsVisible="{Binding TemEndereco}" HorizontalAlignment="Left" Padding="0,2">
+                  <c:Botao Classes="fantasma pequeno" Command="{Binding AbrirCommand}" IsVisible="{Binding TemEndereco}" HorizontalAlignment="Left" Padding="0,2">
                     <StackPanel Orientation="Horizontal" Spacing="6">
                       <c:Icone Nome="externo" Tamanho="12" />
                       <TextBlock Text="{Binding Endereco}" FontSize="12" TextTrimming="CharacterEllipsis" MaxWidth="300" />
                     </StackPanel>
-                  </Button>
+                  </c:Botao>
                   <TextBlock Text="{Binding Aviso}" Foreground="{DynamicResource Laranja}" FontSize="12" TextWrapping="Wrap" IsVisible="{Binding TemAviso}" />
                 </StackPanel>
               </DataTemplate>
@@ -93,17 +93,17 @@
                 <TextBlock Classes="fraco" Text="{Binding Selecionado.EstadoTexto, FallbackValue=''}" VerticalAlignment="Center" />
               </StackPanel>
               <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="6">
-                <Button Classes="contorno pequeno" Command="{Binding Selecionado.AbrirAquiCommand, FallbackValue={x:Null}}" IsVisible="{Binding Selecionado.PodeAbrirNoNexora, FallbackValue=False}"
+                <c:Botao Classes="contorno pequeno" Command="{Binding Selecionado.AbrirAquiCommand, FallbackValue={x:Null}}" IsVisible="{Binding Selecionado.PodeAbrirNoNexora, FallbackValue=False}"
                         Content="{l:T 'Abrir no Nexora'}" ToolTip.Tip="{l:T 'Abre no navegador embutido, ao lado da conversa deste projeto'}" />
-                <Button Classes="contorno pequeno" Command="{Binding Selecionado.AbrirCommand, FallbackValue={x:Null}}" IsVisible="{Binding Selecionado.TemEndereco, FallbackValue=False}"
+                <c:Botao Classes="contorno pequeno" Command="{Binding Selecionado.AbrirCommand, FallbackValue={x:Null}}" IsVisible="{Binding Selecionado.TemEndereco, FallbackValue=False}"
                         Content="{l:T 'Abrir no navegador'}" />
-                <Button Classes="primario pequeno" Command="{Binding Selecionado.ExecutarCommand, FallbackValue={x:Null}}" IsVisible="{Binding Selecionado.Parado, FallbackValue=False}">
+                <c:Botao Classes="primario pequeno" Command="{Binding Selecionado.ExecutarCommand, FallbackValue={x:Null}}" IsVisible="{Binding Selecionado.Parado, FallbackValue=False}">
                   <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="executar" Tamanho="11" /><TextBlock Text="{l:T 'Executar'}" /></StackPanel>
-                </Button>
-                <Button Classes="contorno pequeno" Command="{Binding Selecionado.PararCommand, FallbackValue={x:Null}}" IsVisible="{Binding Selecionado.Ativo, FallbackValue=False}">
+                </c:Botao>
+                <c:Botao Classes="contorno pequeno" Command="{Binding Selecionado.PararCommand, FallbackValue={x:Null}}" IsVisible="{Binding Selecionado.Ativo, FallbackValue=False}">
                   <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="parar" Tamanho="11" /><TextBlock Text="{l:T 'Parar'}" /></StackPanel>
-                </Button>
-                <Button Classes="fantasma pequeno" Command="{Binding Selecionado.LimparCommand, FallbackValue={x:Null}}" Content="{l:T 'Limpar'}" />
+                </c:Botao>
+                <c:Botao Classes="fantasma pequeno" Command="{Binding Selecionado.LimparCommand, FallbackValue={x:Null}}" Content="{l:T 'Limpar'}" />
               </StackPanel>
             </Grid>
           </Border>

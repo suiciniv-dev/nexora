@@ -58,11 +58,11 @@
             <c:Caixa Classes="ponto" Classes.atual="{Binding NoFim}" />
             <TextBlock Classes="fraco" Text="{Binding TextoPasso}" Margin="10,0,0,0" VerticalAlignment="Center" />
           </StackPanel>
-          <Button Grid.Column="2" Classes="fantasma" Content="{l:T 'Voltar'}" Command="{Binding VoltarCommand}" IsVisible="{Binding PodeVoltar}" Margin="0,0,8,0" />
-          <Button Grid.Column="3" Classes="primario" Content="{Binding TextoAvancar}" Command="{Binding AvancarCommand}" MinWidth="130" HorizontalContentAlignment="Center" />
+          <c:Botao Grid.Column="2" Classes="fantasma" Content="{l:T 'Voltar'}" Command="{Binding VoltarCommand}" IsVisible="{Binding PodeVoltar}" Margin="0,0,8,0" />
+          <c:Botao Grid.Column="3" Classes="primario" Content="{Binding TextoAvancar}" Command="{Binding AvancarCommand}" MinWidth="130" HorizontalContentAlignment="Center" />
         </Grid>
 
-        <Button DockPanel.Dock="Top" Classes="fantasma" Content="{l:T 'Pular'}" Command="{Binding PularCommand}" HorizontalAlignment="Right" Margin="0,14,18,0" FontSize="12.5"
+        <c:Botao DockPanel.Dock="Top" Classes="fantasma" Content="{l:T 'Pular'}" Command="{Binding PularCommand}" HorizontalAlignment="Right" Margin="0,14,18,0" FontSize="12.5"
                 IsVisible="{Binding !NoFim}" ToolTip.Tip="{l:T 'Dá para abrir de novo pelo botão de ajuda'}" />
 
         <ScrollViewer HorizontalScrollBarVisibility="Disabled" Margin="0,0,0,12">
@@ -133,9 +133,9 @@
                   </DataTemplate>
                 </ItemsControl.ItemTemplate>
               </ItemsControl>
-              <Button Classes="contorno" Command="{Binding VerificarCommand}" HorizontalAlignment="Left">
+              <c:Botao Classes="contorno" Command="{Binding VerificarCommand}" HorizontalAlignment="Left">
                 <StackPanel Orientation="Horizontal" Spacing="7"><c:Icone Nome="atualizar" Tamanho="13" /><TextBlock Text="{l:T 'Verificar de novo'}" /></StackPanel>
-              </Button>
+              </c:Botao>
             </StackPanel>
 
             <StackPanel Spacing="16" IsVisible="{Binding NoLogin}">
@@ -156,10 +156,10 @@
               <StackPanel Spacing="8" IsVisible="{Binding MostraEntrar}">
                 <TextBlock Classes="texto-bv" Text="{Binding AjudaLogin}" />
                 <StackPanel Orientation="Horizontal" Spacing="8">
-                  <Button Classes="primario" Command="{Binding EntrarCommand}" IsVisible="{Binding PodeEntrar}">
+                  <c:Botao Classes="primario" Command="{Binding EntrarCommand}" IsVisible="{Binding PodeEntrar}">
                     <StackPanel Orientation="Horizontal" Spacing="7"><c:Icone Nome="terminal" Tamanho="14" /><TextBlock Text="{Binding TextoEntrar}" /></StackPanel>
-                  </Button>
-                  <Button Classes="contorno" Content="{l:T 'Já entrei'}" Command="{Binding VerificarLoginCommand}" IsVisible="{Binding ConfereLogin}" />
+                  </c:Botao>
+                  <c:Botao Classes="contorno" Content="{l:T 'Já entrei'}" Command="{Binding VerificarLoginCommand}" IsVisible="{Binding ConfereLogin}" />
                 </StackPanel>
               </StackPanel>
             </StackPanel>
@@ -179,9 +179,9 @@
                           <TextBlock Text="{Binding Pasta}" TextTrimming="CharacterEllipsis" />
                           <TextBlock Classes="fraco" Text="{l:T 'Essa pasta não existe neste computador.'}" IsVisible="{Binding !Existe}" />
                         </StackPanel>
-                        <Button Grid.Column="2" Classes="icone pequeno" Command="{Binding RemoverCommand}" ToolTip.Tip="{l:T 'Tirar da lista'}" AutomationProperties.Name="{l:T 'Tirar a pasta da lista'}">
+                        <c:Botao Grid.Column="2" Classes="icone pequeno" Command="{Binding RemoverCommand}" ToolTip.Tip="{l:T 'Tirar da lista'}" AutomationProperties.Name="{l:T 'Tirar a pasta da lista'}">
                           <c:Icone Nome="fechar" Tamanho="12" />
-                        </Button>
+                        </c:Botao>
                       </Grid>
                     </c:Caixa>
                   </DataTemplate>
@@ -189,15 +189,15 @@
               </ItemsControl>
               <TextBlock Classes="suave" Text="{Binding TextoProjetos}" TextWrapping="Wrap" />
               <WrapPanel>
-                <Button Classes="contorno" Click="AdicionarProjeto_Click" Margin="0,0,8,8">
+                <c:Botao Classes="contorno" Click="AdicionarProjeto_Click" Margin="0,0,8,8">
                   <StackPanel Orientation="Horizontal" Spacing="7"><c:Icone Nome="pasta" Tamanho="14" /><TextBlock Text="{l:T 'Pasta de um projeto'}" /></StackPanel>
-                </Button>
-                <Button Classes="contorno" Click="AdicionarPasta_Click" Margin="0,0,8,8">
+                </c:Botao>
+                <c:Botao Classes="contorno" Click="AdicionarPasta_Click" Margin="0,0,8,8">
                   <StackPanel Orientation="Horizontal" Spacing="7"><c:Icone Nome="camadas" Tamanho="14" /><TextBlock Text="{l:T 'Pasta com vários projetos'}" /></StackPanel>
-                </Button>
-                <Button Classes="contorno" Click="Importar_Click" Margin="0,0,8,8">
+                </c:Botao>
+                <c:Botao Classes="contorno" Click="Importar_Click" Margin="0,0,8,8">
                   <StackPanel Orientation="Horizontal" Spacing="7"><c:Icone Nome="importar" Tamanho="14" /><TextBlock Text="{l:T 'Importar um .code-workspace'}" /></StackPanel>
-                </Button>
+                </c:Botao>
               </WrapPanel>
             </StackPanel>
 
@@ -214,18 +214,18 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                   <DataTemplate x:DataType="vm:TemaCartaoVM">
-                    <Button Theme="{StaticResource CartaoDeTema}" Classes.em-uso="{Binding EmUso}" Margin="0,0,10,0"
+                    <c:Botao Theme="{StaticResource CartaoDeTema}" Classes.em-uso="{Binding EmUso}" Margin="0,0,10,0"
                             Command="{Binding $parent[ItemsControl].((vm:BoasVindasVM)DataContext).UsarTemaCommand, FallbackValue={x:Null}}" CommandParameter="{Binding Id}"
                             AutomationProperties.Name="{Binding NomeAcessivel}">
                       <StackPanel Spacing="8">
                         <ContentControl Content="{Binding}" ContentTemplate="{StaticResource PreviaDoTema}" />
                         <TextBlock Text="{Binding Nome}" FontWeight="SemiBold" Margin="2,0" TextTrimming="CharacterEllipsis" />
                       </StackPanel>
-                    </Button>
+                    </c:Botao>
                   </DataTemplate>
                 </ItemsControl.ItemTemplate>
               </ItemsControl>
-              <Button Classes="contorno" HorizontalAlignment="Left" Command="{Binding AlternarMaisTemasCommand}" Content="{Binding TextoMaisTemas}" />
+              <c:Botao Classes="contorno" HorizontalAlignment="Left" Command="{Binding AlternarMaisTemasCommand}" Content="{Binding TextoMaisTemas}" />
               <StackPanel Spacing="8" IsVisible="{Binding MaisTemas}">
                 <TextBlock Classes="fraco" Text="{l:T 'Os temas animados só se mexem com o fundo de vidro ligado.'}" TextWrapping="Wrap" />
                 <ScrollViewer MaxHeight="200" HorizontalScrollBarVisibility="Disabled">
@@ -237,14 +237,14 @@
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                       <DataTemplate x:DataType="vm:TemaCartaoVM">
-                        <Button Theme="{StaticResource CartaoDeTema}" Classes.em-uso="{Binding EmUso}" Width="150" Margin="0,0,8,8" Padding="6,6,6,8"
+                        <c:Botao Theme="{StaticResource CartaoDeTema}" Classes.em-uso="{Binding EmUso}" Width="150" Margin="0,0,8,8" Padding="6,6,6,8"
                                 Command="{Binding $parent[ItemsControl].((vm:BoasVindasVM)DataContext).UsarTemaCommand, FallbackValue={x:Null}}" CommandParameter="{Binding Id}"
                                 AutomationProperties.Name="{Binding NomeAcessivel}">
                           <StackPanel Spacing="6">
                             <ContentControl Content="{Binding}" ContentTemplate="{StaticResource MiniaturaDoTema}" />
                             <TextBlock Text="{Binding Nome}" FontSize="12.5" Margin="2,0" TextTrimming="CharacterEllipsis" />
                           </StackPanel>
-                        </Button>
+                        </c:Botao>
                       </DataTemplate>
                     </ItemsControl.ItemTemplate>
                   </ItemsControl>

@@ -28,9 +28,9 @@
           <TextBlock Text="{l:T 'Recursos'}" FontSize="26" FontWeight="SemiBold" />
           <TextBlock Classes="suave" Text="{Binding Resumo}" TextWrapping="Wrap" />
         </StackPanel>
-        <Button Grid.Column="1" Classes="contorno" Command="{Binding AtualizarCommand}" VerticalAlignment="Center">
+        <c:Botao Grid.Column="1" Classes="contorno" Command="{Binding AtualizarCommand}" VerticalAlignment="Center">
           <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="atualizar" Tamanho="14" /><TextBlock Text="{l:T 'Medir de novo'}" /></StackPanel>
-        </Button>
+        </c:Botao>
       </Grid>
       <c:Caixa Classes="aviso" IsVisible="{Binding Economia, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
         <TextBlock Text="{Binding Economia}" TextWrapping="Wrap" />
@@ -44,9 +44,9 @@
               <TextBlock Classes="fraco" Text="{Binding Desempenho.Subtitulo}" TextWrapping="Wrap" />
             </StackPanel>
             <StackPanel Grid.Column="1" Spacing="4" Margin="16,0,0,0" VerticalAlignment="Top" IsVisible="{Binding Desempenho.PodeEnviar}">
-              <Button Classes="contorno" Command="{Binding Desempenho.EnviarResumoCommand}" HorizontalAlignment="Right">
+              <c:Botao Classes="contorno" Command="{Binding Desempenho.EnviarResumoCommand}" HorizontalAlignment="Right">
                 <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="enviar" Tamanho="14" /><TextBlock Text="{l:T 'Enviar resumo agora'}" /></StackPanel>
-              </Button>
+              </c:Botao>
               <TextBlock Classes="fraco" Text="{Binding Desempenho.AvisoEnvio}" TextWrapping="Wrap" MaxWidth="240" TextAlignment="Right" HorizontalAlignment="Right"
                          IsVisible="{Binding Desempenho.AvisoEnvio, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
             </StackPanel>
@@ -159,9 +159,9 @@
                        Text="{l:T 'O dotnet deixa esses processos abertos depois de compilar para a próxima build ser mais rápida. Liberar desliga todos (dotnet build-server shutdown); a próxima build só demora um pouco mais. O Nexora também libera sozinho quando você fecha uma sessão e nenhuma outra está trabalhando.'}" />
             <TextBlock Classes="suave" Text="{Binding AvisoLiberar}" IsVisible="{Binding AvisoLiberar, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
           </StackPanel>
-          <Button Grid.Column="1" Classes="contorno" Command="{Binding LiberarCommand}" IsEnabled="{Binding TemBuild}" VerticalAlignment="Top" Margin="16,0,0,0">
+          <c:Botao Grid.Column="1" Classes="contorno" Command="{Binding LiberarCommand}" IsEnabled="{Binding TemBuild}" VerticalAlignment="Top" Margin="16,0,0,0">
             <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="lixeira" Tamanho="14" /><TextBlock Text="{l:T 'Liberar'}" /></StackPanel>
-          </Button>
+          </c:Botao>
         </Grid>
       </c:Caixa>
 
@@ -184,10 +184,10 @@
                       <TextBlock Classes="fraco" Text="{Binding Detalhe}" TextWrapping="Wrap" />
                     </StackPanel>
                     <TextBlock Grid.Column="2" Classes="fraco mono" Text="{Binding TextoMemoria}" VerticalAlignment="Top" Margin="12,2,6,0" />
-                    <Button Grid.Column="3" Classes="icone pequeno" Command="{Binding PararCommand}" IsVisible="{Binding PodeParar}" VerticalAlignment="Top"
+                    <c:Botao Grid.Column="3" Classes="icone pequeno" Command="{Binding PararCommand}" IsVisible="{Binding PodeParar}" VerticalAlignment="Top"
                             ToolTip.Tip="{l:T 'Desligar agora (sobe de novo quando alguém usar)'}" AutomationProperties.Name="{l:T 'Desligar o servidor'}">
                       <c:Icone Nome="parar" Tamanho="12" />
-                    </Button>
+                    </c:Botao>
                   </Grid>
                 </DataTemplate>
               </ItemsControl.ItemTemplate>

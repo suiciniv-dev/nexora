@@ -6,7 +6,7 @@
              x:Class="Nexora.Views.ProjetosView"
              x:DataType="vm:ProjetosVM">
   <UserControl.Styles>
-    <Style Selector="Button.projeto">
+    <Style Selector="c|Botao.projeto">
       <Setter Property="Width" Value="340" />
       <Setter Property="Margin" Value="0,0,14,14" />
       <Setter Property="Padding" Value="16,14" />
@@ -17,12 +17,12 @@
       <Setter Property="HorizontalContentAlignment" Value="Stretch" />
       <Setter Property="Foreground" Value="{DynamicResource Texto}" />
     </Style>
-    <Style Selector="Button.projeto:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="c|Botao.projeto:pointerover /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{DynamicResource SuperficieAlta}" />
       <Setter Property="BorderBrush" Value="{DynamicResource TextoFraco}" />
       <Setter Property="Foreground" Value="{DynamicResource Texto}" />
     </Style>
-    <Style Selector="Button.projeto.destacado /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="c|Botao.projeto.destacado /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="BorderBrush" Value="{DynamicResource Acento}" />
       <Setter Property="BorderThickness" Value="2" />
       <Setter Property="BoxShadow" Value="{DynamicResource BrilhoCaixa}" />
@@ -41,7 +41,7 @@
         </ItemsPanelTemplate>
       </Setter>
     </Style>
-    <Style Selector="Window.vertical Button.projeto">
+    <Style Selector="Window.vertical c|Botao.projeto">
       <Setter Property="Width" Value="NaN" />
       <Setter Property="HorizontalAlignment" Value="Stretch" />
     </Style>
@@ -56,12 +56,12 @@
           <TextBlock Classes="fraco" Text="{l:T 'Dica: arraste pastas para cá ou para a lateral e elas viram projetos.'}" TextWrapping="Wrap" FontSize="12" />
         </StackPanel>
         <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center" Margin="16,0,0,0">
-          <Button Classes="contorno" Click="AdicionarProjeto_Click" ToolTip.Tip="{l:T 'Escolher a pasta de um projeto que já existe'}">
+          <c:Botao Classes="contorno" Click="AdicionarProjeto_Click" ToolTip.Tip="{l:T 'Escolher a pasta de um projeto que já existe'}">
             <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="pasta" Tamanho="14" /><TextBlock Text="{l:T 'Adicionar pasta'}" /></StackPanel>
-          </Button>
-          <Button Classes="contorno" Command="{Binding NovoProjetoCommand}" ToolTip.Tip="{l:T 'Montar um projeto com uma pasta principal e outras vinculadas'}">
+          </c:Botao>
+          <c:Botao Classes="contorno" Command="{Binding NovoProjetoCommand}" ToolTip.Tip="{l:T 'Montar um projeto com uma pasta principal e outras vinculadas'}">
             <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="mais" Tamanho="14" /><TextBlock Text="{l:T 'Novo projeto'}" /></StackPanel>
-          </Button>
+          </c:Botao>
         </StackPanel>
       </Grid>
       <c:Caixa Classes="painel" IsVisible="{Binding Vazio}" Padding="24,22">
@@ -72,23 +72,23 @@
             <TextBlock Classes="fraco" TextWrapping="Wrap" Text="{Binding TextoRaizes}" IsVisible="{Binding TemRaizes}" />
           </StackPanel>
           <WrapPanel>
-            <Button Classes="primario" Click="AdicionarProjeto_Click" Margin="0,0,8,8">
+            <c:Botao Classes="primario" Click="AdicionarProjeto_Click" Margin="0,0,8,8">
               <StackPanel Orientation="Horizontal" Spacing="7"><c:Icone Nome="pasta" Tamanho="14" /><TextBlock Text="{l:T 'Escolher a pasta de um projeto'}" /></StackPanel>
-            </Button>
-            <Button Classes="contorno" Click="AdicionarRaiz_Click" Margin="0,0,8,8">
+            </c:Botao>
+            <c:Botao Classes="contorno" Click="AdicionarRaiz_Click" Margin="0,0,8,8">
               <StackPanel Orientation="Horizontal" Spacing="7"><c:Icone Nome="camadas" Tamanho="14" /><TextBlock Text="{l:T 'Escolher a pasta onde ficam vários'}" /></StackPanel>
-            </Button>
-            <Button Classes="contorno" Click="Importar_Click" Margin="0,0,8,8">
+            </c:Botao>
+            <c:Botao Classes="contorno" Click="Importar_Click" Margin="0,0,8,8">
               <StackPanel Orientation="Horizontal" Spacing="7"><c:Icone Nome="importar" Tamanho="14" /><TextBlock Text="{l:T 'Importar um .code-workspace'}" /></StackPanel>
-            </Button>
+            </c:Botao>
           </WrapPanel>
         </StackPanel>
       </c:Caixa>
       <ItemsControl Classes="cartoes-projeto" ItemsSource="{Binding Cartoes}">
         <ItemsControl.ItemTemplate>
           <DataTemplate x:DataType="vm:CartaoProjetoVM">
-            <Button Classes="projeto" Classes.destacado="{Binding Destacado}" Command="{Binding AbrirCommand}">
-              <Button.ContextMenu>
+            <c:Botao Classes="projeto" Classes.destacado="{Binding Destacado}" Command="{Binding AbrirCommand}">
+              <c:Botao.ContextMenu>
                 <ContextMenu>
                   <MenuItem Header="{l:T 'Abrir o projeto'}" Command="{Binding AbrirCommand}" />
                   <MenuItem Header="{l:T 'Nova sessão'}" Command="{Binding NovaSessaoCommand}" />
@@ -97,7 +97,7 @@
                   <Separator />
                   <MenuItem Header="{l:T 'Excluir projeto…'}" Command="{Binding ExcluirCommand}" />
                 </ContextMenu>
-              </Button.ContextMenu>
+              </c:Botao.ContextMenu>
               <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto">
                 <Panel VerticalAlignment="Top" Margin="0,0,14,0">
                   <Border Width="40" Height="40" CornerRadius="11" Background="{DynamicResource MarcaGradiente}" IsVisible="{Binding !Ambiente.TemIconeRepo}">
@@ -124,24 +124,24 @@
                     <TextBlock Classes="fraco" Text="{Binding Ultima}" TextTrimming="CharacterEllipsis" MaxWidth="220" />
                   </StackPanel>
                   <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
-                    <Button Classes="contorno pequeno" Command="{Binding NovaSessaoCommand}" ToolTip.Tip="{l:T 'Começar uma sessão neste projeto'}">
+                    <c:Botao Classes="contorno pequeno" Command="{Binding NovaSessaoCommand}" ToolTip.Tip="{l:T 'Começar uma sessão neste projeto'}">
                       <StackPanel Orientation="Horizontal" Spacing="5"><c:Icone Nome="mais" Tamanho="12" /><TextBlock Text="{l:T 'Sessão'}" /></StackPanel>
-                    </Button>
-                    <Button Classes="icone pequeno" ToolTip.Tip="{l:T 'Mais opções'}" AutomationProperties.Name="{l:T 'Mais opções do projeto'}">
+                    </c:Botao>
+                    <c:Botao Classes="icone pequeno" ToolTip.Tip="{l:T 'Mais opções'}" AutomationProperties.Name="{l:T 'Mais opções do projeto'}">
                       <c:Icone Nome="mais-acoes" Tamanho="14" />
-                      <Button.Flyout>
+                      <c:Botao.Flyout>
                         <MenuFlyout Placement="BottomEdgeAlignedRight">
                           <MenuItem Header="{l:T 'Abrir a pasta'}" Command="{Binding Ambiente.AbrirPastaCommand}" />
                           <MenuItem Header="{l:T 'Abrir no VS Code'}" Command="{Binding Ambiente.AbrirNoVsCodeCommand}" />
                           <Separator />
                           <MenuItem Header="{l:T 'Excluir projeto…'}" Command="{Binding ExcluirCommand}" />
                         </MenuFlyout>
-                      </Button.Flyout>
-                    </Button>
+                      </c:Botao.Flyout>
+                    </c:Botao>
                   </StackPanel>
                 </Grid>
               </Grid>
-            </Button>
+            </c:Botao>
           </DataTemplate>
         </ItemsControl.ItemTemplate>
       </ItemsControl>

@@ -13,7 +13,7 @@
     </Style>
   </UserControl.Styles>
   <Panel>
-    <Button Classes="veu-exclusao" Command="{Binding CancelarCommand}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" AutomationProperties.Name="{l:T 'Cancelar'}" />
+    <c:Botao Classes="veu-exclusao" Command="{Binding CancelarCommand}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" AutomationProperties.Name="{l:T 'Cancelar'}" />
     <Border Theme="{StaticResource Dialogo}" Width="900" Height="600" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0">
       <Grid RowDefinitions="Auto,*,Auto">
         <Grid ColumnDefinitions="Auto,*" Margin="24,20,24,14">
@@ -28,13 +28,13 @@
         <Grid Grid.Row="1" ColumnDefinitions="250,*" Margin="24,0,24,0">
           <DockPanel Margin="0,0,16,0">
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Spacing="6" Margin="0,10,0,0">
-              <Button Classes="contorno pequeno" Command="{Binding NovoCommand}">
+              <c:Botao Classes="contorno pequeno" Command="{Binding NovoCommand}">
                 <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="mais" Tamanho="12" /><TextBlock Text="{l:T 'Novo'}" /></StackPanel>
-              </Button>
-              <Button Classes="contorno pequeno" Command="{Binding DuplicarCommand}" Content="{l:T 'Duplicar'}" />
-              <Button Classes="icone pequeno" Command="{Binding ExcluirCommand}" ToolTip.Tip="{l:T 'Excluir o template'}" AutomationProperties.Name="{l:T 'Excluir o template'}">
+              </c:Botao>
+              <c:Botao Classes="contorno pequeno" Command="{Binding DuplicarCommand}" Content="{l:T 'Duplicar'}" />
+              <c:Botao Classes="icone pequeno" Command="{Binding ExcluirCommand}" ToolTip.Tip="{l:T 'Excluir o template'}" AutomationProperties.Name="{l:T 'Excluir o template'}">
                 <c:Icone Nome="lixeira" Tamanho="13" />
-              </Button>
+              </c:Botao>
             </StackPanel>
             <ListBox Classes="lista templates" ItemsSource="{Binding Itens}" SelectedItem="{Binding Selecionado}" Background="Transparent">
               <ListBox.ItemTemplate>
@@ -59,16 +59,16 @@
                      VerticalContentAlignment="Top" />
             <StackPanel Grid.Row="3" Spacing="8" Margin="0,10,0,0">
               <SelectableTextBlock Classes="fraco mono" Text="{Binding Variaveis}" FontSize="11.5" TextWrapping="Wrap" />
-              <Button Classes="contorno pequeno" Command="{Binding UsarNasIssuesCommand}" HorizontalAlignment="Left"
+              <c:Botao Classes="contorno pequeno" Command="{Binding UsarNasIssuesCommand}" HorizontalAlignment="Left"
                       IsVisible="{Binding !Selecionado.DaIssue, FallbackValue=False}" Content="{l:T 'Usar no Nova sessão das issues'}" />
             </StackPanel>
           </Grid>
         </Grid>
         <Grid Grid.Row="2" ColumnDefinitions="Auto,*,Auto" Margin="24,16,24,20">
-          <Button Classes="fantasma pequeno" Command="{Binding RestaurarPadroesCommand}" Content="{l:T 'Restaurar os padrões'}" />
+          <c:Botao Classes="fantasma pequeno" Command="{Binding RestaurarPadroesCommand}" Content="{l:T 'Restaurar os padrões'}" />
           <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8">
-            <Button Classes="contorno" Command="{Binding CancelarCommand}" Content="{l:T 'Cancelar'}" />
-            <Button Classes="primario" Command="{Binding SalvarCommand}" Content="{l:T 'Salvar'}" />
+            <c:Botao Classes="contorno" Command="{Binding CancelarCommand}" Content="{l:T 'Cancelar'}" />
+            <c:Botao Classes="primario" Command="{Binding SalvarCommand}" Content="{l:T 'Salvar'}" />
           </StackPanel>
         </Grid>
       </Grid>

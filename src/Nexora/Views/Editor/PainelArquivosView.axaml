@@ -50,8 +50,8 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Spacing="6" IsVisible="{Binding Confirmando}" Margin="21,0,0,2">
                   <TextBlock Text="{Binding TextoApagar}" FontSize="12" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" MaxWidth="150" />
-                  <Button Classes="primario pequeno" Content="{l:T 'Apagar'}" Command="{Binding ConfirmarApagarCommand}" />
-                  <Button Classes="fantasma pequeno" Content="{l:T 'Não'}" Command="{Binding NaoApagarCommand}" />
+                  <c:Botao Classes="primario pequeno" Content="{l:T 'Apagar'}" Command="{Binding ConfirmarApagarCommand}" />
+                  <c:Botao Classes="fantasma pequeno" Content="{l:T 'Não'}" Command="{Binding NaoApagarCommand}" />
                 </StackPanel>
               </StackPanel>
             </TreeDataTemplate>
@@ -91,12 +91,12 @@
                     <ItemsControl ItemsSource="{Binding Linhas}">
                       <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="vm:LinhaBuscaVM">
-                          <Button Classes="conversa" Command="{Binding AbrirCommand}" Padding="28,3,10,3" ToolTip.Tip="{Binding Texto}">
+                          <c:Botao Classes="conversa" Command="{Binding AbrirCommand}" Padding="28,3,10,3" ToolTip.Tip="{Binding Texto}">
                             <Grid ColumnDefinitions="Auto,*">
                               <TextBlock Classes="fraco mono" Text="{Binding Linha}" FontSize="11.5" MinWidth="32" VerticalAlignment="Center" />
                               <TextBlock Grid.Column="1" Classes="mono" Text="{Binding Texto}" FontSize="12" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
                             </Grid>
-                          </Button>
+                          </c:Botao>
                         </DataTemplate>
                       </ItemsControl.ItemTemplate>
                     </ItemsControl>
@@ -121,7 +121,7 @@
             <ItemsControl ItemsSource="{Binding Alteracoes}">
               <ItemsControl.ItemTemplate>
                 <DataTemplate x:DataType="vm:AlteracaoVM">
-                  <Button Classes="conversa" Command="{Binding AbrirCommand}" ToolTip.Tip="{Binding Dados.Caminho}">
+                  <c:Botao Classes="conversa" Command="{Binding AbrirCommand}" ToolTip.Tip="{Binding Dados.Caminho}">
                     <Grid ColumnDefinitions="*,Auto,Auto">
                       <StackPanel Spacing="1">
                         <TextBlock Text="{Binding Nome}" TextTrimming="CharacterEllipsis" />
@@ -135,7 +135,7 @@
                         <TextBlock Text="{Binding Rotulo}" />
                       </c:Caixa>
                     </Grid>
-                  </Button>
+                  </c:Botao>
                 </DataTemplate>
               </ItemsControl.ItemTemplate>
             </ItemsControl>

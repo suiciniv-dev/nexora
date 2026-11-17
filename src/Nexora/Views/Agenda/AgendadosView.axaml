@@ -57,9 +57,9 @@
               <c:Icone Nome="ok" Tamanho="14" Foreground="{DynamicResource Verde}" VerticalAlignment="Center" />
               <TextBlock Text="{Binding Confirmacao}" TextWrapping="Wrap" VerticalAlignment="Center" />
             </StackPanel>
-            <Button Grid.Column="1" Classes="primario" Command="{Binding SalvarCommand}">
+            <c:Botao Grid.Column="1" Classes="primario" Command="{Binding SalvarCommand}">
               <StackPanel Orientation="Horizontal" Spacing="7"><c:Icone Nome="relogio" Tamanho="14" /><TextBlock Text="{l:T 'Agendar'}" /></StackPanel>
-            </Button>
+            </c:Botao>
           </Grid>
         </StackPanel>
       </c:Caixa>
@@ -84,14 +84,14 @@
                 </StackPanel>
                 <ToggleSwitch Grid.Column="1" IsChecked="{Binding Ativo, Mode=OneWay}" Command="{Binding AlternarCommand}" OnContent="" OffContent=""
                               VerticalAlignment="Center" Margin="16,0,12,0" ToolTip.Tip="{l:T 'Ligar ou desligar este agendado'}" />
-                <Button Grid.Column="2" Classes="mini" Command="{Binding RodarAgoraCommand}" VerticalAlignment="Center" Margin="0,0,8,0"
+                <c:Botao Grid.Column="2" Classes="mini" Command="{Binding RodarAgoraCommand}" VerticalAlignment="Center" Margin="0,0,8,0"
                         ToolTip.Tip="{l:T 'Abre a sessão e manda o pedido agora'}">
                   <StackPanel Orientation="Horizontal" Spacing="5"><c:Icone Nome="executar" Tamanho="12" /><TextBlock Text="{l:T 'Rodar agora'}" /></StackPanel>
-                </Button>
-                <Button Grid.Column="3" Classes="icone pequeno" Command="{Binding ExcluirCommand}" VerticalAlignment="Center"
+                </c:Botao>
+                <c:Botao Grid.Column="3" Classes="icone pequeno" Command="{Binding ExcluirCommand}" VerticalAlignment="Center"
                         ToolTip.Tip="{l:T 'Excluir este agendado'}" AutomationProperties.Name="{l:T 'Excluir o agendado'}">
                   <c:Icone Nome="lixeira" Tamanho="14" />
-                </Button>
+                </c:Botao>
               </Grid>
             </c:Caixa>
           </DataTemplate>
