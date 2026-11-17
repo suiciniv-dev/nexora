@@ -5,26 +5,17 @@ namespace Nexora.Testes.Tela;
 public sealed class ReinicioTestes
 {
     [Fact]
-    public Task TrocarParaSolidoPedeReinicioEVoltarAoVidroDesiste() => Sessao.Rodar(() =>
+    public Task TrocarOModoDoFundoNaoPedeReinicioPorqueODesenhoEPelaPlacaDeVideo() => Sessao.Rodar(() =>
     {
         var modoAntes = App.Config.ModoFundo;
         try
         {
             var janela = new JanelaVM();
-
-            janela.MudarModoFundo("solido");
-            Assert.True(janela.PedindoReinicio);
-            Assert.Contains("processador", janela.TextoReinicio);
-
-            janela.ReiniciarDepoisCommand.Execute(null);
-            Assert.False(janela.PedindoReinicio);
-
-            janela.MudarModoFundo("solido");
-            janela.MudarModoFundo("vidro");
-            Assert.False(janela.PedindoReinicio);
-
-            janela.MudarModoFundo("animado");
-            Assert.False(janela.PedindoReinicio);
+            foreach (var modo in new[] { "solido", "vidro", "animado", "solido" })
+            {
+                janela.MudarModoFundo(modo);
+                Assert.False(janela.PedindoReinicio);
+            }
         }
         finally
         {

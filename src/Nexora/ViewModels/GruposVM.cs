@@ -237,7 +237,7 @@ public sealed partial class RecursosVM : ObservableObject
     [RelayCommand]
     public async Task AtualizarAsync()
     {
-        var estado = App.Hub?.Estado() ?? [];
+        var estado = App.Hub is { } hubMcp ? await Task.Run(hubMcp.Estado) : [];
         var sessoes = _janela.Abertas.Where(c => c.Pid is not null).Select(c => (c.Titulo, c.NomePasta, c.Pid!.Value)).ToList();
         var servidores = await Task.Run(Core.Recursos.ServidoresDeBuild.Listar);
         TextoBuild = DescreverBuild(servidores);

@@ -16,6 +16,7 @@ public sealed class Config
     public string? UltimaPasta { get; set; }
     public List<string>? FeedsDoDashboard { get; set; }
     public string? ProjetoDoDashboard { get; set; }
+    public bool DesenhoPeloProcessador { get; set; }
     public List<string> Workspaces { get; set; } = [];
     public List<string> Ocultos { get; set; } = [];
     public bool LateralVisivel { get; set; } = true;
@@ -122,7 +123,7 @@ public sealed class Config
         {
             string texto;
             lock (_trava) texto = JsonSerializer.Serialize(this, Indentado);
-            Core.Arquivos.ArquivoSeguro.Gravar(_caminho, texto, manterCopia: true);
+            Core.Arquivos.ArquivoSeguro.GravarDepois(_caminho, texto, manterCopia: true);
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or InvalidOperationException)
         {
