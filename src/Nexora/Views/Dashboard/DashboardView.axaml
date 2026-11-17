@@ -60,10 +60,10 @@
     <Style Selector="Ellipse.ponto-estado.pronta">
       <Setter Property="Fill" Value="{DynamicResource Verde}" />
     </Style>
-    <Style Selector="Button.fixar-projeto">
+    <Style Selector="c|Botao.fixar-projeto">
       <Setter Property="Foreground" Value="{DynamicResource TextoFraco}" />
     </Style>
-    <Style Selector="Button.fixar-projeto.ligado">
+    <Style Selector="c|Botao.fixar-projeto.ligado">
       <Setter Property="Foreground" Value="{DynamicResource Acento}" />
     </Style>
     <Style Selector="c|Caixa.quadradinho">
@@ -111,20 +111,20 @@
                   </DataTemplate>
                 </ComboBox.ItemTemplate>
               </ComboBox>
-              <Button Grid.Column="1" Classes="icone fixar-projeto" Classes.ligado="{Binding ProjetoFixo}" Command="{Binding AlternarFixoCommand}" Margin="6,0,0,0"
+              <c:Botao Grid.Column="1" Classes="icone fixar-projeto" Classes.ligado="{Binding ProjetoFixo}" Command="{Binding AlternarFixoCommand}" Margin="6,0,0,0"
                       IsVisible="{Binding TemProjeto}" ToolTip.Tip="{Binding DicaDoFixo}" AutomationProperties.Name="{l:T 'Fixar o projeto do Dashboard'}">
                 <c:Icone Nome="fixar" Tamanho="14" />
-              </Button>
+              </c:Botao>
               <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="6" Margin="12,0" VerticalAlignment="Center" IsVisible="{Binding TemProjeto}">
                 <c:Icone Nome="branch" Tamanho="13" Foreground="{DynamicResource TextoFraco}" VerticalAlignment="Center" />
                 <TextBlock Classes="fraco" Text="{Binding BranchDoProjeto}" FontFamily="{DynamicResource Mono}" FontSize="12" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
               </StackPanel>
-              <Button Grid.Column="3" Classes="primario" Command="{Binding ComecarCommand}" AutomationProperties.Name="{l:T 'Começar'}">
+              <c:Botao Grid.Column="3" Classes="primario" Command="{Binding ComecarCommand}" AutomationProperties.Name="{l:T 'Começar'}">
                 <StackPanel Orientation="Horizontal" Spacing="7">
                   <TextBlock Text="{l:T 'Começar'}" VerticalAlignment="Center" />
                   <c:Icone Nome="enviar" Tamanho="13" VerticalAlignment="Center" />
                 </StackPanel>
-              </Button>
+              </c:Botao>
             </Grid>
           </Grid>
         </Border>
@@ -265,8 +265,8 @@
                           </StackPanel>
                         </Button>
                         <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="6" Margin="8,0,0,0" VerticalAlignment="Center" IsVisible="{Binding Item.MostraBotoes}">
-                          <Button Classes="primario" Padding="10,4" Command="{Binding Item.PermitirCommand}" Content="{l:T 'Permitir'}" />
-                          <Button Classes="contorno" Padding="10,4" Command="{Binding Item.NegarCommand}" Content="{l:T 'Negar'}" />
+                          <c:Botao Classes="primario" Padding="10,4" Command="{Binding Item.PermitirCommand}" Content="{l:T 'Permitir'}" />
+                          <c:Botao Classes="contorno" Padding="10,4" Command="{Binding Item.NegarCommand}" Content="{l:T 'Negar'}" />
                         </StackPanel>
                       </Grid>
                     </Border>
@@ -367,12 +367,12 @@
               <TextBlock Grid.Column="3" FontSize="12.5" FontFamily="{DynamicResource Mono}" Foreground="{DynamicResource Vermelho}" Text="{Binding Menos}" />
             </Grid>
             <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,4,0,0">
-              <Button Classes="contorno" Command="{Binding AbrirProjetoCommand}">
+              <c:Botao Classes="contorno" Command="{Binding AbrirProjetoCommand}">
                 <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="camadas" Tamanho="13" /><TextBlock Text="{l:T 'Abrir projeto'}" /></StackPanel>
-              </Button>
-              <Button Classes="contorno" Command="{Binding NovaSessaoNoProjetoCommand}">
+              </c:Botao>
+              <c:Botao Classes="contorno" Command="{Binding NovaSessaoNoProjetoCommand}">
                 <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="mais" Tamanho="13" /><TextBlock Text="{l:T 'Nova sessão'}" /></StackPanel>
-              </Button>
+              </c:Botao>
             </StackPanel>
           </StackPanel>
         </Border>

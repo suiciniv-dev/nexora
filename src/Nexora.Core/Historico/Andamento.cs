@@ -13,16 +13,7 @@ public sealed record Andamento(string? Titulo, string? Branch, string? Atividade
         string? tituloIa = null, tituloProprio = null, branch = null, atividade = null;
         DateTimeOffset? quando = null;
         ContextoUsado? uso = null;
-        List<string> linhas;
-        try
-        {
-            linhas = ConversasSalvas.UltimasLinhas(arquivo, Cauda);
-        }
-        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-        {
-            return new Andamento(null, null, null, null, null);
-        }
-        foreach (var linha in linhas)
+        void Linha(ReadOnlyMemory<byte> linha)
         {
             try
             {
@@ -32,12 +23,12 @@ public sealed record Andamento(string? Titulo, string? Branch, string? Atividade
                 {
                     case "ai-title":
                         tituloIa = Protocolo.Texto(o, "aiTitle") ?? tituloIa;
-                        continue;
+                        return;
                     case "custom-title":
                         tituloProprio = Protocolo.Texto(o, "customTitle") ?? tituloProprio;
-                        continue;
+                        return;
                     case not ("user" or "assistant"):
-                        continue;
+                        return;
                 }
                 branch = Protocolo.Texto(o, "gitBranch") ?? branch;
                 foreach (var evento in Transcricao.LerLinha(o))
@@ -58,6 +49,14 @@ public sealed record Andamento(string? Titulo, string? Branch, string? Atividade
             catch (Exception ex) when (ex is JsonException or InvalidOperationException)
             {
             }
+        }
+        try
+        {
+            ConversasSalvas.UltimasLinhasEmBytes(arquivo, Cauda, Linha);
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            return new Andamento(null, null, null, null, null);
         }
         return new Andamento(tituloProprio ?? tituloIa, branch is "HEAD" or "" ? null : branch, atividade, quando, uso);
     }

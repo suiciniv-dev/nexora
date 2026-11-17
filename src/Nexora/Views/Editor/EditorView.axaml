@@ -20,27 +20,27 @@
               <DataTemplate x:DataType="vm:AbaVM">
                 <c:Caixa Classes="aba" Classes.ativa="{Binding Ativa}">
                   <StackPanel Orientation="Horizontal">
-                    <Button Classes="aba-titulo" Command="{Binding SelecionarCommand}" ToolTip.Tip="{Binding Dica}">
+                    <c:Botao Classes="aba-titulo" Command="{Binding SelecionarCommand}" ToolTip.Tip="{Binding Dica}">
                       <StackPanel Orientation="Horizontal" Spacing="6">
                         <c:Icone Nome="arquivo" Tamanho="13" Classes="fraco" VerticalAlignment="Center" />
                         <TextBlock Text="{Binding Titulo}" FontSize="12.5" VerticalAlignment="Center" />
                         <Ellipse Width="7" Height="7" Fill="{DynamicResource Acento}" IsVisible="{Binding Modificada}" VerticalAlignment="Center" />
                       </StackPanel>
-                    </Button>
-                    <Button Classes="icone pequeno" Command="{Binding FecharCommand}" Margin="0,0,4,0" VerticalAlignment="Center"
+                    </c:Botao>
+                    <c:Botao Classes="icone pequeno" Command="{Binding FecharCommand}" Margin="0,0,4,0" VerticalAlignment="Center"
                             ToolTip.Tip="{l:T 'Fechar'}" AutomationProperties.Name="{l:T 'Fechar a aba'}">
                       <c:Icone Nome="fechar" Tamanho="11" />
-                    </Button>
+                    </c:Botao>
                   </StackPanel>
                 </c:Caixa>
               </DataTemplate>
             </ItemsControl.ItemTemplate>
           </ItemsControl>
         </ScrollViewer>
-        <Button Grid.Column="1" Classes="icone" Command="{Binding FecharTodasCommand}" Margin="4,0" ToolTip.Tip="{l:T 'Fechar o editor'}"
+        <c:Botao Grid.Column="1" Classes="icone" Command="{Binding FecharTodasCommand}" Margin="4,0" ToolTip.Tip="{l:T 'Fechar o editor'}"
                 AutomationProperties.Name="{l:T 'Fechar o editor'}">
           <c:Icone Nome="fechar" Tamanho="14" />
-        </Button>
+        </c:Botao>
       </Grid>
     </Border>
     <ContentControl Content="{Binding Atual}">

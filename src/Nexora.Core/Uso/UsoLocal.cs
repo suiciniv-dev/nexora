@@ -1,3 +1,4 @@
+using System.Buffers;
 using System.Globalization;
 using System.Text;
 using System.Text.Json;
@@ -92,6 +93,7 @@ public static class UsoLocal
     public static IReadOnlyList<Parcela> Ler(IEnumerable<FonteDeUso> fontes, string? arquivoCache, DateTime desde, CancellationToken cancelar = default, bool porDia = false)
     {
         var cache = Carregar(arquivoCache);
+        var mudou = cache.Arquivos.Count == 0;
         var vistos = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         var limite = Chave(SemanaDe(desde));
         foreach (var fonte in fontes)
@@ -127,16 +129,20 @@ public static class UsoLocal
                     {
                         cache.Arquivos[caminho] = sessao = new Arquivo { Offset = info.Length };
                         LerGemini(caminho, sessao, pastasGemini!);
+                        mudou = true;
                     }
                     continue;
                 }
                 if (!cache.Arquivos.TryGetValue(caminho, out var registro) || info.Length < registro.Offset)
+                {
                     cache.Arquivos[caminho] = registro = new Arquivo();
-                if (info.Length > registro.Offset) LerDesde(caminho, registro, fonte.Agente);
+                    mudou = true;
+                }
+                if (info.Length > registro.Offset && LerDesde(caminho, registro, fonte.Agente)) mudou = true;
             }
         }
-        foreach (var velho in cache.Arquivos.Keys.Where(k => !vistos.Contains(k)).ToList()) cache.Arquivos.Remove(velho);
-        Gravar(arquivoCache, cache);
+        foreach (var velho in cache.Arquivos.Keys.Where(k => !vistos.Contains(k)).ToList()) mudou |= cache.Arquivos.Remove(velho);
+        if (mudou) Gravar(arquivoCache, cache);
 
         var juntas = new Dictionary<(string, string, string, string), Parcela>();
         foreach (var p in cache.Arquivos.Values.SelectMany(a => a.Parcelas).Where(p => string.CompareOrdinal(p.Semana, limite) >= 0))
@@ -171,51 +177,84 @@ public static class UsoLocal
         p.Modelos[familia] = p.Modelos.GetValueOrDefault(familia) + peso;
     }
 
-    static void LerDesde(string caminho, Arquivo registro, string agente)
+    const int BlocoDeLeitura = 1 << 20;
+
+    static bool LerDesde(string caminho, Arquivo registro, string agente)
     {
-        byte[] bytes;
-        try
-        {
-            using var fluxo = new FileStream(caminho, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
-            fluxo.Seek(registro.Offset, SeekOrigin.Begin);
-            bytes = new byte[fluxo.Length - registro.Offset];
-            var lidos = 0;
-            while (lidos < bytes.Length && fluxo.Read(bytes, lidos, bytes.Length - lidos) is var n && n > 0) lidos += n;
-            if (lidos < bytes.Length) Array.Resize(ref bytes, lidos);
-        }
-        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-        {
-            return;
-        }
-        var ultimaQuebra = Array.LastIndexOf(bytes, (byte)'\n');
-        if (ultimaQuebra < 0) return;
         var parcelas = registro.Parcelas.ToDictionary(p => ChaveDa(p, porDia: true));
         var ids = new HashSet<string>(registro.Ultimos);
         var recentes = new Queue<string>(registro.Ultimos);
-        var texto = Encoding.UTF8.GetString(bytes, 0, ultimaQuebra + 1);
-        if (agente == Codex)
+        void Linha(ReadOnlyMemory<byte> linha)
         {
-            foreach (var linha in texto.Split('\n'))
+            if (agente == Codex)
+            {
                 if (linha.Length > 20 && RespostaDoCodex(linha, registro) is { } c) Acrescentar(parcelas, Codex, c);
-            registro.Offset += ultimaQuebra + 1;
-            registro.Parcelas = [.. parcelas.Values];
-            return;
-        }
-        foreach (var linha in texto.Split('\n'))
-        {
-            if (linha.Length < 40 || !linha.Contains("\"usage\"", StringComparison.Ordinal) || !linha.Contains("\"assistant\"", StringComparison.Ordinal)) continue;
-            if (Resposta(linha) is not { } r) continue;
+                return;
+            }
+            var bytes = linha.Span;
+            if (bytes.Length < 40 || bytes.IndexOf("\"usage\""u8) < 0 || bytes.IndexOf("\"assistant\""u8) < 0) return;
+            if (Resposta(linha) is not { } r) return;
             if (r.Id is { } id)
             {
-                if (!ids.Add(id)) continue;
+                if (!ids.Add(id)) return;
                 recentes.Enqueue(id);
                 while (recentes.Count > IdsGuardados) ids.Remove(recentes.Dequeue());
             }
             Acrescentar(parcelas, agente, r);
         }
-        registro.Offset += ultimaQuebra + 1;
+        long consumidos;
+        try
+        {
+            consumidos = LerLinhas(caminho, registro.Offset, Linha);
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            return false;
+        }
+        if (consumidos == 0) return false;
+        registro.Offset += consumidos;
         registro.Ultimos = [.. recentes];
         registro.Parcelas = [.. parcelas.Values];
+        return true;
+    }
+
+    static long LerLinhas(string caminho, long desde, Action<ReadOnlyMemory<byte>> linha)
+    {
+        using var fluxo = new FileStream(caminho, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete, 1, FileOptions.SequentialScan);
+        fluxo.Seek(desde, SeekOrigin.Begin);
+        var buffer = ArrayPool<byte>.Shared.Rent(BlocoDeLeitura);
+        var cheio = 0;
+        long consumidos = 0;
+        try
+        {
+            while (true)
+            {
+                if (cheio == buffer.Length)
+                {
+                    var maior = ArrayPool<byte>.Shared.Rent(buffer.Length * 2);
+                    Buffer.BlockCopy(buffer, 0, maior, 0, cheio);
+                    ArrayPool<byte>.Shared.Return(buffer);
+                    buffer = maior;
+                }
+                var lidos = fluxo.Read(buffer, cheio, buffer.Length - cheio);
+                if (lidos == 0) break;
+                cheio += lidos;
+                var inicio = 0;
+                while (buffer.AsSpan(inicio, cheio - inicio).IndexOf((byte)'\n') is var fim and >= 0)
+                {
+                    linha(buffer.AsMemory(inicio, fim));
+                    inicio += fim + 1;
+                }
+                consumidos += inicio;
+                Buffer.BlockCopy(buffer, inicio, buffer, 0, cheio - inicio);
+                cheio -= inicio;
+            }
+        }
+        finally
+        {
+            ArrayPool<byte>.Shared.Return(buffer);
+        }
+        return consumidos;
     }
 
     sealed record RespostaLida(string? Id, string? Modelo, string Pasta, DateTime Quando, string? Sessao, TokensDaResposta Tokens)
@@ -224,7 +263,7 @@ public static class UsoLocal
         public string Dia => UsoLocal.Dia(Quando);
     }
 
-    static RespostaLida? Resposta(string linha)
+    static RespostaLida? Resposta(ReadOnlyMemory<byte> linha)
     {
         try
         {
@@ -258,7 +297,7 @@ public static class UsoLocal
 
     static readonly char[] Barras = ['\\', '/'];
 
-    static RespostaLida? RespostaDoCodex(string linha, Arquivo registro)
+    static RespostaLida? RespostaDoCodex(ReadOnlyMemory<byte> linha, Arquivo registro)
     {
         try
         {
@@ -356,7 +395,7 @@ public static class UsoLocal
     {
         try
         {
-            if (arquivo is not null && File.Exists(arquivo) && JsonSerializer.Deserialize<Cache>(File.ReadAllText(arquivo), Json) is { Versao: Versao } c)
+            if (arquivo is not null && File.Exists(arquivo) && Desserializar(arquivo) is { Versao: Versao } c)
             {
                 c.Arquivos = new Dictionary<string, Arquivo>(c.Arquivos, StringComparer.OrdinalIgnoreCase);
                 return c;
@@ -368,6 +407,12 @@ public static class UsoLocal
         return new Cache { Versao = Versao };
     }
 
+    static Cache? Desserializar(string arquivo)
+    {
+        using var fluxo = new FileStream(arquivo, FileMode.Open, FileAccess.Read, FileShare.ReadWrite, 64 * 1024, FileOptions.SequentialScan);
+        return JsonSerializer.Deserialize<Cache>(fluxo, Json);
+    }
+
     static void Gravar(string? arquivo, Cache cache)
     {
         if (arquivo is null) return;
@@ -375,7 +420,8 @@ public static class UsoLocal
         {
             Directory.CreateDirectory(Path.GetDirectoryName(arquivo)!);
             var temporario = arquivo + ".novo";
-            File.WriteAllText(temporario, JsonSerializer.Serialize(cache, Json));
+            using (var fluxo = new FileStream(temporario, FileMode.Create, FileAccess.Write, FileShare.None, 64 * 1024))
+                JsonSerializer.Serialize(fluxo, cache, Json);
             File.Move(temporario, arquivo, true);
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)

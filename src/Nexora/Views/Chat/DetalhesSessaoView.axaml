@@ -14,14 +14,14 @@
       <Setter Property="LetterSpacing" Value="0.8" />
       <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
-    <Style Selector="Grid.abas-detalhe > Button.guia">
+    <Style Selector="Grid.abas-detalhe > c|Botao.guia">
       <Setter Property="Padding" Value="7,6" />
       <Setter Property="Margin" Value="0,0,2,0" />
     </Style>
     <Style Selector="Grid.linha-detalhe">
       <Setter Property="Margin" Value="0,3" />
     </Style>
-    <Style Selector="Button.saida">
+    <Style Selector="c|Botao.saida">
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="HorizontalAlignment" Value="Stretch" />
       <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -29,7 +29,7 @@
       <Setter Property="Margin" Value="-6,0" />
       <Setter Property="Foreground" Value="{DynamicResource Texto}" />
     </Style>
-    <Style Selector="Button.saida:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="c|Botao.saida:pointerover /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{DynamicResource Superficie}" />
       <Setter Property="Foreground" Value="{DynamicResource Texto}" />
     </Style>
@@ -37,23 +37,23 @@
   <Border Width="{Binding LarguraDetalhes}" Background="{DynamicResource Lateral}" BorderBrush="{DynamicResource Borda}" BorderThickness="1,0,0,0">
     <DockPanel>
     <Grid DockPanel.Dock="Top" Classes="abas-detalhe" ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,*,Auto" Margin="10,10,6,4">
-      <Button Classes="guia" Classes.ativa="{Binding AbaSessao}" Command="{Binding MostrarAbaCommand}" CommandParameter="sessao" Content="{l:T 'Sessão'}" />
-      <Button Grid.Column="1" Classes="guia" Classes.ativa="{Binding AbaArquivos}" Command="{Binding MostrarAbaCommand}" CommandParameter="arquivos" Content="{l:T 'Arquivos'}"
+      <c:Botao Classes="guia" Classes.ativa="{Binding AbaSessao}" Command="{Binding MostrarAbaCommand}" CommandParameter="sessao" Content="{l:T 'Sessão'}" />
+      <c:Botao Grid.Column="1" Classes="guia" Classes.ativa="{Binding AbaArquivos}" Command="{Binding MostrarAbaCommand}" CommandParameter="arquivos" Content="{l:T 'Arquivos'}"
               ToolTip.Tip="{l:T 'Árvore do projeto (Ctrl+Shift+E)'}" />
-      <Button Grid.Column="2" Classes="guia" Classes.ativa="{Binding AbaGit}" Command="{Binding MostrarAbaCommand}" CommandParameter="git" Content="Git"
+      <c:Botao Grid.Column="2" Classes="guia" Classes.ativa="{Binding AbaGit}" Command="{Binding MostrarAbaCommand}" CommandParameter="git" Content="Git"
               ToolTip.Tip="{l:T 'Alterações do git em todas as pastas do projeto (Ctrl+Shift+G)'}" />
-      <Button Grid.Column="3" Classes="guia" Classes.ativa="{Binding AbaBusca}" Command="{Binding MostrarAbaCommand}" CommandParameter="busca" Content="{l:T 'Busca'}"
+      <c:Botao Grid.Column="3" Classes="guia" Classes.ativa="{Binding AbaBusca}" Command="{Binding MostrarAbaCommand}" CommandParameter="busca" Content="{l:T 'Busca'}"
               ToolTip.Tip="{l:T 'Procurar em todos os arquivos (Ctrl+Shift+F)'}" />
-      <Button Grid.Column="4" Classes="guia" Classes.ativa="{Binding AbaPr}" Command="{Binding MostrarAbaCommand}" CommandParameter="pr" Content="PR"
+      <c:Botao Grid.Column="4" Classes="guia" Classes.ativa="{Binding AbaPr}" Command="{Binding MostrarAbaCommand}" CommandParameter="pr" Content="PR"
               ToolTip.Tip="{l:T 'Pull request desta branch: checks, revisões, comentários e merge'}" />
-      <Button Grid.Column="5" Classes="guia" Classes.ativa="{Binding AbaNavegador}" Command="{Binding MostrarAbaCommand}" CommandParameter="navegador" Padding="7,5"
+      <c:Botao Grid.Column="5" Classes="guia" Classes.ativa="{Binding AbaNavegador}" Command="{Binding MostrarAbaCommand}" CommandParameter="navegador" Padding="7,5"
               ToolTip.Tip="{l:T 'Navegador: veja a página do projeto e anote o que mudar'}" AutomationProperties.Name="{l:T 'Navegador'}">
         <c:Icone Nome="globo" Tamanho="14" />
-      </Button>
-      <Button Grid.Column="7" Classes="icone pequeno" Command="{Binding AlternarDetalhesAquiCommand}" Margin="4,0,0,0" VerticalAlignment="Center"
+      </c:Botao>
+      <c:Botao Grid.Column="7" Classes="icone pequeno" Command="{Binding AlternarDetalhesAquiCommand}" Margin="4,0,0,0" VerticalAlignment="Center"
               ToolTip.Tip="{l:T 'Recolher o painel (Ctrl+Alt+B)'}" AutomationProperties.Name="{l:T 'Recolher o painel'}">
         <c:Icone Nome="painel-direito" Tamanho="14" />
-      </Button>
+      </c:Botao>
     </Grid>
     <Panel>
     <ScrollViewer HorizontalScrollBarVisibility="Disabled" IsVisible="{Binding AbaSessao}">
@@ -65,14 +65,14 @@
             <TextBlock Grid.Column="1" Text="{Binding NomePasta}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" ToolTip.Tip="{Binding Pasta}" />
           </Grid>
           <Panel IsVisible="{Binding Branch, Converter={x:Static ObjectConverters.IsNotNull}}">
-            <Button x:Name="BotaoBranch" Classes="opcao-menu" Classes.selecionada="{Binding MenuBranchAberto}" Command="{Binding AbrirMenuBranchCommand}"
+            <c:Botao x:Name="BotaoBranch" Classes="opcao-menu" Classes.selecionada="{Binding MenuBranchAberto}" Command="{Binding AbrirMenuBranchCommand}"
                     Padding="6,4" Margin="-6,0" ToolTip.Tip="{l:T 'Trocar a branch desta pasta'}" AutomationProperties.Name="{l:T 'Trocar a branch'}">
               <Grid ColumnDefinitions="Auto,*,Auto">
                 <c:Icone Nome="branch" Tamanho="14" Classes="suave" VerticalAlignment="Center" Margin="0,0,10,0" />
                 <TextBlock Grid.Column="1" Classes="mono" Text="{Binding Branch}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" FontSize="12.5" />
                 <c:Icone Grid.Column="2" Nome="abaixo" Tamanho="12" Classes="fraco" VerticalAlignment="Center" Margin="8,0,0,0" />
               </Grid>
-            </Button>
+            </c:Botao>
             <Popup PlacementTarget="{Binding #BotaoBranch}" Placement="BottomEdgeAlignedLeft" VerticalOffset="4" IsLightDismissEnabled="True"
                    IsOpen="{Binding MenuBranchAberto, Mode=TwoWay}">
               <Border Theme="{DynamicResource Flutuante}" Padding="6" Width="320" v:Animacoes.Entrada="True">
@@ -88,7 +88,7 @@
                     <ItemsControl ItemsSource="{Binding OpcoesBranch}">
                       <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="vm:OpcaoMenuVM">
-                          <Button Classes="opcao-menu" Classes.selecionada="{Binding Selecionada}" Command="{Binding EscolherCommand}" Margin="0,1">
+                          <c:Botao Classes="opcao-menu" Classes.selecionada="{Binding Selecionada}" Command="{Binding EscolherCommand}" Margin="0,1">
                             <Grid ColumnDefinitions="*,Auto">
                               <StackPanel Spacing="1">
                                 <TextBlock Classes="mono" Text="{Binding Nome}" FontSize="12.5" TextTrimming="CharacterEllipsis" />
@@ -96,7 +96,7 @@
                               </StackPanel>
                               <c:Icone Grid.Column="1" Nome="ok" Tamanho="13" IsVisible="{Binding Selecionada}" VerticalAlignment="Center" Margin="8,0,0,0" />
                             </Grid>
-                          </Button>
+                          </c:Botao>
                         </DataTemplate>
                       </ItemsControl.ItemTemplate>
                     </ItemsControl>
@@ -123,21 +123,21 @@
             <ToggleSwitch Grid.Column="2" IsChecked="{Binding RemotoLigado, Mode=OneWay}" Command="{Binding AlternarRemotoCommand}" IsEnabled="{Binding RemotoDisponivel}"
                           OnContent="" OffContent="" MinWidth="0" ToolTip.Tip="{l:T 'Continuar esta conversa pelo celular ou pelo claude.ai'}" />
           </Grid>
-          <Button Classes="mini" Command="{Binding AbrirRemotoCommand}" IsVisible="{Binding RemotoLigado}" HorizontalAlignment="Left" ToolTip.Tip="{Binding EnderecoRemoto}">
+          <c:Botao Classes="mini" Command="{Binding AbrirRemotoCommand}" IsVisible="{Binding RemotoLigado}" HorizontalAlignment="Left" ToolTip.Tip="{Binding EnderecoRemoto}">
             <StackPanel Orientation="Horizontal" Spacing="5"><c:Icone Nome="externo" Tamanho="12" /><TextBlock Text="{l:T 'Abrir o link do Remote Control'}" /></StackPanel>
-          </Button>
-          <Button Classes="mini" Command="{Binding ExecutarCommand}" HorizontalAlignment="Left" Margin="0,2,0,0">
+          </c:Botao>
+          <c:Botao Classes="mini" Command="{Binding ExecutarCommand}" HorizontalAlignment="Left" Margin="0,2,0,0">
             <StackPanel Orientation="Horizontal" Spacing="5"><c:Icone Nome="executar" Tamanho="12" /><TextBlock Text="{l:T 'Executar o projeto'}" /></StackPanel>
-          </Button>
+          </c:Botao>
         </StackPanel>
 
         <StackPanel Spacing="8">
           <Grid ColumnDefinitions="*,Auto">
             <TextBlock Classes="titulo-detalhe" Text="{l:T 'CONTEXTO'}" />
-            <Button Grid.Column="1" Classes="icone pequeno" Command="{Binding DetalharContextoCommand}" ToolTip.Tip="{l:T 'Medir o contexto de novo'}"
+            <c:Botao Grid.Column="1" Classes="icone pequeno" Command="{Binding DetalharContextoCommand}" ToolTip.Tip="{l:T 'Medir o contexto de novo'}"
                     AutomationProperties.Name="{l:T 'Medir o contexto de novo'}">
               <c:Icone Nome="atualizar" Tamanho="12" />
-            </Button>
+            </c:Botao>
           </Grid>
           <TextBlock Classes="fraco" Text="{l:T 'Aparece depois da primeira resposta.'}" IsVisible="{Binding !TemContexto}" TextWrapping="Wrap" />
           <StackPanel Spacing="6" IsVisible="{Binding TemContexto}">
@@ -168,13 +168,13 @@
           <ItemsControl ItemsSource="{Binding Saidas}">
             <ItemsControl.ItemTemplate>
               <DataTemplate x:DataType="vm:SaidaVM">
-                <Button Classes="saida" Command="{Binding VerDiffCommand}" ToolTip.Tip="{Binding Caminho}">
-                  <Button.ContextMenu>
+                <c:Botao Classes="saida" Command="{Binding VerDiffCommand}" ToolTip.Tip="{Binding Caminho}">
+                  <c:Botao.ContextMenu>
                     <ContextMenu>
                       <MenuItem Header="{l:T 'Ver o diff da última edição'}" Command="{Binding VerDiffCommand}" />
                       <MenuItem Header="{l:T 'Abrir o arquivo'}" Command="{Binding AbrirCommand}" />
                     </ContextMenu>
-                  </Button.ContextMenu>
+                  </c:Botao.ContextMenu>
                   <Grid ColumnDefinitions="Auto,*,Auto">
                     <c:Icone Nome="{Binding Icone}" Tamanho="14" Classes="suave" VerticalAlignment="Center" Margin="0,0,10,0" />
                     <StackPanel Grid.Column="1">
@@ -184,7 +184,7 @@
                     <TextBlock Grid.Column="2" Classes="fraco" Text="{Binding Edicoes, StringFormat='{}{0}×'}" FontSize="11" VerticalAlignment="Center" Margin="6,0,0,0"
                                ToolTip.Tip="{l:T 'Edições nesta sessão'}" />
                   </Grid>
-                </Button>
+                </c:Botao>
               </DataTemplate>
             </ItemsControl.ItemTemplate>
           </ItemsControl>
@@ -204,7 +204,7 @@
       <StackPanel IsVisible="{Binding NavegadorDestacado}" VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="10" Margin="20">
         <c:Icone Nome="globo" Tamanho="24" Classes="suave" HorizontalAlignment="Center" />
         <TextBlock Classes="suave" Text="{l:T 'O navegador está numa janela flutuante.'}" TextWrapping="Wrap" TextAlignment="Center" />
-        <Button Classes="contorno pequeno" Command="{Binding Navegador.EncaixarCommand}" HorizontalAlignment="Center" Content="{l:T 'Trazer de volta para cá'}" />
+        <c:Botao Classes="contorno pequeno" Command="{Binding Navegador.EncaixarCommand}" HorizontalAlignment="Center" Content="{l:T 'Trazer de volta para cá'}" />
       </StackPanel>
     </Panel>
     </Panel>

@@ -7,7 +7,7 @@
              x:Class="Nexora.Views.DiffView"
              x:DataType="vm:DiffVM">
   <UserControl.Styles>
-    <Style Selector="c|Caixa.linha-diff:pointerover Button.comentar-linha">
+    <Style Selector="c|Caixa.linha-diff:pointerover c|Botao.comentar-linha">
       <Setter Property="Opacity" Value="1" />
     </Style>
     <Style Selector="c|Caixa.linha-diff.na-faixa">
@@ -18,9 +18,9 @@
   <DockPanel>
     <Border DockPanel.Dock="Top" Padding="14,6,8,6" BorderBrush="{DynamicResource Borda}" BorderThickness="0,0,0,1">
       <DockPanel>
-        <Button DockPanel.Dock="Right" Classes="fantasma" Command="{Binding AbrirArquivoCommand}" IsVisible="{Binding PodeAbrir}">
+        <c:Botao DockPanel.Dock="Right" Classes="fantasma" Command="{Binding AbrirArquivoCommand}" IsVisible="{Binding PodeAbrir}">
           <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="arquivo" Tamanho="14" /><TextBlock Text="{l:T 'Abrir arquivo'}" FontSize="12.5" /></StackPanel>
-        </Button>
+        </c:Botao>
         <TextBlock DockPanel.Dock="Right" Classes="menos" Text="{Binding Removidas, StringFormat='−{0}'}" VerticalAlignment="Center" Margin="0,0,12,0" />
         <TextBlock DockPanel.Dock="Right" Classes="mais" Text="{Binding Adicionadas, StringFormat='+{0}'}" VerticalAlignment="Center" Margin="12,0,8,0" />
         <c:Icone DockPanel.Dock="Left" Nome="diff" Tamanho="15" Classes="suave" VerticalAlignment="Center" Margin="0,0,10,0" />
@@ -30,14 +30,14 @@
     <Border DockPanel.Dock="Top" Padding="14,6,8,6" Background="{DynamicResource AcentoFundo}" BorderBrush="{DynamicResource Borda}" BorderThickness="0,0,0,1"
             IsVisible="{Binding Revisao.TemItens, FallbackValue=False}">
       <Grid ColumnDefinitions="Auto,*,Auto,Auto">
-        <Button x:Name="BotaoPendentes" Classes="mini" Command="{Binding Revisao.AlternarListaCommand, FallbackValue={x:Null}}"
+        <c:Botao x:Name="BotaoPendentes" Classes="mini" Command="{Binding Revisao.AlternarListaCommand, FallbackValue={x:Null}}"
                 ToolTip.Tip="{l:T 'Ver, editar ou apagar os comentários antes de mandar'}">
           <StackPanel Orientation="Horizontal" Spacing="6">
             <c:Icone Nome="conversa" Tamanho="12" />
             <TextBlock Text="{Binding Revisao.TextoQuantidade, FallbackValue=''}" />
             <c:Icone Nome="abaixo" Tamanho="11" />
           </StackPanel>
-        </Button>
+        </c:Botao>
         <Popup Grid.Column="0" PlacementTarget="{Binding #BotaoPendentes}" Placement="BottomEdgeAlignedLeft" VerticalOffset="4" IsLightDismissEnabled="True"
                IsOpen="{Binding Revisao.ListaAberta, Mode=TwoWay, FallbackValue=False}">
           <Border Theme="{DynamicResource Flutuante}" Padding="8" Width="420" v:Animacoes.Entrada="True">
@@ -49,22 +49,22 @@
                       <StackPanel Spacing="4">
                         <Grid ColumnDefinitions="*,Auto,Auto">
                           <TextBlock Classes="mono fraco" Text="{Binding Onde}" FontSize="11.5" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" ToolTip.Tip="{Binding Arquivo}" />
-                          <Button Grid.Column="1" Classes="icone pequeno" Command="{Binding EditarCommand}" IsVisible="{Binding !Editando}"
+                          <c:Botao Grid.Column="1" Classes="icone pequeno" Command="{Binding EditarCommand}" IsVisible="{Binding !Editando}"
                                   ToolTip.Tip="{l:T 'Editar o comentário'}" AutomationProperties.Name="{l:T 'Editar o comentário'}">
                             <c:Icone Nome="lapis" Tamanho="11" />
-                          </Button>
-                          <Button Grid.Column="2" Classes="icone pequeno" Command="{Binding ApagarCommand}"
+                          </c:Botao>
+                          <c:Botao Grid.Column="2" Classes="icone pequeno" Command="{Binding ApagarCommand}"
                                   ToolTip.Tip="{l:T 'Apagar o comentário'}" AutomationProperties.Name="{l:T 'Apagar o comentário'}">
                             <c:Icone Nome="lixeira" Tamanho="11" />
-                          </Button>
+                          </c:Botao>
                         </Grid>
                         <TextBlock Text="{Binding Texto}" TextWrapping="Wrap" FontSize="12.5" IsVisible="{Binding !Editando}" />
                         <StackPanel Spacing="6" IsVisible="{Binding Editando}">
                           <TextBox Classes="campo" Text="{Binding Edicao}" AcceptsReturn="True" TextWrapping="Wrap" MinHeight="56"
                                    AutomationProperties.Name="{l:T 'Editar o comentário'}" />
                           <StackPanel Orientation="Horizontal" Spacing="6">
-                            <Button Classes="primario pequeno" Command="{Binding SalvarEdicaoCommand}" Content="{l:T 'Salvar'}" />
-                            <Button Classes="contorno pequeno" Command="{Binding CancelarEdicaoCommand}" Content="{l:T 'Cancelar'}" />
+                            <c:Botao Classes="primario pequeno" Command="{Binding SalvarEdicaoCommand}" Content="{l:T 'Salvar'}" />
+                            <c:Botao Classes="contorno pequeno" Command="{Binding CancelarEdicaoCommand}" Content="{l:T 'Cancelar'}" />
                           </StackPanel>
                         </StackPanel>
                       </StackPanel>
@@ -77,12 +77,12 @@
         </Popup>
         <TextBlock Grid.Column="1" Classes="fraco" Text="{l:T 'Ficam aqui até você mandar. Valem para todos os diffs desta conversa.'}" FontSize="11.5"
                    VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="10,0" />
-        <Button Grid.Column="2" Classes="contorno pequeno" Command="{Binding Revisao.DescartarCommand, FallbackValue={x:Null}}" Content="{l:T 'Descartar'}" Margin="0,0,6,0"
+        <c:Botao Grid.Column="2" Classes="contorno pequeno" Command="{Binding Revisao.DescartarCommand, FallbackValue={x:Null}}" Content="{l:T 'Descartar'}" Margin="0,0,6,0"
                 ToolTip.Tip="{l:T 'Apaga todos os comentários pendentes'}" />
-        <Button Grid.Column="3" Classes="primario pequeno" Command="{Binding Revisao.MandarCommand, FallbackValue={x:Null}}"
+        <c:Botao Grid.Column="3" Classes="primario pequeno" Command="{Binding Revisao.MandarCommand, FallbackValue={x:Null}}"
                 ToolTip.Tip="{l:T 'Manda todos os comentários de uma vez para a conversa, com arquivo, linhas e o trecho do código'}">
           <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="enviar" Tamanho="12" /><TextBlock Text="{l:T 'Mandar para o agente'}" /></StackPanel>
-        </Button>
+        </c:Botao>
       </Grid>
     </Border>
     <Panel>
@@ -96,10 +96,10 @@
                 <Grid ColumnDefinitions="44,44,22,20,*,Auto">
                   <TextBlock Classes="num" Text="{Binding Antiga}" />
                   <TextBlock Grid.Column="1" Classes="num" Text="{Binding Nova}" />
-                  <Button Grid.Column="2" Theme="{StaticResource BotaoComentarLinha}" Classes="comentar-linha" IsVisible="{Binding Comentavel}" Click="Comentar_Click"
+                  <c:Botao Grid.Column="2" Theme="{StaticResource BotaoComentarLinha}" Classes="comentar-linha" IsVisible="{Binding Comentavel}" Click="Comentar_Click"
                           ToolTip.Tip="{l:T 'Comentar esta linha. Com Shift, estende o comentário até aqui.'}" AutomationProperties.Name="{l:T 'Comentar a linha'}">
                     <c:Icone Nome="mais" Tamanho="11" />
-                  </Button>
+                  </c:Botao>
                   <TextBlock Grid.Column="3" Classes="marca-diff" Text="{Binding Marca}" />
                   <TextBlock Grid.Column="4" Classes="codigo" Text="{Binding Texto}" />
                   <Button Grid.Column="5" Theme="{StaticResource BotaoPilhaDeAvatares}" IsVisible="{Binding TemResolvidas}" Command="{Binding AlternarResolvidasCommand}"
@@ -126,8 +126,8 @@
                   <Grid ColumnDefinitions="*,Auto,Auto">
                     <TextBlock Classes="fraco" Text="{l:T 'Ctrl+Enter guarda. Shift+clique no + de outra linha estende o intervalo.'}" FontSize="11"
                                FontFamily="{DynamicResource FonteUi}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
-                    <Button Grid.Column="1" Classes="contorno pequeno" Command="{Binding CancelarCommand}" Content="{l:T 'Cancelar'}" Margin="8,0,6,0" />
-                    <Button Grid.Column="2" Classes="primario pequeno" Command="{Binding ConfirmarCommand}" Content="{l:T 'Comentar'}" />
+                    <c:Botao Grid.Column="1" Classes="contorno pequeno" Command="{Binding CancelarCommand}" Content="{l:T 'Cancelar'}" Margin="8,0,6,0" />
+                    <c:Botao Grid.Column="2" Classes="primario pequeno" Command="{Binding ConfirmarCommand}" Content="{l:T 'Comentar'}" />
                   </Grid>
                 </StackPanel>
               </c:Caixa>

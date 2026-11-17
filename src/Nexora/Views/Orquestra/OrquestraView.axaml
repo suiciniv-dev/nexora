@@ -71,9 +71,9 @@
                             Width="22" Height="22" Margin="-2,-3,0,-3" IsVisible="{Binding EhChefe}" VerticalAlignment="Center" />
               <TextBlock Text="{Binding Chat.Titulo}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" MaxWidth="200" VerticalAlignment="Center" />
             </StackPanel>
-            <Button Grid.Column="2" Classes="icone pequeno" ToolTip.Tip="{l:T 'Mais ações'}" AutomationProperties.Name="{l:T 'Mais ações do agente'}" IsVisible="{Binding !EhChefe}">
+            <c:Botao Grid.Column="2" Classes="icone pequeno" ToolTip.Tip="{l:T 'Mais ações'}" AutomationProperties.Name="{l:T 'Mais ações do agente'}" IsVisible="{Binding !EhChefe}">
               <c:Icone Nome="mais-acoes" Tamanho="14" />
-              <Button.Flyout>
+              <c:Botao.Flyout>
                 <MenuFlyout>
                   <MenuItem Header="{l:T 'Abrir conversa'}" Command="{Binding AbrirCommand}" />
                   <MenuItem Header="{l:T 'Novo grupo com este agente'}" Command="{Binding NovoGrupoCommand}" />
@@ -81,8 +81,8 @@
                   <Separator />
                   <MenuItem Header="{l:T 'Remover (fecha a sessão)'}" Command="{Binding RemoverCommand}" />
                 </MenuFlyout>
-              </Button.Flyout>
-            </Button>
+              </c:Botao.Flyout>
+            </c:Botao>
           </Grid>
           <WrapPanel DockPanel.Dock="Top" Margin="0,6,0,8">
             <c:Icone Nome="camadas" Tamanho="12" Classes="fraco" VerticalAlignment="Center" Margin="0,0,6,0" />
@@ -90,17 +90,17 @@
           </WrapPanel>
 
           <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Spacing="6" Margin="0,8,0,0" IsVisible="{Binding Chat.TemPedidoNoCartao}">
-            <Button Classes="primario pequeno" Content="{l:T 'Permitir'}" Command="{Binding Chat.PermissaoPendente.PermitirCommand}" />
-            <Button Classes="contorno pequeno" Content="{l:T 'Negar'}" Command="{Binding Chat.PermissaoPendente.NegarCommand}" />
-            <Button Classes="fantasma pequeno" Content="{l:T 'Ver'}" Command="{Binding AbrirCommand}" />
+            <c:Botao Classes="primario pequeno" Content="{l:T 'Permitir'}" Command="{Binding Chat.PermissaoPendente.PermitirCommand}" />
+            <c:Botao Classes="contorno pequeno" Content="{l:T 'Negar'}" Command="{Binding Chat.PermissaoPendente.NegarCommand}" />
+            <c:Botao Classes="fantasma pequeno" Content="{l:T 'Ver'}" Command="{Binding AbrirCommand}" />
           </StackPanel>
           <Grid DockPanel.Dock="Bottom" ColumnDefinitions="*,Auto" Margin="0,8,0,0" IsVisible="{Binding !Chat.TemPedidoNoCartao}">
             <TextBox Classes="campo" Text="{Binding Recado}" PlaceholderText="{l:T 'Mandar mensagem a este agente'}" FontSize="12.5" IsVisible="{Binding !EhChefe}">
               <TextBox.KeyBindings><KeyBinding Gesture="Enter" Command="{Binding DelegarCommand}" /></TextBox.KeyBindings>
             </TextBox>
-            <Button Grid.Column="1" Classes="icone pequeno" Command="{Binding DelegarCommand}" Margin="6,0,0,0" ToolTip.Tip="{l:T 'Enviar'}" AutomationProperties.Name="{l:T 'Enviar a mensagem ao agente'}" IsVisible="{Binding !EhChefe}">
+            <c:Botao Grid.Column="1" Classes="icone pequeno" Command="{Binding DelegarCommand}" Margin="6,0,0,0" ToolTip.Tip="{l:T 'Enviar'}" AutomationProperties.Name="{l:T 'Enviar a mensagem ao agente'}" IsVisible="{Binding !EhChefe}">
               <c:Icone Nome="enviar" Tamanho="13" />
-            </Button>
+            </c:Botao>
             <TextBlock Classes="fraco" Text="{l:T 'Fale com ele na conversa ao lado.'}" FontSize="12" IsVisible="{Binding EhChefe}" VerticalAlignment="Center" />
           </Grid>
 
@@ -128,17 +128,17 @@
         </StackPanel>
         <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8" IsVisible="{Binding TemChefe}">
           <StackPanel Orientation="Horizontal" Spacing="2" VerticalAlignment="Center" ToolTip.Tip="{l:T 'Zoom do canvas (Ctrl + roda do mouse)'}">
-            <Button Classes="icone pequeno" Command="{Binding AfastarCommand}" AutomationProperties.Name="{l:T 'Afastar'}"><TextBlock Text="−" /></Button>
+            <c:Botao Classes="icone pequeno" Command="{Binding AfastarCommand}" AutomationProperties.Name="{l:T 'Afastar'}"><TextBlock Text="−" /></c:Botao>
             <TextBlock Classes="fraco" Text="{Binding ZoomTexto}" MinWidth="40" TextAlignment="Center" VerticalAlignment="Center" />
-            <Button Classes="icone pequeno" Command="{Binding AproximarCommand}" AutomationProperties.Name="{l:T 'Aproximar'}"><TextBlock Text="+" /></Button>
+            <c:Botao Classes="icone pequeno" Command="{Binding AproximarCommand}" AutomationProperties.Name="{l:T 'Aproximar'}"><TextBlock Text="+" /></c:Botao>
           </StackPanel>
           <c:BotaoLigado Classes="icone" Classes.ligado="{Binding ConversaVisivel}" IsChecked="{Binding ConversaVisivel, Mode=OneWay}" Command="{Binding AlternarConversaCommand}"
                   ToolTip.Tip="{l:T 'Mostrar ou esconder a conversa do orquestrador'}" AutomationProperties.Name="{l:T 'Mostrar ou esconder a conversa'}">
             <c:Icone Nome="painel" Tamanho="15" />
           </c:BotaoLigado>
-          <Button Classes="contorno pequeno" Command="{Binding EncerrarCommand}" ToolTip.Tip="{l:T 'Fecha a sessão do orquestrador. Os agentes continuam abertos.'}">
+          <c:Botao Classes="contorno pequeno" Command="{Binding EncerrarCommand}" ToolTip.Tip="{l:T 'Fecha a sessão do orquestrador. Os agentes continuam abertos.'}">
             <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="fechar" Tamanho="12" /><TextBlock Text="{l:T 'Encerrar orquestrador'}" /></StackPanel>
-          </Button>
+          </c:Botao>
         </StackPanel>
       </Grid>
     </Border>
@@ -187,9 +187,9 @@
               <TextBlock Grid.Column="1" Text="{Binding $parent[Window].((vm:JanelaVM)DataContext).AvisoDoPlano, FallbackValue=''}" TextWrapping="Wrap" FontSize="12.5" VerticalAlignment="Center" />
             </Grid>
           </c:Caixa>
-          <Button Classes="primario" Command="{Binding IniciarCommand}" HorizontalAlignment="Left">
+          <c:Botao Classes="primario" Command="{Binding IniciarCommand}" HorizontalAlignment="Left">
             <StackPanel Orientation="Horizontal" Spacing="8"><c:Icone Nome="orquestra" /><TextBlock Text="{l:T 'Iniciar orquestrador'}" /></StackPanel>
-          </Button>
+          </c:Botao>
           <StackPanel Spacing="8" IsVisible="{Binding TemAnteriores}" Margin="0,18,0,0">
             <TextBlock Classes="fraco" Text="{l:T 'Retomar um orquestrador anterior, com os agentes e o canvas'}" />
             <ItemsControl ItemsSource="{Binding Anteriores}">
@@ -201,7 +201,7 @@
                         <TextBlock Text="{Binding Titulo}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
                         <TextBlock Classes="fraco" Text="{Binding Detalhe}" FontSize="12" />
                       </StackPanel>
-                      <Button Grid.Column="1" Classes="contorno pequeno" Content="{l:T 'Retomar'}" Command="{Binding RetomarCommand}" VerticalAlignment="Center" />
+                      <c:Botao Grid.Column="1" Classes="contorno pequeno" Content="{l:T 'Retomar'}" Command="{Binding RetomarCommand}" VerticalAlignment="Center" />
                     </Grid>
                   </c:Caixa>
                 </DataTemplate>
