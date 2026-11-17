@@ -611,9 +611,9 @@ public sealed partial class JanelaVM : ObservableObject, IAnfitriao
     {
         CarregandoConversas = true;
         var desfeitos = new Dictionary<string, string>(App.Config.TurnosDesfeitos);
+        var doClaude = await App.Nucleo.ListarConversasAsync();
         var (lista, antigas) = await Task.Run(() =>
         {
-            var doClaude = ConversasSalvas.Listar();
             var dosAgentes = Demo || Isolada ? [] : ConversasDosAgentes.Listar().Select(c => c.ParaSalva());
             var todas = doClaude.Concat(dosAgentes).OrderByDescending(c => c.Atualizada).ToList();
             var existentes = todas.Select(c => c.SessaoId).ToHashSet(StringComparer.OrdinalIgnoreCase);

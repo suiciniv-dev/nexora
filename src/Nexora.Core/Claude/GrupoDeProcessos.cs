@@ -4,7 +4,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace Nexora.Core.Claude;
 
-static partial class GrupoDeProcessos
+public static partial class GrupoDeProcessos
 {
     const uint MatarAoFechar = 0x2000;
     const int LimitesEstendidos = 9;

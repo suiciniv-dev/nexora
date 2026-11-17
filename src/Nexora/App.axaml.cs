@@ -13,6 +13,7 @@ public partial class App : Application
 {
     public static Config Config { get; } = Config.Carregar();
     public static Core.Mcp.HubMcp? Hub { get; private set; }
+    public static Core.Servidor.INucleo Nucleo { get; set; } = Core.Servidor.NucleoLocal.Instancia;
     public static Core.Nuvem.ServicoDaNuvem Nuvem { get; set; } = new(null, new Core.Segredos.ArmazemNaMemoria());
     public static Core.Segredos.ServicoDeSegredos Segredos { get; set; } = new(new Core.Segredos.CofreDeSegredos(null, new Core.Segredos.ArmazemNaMemoria()));
 
