@@ -9,7 +9,7 @@ public static class ServidorDoNucleo
 {
     public const string Argumento = "--servidor";
 
-    internal static readonly JsonSerializerOptions Json = new(JsonSerializerDefaults.General);
+    internal static JsonSerializerOptions Json => JsonDoNucleo.Opcoes;
 
     public static async Task<int> RodarAsync(string nome, INucleo nucleo, TimeSpan esperaPeloApp, CancellationToken cancelar = default)
     {

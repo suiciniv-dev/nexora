@@ -72,7 +72,18 @@ Garbage collection pauses the whole process, so heavy reads in the app process p
 - The app starts the same executable as `Nexora --servidor <pipe>` (`Aplicativo/ProcessoDoNucleo.cs`), adds it to its job object, and talks to it over a named pipe restricted to the current user, one JSON message per line with request ids, so requests run in parallel.
 - `App.Nucleo` starts as `NucleoLocal` (in process) and switches to `NucleoRemoto` once the pipe connects. Every remote call falls back to the local implementation when the server is missing, answers with an error or does not answer within 60 seconds; if the pipe breaks, the app stays local for the rest of the session. The server exits when the app disconnects.
 - Demo and isolated windows, tests, and `"NucleoNoProprioProcesso": true` in the settings keep everything in process.
-- Moved so far: the saved chat list, usage reading, the session tails read by the Live board, every `git` and `gh` command (`ComandoGit.Nucleo`), and the history pages: the server scans the file backwards and returns only the chosen lines (`TrechoBruto`), which the app parses into events. A command that reached the server is never run again locally if its answer is lost, since commands have side effects; the app reports the loss instead. Next: agent sessions, which need server-to-app events.
+- Moved so far: the saved chat list, usage reading, the session tails read by the Live board, every `git` and `gh` command (`ComandoGit.Nucleo`), and the history pages: the server scans the file backwards and returns only the chosen lines (`TrechoBruto`), which the app parses into events. A command that reached the server is never run again locally if its answer is lost, since commands have side effects; the app reports the loss instead.
+
+### Plan: agent sessions in the core process
+
+Decision (17/11/2026): agents keep running when the app closes or updates, and tabs reconnect to them when it opens again. Steps, each shippable on its own:
+
+1. Events cross the pipe: `JsonDoNucleo` serializes every `EventoClaude` subtype with its type name as discriminator, found by reflection; `EventosNoCanoTestes` fails when a new event type has no round-trip sample. Done.
+2. Server lifetime: a fixed pipe name per user and data folder, so a new app finds the running server; the server leaves the app's job object and exits only when no app is connected and no session is alive for a while. A version handshake replaces an idle server after an update and keeps a busy one until its sessions end.
+3. Server-to-app messages: events carry a per-session sequence number, and the server keeps a bounded log per session so a reconnecting tab asks for everything after its last number.
+4. `SessaoRemota : ISessaoAgente` forwards calls to a session registry in the server. `PedirAsync` takes a function today, which cannot cross a process, so it changes to send the request template.
+5. The orchestrator MCP server and the MCP hub move to the server, so their localhost addresses stay valid while agents outlive the app.
+6. On start, the app lists live sessions and reattaches their tabs; the performance monitor gets the agent process ids from the server; cloud (SSH) sessions follow.
 
 ## Agent sessions
 
