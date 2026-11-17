@@ -269,7 +269,7 @@ public partial class ChatView : UserControl, IAoMostrar, IAoEsconder
                 if (arquivo.TryGetLocalPath() is { } caminho) _vm.AnexarArquivo(caminho);
             return;
         }
-        if (await area.TryGetBitmapAsync() is { } imagem && _vm.Anexar(imagem)) return;
+        if (await area.TryGetBitmapAsync() is { } imagem && await _vm.AnexarAsync(imagem)) return;
         if (await area.TryGetTextAsync() is not { Length: > 0 } texto) return;
         Substituir(Math.Min(Composer.SelectionStart, Composer.SelectionEnd), Math.Max(Composer.SelectionStart, Composer.SelectionEnd), texto);
     }
@@ -295,7 +295,7 @@ public partial class ChatView : UserControl, IAoMostrar, IAoEsconder
                 if (arquivo.TryGetLocalPath() is { } caminho) _vm.AnexarArquivo(caminho);
             }
         else if (e.DataTransfer.TryGetBitmap() is { } imagem)
-            _vm.Anexar(imagem);
+            _ = _vm.AnexarAsync(imagem);
         e.Handled = true;
         Composer.Focus();
     }

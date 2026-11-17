@@ -31,7 +31,7 @@ public static partial class Ingles
         ("Reduzidas", "Reduced"),
         ("Agora reduzidas: sem transições, pulsos nem fundo em movimento.", "Reduced right now: no transitions, pulses or moving background."),
         ("Agora ligadas. Reduzidas tira as transições, os pulsos e o movimento do fundo.", "On right now. Reduced removes transitions, pulses and background motion."),
-        ("O sólido é o mais leve e o mais fácil de ler. O vidro deixa ver, desfocado, o que está atrás da janela. No Windows, trocar entre sólido e vidro reinicia o app; as abas voltam sozinhas.", "Solid is the lightest and the easiest to read. Glass lets what's behind the window show through, blurred. On Windows, switching between solid and glass restarts the app; your tabs come back on their own."),
+        ("O sólido é o mais leve e o mais fácil de ler. O vidro deixa ver, desfocado, o que está atrás da janela.", "Solid is the lightest and the easiest to read. Glass lets what's behind the window show through, blurred."),
         ("Avançado", "Advanced"),
         ("Comece por um destes. Em Configurações há mais temas, inclusive animados, e dá para aumentar o texto.", "Start with one of these. Settings has more themes, including animated ones, and lets you make the text bigger."),
         ("Mais temas", "More themes"),

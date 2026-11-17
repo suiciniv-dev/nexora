@@ -95,7 +95,15 @@ public sealed partial class ChatVM : CartaoVM
 
     public bool Anexar(byte[] bytes, string nome) => Guardar(Imagens.Preparar(bytes, nome));
 
-    public bool Anexar(Avalonia.Media.Imaging.Bitmap bitmap) => Guardar(Imagens.DeBitmap(bitmap, $"print-{DateTime.Now:HHmmss}.png"));
+    public async Task<bool> AnexarAsync(Avalonia.Media.Imaging.Bitmap bitmap)
+    {
+        var nome = $"print-{DateTime.Now:HHmmss}.png";
+        var pronto = await Task.Run(() => Imagens.DeBitmap(bitmap, nome) is { } anexo ? (anexo, Imagens.Miniatura(anexo, 160)) : ((Anexo, Avalonia.Media.Imaging.Bitmap)?)null);
+        if (pronto is not { } par) return false;
+        Anexos.Add(new AnexoVM(par.Item1, par.Item2, a => Anexos.Remove(a)));
+        return true;
+    }
+
 
     public void AnexarArquivo(string caminho)
     {

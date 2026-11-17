@@ -35,6 +35,23 @@ public sealed class ArquivoSeguroTestes : IDisposable
     }
 
     [Fact]
+    public void Gravacao_na_fila_fica_so_com_a_ultima_e_a_leitura_ve_o_que_ainda_nao_foi_gravado()
+    {
+        for (var i = 0; i < 50; i++) ArquivoSeguro.Enfileirar(Caminho(), "{\"Nome\":\"" + i + "\"}", manterCopia: true);
+        Assert.Equal("49", ArquivoSeguro.LerJson(Caminho(), () => new Dados()).Valor.Nome);
+
+        ArquivoSeguro.Enfileirar(Caminho(), "{\"Nome\":\"fila\"}");
+        ArquivoSeguro.Gravar(Caminho(), "{\"Nome\":\"na hora\"}");
+        Assert.True(ArquivoSeguro.Esperar(TimeSpan.FromSeconds(5)));
+        Assert.Equal("{\"Nome\":\"na hora\"}", File.ReadAllText(Caminho()));
+
+        ArquivoSeguro.Enfileirar(Caminho("outro.json"), "{\"Nome\":\"b\"}");
+        Assert.True(ArquivoSeguro.Esperar(TimeSpan.FromSeconds(5)));
+        Assert.Equal("{\"Nome\":\"b\"}", File.ReadAllText(Caminho("outro.json")));
+        Assert.Empty(Sobras());
+    }
+
+    [Fact]
     public void Gravar_com_copia_guarda_a_versao_anterior()
     {
         ArquivoSeguro.Gravar(Caminho(), "um", manterCopia: true);

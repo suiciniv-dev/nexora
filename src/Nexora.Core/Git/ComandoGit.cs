@@ -43,7 +43,7 @@ public static class ComandoGit
             foreach (var (nome, valor) in ambiente) info.Environment[nome] = valor;
         try
         {
-            using var processo = Process.Start(info) ?? throw new InvalidOperationException(Idioma.F("O {0} não abriu.", programa));
+            using var processo = await Task.Run(() => Process.Start(info)).ConfigureAwait(false) ?? throw new InvalidOperationException(Idioma.F("O {0} não abriu.", programa));
             var saida = processo.StandardOutput.ReadToEndAsync();
             var erro = processo.StandardError.ReadToEndAsync();
             if (entrada is not null)

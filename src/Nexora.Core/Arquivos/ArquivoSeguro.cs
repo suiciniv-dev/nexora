@@ -28,23 +28,114 @@ public sealed class ArquivoIlegivelException(string caminho, string motivo)
 public static class ArquivoSeguro
 {
     static readonly ConcurrentDictionary<string, object> Travas = new(StringComparer.OrdinalIgnoreCase);
+    static readonly Lock Fila = new();
+    static readonly Dictionary<string, (byte[] Dados, bool ManterCopia)> Pendentes = new(StringComparer.OrdinalIgnoreCase);
+    static readonly ManualResetEventSlim SemPendentes = new(true);
+    static bool _escrevendo;
+
+    static ArquivoSeguro() => AppDomain.CurrentDomain.ProcessExit += (_, _) => Esperar(TimeSpan.FromSeconds(5));
 
     public static int Tentativas { get; set; } = 5;
     public static TimeSpan Pausa { get; set; } = TimeSpan.FromMilliseconds(60);
+
+    public static bool SegundoPlano { get; set; }
 
     public static string Copia(string caminho) => Path.GetFullPath(caminho) + ".bak";
 
     static object Trava(string completo) => Travas.GetOrAdd(completo, _ => new object());
 
-    public static void Gravar(string caminho, string texto, Encoding? codificacao = null, bool manterCopia = false)
+    static byte[] Bytes(string texto, Encoding? codificacao)
     {
         var enc = codificacao ?? new UTF8Encoding(false);
-        Gravar(caminho, [.. enc.GetPreamble(), .. enc.GetBytes(texto)], manterCopia);
+        return [.. enc.GetPreamble(), .. enc.GetBytes(texto)];
     }
+
+    public static void Gravar(string caminho, string texto, Encoding? codificacao = null, bool manterCopia = false) =>
+        Gravar(caminho, Bytes(texto, codificacao), manterCopia);
 
     public static void Gravar(string caminho, byte[] dados, bool manterCopia = false)
     {
         var completo = Path.GetFullPath(caminho);
+        lock (Trava(completo))
+        {
+            lock (Fila) Pendentes.Remove(completo);
+            GravarJa(completo, dados, manterCopia);
+        }
+    }
+
+    public static void GravarDepois(string caminho, string texto, bool manterCopia = false)
+    {
+        if (SegundoPlano) Enfileirar(caminho, texto, manterCopia);
+        else Gravar(caminho, texto, manterCopia: manterCopia);
+    }
+
+    public static void Enfileirar(string caminho, string texto, bool manterCopia = false)
+    {
+        var completo = Path.GetFullPath(caminho);
+        var dados = Bytes(texto, null);
+        lock (Fila)
+        {
+            Pendentes[completo] = (dados, manterCopia);
+            SemPendentes.Reset();
+            if (_escrevendo) return;
+            _escrevendo = true;
+        }
+        ThreadPool.UnsafeQueueUserWorkItem(_ => Escrever(), null);
+    }
+
+    public static bool Esperar(TimeSpan limite)
+    {
+        while (true)
+        {
+            string caminho;
+            lock (Fila)
+            {
+                if (Pendentes.Count == 0) break;
+                caminho = Pendentes.Keys.First();
+            }
+            GravarPendente(caminho);
+        }
+        return SemPendentes.Wait(limite);
+    }
+
+    static void Escrever()
+    {
+        while (true)
+        {
+            string caminho;
+            lock (Fila)
+            {
+                if (Pendentes.Count == 0)
+                {
+                    _escrevendo = false;
+                    SemPendentes.Set();
+                    return;
+                }
+                caminho = Pendentes.Keys.First();
+            }
+            GravarPendente(caminho);
+        }
+    }
+
+    static void GravarPendente(string completo)
+    {
+        lock (Trava(completo))
+        {
+            (byte[] Dados, bool ManterCopia) item;
+            lock (Fila)
+                if (!Pendentes.Remove(completo, out item)) return;
+            try
+            {
+                GravarJa(completo, item.Dados, item.ManterCopia);
+            }
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+            {
+            }
+        }
+    }
+
+    static void GravarJa(string completo, byte[] dados, bool manterCopia)
+    {
         lock (Trava(completo))
         {
             if (Path.GetDirectoryName(completo) is { Length: > 0 } pasta) Directory.CreateDirectory(pasta);
@@ -77,6 +168,7 @@ public static class ArquivoSeguro
         var completo = Path.GetFullPath(caminho);
         lock (Trava(completo))
         {
+            GravarPendente(completo);
             if (!File.Exists(completo)) return new(vazio(), OrigemDaLeitura.Novo, null);
             string texto;
             try
