@@ -32,7 +32,7 @@
                 <ItemsControl.ItemTemplate>
                   <DataTemplate x:DataType="vm:TemaCartaoVM">
                     <Panel Width="188" Margin="0,0,10,10">
-                      <Button Theme="{StaticResource CartaoDeTema}" Classes.em-uso="{Binding EmUso}" Command="{Binding UsarCommand}"
+                      <c:Botao Theme="{StaticResource CartaoDeTema}" Classes.em-uso="{Binding EmUso}" Command="{Binding UsarCommand}"
                               AutomationProperties.Name="{Binding NomeAcessivel}" AutomationProperties.HelpText="{Binding Descricao}">
                         <StackPanel Spacing="8">
                           <ContentControl Content="{Binding}" ContentTemplate="{StaticResource PreviaDoTema}" />
@@ -41,23 +41,23 @@
                             <TextBlock Classes="fraco" Text="{Binding Descricao}" FontSize="12" TextWrapping="Wrap" MaxLines="2" TextTrimming="CharacterEllipsis" />
                           </StackPanel>
                         </StackPanel>
-                      </Button>
+                      </c:Botao>
                       <Border IsVisible="{Binding EmUso}" Width="22" Height="22" CornerRadius="11" Background="{DynamicResource AcentoCheio}" BorderBrush="{DynamicResource Superficie}" BorderThickness="2"
                               HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,4,4,0" IsHitTestVisible="False" ToolTip.Tip="{l:T 'em uso'}">
                         <c:Icone Nome="ok" Tamanho="11" Foreground="{DynamicResource SobreAcento}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                       </Border>
-                      <Button Classes="icone pequeno" IsVisible="{Binding PodeDuplicar}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,8,12"
+                      <c:Botao Classes="icone pequeno" IsVisible="{Binding PodeDuplicar}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,8,12"
                               ToolTip.Tip="{l:T 'Mais ações do tema'}" AutomationProperties.Name="{l:T 'Mais ações do tema'}">
                         <c:Icone Nome="mais-acoes" Tamanho="14" />
-                        <Button.Flyout>
+                        <c:Botao.Flyout>
                           <MenuFlyout>
                             <MenuItem Header="{l:T 'Duplicar e editar'}" Command="{Binding DuplicarCommand}" />
                             <MenuItem Header="{l:T 'Editar'}" Command="{Binding EditarCommand}" IsVisible="{Binding Meu}" />
                             <MenuItem Header="{l:T 'Exportar'}" Click="Exportar_Click" />
                             <MenuItem Header="{l:T 'Apagar'}" Command="{Binding ApagarCommand}" IsVisible="{Binding Meu}" />
                           </MenuFlyout>
-                        </Button.Flyout>
-                      </Button>
+                        </c:Botao.Flyout>
+                      </c:Botao>
                     </Panel>
                   </DataTemplate>
                 </ItemsControl.ItemTemplate>
@@ -67,12 +67,12 @@
         </ItemsControl.ItemTemplate>
       </ItemsControl>
       <WrapPanel ItemSpacing="8" LineSpacing="8">
-        <Button Classes="contorno" Command="{Binding NovoTemaCommand}">
+        <c:Botao Classes="contorno" Command="{Binding NovoTemaCommand}">
           <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="lapis" Tamanho="13" /><TextBlock Text="{l:T 'Criar um tema a partir do atual'}" /></StackPanel>
-        </Button>
-        <Button Classes="contorno" Click="Importar_Click">
+        </c:Botao>
+        <c:Botao Classes="contorno" Click="Importar_Click">
           <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="importar" Tamanho="13" /><TextBlock Text="{l:T 'Importar tema'}" /></StackPanel>
-        </Button>
+        </c:Botao>
       </WrapPanel>
     </StackPanel>
 
@@ -81,10 +81,10 @@
         <DataTemplate x:DataType="vm:TemaEditorVM">
           <StackPanel Spacing="16">
             <WrapPanel ItemSpacing="10" LineSpacing="8">
-              <Button Classes="primario" Command="{Binding SalvarCommand}">
+              <c:Botao Classes="primario" Command="{Binding SalvarCommand}">
                 <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="ok" Tamanho="14" /><TextBlock Text="{l:T 'Salvar e usar'}" /></StackPanel>
-              </Button>
-              <Button Classes="contorno" Content="{l:T 'Cancelar'}" Command="{Binding CancelarCommand}" />
+              </c:Botao>
+              <c:Botao Classes="contorno" Content="{l:T 'Cancelar'}" Command="{Binding CancelarCommand}" />
               <TextBlock Classes="fraco" Text="{l:T 'O app inteiro já mostra o tema enquanto você edita.'}" VerticalAlignment="Center" TextWrapping="Wrap" />
             </WrapPanel>
             <Grid ColumnDefinitions="*,24,*" RowDefinitions="Auto,Auto,Auto">
@@ -106,10 +106,10 @@
               <StackPanel Grid.Row="1" Grid.Column="2" Spacing="6" Margin="0,14,0,0">
                 <TextBlock Classes="titulo-painel" Text="{l:T 'Imagem de fundo'}" />
                 <StackPanel Orientation="Horizontal" Spacing="8">
-                  <Button Classes="contorno" Click="Imagem_Click">
+                  <c:Botao Classes="contorno" Click="Imagem_Click">
                     <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="pasta" Tamanho="14" /><TextBlock Text="{l:T 'Escolher imagem'}" /></StackPanel>
-                  </Button>
-                  <Button Classes="fantasma" Content="{l:T 'Tirar'}" Command="{Binding TirarImagemCommand}" IsVisible="{Binding TemImagem}" />
+                  </c:Botao>
+                  <c:Botao Classes="fantasma" Content="{l:T 'Tirar'}" Command="{Binding TirarImagemCommand}" IsVisible="{Binding TemImagem}" />
                 </StackPanel>
                 <TextBlock Classes="fraco" Text="{Binding Imagem}" TextTrimming="CharacterEllipsis" IsVisible="{Binding TemImagem}" />
               </StackPanel>
@@ -136,13 +136,13 @@
                 <ItemsControl.ItemTemplate>
                   <DataTemplate x:DataType="vm:CorVM">
                     <Grid ColumnDefinitions="Auto,*,104" Margin="0,4,18,4">
-                      <Button Classes="amostra" Background="{Binding Pincel}" ToolTip.Tip="{l:T 'Escolher a cor'}" AutomationProperties.Name="{Binding Rotulo}">
-                        <Button.Flyout>
+                      <c:Botao Classes="amostra" Background="{Binding Pincel}" ToolTip.Tip="{l:T 'Escolher a cor'}" AutomationProperties.Name="{Binding Rotulo}">
+                        <c:Botao.Flyout>
                           <Flyout Placement="RightEdgeAlignedTop">
                             <ColorView Color="{Binding Cor}" IsAlphaEnabled="True" IsAlphaVisible="True" IsColorPaletteVisible="False" Width="300" />
                           </Flyout>
-                        </Button.Flyout>
-                      </Button>
+                        </c:Botao.Flyout>
+                      </c:Botao>
                       <TextBlock Grid.Column="1" Text="{Binding Rotulo}" VerticalAlignment="Center" Margin="10,0" TextTrimming="CharacterEllipsis" />
                       <TextBox Grid.Column="2" Classes="campo mono-campo" Text="{Binding Hex}" AutomationProperties.Name="{Binding Rotulo}" />
                     </Grid>

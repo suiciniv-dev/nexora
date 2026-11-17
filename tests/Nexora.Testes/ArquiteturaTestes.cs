@@ -30,15 +30,18 @@ public sealed partial class ArquiteturaTestes
     private static partial Regex BorderComClasse();
 
     [Fact]
-    public void Nenhum_estilo_mira_Border_com_classe()
+    public void Nenhum_estilo_mira_Border_ou_Button_com_classe()
     {
         var errados = Arquivos(".", "*.axaml")
             .SelectMany(f => Seletor().Matches(File.ReadAllText(f)).Select(m => (Arquivo: Relativo(f), Seletor: m.Groups[1].Value)))
-            .Where(s => BorderComClasse().IsMatch(s.Seletor))
+            .Where(s => BorderComClasse().IsMatch(s.Seletor) || ButtonComClasse().IsMatch(s.Seletor))
             .Select(s => $"{s.Arquivo}: {s.Seletor}")
             .ToList();
-        Assert.True(errados.Count == 0, "Use c|Caixa.classe em vez de Border.classe:\n" + string.Join('\n', errados));
+        Assert.True(errados.Count == 0, "Use c|Caixa.classe e c|Botao.classe em vez de Border.classe e Button.classe:\n" + string.Join('\n', errados));
     }
+
+    [GeneratedRegex(@"(?<![\w|:#.(-])Button\.[A-Za-z]")]
+    private static partial Regex ButtonComClasse();
 
     [Fact]
     public void ViewModels_so_tem_view_models()

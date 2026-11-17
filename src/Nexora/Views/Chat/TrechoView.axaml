@@ -61,8 +61,8 @@
                   <TextBlock Classes="mono" Text="{Binding Detalhe}" FontSize="12" TextWrapping="Wrap" MaxLines="4" TextTrimming="CharacterEllipsis"
                              IsVisible="{Binding TemDetalhe}" />
                   <StackPanel Orientation="Horizontal" Spacing="6" IsVisible="{Binding MostraBotoes}">
-                    <Button Classes="primario pequeno" Content="{Binding RotuloPermitir}" Command="{Binding PermitirCommand}" />
-                    <Button Classes="contorno pequeno" Content="{Binding RotuloNegar}" Command="{Binding NegarCommand}" />
+                    <c:Botao Classes="primario pequeno" Content="{Binding RotuloPermitir}" Command="{Binding PermitirCommand}" />
+                    <c:Botao Classes="contorno pequeno" Content="{Binding RotuloNegar}" Command="{Binding NegarCommand}" />
                   </StackPanel>
                   <TextBlock Classes="fraco" Text="{l:T 'É uma pergunta: responda pela conversa completa.'}" FontSize="12" IsVisible="{Binding MostraResponder}" />
                   <TextBlock Classes="fraco" Text="{Binding Resposta}" FontSize="12" IsVisible="{Binding Respondida}" />

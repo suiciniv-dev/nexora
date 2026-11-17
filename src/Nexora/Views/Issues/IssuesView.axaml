@@ -15,7 +15,7 @@
   </UserControl.DataTemplates>
 
   <UserControl.Styles>
-    <Style Selector="Button.linha">
+    <Style Selector="c|Botao.linha">
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="BorderThickness" Value="0" />
       <Setter Property="CornerRadius" Value="8" />
@@ -24,20 +24,20 @@
       <Setter Property="HorizontalContentAlignment" Value="Stretch" />
       <Setter Property="Foreground" Value="{DynamicResource Texto}" />
     </Style>
-    <Style Selector="Button.linha:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="c|Botao.linha:pointerover /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{DynamicResource SuperficieAlta}" />
     </Style>
-    <Style Selector="Button.linha.escolhida /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="c|Botao.linha.escolhida /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{DynamicResource AcentoFundo}" />
     </Style>
-    <Style Selector="Button.grupo">
+    <Style Selector="c|Botao.grupo">
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="Padding" Value="6,6" />
       <Setter Property="HorizontalAlignment" Value="Stretch" />
       <Setter Property="HorizontalContentAlignment" Value="Left" />
       <Setter Property="Foreground" Value="{DynamicResource Texto}" />
     </Style>
-    <Style Selector="Button.grupo:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="c|Botao.grupo:pointerover /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{DynamicResource Superficie}" />
     </Style>
     <Style Selector="c|Caixa.trilho-visoes">
@@ -48,7 +48,7 @@
       <Setter Property="Padding" Value="3" />
       <Setter Property="HorizontalAlignment" Value="Left" />
     </Style>
-    <Style Selector="Button.visao">
+    <Style Selector="c|Botao.visao">
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="Foreground" Value="{DynamicResource TextoSuave}" />
       <Setter Property="Padding" Value="12,5" />
@@ -57,15 +57,15 @@
       <Setter Property="BorderBrush" Value="Transparent" />
       <Setter Property="FontSize" Value="13" />
     </Style>
-    <Style Selector="Button.visao:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="c|Botao.visao:pointerover /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{DynamicResource Superficie}" />
       <Setter Property="Foreground" Value="{DynamicResource Texto}" />
     </Style>
-    <Style Selector="Button.visao.ligada /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="c|Botao.visao.ligada /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{DynamicResource Superficie}" />
       <Setter Property="Foreground" Value="{DynamicResource Texto}" />
     </Style>
-    <Style Selector="Button.visao.ligada">
+    <Style Selector="c|Botao.visao.ligada">
       <Setter Property="FontWeight" Value="SemiBold" />
     </Style>
     <Style Selector="c|Caixa.grupo-issues">
@@ -110,7 +110,7 @@
       <Setter Property="Background" Value="{DynamicResource SelecaoFundo}" />
       <Setter Property="BorderBrush" Value="{DynamicResource SelecaoBorda}" />
     </Style>
-    <Style Selector="Button.cartao-issue">
+    <Style Selector="c|Botao.cartao-issue">
       <Setter Property="Background" Value="{DynamicResource Superficie}" />
       <Setter Property="BorderBrush" Value="{DynamicResource Borda}" />
       <Setter Property="BorderThickness" Value="1" />
@@ -122,12 +122,12 @@
       <Setter Property="Foreground" Value="{DynamicResource Texto}" />
       <Setter Property="Cursor" Value="Hand" />
     </Style>
-    <Style Selector="Button.cartao-issue:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="c|Botao.cartao-issue:pointerover /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{DynamicResource SuperficieAlta}" />
       <Setter Property="BorderBrush" Value="{DynamicResource TextoFraco}" />
       <Setter Property="Foreground" Value="{DynamicResource Texto}" />
     </Style>
-    <Style Selector="Button.cartao-issue.escolhida /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="c|Botao.cartao-issue.escolhida /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{DynamicResource SelecaoFundo}" />
       <Setter Property="BorderBrush" Value="{DynamicResource SelecaoBorda}" />
     </Style>
@@ -138,7 +138,7 @@
       <Setter Property="CornerRadius" Value="10" />
       <Setter Property="Padding" Value="3" />
     </Style>
-    <Style Selector="Button.modo">
+    <Style Selector="c|Botao.modo">
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="Foreground" Value="{DynamicResource TextoSuave}" />
       <Setter Property="Padding" Value="10,5" />
@@ -146,11 +146,11 @@
       <Setter Property="BorderThickness" Value="1" />
       <Setter Property="BorderBrush" Value="Transparent" />
     </Style>
-    <Style Selector="Button.modo:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="c|Botao.modo:pointerover /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{DynamicResource SuperficieAlta}" />
       <Setter Property="Foreground" Value="{DynamicResource Texto}" />
     </Style>
-    <Style Selector="Button.modo.ligado /template/ ContentPresenter#PART_ContentPresenter, Button.modo.ligado:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="c|Botao.modo.ligado /template/ ContentPresenter#PART_ContentPresenter, c|Botao.modo.ligado:pointerover /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{DynamicResource SelecaoFundo}" />
       <Setter Property="BorderBrush" Value="{DynamicResource SelecaoBorda}" />
       <Setter Property="Foreground" Value="{DynamicResource Texto}" />
@@ -250,12 +250,12 @@
               </c:BotaoLigado>
             </StackPanel>
           </c:Caixa>
-          <Button Classes="icone" Command="{Binding AbrirQuadroNoGitHubCommand}" IsVisible="{Binding Colunas.Quadro}" ToolTip.Tip="{l:T 'Abrir o quadro no GitHub'}" AutomationProperties.Name="{l:T 'Abrir o quadro no GitHub'}">
+          <c:Botao Classes="icone" Command="{Binding AbrirQuadroNoGitHubCommand}" IsVisible="{Binding Colunas.Quadro}" ToolTip.Tip="{l:T 'Abrir o quadro no GitHub'}" AutomationProperties.Name="{l:T 'Abrir o quadro no GitHub'}">
             <c:Icone Nome="externo" Tamanho="15" />
-          </Button>
-          <Button Classes="icone" Command="{Binding AtualizarCommand}" ToolTip.Tip="{l:T 'Buscar de novo'}" AutomationProperties.Name="{l:T 'Buscar de novo'}">
+          </c:Botao>
+          <c:Botao Classes="icone" Command="{Binding AtualizarCommand}" ToolTip.Tip="{l:T 'Buscar de novo'}" AutomationProperties.Name="{l:T 'Buscar de novo'}">
             <c:Icone Nome="atualizar" Tamanho="15" />
-          </Button>
+          </c:Botao>
         </StackPanel>
       </Grid>
 
@@ -270,9 +270,9 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
               <DataTemplate x:DataType="vm:VisaoIssuesVM">
-                <Button Classes="visao" Classes.ligada="{Binding Escolhida}" Command="{Binding EscolherCommand}" ToolTip.Tip="{Binding Dica}">
+                <c:Botao Classes="visao" Classes.ligada="{Binding Escolhida}" Command="{Binding EscolherCommand}" ToolTip.Tip="{Binding Dica}">
                   <TextBlock Text="{Binding Nome}" />
-                </Button>
+                </c:Botao>
               </DataTemplate>
             </ItemsControl.ItemTemplate>
           </ItemsControl>
@@ -296,9 +296,9 @@
             <TextBlock Classes="suave" Text="{Binding TextoFaltaPermissao}" TextWrapping="Wrap" FontSize="12.5" />
             <TextBlock Classes="fraco" Text="{l:T 'O botão abre uma janela do gh com um código para colar no navegador. A conta principal continua a mesma.'}" TextWrapping="Wrap" FontSize="12" />
           </StackPanel>
-          <Button Grid.Column="2" Classes="primario" Command="{Binding DarPermissaoCommand}" IsEnabled="{Binding !DandoPermissao}" VerticalAlignment="Center" Margin="12,0,0,0">
+          <c:Botao Grid.Column="2" Classes="primario" Command="{Binding DarPermissaoCommand}" IsEnabled="{Binding !DandoPermissao}" VerticalAlignment="Center" Margin="12,0,0,0">
             <TextBlock Text="{Binding TextoPermissao}" />
-          </Button>
+          </c:Botao>
         </Grid>
       </c:Caixa>
 
@@ -321,7 +321,7 @@
                       <ItemsControl ItemsSource="{Binding Linhas}">
                         <ItemsControl.ItemTemplate>
                           <DataTemplate x:DataType="vm:IssueLinhaVM">
-                            <Button Classes="cartao-issue" Classes.escolhida="{Binding Escolhida}" Command="{Binding AbrirCommand}" AutomationProperties.Name="{Binding Titulo}">
+                            <c:Botao Classes="cartao-issue" Classes.escolhida="{Binding Escolhida}" Command="{Binding AbrirCommand}" AutomationProperties.Name="{Binding Titulo}">
                               <StackPanel Spacing="8">
                                 <Grid ColumnDefinitions="Auto,*,Auto">
                                   <c:Icone Nome="{Binding Icone}" Tamanho="13" Classes="suave" VerticalAlignment="Center" Margin="0,0,7,0" />
@@ -351,7 +351,7 @@
                                   </Border>
                                 </Grid>
                               </StackPanel>
-                            </Button>
+                            </c:Botao>
                           </DataTemplate>
                         </ItemsControl.ItemTemplate>
                       </ItemsControl>
@@ -389,7 +389,7 @@
                   <DataTemplate x:DataType="vm:GrupoIssuesVM">
                     <c:Caixa Classes="grupo-issues" Classes.alvo="{Binding Alvo}" Margin="0,0,0,8">
                     <StackPanel>
-                      <Button Classes="grupo" Command="{Binding AlternarCommand}">
+                      <c:Botao Classes="grupo" Command="{Binding AlternarCommand}">
                         <StackPanel Orientation="Horizontal" Spacing="9">
                           <c:Icone Nome="{Binding Seta}" Tamanho="13" Classes="fraco" VerticalAlignment="Center" />
                           <Ellipse Width="10" Height="10" Fill="{Binding Cor}" VerticalAlignment="Center" />
@@ -398,11 +398,11 @@
                             <TextBlock Classes="fraco" Text="{Binding Contagem}" FontSize="11.5" />
                           </c:Caixa>
                         </StackPanel>
-                      </Button>
+                      </c:Botao>
                       <ItemsControl ItemsSource="{Binding Linhas}" IsVisible="{Binding Aberto}">
                         <ItemsControl.ItemTemplate>
                           <DataTemplate x:DataType="vm:IssueLinhaVM">
-                            <Button Classes="linha" Classes.escolhida="{Binding Escolhida}" Command="{Binding AbrirCommand}" AutomationProperties.Name="{Binding Titulo}">
+                            <c:Botao Classes="linha" Classes.escolhida="{Binding Escolhida}" Command="{Binding AbrirCommand}" AutomationProperties.Name="{Binding Titulo}">
                               <Grid ColumnDefinitions="*,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" Margin="18,0,0,0">
                                 <DockPanel>
                                   <c:Icone DockPanel.Dock="Left" Nome="{Binding Icone}" Tamanho="14" Classes="suave" VerticalAlignment="Center" Margin="0,0,9,0" />
@@ -434,17 +434,17 @@
                                   </ItemsControl.ItemsPanel>
                                   <ItemsControl.ItemTemplate>
                                     <DataTemplate x:DataType="vm:PilulaPrVM">
-                                      <Button Theme="{StaticResource PilulaPr}" Classes.falhou="{Binding Falhou}" Classes.aprovado="{Binding Aprovado}" Classes.mergeado="{Binding Mergeado}"
+                                      <c:Botao Theme="{StaticResource PilulaPr}" Classes.falhou="{Binding Falhou}" Classes.aprovado="{Binding Aprovado}" Classes.mergeado="{Binding Mergeado}"
                                               Classes.fechado="{Binding Fechado}" Command="{Binding AbrirCommand}" ToolTip.Tip="{Binding Dica}" AutomationProperties.Name="{Binding Dica}" Padding="6,1">
                                         <TextBlock Classes="mono" Text="{Binding Curto}" FontSize="11.5" />
-                                      </Button>
+                                      </c:Botao>
                                     </DataTemplate>
                                   </ItemsControl.ItemTemplate>
                                 </ItemsControl>
                                 <TextBlock Grid.Column="7" Width="100" Classes="fraco" Text="{Binding Iteracao}" IsVisible="{Binding Colunas.VerIteracao}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
                                 <TextBlock Grid.Column="8" Width="90" Classes="fraco" Text="{Binding Quando}" IsVisible="{Binding Colunas.Atualizada}" VerticalAlignment="Center" />
                               </Grid>
-                            </Button>
+                            </c:Botao>
                           </DataTemplate>
                         </ItemsControl.ItemTemplate>
                       </ItemsControl>
@@ -480,9 +480,9 @@
               <TextBlock Grid.Column="1" Classes="fraco" Text="{Binding CabecalhoEspiada}" FontSize="12.5" VerticalAlignment="Center" />
               <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="2">
                 <TextBlock Classes="fraco" Text="{l:T '↑ ↓ para navegar  ·  Esc fecha'}" VerticalAlignment="Center" Margin="0,0,10,0" />
-                <Button Classes="icone" Command="{Binding FecharEspiadaCommand}" ToolTip.Tip="{l:T 'Fechar (Esc)'}" AutomationProperties.Name="{l:T 'Fechar'}">
+                <c:Botao Classes="icone" Command="{Binding FecharEspiadaCommand}" ToolTip.Tip="{l:T 'Fechar (Esc)'}" AutomationProperties.Name="{l:T 'Fechar'}">
                   <c:Icone Nome="fechar" Tamanho="14" />
-                </Button>
+                </c:Botao>
               </StackPanel>
             </Grid>
             <TextBlock Text="{Binding Espiada.Titulo, FallbackValue=''}" FontSize="22" FontWeight="SemiBold" TextWrapping="Wrap" />
@@ -528,33 +528,33 @@
               <StackPanel Spacing="10">
                 <TextBlock Text="{l:T 'Começar uma sessão com esta issue'}" FontWeight="SemiBold" />
                 <WrapPanel IsVisible="{Binding TemProjeto}">
-                  <Button Classes="primario" Command="{Binding ComecarEmWorktreeCommand}" IsEnabled="{Binding !CriandoSessao}" Margin="0,0,8,6"
+                  <c:Botao Classes="primario" Command="{Binding ComecarEmWorktreeCommand}" IsEnabled="{Binding !CriandoSessao}" Margin="0,0,8,6"
                           ToolTip.Tip="{l:T 'Cria um worktree com uma branch nova a partir da base escolhida (com fetch antes) e abre a sessão lá, com a issue no pedido'}">
                     <StackPanel Orientation="Horizontal" Spacing="7"><c:Icone Nome="worktree" Tamanho="14" /><TextBlock Text="{l:T 'Worktree novo'}" /></StackPanel>
-                  </Button>
+                  </c:Botao>
                   <TextBlock Classes="suave" Text="{l:T 'a partir de'}" VerticalAlignment="Center" Margin="0,0,8,6" />
                   <ComboBox ItemsSource="{Binding Espiada.Projeto.Branches, FallbackValue={x:Null}}" SelectedItem="{Binding Espiada.Projeto.BaseTarefa, FallbackValue={x:Null}}"
                             MinWidth="130" Margin="0,0,14,6" VerticalAlignment="Center" AutomationProperties.Name="{l:T 'Branch base'}" ToolTip.Tip="{l:T 'Fica salva para este projeto'}" />
-                  <Button Classes="contorno" Command="{Binding NovaSessaoCommand}" Margin="0,0,8,6"
+                  <c:Botao Classes="contorno" Command="{Binding NovaSessaoCommand}" Margin="0,0,8,6"
                           ToolTip.Tip="{l:T 'Abre uma conversa nova com o link da issue no rascunho, sem worktree e sem enviar. Dá para trocar a pasta antes de mandar'}">
                     <StackPanel Orientation="Horizontal" Spacing="7"><c:Icone Nome="conversa" Tamanho="14" /><TextBlock Text="{l:T 'Nova sessão'}" /></StackPanel>
-                  </Button>
-                  <Button Classes="contorno" Command="{Binding AbrirNoGitHubCommand}" Margin="0,0,8,6">
+                  </c:Botao>
+                  <c:Botao Classes="contorno" Command="{Binding AbrirNoGitHubCommand}" Margin="0,0,8,6">
                     <StackPanel Orientation="Horizontal" Spacing="7"><c:Icone Nome="externo" Tamanho="14" /><TextBlock Text="{l:T 'Abrir no GitHub'}" /></StackPanel>
-                  </Button>
-                  <Button Classes="contorno" Click="CopiarLink_Click" Margin="0,0,8,6" ToolTip.Tip="{l:T 'Copia o endereço da issue no GitHub'}">
+                  </c:Botao>
+                  <c:Botao Classes="contorno" Click="CopiarLink_Click" Margin="0,0,8,6" ToolTip.Tip="{l:T 'Copia o endereço da issue no GitHub'}">
                     <StackPanel Orientation="Horizontal" Spacing="7"><c:Icone Nome="vinculo" Tamanho="14" /><TextBlock Text="{Binding TextoCopiarLink}" /></StackPanel>
-                  </Button>
+                  </c:Botao>
                 </WrapPanel>
                 <StackPanel IsVisible="{Binding SemProjeto}" Spacing="8">
                   <TextBlock Classes="suave" Text="{l:T 'Este repositório não está nos projetos do Nexora. Importe a pasta dele para começar sessões daqui.'}" TextWrapping="Wrap" />
                   <WrapPanel>
-                    <Button Classes="contorno" Command="{Binding AbrirNoGitHubCommand}" Margin="0,0,8,0">
+                    <c:Botao Classes="contorno" Command="{Binding AbrirNoGitHubCommand}" Margin="0,0,8,0">
                       <StackPanel Orientation="Horizontal" Spacing="7"><c:Icone Nome="externo" Tamanho="14" /><TextBlock Text="{l:T 'Abrir no GitHub'}" /></StackPanel>
-                    </Button>
-                    <Button Classes="contorno" Click="CopiarLink_Click" ToolTip.Tip="{l:T 'Copia o endereço da issue no GitHub'}">
+                    </c:Botao>
+                    <c:Botao Classes="contorno" Click="CopiarLink_Click" ToolTip.Tip="{l:T 'Copia o endereço da issue no GitHub'}">
                       <StackPanel Orientation="Horizontal" Spacing="7"><c:Icone Nome="vinculo" Tamanho="14" /><TextBlock Text="{Binding TextoCopiarLink}" /></StackPanel>
-                    </Button>
+                    </c:Botao>
                   </WrapPanel>
                 </StackPanel>
                 <TextBlock Classes="fraco" Text="{Binding AvisoSessao}" IsVisible="{Binding AvisoSessao, Converter={x:Static ObjectConverters.IsNotNull}}" TextWrapping="Wrap" FontSize="12.5" />
@@ -566,9 +566,9 @@
             <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto">
               <TextBox Text="{Binding NovoComentario}" PlaceholderText="{l:T 'Escreva um comentário (vai para o GitHub)'}" AcceptsReturn="True" TextWrapping="Wrap"
                        MinHeight="58" MaxHeight="160" AutomationProperties.Name="{l:T 'Novo comentário'}" />
-              <Button Grid.Column="1" Classes="primario" Command="{Binding ComentarCommand}" VerticalAlignment="Bottom" Margin="10,0,0,0">
+              <c:Botao Grid.Column="1" Classes="primario" Command="{Binding ComentarCommand}" VerticalAlignment="Bottom" Margin="10,0,0,0">
                 <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="enviar" Tamanho="13" /><TextBlock Text="{l:T 'Comentar'}" /></StackPanel>
-              </Button>
+              </c:Botao>
               <TextBlock Grid.Row="1" Grid.ColumnSpan="2" Classes="fraco" Text="{Binding AvisoComentario}" FontSize="12" Margin="2,6,0,0"
                          IsVisible="{Binding AvisoComentario, Converter={x:Static ObjectConverters.IsNotNull}}" />
             </Grid>

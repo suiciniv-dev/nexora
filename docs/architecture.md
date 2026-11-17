@@ -62,7 +62,7 @@ The UI thread only lays out and draws. These rules come from measured stalls:
 - Streaming updates are incremental: change only what changed. `MarkdownTexto` keeps finished blocks and updates the last one in place; never rebuild a whole control tree per delta.
 - Hidden views do no work for content nobody sees; they catch up when shown.
 - Memory is bounded: caches have a size limit and history loads in pages. A chat view keeps the last 40 rows mounted (up to 60), three tab views stay mounted, and the Live board keeps two peeks.
-- Global styles cost every control of the targeted type, even controls without the class: each one gets a style instance and an activator per matching style. Style classed boxes with `c|Caixa.classe` and use `<c:Caixa Classes="…">`; never add `Border.classe` styles, since `Border` is in every template.
+- Global styles cost every control of the targeted type, even controls without the class: each one gets a style instance and an activator per matching style. Style classed boxes with `c|Caixa.classe` (`<c:Caixa Classes="…">`) and classed buttons with `c|Botao.classe` (`<c:Botao Classes="…">`, which keeps the Fluent button theme); never add `Border.classe` or `Button.classe` styles, since both types are in every template. A control that should look like a classed button reports `Botao` as its style key.
 
 ## Agent sessions
 

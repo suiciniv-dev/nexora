@@ -23,9 +23,9 @@
             <TextBlock Text="{l:T 'Atalhos de teclado'}" FontSize="18" FontWeight="SemiBold" />
             <TextBlock Classes="fraco" Text="{l:T 'Tudo isso também aparece no Ctrl+K, digitando o que você quer fazer.'}" TextWrapping="Wrap" />
           </StackPanel>
-          <Button Grid.Column="2" Classes="icone" Command="{Binding FecharCommand}" VerticalAlignment="Top" ToolTip.Tip="{l:T 'Fechar (Esc)'}" AutomationProperties.Name="{l:T 'Fechar os atalhos'}">
+          <c:Botao Grid.Column="2" Classes="icone" Command="{Binding FecharCommand}" VerticalAlignment="Top" ToolTip.Tip="{l:T 'Fechar (Esc)'}" AutomationProperties.Name="{l:T 'Fechar os atalhos'}">
             <c:Icone Nome="fechar" Tamanho="14" />
-          </Button>
+          </c:Botao>
         </Grid>
         <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" Padding="24,0,24,20">
           <ItemsControl ItemsSource="{Binding Grupos}">

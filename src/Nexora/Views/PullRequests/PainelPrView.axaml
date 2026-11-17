@@ -42,7 +42,7 @@
     <Style Selector="c|Caixa.estado-pr.fechado > TextBlock">
       <Setter Property="Foreground" Value="{DynamicResource Vermelho}" />
     </Style>
-    <Style Selector="Button.linha-pr">
+    <Style Selector="c|Botao.linha-pr">
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="HorizontalAlignment" Value="Stretch" />
       <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -50,7 +50,7 @@
       <Setter Property="Margin" Value="-6,0" />
       <Setter Property="Foreground" Value="{DynamicResource Texto}" />
     </Style>
-    <Style Selector="Button.linha-pr:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="c|Botao.linha-pr:pointerover /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{DynamicResource Superficie}" />
       <Setter Property="Foreground" Value="{DynamicResource Texto}" />
     </Style>
@@ -114,7 +114,7 @@
       <c:Caixa Classes="aviso erro" IsVisible="{Binding TemErro}">
         <StackPanel Spacing="8">
           <TextBlock Text="{Binding Erro}" TextWrapping="Wrap" FontSize="12.5" />
-          <Button Classes="mini" Command="{Binding AtualizarCommand}" HorizontalAlignment="Left" Content="{l:T 'Tentar de novo'}" />
+          <c:Botao Classes="mini" Command="{Binding AtualizarCommand}" HorizontalAlignment="Left" Content="{l:T 'Tentar de novo'}" />
         </StackPanel>
       </c:Caixa>
 
@@ -131,8 +131,8 @@
         <StackPanel Spacing="10">
           <TextBlock Text="{Binding Confirmacao.Texto, FallbackValue=''}" TextWrapping="Wrap" FontSize="12.5" />
           <StackPanel Orientation="Horizontal" Spacing="8">
-            <Button Classes="primario pequeno" Command="{Binding ConfirmarCommand}" Content="{Binding Confirmacao.Botao, FallbackValue=''}" />
-            <Button Classes="contorno pequeno" Command="{Binding CancelarConfirmacaoCommand}" Content="{l:T 'Cancelar'}" />
+            <c:Botao Classes="primario pequeno" Command="{Binding ConfirmarCommand}" Content="{Binding Confirmacao.Botao, FallbackValue=''}" />
+            <c:Botao Classes="contorno pequeno" Command="{Binding CancelarConfirmacaoCommand}" Content="{l:T 'Cancelar'}" />
           </StackPanel>
         </StackPanel>
       </c:Caixa>
@@ -144,12 +144,12 @@
               <TextBlock Text="{Binding EstadoTexto}" />
             </c:Caixa>
             <TextBlock Grid.Column="1" Classes="fraco mono" Text="{Binding Numero}" VerticalAlignment="Center" Margin="8,0,0,0" />
-            <Button Grid.Column="3" Classes="icone pequeno" Command="{Binding AtualizarCommand}" ToolTip.Tip="{l:T 'Ler o PR de novo'}" AutomationProperties.Name="{l:T 'Ler o PR de novo'}">
+            <c:Botao Grid.Column="3" Classes="icone pequeno" Command="{Binding AtualizarCommand}" ToolTip.Tip="{l:T 'Ler o PR de novo'}" AutomationProperties.Name="{l:T 'Ler o PR de novo'}">
               <c:Icone Nome="atualizar" Tamanho="12" />
-            </Button>
-            <Button Grid.Column="4" Classes="icone pequeno" Command="{Binding AbrirNoGitHubCommand}" ToolTip.Tip="{l:T 'Abrir no GitHub'}" AutomationProperties.Name="{l:T 'Abrir no GitHub'}">
+            </c:Botao>
+            <c:Botao Grid.Column="4" Classes="icone pequeno" Command="{Binding AbrirNoGitHubCommand}" ToolTip.Tip="{l:T 'Abrir no GitHub'}" AutomationProperties.Name="{l:T 'Abrir no GitHub'}">
               <c:Icone Nome="externo" Tamanho="12" />
-            </Button>
+            </c:Botao>
           </Grid>
           <TextBlock Text="{Binding Titulo}" FontSize="15" FontWeight="SemiBold" TextWrapping="Wrap" />
           <TextBlock Classes="fraco mono" Text="{Binding Ramos}" FontSize="11.5" TextWrapping="Wrap" />
@@ -162,10 +162,10 @@
               <c:Icone Nome="alerta" Tamanho="14" Foreground="{DynamicResource Vermelho}" VerticalAlignment="Top" Margin="0,1,8,0" />
               <TextBlock Grid.Column="1" Text="{Binding TextoConflito}" TextWrapping="Wrap" FontSize="12.5" />
             </Grid>
-            <Button Classes="mini" Command="{Binding PedirConflitoCommand}" HorizontalAlignment="Left"
+            <c:Botao Classes="mini" Command="{Binding PedirConflitoCommand}" HorizontalAlignment="Left"
                     ToolTip.Tip="{l:T 'Escreve no campo da conversa um pedido para o agente resolver o conflito; você revisa e manda'}">
               <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="faisca" Tamanho="12" /><TextBlock Text="{l:T 'Pedir ao agente para resolver'}" /></StackPanel>
-            </Button>
+            </c:Botao>
           </StackPanel>
         </c:Caixa>
 
@@ -178,7 +178,7 @@
             <ItemsControl.ItemTemplate>
               <DataTemplate x:DataType="vm:CheckPrVM">
                 <Grid ColumnDefinitions="*,Auto">
-                  <Button Classes="linha-pr" Command="{Binding AbrirCommand}" IsEnabled="{Binding TemLink}" ToolTip.Tip="{Binding Dica}" AutomationProperties.Name="{Binding Nome}">
+                  <c:Botao Classes="linha-pr" Command="{Binding AbrirCommand}" IsEnabled="{Binding TemLink}" ToolTip.Tip="{Binding Dica}" AutomationProperties.Name="{Binding Nome}">
                     <Grid ColumnDefinitions="Auto,*">
                       <c:Icone Nome="{Binding Icone}" Tamanho="13" Classes.falhou="{Binding Falhou}" Classes.ok="{Binding Ok}" Classes.pendente="{Binding Pendente}" Classes.pulado="{Binding Pulado}"
                                VerticalAlignment="Center" Margin="0,0,9,0" />
@@ -187,11 +187,11 @@
                         <TextBlock Classes="fraco" Text="{Binding Fluxo}" IsVisible="{Binding TemFluxo}" FontSize="11" TextTrimming="CharacterEllipsis" />
                       </StackPanel>
                     </Grid>
-                  </Button>
-                  <Button Grid.Column="1" Classes="mini" Command="{Binding PedirCorrecaoCommand}" IsVisible="{Binding Falhou}" VerticalAlignment="Center" Margin="8,0,0,0"
+                  </c:Botao>
+                  <c:Botao Grid.Column="1" Classes="mini" Command="{Binding PedirCorrecaoCommand}" IsVisible="{Binding Falhou}" VerticalAlignment="Center" Margin="8,0,0,0"
                           ToolTip.Tip="{l:T 'Escreve no campo da conversa um pedido para o agente corrigir este check; você revisa e manda'}">
                     <TextBlock Text="{l:T 'Corrigir'}" />
-                  </Button>
+                  </c:Botao>
                 </Grid>
               </DataTemplate>
             </ItemsControl.ItemTemplate>
@@ -219,10 +219,10 @@
         <StackPanel Spacing="8">
           <TextBlock Classes="secao-pr" Text="{l:T 'COMENTÁRIOS DE REVISÃO'}" />
           <TextBlock Classes="fraco" Text="{Binding TextoConversas}" FontSize="12" TextWrapping="Wrap" />
-          <Button Classes="mini" Command="{Binding PedirConversasCommand}" IsVisible="{Binding TemConversasAbertas}" HorizontalAlignment="Left"
+          <c:Botao Classes="mini" Command="{Binding PedirConversasCommand}" IsVisible="{Binding TemConversasAbertas}" HorizontalAlignment="Left"
                   ToolTip.Tip="{l:T 'Escreve no campo da conversa um pedido para o agente resolver estes comentários sem responder no PR; você revisa e manda'}">
             <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="faisca" Tamanho="12" /><TextBlock Text="{l:T 'Pedir ao agente para resolver'}" /></StackPanel>
-          </Button>
+          </c:Botao>
           <ItemsControl ItemsSource="{Binding Grupos}">
             <ItemsControl.ItemTemplate>
               <DataTemplate x:DataType="vm:GrupoConversasVM">
@@ -240,10 +240,10 @@
                         <TextBlock Classes="fraco" Text="{Binding TextoResolvidas}" FontSize="11" VerticalAlignment="Center" />
                       </StackPanel>
                     </Button>
-                    <Button Grid.Column="2" Classes="icone pequeno" Command="{Binding VerDiffCommand}" Margin="4,0,0,0"
+                    <c:Botao Grid.Column="2" Classes="icone pequeno" Command="{Binding VerDiffCommand}" Margin="4,0,0,0"
                             ToolTip.Tip="{l:T 'Ver o diff deste arquivo no PR, com as conversas nas linhas'}" AutomationProperties.Name="{l:T 'Ver o diff no PR'}">
                       <c:Icone Nome="diff" Tamanho="12" />
-                    </Button>
+                    </c:Botao>
                   </Grid>
                   <ItemsControl ItemsSource="{Binding Conversas}">
                     <ItemsControl.ItemTemplate>
@@ -257,23 +257,23 @@
                                 <c:Caixa Classes="avatar-pr" IsVisible="{Binding EhPessoa}"><TextBlock Text="{Binding Iniciais}" /></c:Caixa>
                                 <c:AvatarVivo Agente="{Binding Agente}" Parado="True" Rotulo="" IsVisible="{Binding EhAgente}" />
                               </Panel>
-                              <Button Classes="mini" Command="{Binding AbrirArquivoCommand}" Padding="6,1" ToolTip.Tip="{l:T 'Abrir o arquivo nesta linha'}">
+                              <c:Botao Classes="mini" Command="{Binding AbrirArquivoCommand}" Padding="6,1" ToolTip.Tip="{l:T 'Abrir o arquivo nesta linha'}">
                                 <TextBlock Classes="mono" Text="{Binding Linha}" FontSize="11" />
-                              </Button>
+                              </c:Botao>
                               <TextBlock Text="{Binding Autor}" FontWeight="SemiBold" FontSize="12" VerticalAlignment="Center" />
                               <TextBlock Classes="fraco" Text="{Binding Quando}" FontSize="11" VerticalAlignment="Center" />
                             </WrapPanel>
                             <TextBlock Text="{Binding Corpo}" TextWrapping="Wrap" FontSize="12.5" />
                             <Grid ColumnDefinitions="*,Auto,Auto">
                               <TextBlock Classes="fraco" Text="{Binding TextoRespostas}" IsVisible="{Binding TemRespostas}" FontSize="11" VerticalAlignment="Center" />
-                              <Button Grid.Column="1" Classes="icone pequeno" Command="{Binding AbrirCommand}" IsVisible="{Binding TemLink}"
+                              <c:Botao Grid.Column="1" Classes="icone pequeno" Command="{Binding AbrirCommand}" IsVisible="{Binding TemLink}"
                                       ToolTip.Tip="{l:T 'Ver a conversa no GitHub'}" AutomationProperties.Name="{l:T 'Ver a conversa no GitHub'}">
                                 <c:Icone Nome="externo" Tamanho="11" />
-                              </Button>
-                              <Button Grid.Column="2" Classes="mini" Command="{Binding PedirCorrecaoCommand}" Margin="6,0,0,0"
+                              </c:Botao>
+                              <c:Botao Grid.Column="2" Classes="mini" Command="{Binding PedirCorrecaoCommand}" Margin="6,0,0,0"
                                       ToolTip.Tip="{l:T 'Escreve no campo da conversa um pedido para o agente resolver só este comentário; você revisa e manda'}">
                                 <TextBlock Text="{l:T 'Corrigir'}" />
-                              </Button>
+                              </c:Botao>
                             </Grid>
                           </StackPanel>
                         </c:Caixa>
@@ -318,14 +318,14 @@
             </StackPanel>
             <Border Background="{DynamicResource Fundo}" CornerRadius="9" Padding="3">
               <Grid ColumnDefinitions="*,*">
-                <Button Classes="nivel" Classes.ativa="{Binding ParaOriginal}" Command="{Binding EscolherDestinoCommand}" CommandParameter="original" IsEnabled="{Binding TemOriginal}"
+                <c:Botao Classes="nivel" Classes.ativa="{Binding ParaOriginal}" Command="{Binding EscolherDestinoCommand}" CommandParameter="original" IsEnabled="{Binding TemOriginal}"
                         Margin="1,0" ToolTip.Tip="{l:T 'Manda para esta conversa, que já tem o histórico da branch'}">
                   <TextBlock Text="{l:T 'Conversa original'}" TextTrimming="CharacterEllipsis" />
-                </Button>
-                <Button Grid.Column="1" Classes="nivel" Classes.ativa="{Binding ParaNova}" Command="{Binding EscolherDestinoCommand}" CommandParameter="nova" Margin="1,0"
+                </c:Botao>
+                <c:Botao Grid.Column="1" Classes="nivel" Classes.ativa="{Binding ParaNova}" Command="{Binding EscolherDestinoCommand}" CommandParameter="nova" Margin="1,0"
                         ToolTip.Tip="{l:T 'Abre uma conversa nova que começa pela passagem (handoff) da branch e depois traz os comentários'}">
                   <TextBlock Text="{Binding TextoNova}" TextTrimming="CharacterEllipsis" />
-                </Button>
+                </c:Botao>
               </Grid>
             </Border>
             <Grid ColumnDefinitions="Auto,*">
@@ -333,47 +333,47 @@
               <TextBlock Grid.Column="1" Classes="suave" Text="{Binding MotivoDestino}" TextWrapping="Wrap" FontSize="12" />
             </Grid>
             <TextBlock Classes="fraco" Text="{Binding DetalheDestino}" TextWrapping="Wrap" FontSize="11.5" />
-            <Button Classes="primario" Command="{Binding MandarComentariosCommand}" HorizontalAlignment="Left"
+            <c:Botao Classes="primario" Command="{Binding MandarComentariosCommand}" HorizontalAlignment="Left"
                     ToolTip.Tip="{l:T 'Manda os comentários marcados, com arquivo, linhas e o trecho do código. O agente não responde no PR.'}">
               <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="enviar" Tamanho="13" /><TextBlock Text="{l:T 'Mandar para o agente'}" /></StackPanel>
-            </Button>
+            </c:Botao>
           </StackPanel>
         </c:Caixa>
 
         <StackPanel Spacing="8" IsVisible="{Binding PodeMarcarPronto}">
           <TextBlock Classes="secao-pr" Text="{l:T 'RASCUNHO'}" />
           <TextBlock Classes="suave" Text="{l:T 'Os revisores só são avisados quando o PR sai do rascunho.'}" TextWrapping="Wrap" FontSize="12.5" />
-          <Button Classes="contorno" Command="{Binding MarcarProntoCommand}" HorizontalAlignment="Left">
+          <c:Botao Classes="contorno" Command="{Binding MarcarProntoCommand}" HorizontalAlignment="Left">
             <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="ok" Tamanho="13" /><TextBlock Text="{l:T 'Marcar como pronto para revisão'}" /></StackPanel>
-          </Button>
+          </c:Botao>
         </StackPanel>
 
         <StackPanel Spacing="8" IsVisible="{Binding MostraMerge}">
           <TextBlock Classes="secao-pr" Text="MERGE" />
           <Border Background="{DynamicResource Superficie}" CornerRadius="9" Padding="3">
             <Grid ColumnDefinitions="*,*,*">
-              <Button Classes="nivel" Classes.ativa="{Binding ModoSquash}" Command="{Binding EscolherModoCommand}" CommandParameter="squash" Content="Squash" Margin="1,0"
+              <c:Botao Classes="nivel" Classes.ativa="{Binding ModoSquash}" Command="{Binding EscolherModoCommand}" CommandParameter="squash" Content="Squash" Margin="1,0"
                       ToolTip.Tip="{l:T 'Junta os commits do PR em um só'}" />
-              <Button Grid.Column="1" Classes="nivel" Classes.ativa="{Binding ModoMergeCommit}" Command="{Binding EscolherModoCommand}" CommandParameter="merge" Content="Merge" Margin="1,0"
+              <c:Botao Grid.Column="1" Classes="nivel" Classes.ativa="{Binding ModoMergeCommit}" Command="{Binding EscolherModoCommand}" CommandParameter="merge" Content="Merge" Margin="1,0"
                       ToolTip.Tip="{l:T 'Mantém os commits e cria um commit de merge'}" />
-              <Button Grid.Column="2" Classes="nivel" Classes.ativa="{Binding ModoRebase}" Command="{Binding EscolherModoCommand}" CommandParameter="rebase" Content="Rebase" Margin="1,0"
+              <c:Botao Grid.Column="2" Classes="nivel" Classes.ativa="{Binding ModoRebase}" Command="{Binding EscolherModoCommand}" CommandParameter="rebase" Content="Rebase" Margin="1,0"
                       ToolTip.Tip="{l:T 'Reaplica os commits em cima da base, sem commit de merge'}" />
             </Grid>
           </Border>
           <TextBlock Classes="fraco" Text="{Binding TextoBloqueio}" IsVisible="{Binding TemBloqueio}" TextWrapping="Wrap" FontSize="12" />
           <WrapPanel ItemSpacing="8" LineSpacing="6">
-            <Button Classes="primario" Command="{Binding MergearCommand}" IsEnabled="{Binding PodeMergear}">
+            <c:Botao Classes="primario" Command="{Binding MergearCommand}" IsEnabled="{Binding PodeMergear}">
               <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="pr" Tamanho="13" /><TextBlock Text="{l:T 'Mergear'}" /></StackPanel>
-            </Button>
-            <Button Classes="contorno" Command="{Binding LigarAutoMergeCommand}" IsVisible="{Binding PodeLigarAutoMerge}"
+            </c:Botao>
+            <c:Botao Classes="contorno" Command="{Binding LigarAutoMergeCommand}" IsVisible="{Binding PodeLigarAutoMerge}"
                     ToolTip.Tip="{l:T 'O GitHub faz o merge sozinho quando os checks passarem e as revisões aprovarem'}">
               <TextBlock Text="{l:T 'Ligar o auto-merge'}" />
-            </Button>
+            </c:Botao>
           </WrapPanel>
           <Grid ColumnDefinitions="Auto,*,Auto" IsVisible="{Binding AutoMergeLigado}">
             <c:Icone Nome="relogio" Tamanho="13" Classes="pendente" VerticalAlignment="Center" Margin="0,0,8,0" />
             <TextBlock Grid.Column="1" Classes="suave" Text="{l:T 'Auto-merge ligado: o GitHub mergeia quando liberar.'}" TextWrapping="Wrap" FontSize="12.5" VerticalAlignment="Center" />
-            <Button Grid.Column="2" Classes="mini" Command="{Binding DesligarAutoMergeCommand}" Content="{l:T 'Desligar'}" VerticalAlignment="Center" Margin="8,0,0,0" />
+            <c:Botao Grid.Column="2" Classes="mini" Command="{Binding DesligarAutoMergeCommand}" Content="{l:T 'Desligar'}" VerticalAlignment="Center" Margin="8,0,0,0" />
           </Grid>
         </StackPanel>
       </StackPanel>
@@ -381,10 +381,10 @@
       <StackPanel Spacing="10" IsVisible="{Binding SemPr}">
         <Grid ColumnDefinitions="*,Auto">
           <TextBlock Classes="secao-pr" Text="{l:T 'NOVO PULL REQUEST'}" />
-          <Button Grid.Column="1" Classes="icone pequeno" Command="{Binding GerarDeNovoCommand}" ToolTip.Tip="{l:T 'Gerar o título e a descrição de novo a partir dos commits'}"
+          <c:Botao Grid.Column="1" Classes="icone pequeno" Command="{Binding GerarDeNovoCommand}" ToolTip.Tip="{l:T 'Gerar o título e a descrição de novo a partir dos commits'}"
                   AutomationProperties.Name="{l:T 'Gerar de novo'}">
             <c:Icone Nome="atualizar" Tamanho="12" />
-          </Button>
+          </c:Botao>
         </Grid>
         <TextBlock Classes="fraco" Text="{Binding ResumoBranch}" IsVisible="{Binding TemResumoBranch}" TextWrapping="Wrap" FontSize="12" />
         <StackPanel Spacing="4">
@@ -406,14 +406,14 @@
           <TextBlock Text="{Binding AvisoNovo}" TextWrapping="Wrap" FontSize="12" />
         </c:Caixa>
         <WrapPanel ItemSpacing="8" LineSpacing="8">
-          <Button Classes="primario" Command="{Binding CriarPrCommand}"
+          <c:Botao Classes="primario" Command="{Binding CriarPrCommand}"
                   ToolTip.Tip="{l:T 'Envia a branch e abre o PR pelo gh, sem passar pelo agente'}">
             <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="pr" Tamanho="13" /><TextBlock Text="{l:T 'Criar o PR'}" /></StackPanel>
-          </Button>
-          <Button Classes="contorno" Command="{Binding PedirPrAoAgenteCommand}"
+          </c:Botao>
+          <c:Botao Classes="contorno" Command="{Binding PedirPrAoAgenteCommand}"
                   ToolTip.Tip="{l:T 'Escreve no campo da conversa o pedido de commit e PR com este título e esta descrição; você revisa e manda'}">
             <TextBlock Text="{l:T 'Pedir ao agente'}" />
-          </Button>
+          </c:Botao>
         </WrapPanel>
         <TextBlock Classes="fraco" Text="{l:T 'O título e a descrição saem dos commits da branch, sem gastar tokens. Edite à vontade antes de criar.'}" TextWrapping="Wrap" FontSize="11.5" />
       </StackPanel>
