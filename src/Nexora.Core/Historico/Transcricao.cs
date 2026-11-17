@@ -43,9 +43,18 @@ public static partial class Transcricao
 
     public static IReadOnlyList<EventoClaude> Ler(string arquivo, int maximo = 600) => LerArquivo(arquivo, maximo, LerLinha);
 
-    public static TrechoDaTranscricao LerTurnos(string arquivo, int turnos, long ate = long.MaxValue, int maximoDeEventos = 800)
+    public static TrechoDaTranscricao LerTurnos(string arquivo, int turnos, long ate = long.MaxValue, int maximoDeEventos = 800) =>
+        DeBruto(LerTurnosBrutos(arquivo, turnos, ate, maximoDeEventos));
+
+    public static TrechoDaTranscricao DeBruto(TrechoBruto bruto) =>
+        new([.. bruto.Linhas.SelectMany(LerLinha)], bruto.Inicio, bruto.Turnos);
+
+    static bool PodeTerConversa(ReadOnlySpan<byte> linha) =>
+        linha.IndexOf("\"type\":\"user\""u8) >= 0 || linha.IndexOf("\"type\":\"assistant\""u8) >= 0 || linha.IndexOf("<task-notification>"u8) >= 0;
+
+    public static TrechoBruto LerTurnosBrutos(string arquivo, int turnos, long ate = long.MaxValue, int maximoDeEventos = 800)
     {
-        var linhas = new List<EventoClaude[]>();
+        var linhas = new List<string>();
         var achados = 0;
         var eventos = 0;
         try
@@ -53,53 +62,67 @@ public static partial class Transcricao
             using var fluxo = new FileStream(arquivo, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
             var posicao = Math.Min(ate, fluxo.Length);
             var tamanho = 256 * 1024;
-            byte[] sobra = [];
-            while (posicao > 0)
+            byte[]? sobra = null;
+            var sobraN = 0;
+            try
             {
-                var ler = (int)Math.Min(tamanho, posicao);
-                posicao -= ler;
-                var buffer = new byte[ler + sobra.Length];
-                fluxo.Seek(posicao, SeekOrigin.Begin);
-                fluxo.ReadExactly(buffer, 0, ler);
-                sobra.CopyTo(buffer, ler);
-                var corte = posicao > 0 ? Array.IndexOf(buffer, (byte)'\n') + 1 : 0;
-                if (posicao > 0 && corte == 0)
+                while (posicao > 0)
                 {
+                    var ler = (int)Math.Min(tamanho, posicao);
+                    posicao -= ler;
+                    var total = ler + sobraN;
+                    var buffer = System.Buffers.ArrayPool<byte>.Shared.Rent(total);
+                    fluxo.Seek(posicao, SeekOrigin.Begin);
+                    fluxo.ReadExactly(buffer, 0, ler);
+                    if (sobra is not null)
+                    {
+                        Buffer.BlockCopy(sobra, 0, buffer, ler, sobraN);
+                        System.Buffers.ArrayPool<byte>.Shared.Return(sobra);
+                    }
                     sobra = buffer;
-                    tamanho *= 2;
-                    continue;
+                    sobraN = total;
+                    var corte = posicao > 0 ? Array.IndexOf(buffer, (byte)'\n', 0, total) + 1 : 0;
+                    if (posicao > 0 && corte == 0)
+                    {
+                        tamanho *= 2;
+                        continue;
+                    }
+                    var fimDaLinha = total;
+                    for (var i = total - 1; i >= corte - 1; i--)
+                    {
+                        if (i >= 0 && buffer[i] != (byte)'\n') continue;
+                        var inicio = i + 1;
+                        var comprimento = fimDaLinha - inicio;
+                        fimDaLinha = i;
+                        if (comprimento <= 0 || !PodeTerConversa(buffer.AsSpan(inicio, comprimento))) continue;
+                        var linha = Encoding.UTF8.GetString(buffer, inicio, comprimento).TrimEnd('\r');
+                        var lidos = LerLinha(linha);
+                        if (lidos.Length == 0) continue;
+                        linhas.Add(linha);
+                        eventos += lidos.Length;
+                        if (!lidos.Any(e => e is MensagemDoUsuario)) continue;
+                        achados++;
+                        if (achados >= turnos || eventos >= maximoDeEventos)
+                            return new TrechoBruto(Invertidas(linhas), posicao + inicio, achados);
+                    }
+                    sobraN = corte;
                 }
-                var fimDaLinha = buffer.Length;
-                for (var i = buffer.Length - 1; i >= corte - 1; i--)
-                {
-                    if (i >= 0 && buffer[i] != (byte)'\n') continue;
-                    var inicio = i + 1;
-                    var linha = Encoding.UTF8.GetString(buffer, inicio, fimDaLinha - inicio).TrimEnd('\r');
-                    fimDaLinha = i;
-                    if (linha.Length == 0 || !linha.Contains("\"type\":\"user\"") && !linha.Contains("\"type\":\"assistant\"") && !linha.Contains("<task-notification>")) continue;
-                    var lidos = LerLinha(linha);
-                    if (lidos.Length == 0) continue;
-                    linhas.Add(lidos);
-                    eventos += lidos.Length;
-                    if (!lidos.Any(e => e is MensagemDoUsuario)) continue;
-                    achados++;
-                    if (achados >= turnos || eventos >= maximoDeEventos)
-                        return new TrechoDaTranscricao(Juntar(linhas), posicao + inicio, achados);
-                }
-                sobra = buffer[..corte];
+            }
+            finally
+            {
+                if (sobra is not null) System.Buffers.ArrayPool<byte>.Shared.Return(sobra);
             }
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
         }
-        return new TrechoDaTranscricao(Juntar(linhas), 0, achados);
+        return new TrechoBruto(Invertidas(linhas), 0, achados);
     }
 
-    static List<EventoClaude> Juntar(List<EventoClaude[]> linhasDoFim)
+    static List<string> Invertidas(List<string> linhasDoFim)
     {
-        var lista = new List<EventoClaude>(linhasDoFim.Sum(l => l.Length));
-        for (var i = linhasDoFim.Count - 1; i >= 0; i--) lista.AddRange(linhasDoFim[i]);
-        return lista;
+        linhasDoFim.Reverse();
+        return linhasDoFim;
     }
 
     public static IReadOnlyList<EventoClaude> LerSubagente(string arquivo, string agenteId, int maximo = 300)

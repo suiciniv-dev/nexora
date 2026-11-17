@@ -56,6 +56,9 @@ public static class ServidorDoNucleo
                     MetodosDoNucleo.Conversas => await nucleo.ListarConversasAsync(cancelar).ConfigureAwait(false),
                     MetodosDoNucleo.Uso => await nucleo.LerUsoAsync((string?)dados?["cache"], dados!["desde"]!.GetValue<DateTime>(), dados["porDia"]!.GetValue<bool>(), cancelar).ConfigureAwait(false),
                     MetodosDoNucleo.Andamento => await nucleo.LerAndamentoAsync(dados!["arquivo"]!.GetValue<string>(), (string?)dados["pasta"], cancelar).ConfigureAwait(false),
+                    MetodosDoNucleo.Turnos => await nucleo.LerTurnosAsync(dados!["arquivo"]!.GetValue<string>(), dados["turnos"]!.GetValue<int>(), dados["ate"]!.GetValue<long>(), cancelar).ConfigureAwait(false),
+                    MetodosDoNucleo.Modo => new RespostaDeTexto(await nucleo.UltimoModoAsync(dados!["arquivo"]!.GetValue<string>(), cancelar).ConfigureAwait(false)),
+                    MetodosDoNucleo.Comando => await nucleo.RodarComandoAsync(dados.Deserialize<Git.PedidoDeComando>(Json)!, cancelar).ConfigureAwait(false),
                     var outro => throw new InvalidOperationException($"Método desconhecido: {outro}"),
                 };
                 resposta = new JsonObject { ["id"] = id, ["dados"] = JsonSerializer.SerializeToNode(resultado, resultado.GetType(), Json) };

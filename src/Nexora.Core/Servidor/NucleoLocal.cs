@@ -1,3 +1,4 @@
+using Nexora.Core.Git;
 using Nexora.Core.Historico;
 using Nexora.Core.Uso;
 
@@ -15,4 +16,13 @@ public sealed class NucleoLocal : INucleo
 
     public Task<Andamento> LerAndamentoAsync(string arquivo, string? pasta, CancellationToken cancelar = default) =>
         Task.Run(() => Andamento.Ler(arquivo, pasta), cancelar);
+
+    public Task<ResultadoGit> RodarComandoAsync(PedidoDeComando pedido, CancellationToken cancelar = default) =>
+        ComandoGit.RodarAquiAsync(pedido);
+
+    public Task<TrechoBruto> LerTurnosAsync(string arquivo, int turnos, long ate, CancellationToken cancelar = default) =>
+        Task.Run(() => Transcricao.LerTurnosBrutos(arquivo, turnos, ate), cancelar);
+
+    public Task<string?> UltimoModoAsync(string arquivo, CancellationToken cancelar = default) =>
+        Task.Run(() => ConversasSalvas.UltimoModo(arquivo), cancelar);
 }

@@ -61,6 +61,7 @@ public static partial class Ingles
         ("A pasta {0} não existe neste computador.", "The folder {0} does not exist on this computer."),
         ("O {0} não abriu.", "{0} did not start."),
         ("O {0} demorou demais e foi interrompido.", "{0} took too long and was stopped."),
+        ("O servidor do Nexora parou no meio do {0}. Confira se o comando chegou a rodar antes de tentar de novo.", "The Nexora core process stopped in the middle of {0}. Check whether the command ran before trying again."),
         ("O {0} não foi encontrado neste computador.", "{0} was not found on this computer."),
         ("Nenhuma conta do gh tem acesso a este repositório.", "No gh account has access to this repository."),
         ("Repositório inválido.", "Invalid repository."),

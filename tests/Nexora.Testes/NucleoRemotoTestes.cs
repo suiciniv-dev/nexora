@@ -28,9 +28,88 @@ public sealed class NucleoRemotoTestes
             FalharAndamento
                 ? throw new IOException("arquivo sumiu")
                 : Task.FromResult(new Andamento("Cupom", "main", "Lendo " + arquivo, new DateTimeOffset(2026, 11, 17, 10, 0, 0, TimeSpan.Zero), new ContextoUsado(1234, true, "opus")));
+
+        public Task<TrechoBruto> LerTurnosAsync(string arquivo, int turnos, long ate, CancellationToken cancelar = default) =>
+            NucleoLocal.Instancia.LerTurnosAsync(arquivo, turnos, ate, cancelar);
+
+        public Task<string?> UltimoModoAsync(string arquivo, CancellationToken cancelar = default) =>
+            NucleoLocal.Instancia.UltimoModoAsync(arquivo, cancelar);
+
+        public int Comandos;
+        public TaskCompletionSource? SegurarComando { get; set; }
+
+        public async Task<Nexora.Core.Git.ResultadoGit> RodarComandoAsync(Nexora.Core.Git.PedidoDeComando pedido, CancellationToken cancelar = default)
+        {
+            Interlocked.Increment(ref Comandos);
+            if (SegurarComando is { } segurar) await segurar.Task;
+            return await NucleoLocal.Instancia.RodarComandoAsync(pedido, cancelar);
+        }
     }
 
     static string Cano() => "nexora-teste-" + Guid.NewGuid().ToString("N");
+
+    [Fact]
+    public async Task Pagina_do_historico_lida_no_servidor_e_igual_a_lida_aqui()
+    {
+        var cano = Cano();
+        _ = Task.Run(() => ServidorDoNucleo.RodarAsync(cano, new NucleoFalso(), TimeSpan.FromSeconds(10)));
+        using var remoto = await NucleoRemoto.ConectarAsync(cano, TimeSpan.FromSeconds(10));
+        Assert.NotNull(remoto);
+        var arquivo = Path.Combine(Directory.CreateTempSubdirectory("nexora-hist-").FullName, "longa.jsonl");
+        TranscricaoDeExemplo.Escrever(arquivo, 40);
+
+        var aqui = Transcricao.LerTurnos(arquivo, 12);
+        var bruto = await remoto.LerTurnosAsync(arquivo, 12, long.MaxValue);
+        var la = Transcricao.DeBruto(bruto);
+        var anterior = Transcricao.DeBruto(await remoto.LerTurnosAsync(arquivo, 12, la.Inicio));
+
+        Assert.Equal((aqui.Inicio, aqui.Turnos, aqui.Eventos.Count), (la.Inicio, la.Turnos, la.Eventos.Count));
+        Assert.Equal(aqui.Eventos.Select(e => e.GetType().Name), la.Eventos.Select(e => e.GetType().Name));
+        Assert.Equal(12, anterior.Turnos);
+        Assert.True(anterior.Inicio < la.Inicio);
+        Assert.Equal(await NucleoLocal.Instancia.UltimoModoAsync(arquivo), await remoto.UltimoModoAsync(arquivo));
+    }
+
+    [Fact]
+    public async Task Comando_git_roda_no_servidor_e_volta_com_saida_e_codigo()
+    {
+        var falso = new NucleoFalso();
+        var cano = Cano();
+        _ = Task.Run(() => ServidorDoNucleo.RodarAsync(cano, falso, TimeSpan.FromSeconds(10)));
+        using var remoto = await NucleoRemoto.ConectarAsync(cano, TimeSpan.FromSeconds(10));
+        Assert.NotNull(remoto);
+        var pasta = Directory.CreateTempSubdirectory("nexora-git-").FullName;
+
+        var versao = await remoto.RodarComandoAsync(new Nexora.Core.Git.PedidoDeComando("git", pasta, ["--version"], TimeSpan.FromSeconds(20), new Dictionary<string, string> { ["LANG"] = "C" }, null));
+        var falhou = await remoto.RodarComandoAsync(new Nexora.Core.Git.PedidoDeComando("git", pasta, ["rev-parse", "HEAD"], null, null, null));
+
+        Assert.True(versao.Ok, versao.Mensagem);
+        Assert.StartsWith("git version", versao.Saida);
+        Assert.False(falhou.Ok);
+        Assert.NotEmpty(falhou.Erro);
+        Assert.Equal(2, falso.Comandos);
+    }
+
+    [Fact]
+    public async Task Comando_que_chegou_ao_servidor_nao_e_repetido_se_a_resposta_se_perde()
+    {
+        var falso = new NucleoFalso { SegurarComando = new TaskCompletionSource() };
+        var cano = Cano();
+        using var fim = new CancellationTokenSource();
+        var servidor = Task.Run(() => ServidorDoNucleo.RodarAsync(cano, falso, TimeSpan.FromSeconds(10), fim.Token));
+        using var remoto = await NucleoRemoto.ConectarAsync(cano, TimeSpan.FromSeconds(10));
+        Assert.NotNull(remoto);
+
+        var comando = remoto.RodarComandoAsync(new Nexora.Core.Git.PedidoDeComando("gh", Path.GetTempPath(), ["pr", "create"], null, null, null));
+        while (Volatile.Read(ref falso.Comandos) == 0) await Task.Delay(20);
+        fim.Cancel();
+        var resultado = await comando.WaitAsync(TimeSpan.FromSeconds(20));
+
+        Assert.False(resultado.Ok);
+        Assert.Contains("parou no meio", resultado.Erro);
+        Assert.Equal(1, falso.Comandos);
+        falso.SegurarComando.TrySetResult();
+    }
 
     [Fact]
     public async Task Os_tres_pedidos_vao_e_voltam_pelo_cano_sem_perder_nada()
