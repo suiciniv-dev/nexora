@@ -281,8 +281,7 @@ public sealed partial class JanelaVM
             ResumoMcp = "";
             return;
         }
-        var estado = hub.Estado();
-        var ativos = estado.Count(e => e.Ativo);
+        var ativos = hub.Ativos;
         ResumoMcp = ativos switch
         {
             0 => Idioma.T("MCPs parados"),

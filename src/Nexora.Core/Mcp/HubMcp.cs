@@ -86,6 +86,8 @@ public sealed class HubMcp : IDisposable
         Avisar();
     }
 
+    public int Ativos => _processos.Values.Count(p => p.Ativo);
+
     public IReadOnlyList<EstadoServidor> Estado()
     {
         var lista = new List<EstadoServidor>();

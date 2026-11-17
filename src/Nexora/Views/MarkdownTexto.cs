@@ -20,8 +20,14 @@ public sealed class MarkdownTexto : StackPanel
     static MarkdownTexto()
     {
         TextoProperty.Changed.AddClassHandler<MarkdownTexto>((m, _) => m.Montar());
-        CarregarImagemProperty.Changed.AddClassHandler<MarkdownTexto>((m, _) => m.Montar());
+        CarregarImagemProperty.Changed.AddClassHandler<MarkdownTexto>((m, _) => m.Montar(tudo: true));
     }
+
+    sealed record Montado(Bloco Bloco, Control Controle, SelectableTextBlock? Codigo);
+
+    readonly List<Montado> _montados = [];
+    bool _pendente;
+    bool _refazer;
 
     public Func<string, Task<Bitmap?>>? CarregarImagem
     {
@@ -36,49 +42,106 @@ public sealed class MarkdownTexto : StackPanel
 
     public MarkdownTexto() => Spacing = 12;
 
+    void AoAtualizarLayout(object? sender, EventArgs e)
+    {
+        if (!IsEffectivelyVisible) return;
+        LayoutUpdated -= AoAtualizarLayout;
+        if (_pendente) Montar();
+    }
+
     public string? Texto
     {
         get => GetValue(TextoProperty);
         set => SetValue(TextoProperty, value);
     }
 
-    void Montar()
+    void Montar(bool tudo = false)
     {
-        Children.Clear();
-        _links.Clear();
-        foreach (var bloco in Markdown.Blocos(Texto ?? "")) Children.Add(Criar(bloco));
+        _refazer |= tudo;
+        if (!IsEffectivelyVisible)
+        {
+            if (!_pendente) LayoutUpdated += AoAtualizarLayout;
+            _pendente = true;
+            return;
+        }
+        if (_pendente) LayoutUpdated -= AoAtualizarLayout;
+        _pendente = false;
+        if (_refazer)
+        {
+            _refazer = false;
+            Children.Clear();
+            _montados.Clear();
+        }
+        var blocos = Markdown.Blocos(Texto ?? "");
+        var iguais = 0;
+        while (iguais < blocos.Count && iguais < _montados.Count && Iguais(blocos[iguais], _montados[iguais].Bloco)) iguais++;
+        if (iguais < blocos.Count && iguais == _montados.Count - 1 && Atualizar(iguais, blocos[iguais])) iguais++;
+        for (var i = _montados.Count - 1; i >= iguais; i--)
+        {
+            Children.RemoveAt(i);
+            _montados.RemoveAt(i);
+        }
+        for (var i = iguais; i < blocos.Count; i++)
+        {
+            var montado = Criar(blocos[i]);
+            _montados.Add(montado);
+            Children.Add(montado.Controle);
+        }
     }
 
-    Control Criar(Bloco bloco) => bloco switch
+    bool Atualizar(int indice, Bloco novo)
     {
-        Titulo t => Frase(t.Texto, tamanho: t.Nivel switch { 1 => 20, 2 => 17, _ => 15 }, negrito: true, margem: new Thickness(0, 8, 0, -4)),
-        Paragrafo p => CriarParagrafo(p.Texto),
-        Lista l => CriarLista(l),
-        Codigo c => CriarCodigo(c),
-        Citacao c => new Border { Classes = { "mdCitacao" }, Child = Frase(c.Texto, suave: true) },
-        Tabela t => CriarTabela(t),
-        _ => new Border { Classes = { "mdRegua" } },
+        if (_montados[indice] is not { Bloco: Codigo antigo, Codigo: { } texto } montado || novo is not Codigo codigo || codigo.Linguagem != antigo.Linguagem) return false;
+        texto.Text = codigo.Texto;
+        _montados[indice] = montado with { Bloco = codigo };
+        return true;
+    }
+
+    static bool Iguais(Bloco a, Bloco b) => (a, b) switch
+    {
+        (Lista x, Lista y) => x.Itens.SequenceEqual(y.Itens),
+        (Tabela x, Tabela y) => x.Linhas.Count == y.Linhas.Count && x.Linhas.Zip(y.Linhas).All(p => p.First.SequenceEqual(p.Second)),
+        _ => a.Equals(b),
     };
+
+    Montado Criar(Bloco bloco)
+    {
+        if (bloco is Codigo codigo)
+        {
+            var (controle, texto) = CriarCodigo(codigo);
+            return new Montado(bloco, controle, texto);
+        }
+        return new Montado(bloco, bloco switch
+        {
+            Titulo t => Frase(t.Texto, tamanho: t.Nivel switch { 1 => 20, 2 => 17, _ => 15 }, negrito: true, margem: new Thickness(0, 8, 0, -4)),
+            Paragrafo p => CriarParagrafo(p.Texto),
+            Lista l => CriarLista(l),
+            Citacao c => new Border { Classes = { "mdCitacao" }, Child = Frase(c.Texto, suave: true) },
+            Tabela t => CriarTabela(t),
+            _ => new Border { Classes = { "mdRegua" } },
+        }, null);
+    }
 
     SelectableTextBlock Frase(string texto, double? tamanho = null, bool negrito = false, bool suave = false, Thickness? margem = null)
     {
+        var links = new Dictionary<Run, string>();
         var bloco = new SelectableTextBlock
         {
             TextWrapping = TextWrapping.Wrap,
-            Inlines = Inlines(texto),
+            Inlines = Inlines(texto, links),
             Margin = margem ?? default,
             LineHeight = Math.Round(tamanho is { } titulo ? titulo * 1.3 : Corpo * Entrelinha),
         };
         if (tamanho is { } t) bloco.FontSize = t;
         if (negrito) bloco.FontWeight = FontWeight.SemiBold;
         if (suave) bloco.Classes.Add("suave");
-        LigarLinks(bloco);
+        LigarLinks(bloco, links);
         return bloco;
     }
 
-    void LigarLinks(SelectableTextBlock bloco)
+    void LigarLinks(SelectableTextBlock bloco, Dictionary<Run, string> links)
     {
-        if (bloco.Inlines is not { } inlines || !inlines.OfType<Run>().Any(r => _links.ContainsKey(r))) return;
+        if (links.Count == 0 || bloco.Inlines is not { } inlines) return;
         var texto = inlines.Text ?? "";
         var faixas = new List<(int Inicio, int Fim, string Destino)>();
         var posicao = 0;
@@ -87,7 +150,7 @@ public sealed class MarkdownTexto : StackPanel
             if (string.IsNullOrEmpty(run.Text)) continue;
             var inicio = texto.IndexOf(run.Text, posicao, StringComparison.Ordinal);
             if (inicio < 0) continue;
-            if (_links.TryGetValue(run, out var destino)) faixas.Add((inicio, inicio + run.Text.Length, destino));
+            if (links.TryGetValue(run, out var destino)) faixas.Add((inicio, inicio + run.Text.Length, destino));
             posicao = inicio + run.Text.Length;
         }
         string? LinkEm(PointerEventArgs e)
@@ -111,7 +174,6 @@ public sealed class MarkdownTexto : StackPanel
         }, Avalonia.Interactivity.RoutingStrategies.Bubble, handledEventsToo: true);
     }
 
-    readonly Dictionary<Run, string> _links = [];
     static Cursor? _mao;
 
     public static bool AbrirNoNavegador(string destino)
@@ -128,19 +190,19 @@ public sealed class MarkdownTexto : StackPanel
         }
     }
 
-    InlineCollection Inlines(string texto)
+    InlineCollection Inlines(string texto, Dictionary<Run, string> links)
     {
         var inlines = new InlineCollection();
         var linhas = texto.Split('\n');
         for (var i = 0; i < linhas.Length; i++)
         {
             if (i > 0) inlines.Add(new LineBreak());
-            foreach (var trecho in Markdown.Trechos(linhas[i])) inlines.Add(Pedaco(trecho));
+            foreach (var trecho in Markdown.Trechos(linhas[i])) inlines.Add(Pedaco(trecho, links));
         }
         return inlines;
     }
 
-    Run Pedaco(Trecho trecho)
+    Run Pedaco(Trecho trecho, Dictionary<Run, string> links)
     {
         var run = new Run(trecho.Texto);
         if (trecho.Negrito) run.FontWeight = FontWeight.SemiBold;
@@ -153,7 +215,7 @@ public sealed class MarkdownTexto : StackPanel
         }
         if (trecho.Link is not null)
         {
-            _links[run] = trecho.Link;
+            links[run] = trecho.Link;
             run.TextDecorations = TextDecorations.Underline;
             run.Bind(TextElement.ForegroundProperty, this.GetResourceObservable("Acento"));
         }
@@ -232,7 +294,7 @@ public sealed class MarkdownTexto : StackPanel
         return painel;
     }
 
-    Control CriarCodigo(Codigo codigo)
+    (Control, SelectableTextBlock) CriarCodigo(Codigo codigo)
     {
         var texto = new SelectableTextBlock { Text = codigo.Texto, FontSize = 12.5, TextWrapping = TextWrapping.NoWrap };
         texto.Bind(TextBlock.FontFamilyProperty, this.GetResourceObservable("Mono"));
@@ -241,10 +303,10 @@ public sealed class MarkdownTexto : StackPanel
             Classes = { "mdCodigo" },
             Child = RolagemHorizontal(texto),
         };
-        if (codigo.Linguagem is null) return borda;
+        if (codigo.Linguagem is null) return (borda, texto);
         var rotulo = new TextBlock { Text = codigo.Linguagem, Margin = new Thickness(2, 0, 0, 4) };
         rotulo.Classes.Add("fraco");
-        return new StackPanel { Children = { rotulo, borda } };
+        return (new StackPanel { Children = { rotulo, borda } }, texto);
     }
 
     Control CriarTabela(Tabela tabela)
