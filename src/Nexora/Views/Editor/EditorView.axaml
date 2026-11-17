@@ -18,7 +18,7 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
               <DataTemplate x:DataType="vm:AbaVM">
-                <Border Classes="aba" Classes.ativa="{Binding Ativa}">
+                <c:Caixa Classes="aba" Classes.ativa="{Binding Ativa}">
                   <StackPanel Orientation="Horizontal">
                     <Button Classes="aba-titulo" Command="{Binding SelecionarCommand}" ToolTip.Tip="{Binding Dica}">
                       <StackPanel Orientation="Horizontal" Spacing="6">
@@ -32,7 +32,7 @@
                       <c:Icone Nome="fechar" Tamanho="11" />
                     </Button>
                   </StackPanel>
-                </Border>
+                </c:Caixa>
               </DataTemplate>
             </ItemsControl.ItemTemplate>
           </ItemsControl>

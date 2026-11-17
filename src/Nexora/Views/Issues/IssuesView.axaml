@@ -40,7 +40,7 @@
     <Style Selector="Button.grupo:pointerover /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{DynamicResource Superficie}" />
     </Style>
-    <Style Selector="Border.trilho-visoes">
+    <Style Selector="c|Caixa.trilho-visoes">
       <Setter Property="Background" Value="{DynamicResource SuperficieAlta}" />
       <Setter Property="BorderBrush" Value="{DynamicResource Borda}" />
       <Setter Property="BorderThickness" Value="1" />
@@ -68,17 +68,17 @@
     <Style Selector="Button.visao.ligada">
       <Setter Property="FontWeight" Value="SemiBold" />
     </Style>
-    <Style Selector="Border.grupo-issues">
+    <Style Selector="c|Caixa.grupo-issues">
       <Setter Property="CornerRadius" Value="10" />
       <Setter Property="BorderThickness" Value="1" />
       <Setter Property="BorderBrush" Value="Transparent" />
       <Setter Property="Background" Value="Transparent" />
     </Style>
-    <Style Selector="Border.grupo-issues.alvo">
+    <Style Selector="c|Caixa.grupo-issues.alvo">
       <Setter Property="BorderBrush" Value="{DynamicResource Acento}" />
       <Setter Property="Background" Value="{DynamicResource AcentoFundo}" />
     </Style>
-    <Style Selector="Border.comentario">
+    <Style Selector="c|Caixa.comentario">
       <Setter Property="Background" Value="{DynamicResource Superficie}" />
       <Setter Property="BorderBrush" Value="{DynamicResource Borda}" />
       <Setter Property="BorderThickness" Value="1" />
@@ -94,7 +94,7 @@
       <Setter Property="Padding" Value="6,6" />
       <Setter Property="FontSize" Value="13" />
     </Style>
-    <Style Selector="Border.coluna-kanban">
+    <Style Selector="c|Caixa.coluna-kanban">
       <Setter Property="Width" Value="312" />
       <Setter Property="Background" Value="#18000000" />
       <Setter Property="BorderBrush" Value="{DynamicResource Borda}" />
@@ -103,10 +103,10 @@
       <Setter Property="Padding" Value="10,12,10,4" />
       <Setter Property="Margin" Value="0,0,12,0" />
     </Style>
-    <Style Selector="Border.coluna-kanban.vazia">
+    <Style Selector="c|Caixa.coluna-kanban.vazia">
       <Setter Property="Width" Value="190" />
     </Style>
-    <Style Selector="Border.coluna-kanban.alvo">
+    <Style Selector="c|Caixa.coluna-kanban.alvo">
       <Setter Property="Background" Value="{DynamicResource SelecaoFundo}" />
       <Setter Property="BorderBrush" Value="{DynamicResource SelecaoBorda}" />
     </Style>
@@ -131,7 +131,7 @@
       <Setter Property="Background" Value="{DynamicResource SelecaoFundo}" />
       <Setter Property="BorderBrush" Value="{DynamicResource SelecaoBorda}" />
     </Style>
-    <Style Selector="Border.seletor-modo">
+    <Style Selector="c|Caixa.seletor-modo">
       <Setter Property="Background" Value="{DynamicResource Superficie}" />
       <Setter Property="BorderBrush" Value="{DynamicResource Borda}" />
       <Setter Property="BorderThickness" Value="1" />
@@ -216,7 +216,7 @@
       <Setter Property="HorizontalScrollBarVisibility" Value="Disabled" />
       <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
     </Style>
-    <Style Selector="Window.vertical Border.coluna-kanban">
+    <Style Selector="Window.vertical c|Caixa.coluna-kanban">
       <Setter Property="Width" Value="NaN" />
       <Setter Property="Margin" Value="0" />
     </Style>
@@ -240,7 +240,7 @@
               </DataTemplate>
             </ComboBox.ItemTemplate>
           </ComboBox>
-          <Border Classes="seletor-modo" IsVisible="{Binding Colunas.Quadro}" VerticalAlignment="Center">
+          <c:Caixa Classes="seletor-modo" IsVisible="{Binding Colunas.Quadro}" VerticalAlignment="Center">
             <StackPanel Orientation="Horizontal" Spacing="2">
               <c:BotaoLigado Classes="modo" Classes.ligado="{Binding !EmLista}" IsChecked="{Binding !EmLista, Mode=OneWay}" Command="{Binding VerKanbanCommand}" ToolTip.Tip="{l:T 'Colunas por status; arraste o cartão para trocar o status'}">
                 <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="quadro" Tamanho="13" /><TextBlock Text="Kanban" /></StackPanel>
@@ -249,7 +249,7 @@
                 <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="lista" Tamanho="13" /><TextBlock Text="{l:T 'Lista'}" /></StackPanel>
               </c:BotaoLigado>
             </StackPanel>
-          </Border>
+          </c:Caixa>
           <Button Classes="icone" Command="{Binding AbrirQuadroNoGitHubCommand}" IsVisible="{Binding Colunas.Quadro}" ToolTip.Tip="{l:T 'Abrir o quadro no GitHub'}" AutomationProperties.Name="{l:T 'Abrir o quadro no GitHub'}">
             <c:Icone Nome="externo" Tamanho="15" />
           </Button>
@@ -261,7 +261,7 @@
 
       <Grid Grid.Row="1" ColumnDefinitions="*,Auto,Auto" RowDefinitions="Auto,Auto" Margin="0,0,0,10">
         <ScrollViewer Classes="visoes-issues" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled" IsVisible="{Binding Colunas.Quadro}" VerticalAlignment="Center" Margin="0,0,10,0">
-          <Border Classes="trilho-visoes">
+          <c:Caixa Classes="trilho-visoes">
           <ItemsControl ItemsSource="{Binding Visoes}">
             <ItemsControl.ItemsPanel>
               <ItemsPanelTemplate>
@@ -276,7 +276,7 @@
               </DataTemplate>
             </ItemsControl.ItemTemplate>
           </ItemsControl>
-          </Border>
+          </c:Caixa>
         </ScrollViewer>
         <TextBox Classes="busca-issues busca-topo-issues" Text="{Binding Busca}" PlaceholderText="{l:T 'Buscar nas issues'}" VerticalAlignment="Center"
                  AutomationProperties.Name="{l:T 'Buscar nas issues'}">
@@ -288,7 +288,7 @@
                       ToolTip.Tip="{l:T 'Mostra as issues atribuídas a você e as que ainda não têm responsável'}" VerticalAlignment="Center" />
       </Grid>
 
-      <Border Grid.Row="2" IsVisible="{Binding PrecisaPermissao}" Classes="painel" Padding="14,10" Margin="0,0,0,10">
+      <c:Caixa Grid.Row="2" IsVisible="{Binding PrecisaPermissao}" Classes="painel" Padding="14,10" Margin="0,0,0,10">
         <Grid ColumnDefinitions="Auto,*,Auto">
           <c:Icone Nome="quadro" Tamanho="18" Classes="suave" VerticalAlignment="Center" Margin="0,0,12,0" />
           <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center">
@@ -300,20 +300,20 @@
             <TextBlock Text="{Binding TextoPermissao}" />
           </Button>
         </Grid>
-      </Border>
+      </c:Caixa>
 
       <ScrollViewer Classes="rolagem-kanban" Grid.Row="3" IsVisible="{Binding MostrarKanban}">
         <ItemsControl Classes="kanban" ItemsSource="{Binding Grupos}">
           <ItemsControl.ItemTemplate>
             <DataTemplate x:DataType="vm:GrupoIssuesVM">
-              <Border Classes="coluna-kanban" Classes.alvo="{Binding Alvo}" Classes.vazia="{Binding !Linhas.Count}">
+              <c:Caixa Classes="coluna-kanban" Classes.alvo="{Binding Alvo}" Classes.vazia="{Binding !Linhas.Count}">
                 <DockPanel>
                   <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="9" Margin="6,0,0,10">
                     <Ellipse Width="10" Height="10" Fill="{Binding Cor}" VerticalAlignment="Center" />
                     <TextBlock Text="{Binding Nome}" FontWeight="SemiBold" VerticalAlignment="Center" />
-                    <Border Classes="pilula" Padding="7,0" CornerRadius="999" VerticalAlignment="Center">
+                    <c:Caixa Classes="pilula" Padding="7,0" CornerRadius="999" VerticalAlignment="Center">
                       <TextBlock Classes="fraco" Text="{Binding Contagem}" FontSize="11.5" />
-                    </Border>
+                    </c:Caixa>
                   </StackPanel>
                   <Panel>
                     <TextBlock Classes="fraco" Text="{l:T 'Solte um cartão aqui'}" IsVisible="{Binding !Linhas.Count}" HorizontalAlignment="Center" Margin="0,18,0,0" FontSize="12.5" />
@@ -358,13 +358,13 @@
                     </ScrollViewer>
                   </Panel>
                 </DockPanel>
-              </Border>
+              </c:Caixa>
             </DataTemplate>
           </ItemsControl.ItemTemplate>
         </ItemsControl>
       </ScrollViewer>
 
-      <Border x:Name="Tabela" Grid.Row="3" Classes="painel" Padding="8,8,8,4" IsVisible="{Binding MostrarLista}">
+      <c:Caixa x:Name="Tabela" Grid.Row="3" Classes="painel" Padding="8,8,8,4" IsVisible="{Binding MostrarLista}">
         <DockPanel>
           <Grid DockPanel.Dock="Top" ColumnDefinitions="*,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" Margin="36,2,10,6">
             <TextBlock Classes="coluna" Text="{l:T 'Título'}" />
@@ -387,16 +387,16 @@
               <ItemsControl ItemsSource="{Binding Grupos}">
                 <ItemsControl.ItemTemplate>
                   <DataTemplate x:DataType="vm:GrupoIssuesVM">
-                    <Border Classes="grupo-issues" Classes.alvo="{Binding Alvo}" Margin="0,0,0,8">
+                    <c:Caixa Classes="grupo-issues" Classes.alvo="{Binding Alvo}" Margin="0,0,0,8">
                     <StackPanel>
                       <Button Classes="grupo" Command="{Binding AlternarCommand}">
                         <StackPanel Orientation="Horizontal" Spacing="9">
                           <c:Icone Nome="{Binding Seta}" Tamanho="13" Classes="fraco" VerticalAlignment="Center" />
                           <Ellipse Width="10" Height="10" Fill="{Binding Cor}" VerticalAlignment="Center" />
                           <TextBlock Text="{Binding Nome}" FontWeight="SemiBold" VerticalAlignment="Center" />
-                          <Border Classes="pilula" Padding="7,0" CornerRadius="999" VerticalAlignment="Center">
+                          <c:Caixa Classes="pilula" Padding="7,0" CornerRadius="999" VerticalAlignment="Center">
                             <TextBlock Classes="fraco" Text="{Binding Contagem}" FontSize="11.5" />
-                          </Border>
+                          </c:Caixa>
                         </StackPanel>
                       </Button>
                       <ItemsControl ItemsSource="{Binding Linhas}" IsVisible="{Binding Aberto}">
@@ -449,14 +449,14 @@
                         </ItemsControl.ItemTemplate>
                       </ItemsControl>
                     </StackPanel>
-                    </Border>
+                    </c:Caixa>
                   </DataTemplate>
                 </ItemsControl.ItemTemplate>
               </ItemsControl>
             </ScrollViewer>
           </Panel>
         </DockPanel>
-      </Border>
+      </c:Caixa>
     </Grid>
 
     <Canvas IsHitTestVisible="False">
@@ -562,7 +562,7 @@
             </Border>
             <Border Height="1" Background="{DynamicResource Borda}" Margin="0,6,0,4" />
           </StackPanel>
-          <Border DockPanel.Dock="Bottom" Classes="caixa-comentario" IsVisible="{Binding MostraComentar}" Margin="0,10,0,0">
+          <c:Caixa DockPanel.Dock="Bottom" Classes="caixa-comentario" IsVisible="{Binding MostraComentar}" Margin="0,10,0,0">
             <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto">
               <TextBox Text="{Binding NovoComentario}" PlaceholderText="{l:T 'Escreva um comentário (vai para o GitHub)'}" AcceptsReturn="True" TextWrapping="Wrap"
                        MinHeight="58" MaxHeight="160" AutomationProperties.Name="{l:T 'Novo comentário'}" />
@@ -572,7 +572,7 @@
               <TextBlock Grid.Row="1" Grid.ColumnSpan="2" Classes="fraco" Text="{Binding AvisoComentario}" FontSize="12" Margin="2,6,0,0"
                          IsVisible="{Binding AvisoComentario, Converter={x:Static ObjectConverters.IsNotNull}}" />
             </Grid>
-          </Border>
+          </c:Caixa>
           <Panel>
             <TextBlock Classes="suave" Text="{Binding TextoDetalhe}" IsVisible="{Binding TextoDetalhe, Converter={x:Static ObjectConverters.IsNotNull}}" />
             <ScrollViewer HorizontalScrollBarVisibility="Disabled" IsVisible="{Binding TextoDetalhe, Converter={x:Static ObjectConverters.IsNull}}">
@@ -583,7 +583,7 @@
                   <ItemsControl ItemsSource="{Binding Comentarios}">
                     <ItemsControl.ItemTemplate>
                       <DataTemplate x:DataType="vm:ComentarioVM">
-                        <Border Classes="comentario">
+                        <c:Caixa Classes="comentario">
                           <StackPanel Spacing="6">
                             <StackPanel Orientation="Horizontal" Spacing="8">
                               <TextBlock Text="{Binding Autor}" FontWeight="SemiBold" FontSize="12.5" />
@@ -591,7 +591,7 @@
                             </StackPanel>
                             <c:MarkdownTexto Texto="{Binding Corpo}" CarregarImagem="{Binding $parent[UserControl].((vm:IssuesVM)DataContext).CarregarImagem}" />
                           </StackPanel>
-                        </Border>
+                        </c:Caixa>
                       </DataTemplate>
                     </ItemsControl.ItemTemplate>
                   </ItemsControl>

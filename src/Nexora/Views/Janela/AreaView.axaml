@@ -106,9 +106,9 @@
   <Panel>
     <v:AbasVivas x:Name="Abas" Conteudo="{Binding Conteudo}" Conteudos="{Binding Conteudos}" CabecalhoTemplate="{StaticResource CabecalhoPainel}" />
     <StackPanel IsVisible="{Binding SemConteudo}" VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="12">
-      <Border Classes="selo" HorizontalAlignment="Center">
+      <c:Caixa Classes="selo" HorizontalAlignment="Center">
         <c:Icone Nome="brilho" Tamanho="28" Foreground="{DynamicResource Acento}" />
-      </Border>
+      </c:Caixa>
       <TextBlock Text="Nexora" FontSize="28" FontWeight="SemiBold" HorizontalAlignment="Center" />
       <TextBlock Classes="suave" Text="{l:T 'Escolha um ambiente, abra uma conversa ou comece uma sessão nova.'}" HorizontalAlignment="Center" />
       <TextBlock Classes="fraco" Text="{l:T 'Arraste uma aba para fora da barra para abrir em outra janela.'}" HorizontalAlignment="Center" />

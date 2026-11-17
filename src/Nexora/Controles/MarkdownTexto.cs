@@ -116,9 +116,9 @@ public sealed class MarkdownTexto : StackPanel
             Titulo t => Frase(t.Texto, tamanho: t.Nivel switch { 1 => 20, 2 => 17, _ => 15 }, negrito: true, margem: new Thickness(0, 8, 0, -4)),
             Paragrafo p => CriarParagrafo(p.Texto),
             Lista l => CriarLista(l),
-            Citacao c => new Border { Classes = { "mdCitacao" }, Child = Frase(c.Texto, suave: true) },
+            Citacao c => new Caixa { Classes = { "mdCitacao" }, Child = Frase(c.Texto, suave: true) },
             Tabela t => CriarTabela(t),
-            _ => new Border { Classes = { "mdRegua" } },
+            _ => new Caixa { Classes = { "mdRegua" } },
         }, null);
     }
 
@@ -298,7 +298,7 @@ public sealed class MarkdownTexto : StackPanel
     {
         var texto = new SelectableTextBlock { Text = codigo.Texto, FontSize = 12.5, TextWrapping = TextWrapping.NoWrap };
         texto.Bind(TextBlock.FontFamilyProperty, this.GetResourceObservable("Mono"));
-        var borda = new Border
+        var borda = new Caixa
         {
             Classes = { "mdCodigo" },
             Child = RolagemHorizontal(texto),
@@ -321,7 +321,7 @@ public sealed class MarkdownTexto : StackPanel
             for (var c = 0; c < colunas; c++)
             {
                 var texto = c < tabela.Linhas[l].Count ? tabela.Linhas[l][c] : "";
-                var celula = new Border
+                var celula = new Caixa
                 {
                     Classes = { "mdCelula" },
                     BorderThickness = new Thickness(c == 0 ? 0 : 1, l == 0 ? 0 : 1, 0, 0),
@@ -333,7 +333,7 @@ public sealed class MarkdownTexto : StackPanel
                 grade.Children.Add(celula);
             }
         }
-        return RolagemHorizontal(new Border { Classes = { "mdTabela" }, Child = grade, HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Left });
+        return RolagemHorizontal(new Caixa { Classes = { "mdTabela" }, Child = grade, HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Left });
     }
 
     static ScrollViewer RolagemHorizontal(Control conteudo)

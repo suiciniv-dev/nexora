@@ -64,7 +64,7 @@
           </Button>
         </StackPanel>
       </Grid>
-      <Border Classes="painel" IsVisible="{Binding Vazio}" Padding="24,22">
+      <c:Caixa Classes="painel" IsVisible="{Binding Vazio}" Padding="24,22">
         <StackPanel Spacing="14">
           <StackPanel Spacing="6">
             <TextBlock Text="{l:T 'Nenhum projeto ainda'}" FontSize="17" FontWeight="SemiBold" />
@@ -83,7 +83,7 @@
             </Button>
           </WrapPanel>
         </StackPanel>
-      </Border>
+      </c:Caixa>
       <ItemsControl Classes="cartoes-projeto" ItemsSource="{Binding Cartoes}">
         <ItemsControl.ItemTemplate>
           <DataTemplate x:DataType="vm:CartaoProjetoVM">

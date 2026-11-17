@@ -81,7 +81,7 @@
                   <TextBlock Text="{Binding AvisoBranch}" IsVisible="{Binding TemAvisoBranch}" Foreground="{DynamicResource Laranja}"
                              TextWrapping="Wrap" FontSize="12" Margin="8,2,8,4" />
                   <StackPanel Orientation="Horizontal" Spacing="6" Margin="8,2" IsVisible="{Binding TrocandoBranch}">
-                    <Border Classes="esqueleto" Width="10" Height="10" CornerRadius="5" VerticalAlignment="Center" />
+                    <c:Caixa Classes="esqueleto" Width="10" Height="10" CornerRadius="5" VerticalAlignment="Center" />
                     <TextBlock Classes="fraco" Text="{l:T 'Trocando de branch…'}" FontSize="12" />
                   </StackPanel>
                   <ScrollViewer MaxHeight="320" HorizontalScrollBarVisibility="Disabled">
@@ -114,7 +114,7 @@
             <c:Icone Nome="memoria" Tamanho="14" Classes="suave" VerticalAlignment="Center" Margin="0,0,10,0" />
             <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="6">
               <TextBlock Classes="suave" Text="{Binding TextoMcpDoHub}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" MaxWidth="170" />
-              <Border Classes="etiqueta"><TextBlock Text="{l:T 'pelo hub'}" /></Border>
+              <c:Caixa Classes="etiqueta"><TextBlock Text="{l:T 'pelo hub'}" /></c:Caixa>
             </StackPanel>
           </Grid>
           <Grid Classes="linha-detalhe" ColumnDefinitions="Auto,*,Auto">

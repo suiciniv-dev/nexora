@@ -23,14 +23,14 @@
       <Setter Property="Foreground" Value="{DynamicResource MarcaGradiente}" />
       <Setter Property="Background" Value="{DynamicResource SuperficieAlta}" />
     </Style>
-    <Style Selector="Border.barra">
+    <Style Selector="c|Caixa.barra">
       <Setter Property="Width" Value="7" />
       <Setter Property="CornerRadius" Value="2" />
       <Setter Property="VerticalAlignment" Value="Bottom" />
       <Setter Property="Background" Value="{DynamicResource TextoFraco}" />
       <Setter Property="Opacity" Value="0.55" />
     </Style>
-    <Style Selector="Border.barra.atual">
+    <Style Selector="c|Caixa.barra.atual">
       <Setter Property="Background" Value="{DynamicResource Acento}" />
       <Setter Property="Opacity" Value="1" />
     </Style>
@@ -49,7 +49,7 @@
         </Button>
       </Grid>
 
-      <Border Classes="painel">
+      <c:Caixa Classes="painel">
         <StackPanel Spacing="14">
           <Grid ColumnDefinitions="*,Auto">
             <TextBlock Classes="titulo-painel" Text="{l:T 'Plano'}" />
@@ -71,9 +71,9 @@
             </ItemsControl.ItemTemplate>
           </ItemsControl>
         </StackPanel>
-      </Border>
+      </c:Caixa>
 
-      <Border Classes="painel">
+      <c:Caixa Classes="painel">
         <StackPanel Spacing="12">
           <Grid ColumnDefinitions="Auto,Auto,*,Auto">
             <Button Classes="icone" Command="{Binding SemanaAnteriorCommand}" ToolTip.Tip="{l:T 'Semana anterior'}" AutomationProperties.Name="{l:T 'Semana anterior'}">
@@ -113,9 +113,9 @@
             <ItemsControl.ItemTemplate>
               <DataTemplate x:DataType="vm:LinhaUsoVM">
                 <Grid ColumnDefinitions="Auto,*,Auto" Margin="0,8">
-                  <Border Classes="sigla-uso" Width="30" Height="30" CornerRadius="8" Background="{DynamicResource MarcaGradiente}" VerticalAlignment="Top" Margin="0,2,14,0">
+                  <c:Caixa Classes="sigla-uso" Width="30" Height="30" CornerRadius="8" Background="{DynamicResource MarcaGradiente}" VerticalAlignment="Top" Margin="0,2,14,0">
                     <TextBlock Text="{Binding Iniciais}" FontSize="11" FontWeight="Bold" Foreground="{DynamicResource SobreMarca}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                  </Border>
+                  </c:Caixa>
                   <StackPanel Grid.Column="1" Spacing="5">
                     <Grid ColumnDefinitions="*,Auto,Auto">
                       <TextBlock Text="{Binding Nome}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
@@ -136,7 +136,7 @@
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                       <DataTemplate x:DataType="vm:BarraVM">
-                        <Border Classes="barra" Classes.atual="{Binding Atual}" Height="{Binding Altura}" ToolTip.Tip="{Binding Dica}" />
+                        <c:Caixa Classes="barra" Classes.atual="{Binding Atual}" Height="{Binding Altura}" ToolTip.Tip="{Binding Dica}" />
                       </DataTemplate>
                     </ItemsControl.ItemTemplate>
                   </ItemsControl>
@@ -145,7 +145,7 @@
             </ItemsControl.ItemTemplate>
           </ItemsControl>
         </StackPanel>
-      </Border>
+      </c:Caixa>
     </StackPanel>
   </ScrollViewer>
 </UserControl>

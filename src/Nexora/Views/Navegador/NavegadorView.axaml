@@ -123,9 +123,9 @@
       </ScrollViewer>
     </Border>
 
-    <Border DockPanel.Dock="Bottom" IsVisible="{Binding TemAviso}" Classes="aviso" Margin="8" Padding="10,6">
+    <c:Caixa DockPanel.Dock="Bottom" IsVisible="{Binding TemAviso}" Classes="aviso" Margin="8" Padding="10,6">
       <TextBlock Text="{Binding Aviso}" TextWrapping="Wrap" FontSize="12" />
-    </Border>
+    </c:Caixa>
 
     <Panel>
       <Panel x:Name="Hospedeiro" IsVisible="{Binding MostraPagina}" />

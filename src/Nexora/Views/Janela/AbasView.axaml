@@ -7,7 +7,7 @@
              x:Class="Nexora.Views.AbasView"
              x:DataType="vm:AreaVM">
   <UserControl.Styles>
-    <Style Selector="Border.guia">
+    <Style Selector="c|Caixa.guia">
       <Setter Property="Height" Value="34" />
       <Setter Property="Padding" Value="5,0,5,0" />
       <Setter Property="Margin" Value="0,0,4,0" />
@@ -21,30 +21,30 @@
         <Transitions><c:TransicaoDeCor Property="Background" Duration="0:0:0.12" /></Transitions>
       </Setter>
     </Style>
-    <Style Selector="Border.guia:pointerover">
+    <Style Selector="c|Caixa.guia:pointerover">
       <Setter Property="Background" Value="{DynamicResource Superficie}" />
     </Style>
-    <Style Selector="Border.guia.selecionada">
+    <Style Selector="c|Caixa.guia.selecionada">
       <Setter Property="Background" Value="{DynamicResource SelecaoFundo}" />
       <Setter Property="BorderBrush" Value="{DynamicResource SelecaoBorda}" />
       <Setter Property="BoxShadow" Value="{DynamicResource SelecaoSombra}" />
     </Style>
-    <Style Selector="Border.guia TextBlock.titulo-guia">
+    <Style Selector="c|Caixa.guia TextBlock.titulo-guia">
       <Setter Property="Foreground" Value="{DynamicResource TextoSuave}" />
     </Style>
-    <Style Selector="Border.guia.selecionada TextBlock.titulo-guia">
+    <Style Selector="c|Caixa.guia.selecionada TextBlock.titulo-guia">
       <Setter Property="Foreground" Value="{DynamicResource Texto}" />
     </Style>
-    <Style Selector="Border.guia Button.fechar-guia">
+    <Style Selector="c|Caixa.guia Button.fechar-guia">
       <Setter Property="Opacity" Value="0" />
     </Style>
-    <Style Selector="Border.guia:pointerover Button.fechar-guia, Border.guia.selecionada Button.fechar-guia, Border.guia:focus-within Button.fechar-guia, Button.fechar-guia:focus-visible">
+    <Style Selector="c|Caixa.guia:pointerover Button.fechar-guia, c|Caixa.guia.selecionada Button.fechar-guia, c|Caixa.guia:focus-within Button.fechar-guia, Button.fechar-guia:focus-visible">
       <Setter Property="Opacity" Value="1" />
     </Style>
-    <Style Selector="ContentPresenter.estreita Border.guia:not(.selecionada) TextBlock.titulo-guia">
+    <Style Selector="ContentPresenter.estreita c|Caixa.guia:not(.selecionada) TextBlock.titulo-guia">
       <Setter Property="Opacity" Value="0" />
     </Style>
-    <Style Selector="ContentPresenter.estreita Border.guia:not(.selecionada):not(:focus-within) Button.fechar-guia, ContentPresenter.estreita Border.guia:not(.selecionada):not(:focus-within):pointerover Button.fechar-guia">
+    <Style Selector="ContentPresenter.estreita c|Caixa.guia:not(.selecionada):not(:focus-within) Button.fechar-guia, ContentPresenter.estreita c|Caixa.guia:not(.selecionada):not(:focus-within):pointerover Button.fechar-guia">
       <Setter Property="Opacity" Value="0" />
       <Setter Property="IsHitTestVisible" Value="False" />
     </Style>
@@ -64,10 +64,10 @@
         <ItemsControl.ItemsPanel><ItemsPanelTemplate><v:PainelAbas /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
         <ItemsControl.ItemTemplate>
           <DataTemplate x:DataType="vm:GuiaVM">
-            <Border Classes="guia" Classes.selecionada="{Binding Selecionada}" WindowDecorationProperties.ElementRole="User"
+            <c:Caixa Classes="guia" Classes.selecionada="{Binding Selecionada}" WindowDecorationProperties.ElementRole="User"
                     PointerPressed="AoApertar" PointerMoved="AoMover" PointerReleased="AoSoltar"
                     ToolTip.Tip="{Binding Titulo}">
-              <Border.ContextMenu>
+              <c:Caixa.ContextMenu>
                 <ContextMenu>
                   <MenuItem Header="{l:T 'Abrir em split view'}" Command="{Binding DividirCommand}" IsVisible="{Binding PodeDividirAo}" />
                   <MenuItem Header="{l:T 'Fechar painel (mantém a aba)'}" Command="{Binding FecharPainelCommand}" IsVisible="{Binding NaDivisao}" />
@@ -77,7 +77,7 @@
                   <Separator />
                   <MenuItem Header="{l:T 'Fechar aba'}" Command="{Binding FecharCommand}" InputGesture="Ctrl+W" />
                 </ContextMenu>
-              </Border.ContextMenu>
+              </c:Caixa.ContextMenu>
               <Grid ColumnDefinitions="Auto,*,Auto">
                 <Panel VerticalAlignment="Center" Width="24" Height="24">
                   <c:Avatar Width="24" Height="24" IsVisible="{Binding Chat, Converter={x:Static ObjectConverters.IsNotNull}}"
@@ -99,7 +99,7 @@
                   <c:Icone Nome="fechar" Tamanho="10" />
                 </Button>
               </Grid>
-            </Border>
+            </c:Caixa>
           </DataTemplate>
         </ItemsControl.ItemTemplate>
       </ItemsControl>

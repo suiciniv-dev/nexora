@@ -18,28 +18,28 @@
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="BorderThickness" Value="0" />
     </Style>
-    <Style Selector="Border.selo-pr">
+    <Style Selector="c|Caixa.selo-pr">
       <Setter Property="CornerRadius" Value="5" />
       <Setter Property="Padding" Value="6,1" />
       <Setter Property="VerticalAlignment" Value="Center" />
       <Setter Property="Background" Value="{DynamicResource SuperficieAlta}" />
     </Style>
-    <Style Selector="Border.selo-pr > TextBlock">
+    <Style Selector="c|Caixa.selo-pr > TextBlock">
       <Setter Property="FontSize" Value="10" />
       <Setter Property="FontWeight" Value="Bold" />
       <Setter Property="LetterSpacing" Value="0.5" />
       <Setter Property="Foreground" Value="{DynamicResource TextoSuave}" />
     </Style>
-    <Style Selector="Border.selo-pr.aberto > TextBlock">
+    <Style Selector="c|Caixa.selo-pr.aberto > TextBlock">
       <Setter Property="Foreground" Value="{DynamicResource Verde}" />
     </Style>
-    <Style Selector="Border.selo-pr.mergeado > TextBlock">
+    <Style Selector="c|Caixa.selo-pr.mergeado > TextBlock">
       <Setter Property="Foreground" Value="{DynamicResource Acento}" />
     </Style>
-    <Style Selector="Border.selo-pr.fechado > TextBlock">
+    <Style Selector="c|Caixa.selo-pr.fechado > TextBlock">
       <Setter Property="Foreground" Value="{DynamicResource Vermelho}" />
     </Style>
-    <Style Selector="Border.lista-lateral">
+    <Style Selector="c|Caixa.lista-lateral">
       <Setter Property="BorderBrush" Value="{DynamicResource Borda}" />
       <Setter Property="BorderThickness" Value="0,0,0,1" />
       <Setter Property="Padding" Value="0,0,0,8" />
@@ -66,7 +66,7 @@
     <Style Selector="Button.fixar-projeto.ligado">
       <Setter Property="Foreground" Value="{DynamicResource Acento}" />
     </Style>
-    <Style Selector="Border.quadradinho">
+    <Style Selector="c|Caixa.quadradinho">
       <Setter Property="Width" Value="9" />
       <Setter Property="Height" Value="9" />
       <Setter Property="CornerRadius" Value="2" />
@@ -193,7 +193,7 @@
                 <ItemsControl.ItemTemplate>
                   <DataTemplate x:DataType="vm:LegendaVM">
                     <StackPanel Orientation="Horizontal" Spacing="6" Margin="0,0,14,0">
-                      <Border Classes="quadradinho" Background="{Binding Cor}" />
+                      <c:Caixa Classes="quadradinho" Background="{Binding Cor}" />
                       <TextBlock Classes="suave" FontSize="12" Text="{Binding Texto}" />
                     </StackPanel>
                   </DataTemplate>
@@ -213,14 +213,14 @@
                 <StackPanel Spacing="1">
                   <TextBlock Theme="{StaticResource NumeroDoWidget}" FontSize="21" Text="{Binding TempoAtivo}" />
                   <StackPanel Orientation="Horizontal" Spacing="6">
-                    <Border Classes="quadradinho" Background="{DynamicResource Acento}" />
+                    <c:Caixa Classes="quadradinho" Background="{DynamicResource Acento}" />
                     <TextBlock Classes="suave" FontSize="12" Text="{l:T 'com o Nexora em uso'}" />
                   </StackPanel>
                 </StackPanel>
                 <StackPanel Grid.Column="1" Spacing="1">
                   <TextBlock Theme="{StaticResource NumeroDoWidget}" FontSize="21" Text="{Binding TempoAgentes}" />
                   <StackPanel Orientation="Horizontal" Spacing="6">
-                    <Border Classes="quadradinho" Background="{DynamicResource Verde}" />
+                    <c:Caixa Classes="quadradinho" Background="{DynamicResource Verde}" />
                     <TextBlock Classes="suave" FontSize="12" Text="{l:T 'agentes trabalhando'}" />
                   </StackPanel>
                 </StackPanel>
@@ -378,12 +378,12 @@
         </Border>
 
         <StackPanel IsVisible="{Binding TemParaRevisar}">
-          <Border Classes="lista-lateral">
+          <c:Caixa Classes="lista-lateral">
             <Grid ColumnDefinitions="*,Auto">
               <TextBlock Theme="{StaticResource RotuloDoWidget}" Text="{l:T 'ESPERANDO SUA REVIEW'}" />
               <TextBlock Grid.Column="1" Theme="{StaticResource RotuloDoWidget}" Text="{Binding LoginDoGitHub}" />
             </Grid>
-          </Border>
+          </c:Caixa>
           <ItemsControl ItemsSource="{Binding ParaRevisar}">
             <ItemsControl.ItemTemplate>
               <DataTemplate x:DataType="vm:LinkDoPainelVM">
@@ -391,9 +391,9 @@
                   <StackPanel Spacing="2">
                     <Grid ColumnDefinitions="*,Auto">
                       <TextBlock Classes="fraco" FontSize="11.5" Text="{Binding Detalhe}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
-                      <Border Grid.Column="1" Classes="selo-pr" Classes.aberto="{Binding Aberto}" Classes.mergeado="{Binding Mergeado}" Classes.fechado="{Binding Fechado}">
+                      <c:Caixa Grid.Column="1" Classes="selo-pr" Classes.aberto="{Binding Aberto}" Classes.mergeado="{Binding Mergeado}" Classes.fechado="{Binding Fechado}">
                         <TextBlock Text="{Binding Selo}" />
-                      </Border>
+                      </c:Caixa>
                     </Grid>
                     <TextBlock Text="{Binding Titulo}" FontSize="12.5" TextTrimming="CharacterEllipsis" />
                   </StackPanel>
@@ -404,12 +404,12 @@
         </StackPanel>
 
         <StackPanel>
-          <Border Classes="lista-lateral">
+          <c:Caixa Classes="lista-lateral">
             <Grid ColumnDefinitions="*,Auto">
               <TextBlock Theme="{StaticResource RotuloDoWidget}" Text="{l:T 'MEUS PULL REQUESTS'}" />
               <TextBlock Grid.Column="1" Theme="{StaticResource RotuloDoWidget}" Text="{Binding LoginDoGitHub}" />
             </Grid>
-          </Border>
+          </c:Caixa>
           <ItemsControl ItemsSource="{Binding MeusPrs}">
             <ItemsControl.ItemTemplate>
               <DataTemplate x:DataType="vm:LinkDoPainelVM">
@@ -417,9 +417,9 @@
                   <StackPanel Spacing="2">
                     <Grid ColumnDefinitions="*,Auto">
                       <TextBlock Classes="fraco" FontSize="11.5" Text="{Binding Detalhe}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
-                      <Border Grid.Column="1" Classes="selo-pr" Classes.aberto="{Binding Aberto}" Classes.mergeado="{Binding Mergeado}" Classes.fechado="{Binding Fechado}">
+                      <c:Caixa Grid.Column="1" Classes="selo-pr" Classes.aberto="{Binding Aberto}" Classes.mergeado="{Binding Mergeado}" Classes.fechado="{Binding Fechado}">
                         <TextBlock Text="{Binding Selo}" />
-                      </Border>
+                      </c:Caixa>
                     </Grid>
                     <TextBlock Text="{Binding Titulo}" FontSize="12.5" TextTrimming="CharacterEllipsis" />
                   </StackPanel>
@@ -431,9 +431,9 @@
         </StackPanel>
 
         <StackPanel>
-          <Border Classes="lista-lateral">
+          <c:Caixa Classes="lista-lateral">
             <TextBlock Theme="{StaticResource RotuloDoWidget}" Text="{l:T 'COMMITS RECENTES'}" />
-          </Border>
+          </c:Caixa>
           <ItemsControl ItemsSource="{Binding Commits}">
             <ItemsControl.ItemTemplate>
               <DataTemplate x:DataType="vm:LinkDoPainelVM">

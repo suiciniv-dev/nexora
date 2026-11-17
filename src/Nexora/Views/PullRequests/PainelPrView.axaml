@@ -13,33 +13,33 @@
       <Setter Property="LetterSpacing" Value="0.8" />
       <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
-    <Style Selector="Border.estado-pr">
+    <Style Selector="c|Caixa.estado-pr">
       <Setter Property="CornerRadius" Value="999" />
       <Setter Property="Padding" Value="8,2" />
       <Setter Property="Background" Value="{DynamicResource DiffMais}" />
       <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
-    <Style Selector="Border.estado-pr > TextBlock">
+    <Style Selector="c|Caixa.estado-pr > TextBlock">
       <Setter Property="Foreground" Value="{DynamicResource Verde}" />
       <Setter Property="FontSize" Value="11.5" />
       <Setter Property="FontWeight" Value="SemiBold" />
     </Style>
-    <Style Selector="Border.estado-pr.rascunho">
+    <Style Selector="c|Caixa.estado-pr.rascunho">
       <Setter Property="Background" Value="{DynamicResource Superficie}" />
     </Style>
-    <Style Selector="Border.estado-pr.rascunho > TextBlock">
+    <Style Selector="c|Caixa.estado-pr.rascunho > TextBlock">
       <Setter Property="Foreground" Value="{DynamicResource TextoSuave}" />
     </Style>
-    <Style Selector="Border.estado-pr.mergeado">
+    <Style Selector="c|Caixa.estado-pr.mergeado">
       <Setter Property="Background" Value="{DynamicResource AcentoFundo}" />
     </Style>
-    <Style Selector="Border.estado-pr.mergeado > TextBlock">
+    <Style Selector="c|Caixa.estado-pr.mergeado > TextBlock">
       <Setter Property="Foreground" Value="{DynamicResource Acento}" />
     </Style>
-    <Style Selector="Border.estado-pr.fechado">
+    <Style Selector="c|Caixa.estado-pr.fechado">
       <Setter Property="Background" Value="{DynamicResource ErroFundo}" />
     </Style>
-    <Style Selector="Border.estado-pr.fechado > TextBlock">
+    <Style Selector="c|Caixa.estado-pr.fechado > TextBlock">
       <Setter Property="Foreground" Value="{DynamicResource Vermelho}" />
     </Style>
     <Style Selector="Button.linha-pr">
@@ -66,7 +66,7 @@
     <Style Selector="c|Icone.pulado">
       <Setter Property="Foreground" Value="{DynamicResource TextoFraco}" />
     </Style>
-    <Style Selector="Border.conversa-pr">
+    <Style Selector="c|Caixa.conversa-pr">
       <Setter Property="Background" Value="{DynamicResource Superficie}" />
       <Setter Property="BorderBrush" Value="{DynamicResource Borda}" />
       <Setter Property="BorderThickness" Value="1" />
@@ -74,25 +74,25 @@
       <Setter Property="Padding" Value="10,8" />
       <Setter Property="Margin" Value="0,0,0,6" />
     </Style>
-    <Style Selector="Border.alerta-pr">
+    <Style Selector="c|Caixa.alerta-pr">
       <Setter Property="Background" Value="{DynamicResource ErroFundo}" />
       <Setter Property="BorderBrush" Value="{DynamicResource Vermelho}" />
       <Setter Property="BorderThickness" Value="1" />
       <Setter Property="CornerRadius" Value="10" />
       <Setter Property="Padding" Value="12,10" />
     </Style>
-    <Style Selector="Border.alerta-pr.atencao">
+    <Style Selector="c|Caixa.alerta-pr.atencao">
       <Setter Property="Background" Value="{DynamicResource PedidoFundo}" />
       <Setter Property="BorderBrush" Value="{DynamicResource Laranja}" />
     </Style>
-    <Style Selector="Border.avatar-pr">
+    <Style Selector="c|Caixa.avatar-pr">
       <Setter Property="Width" Value="20" />
       <Setter Property="Height" Value="20" />
       <Setter Property="CornerRadius" Value="10" />
       <Setter Property="Background" Value="{DynamicResource MarcaGradiente}" />
       <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
-    <Style Selector="Border.avatar-pr > TextBlock">
+    <Style Selector="c|Caixa.avatar-pr > TextBlock">
       <Setter Property="FontSize" Value="10" />
       <Setter Property="FontWeight" Value="Bold" />
       <Setter Property="Foreground" Value="{DynamicResource SobreMarca}" />
@@ -105,29 +105,29 @@
     <StackPanel Margin="18,12,18,18" Spacing="18">
 
       <StackPanel Spacing="8" IsVisible="{Binding Carregando}">
-        <Border Classes="esqueleto" Height="14" Width="120" HorizontalAlignment="Left" CornerRadius="4" />
-        <Border Classes="esqueleto" Height="18" CornerRadius="4" />
-        <Border Classes="esqueleto" Height="12" Width="180" HorizontalAlignment="Left" CornerRadius="4" />
+        <c:Caixa Classes="esqueleto" Height="14" Width="120" HorizontalAlignment="Left" CornerRadius="4" />
+        <c:Caixa Classes="esqueleto" Height="18" CornerRadius="4" />
+        <c:Caixa Classes="esqueleto" Height="12" Width="180" HorizontalAlignment="Left" CornerRadius="4" />
         <TextBlock Classes="fraco" Text="{l:T 'Lendo o PR no GitHub…'}" FontSize="12" Margin="0,4,0,0" />
       </StackPanel>
 
-      <Border Classes="aviso erro" IsVisible="{Binding TemErro}">
+      <c:Caixa Classes="aviso erro" IsVisible="{Binding TemErro}">
         <StackPanel Spacing="8">
           <TextBlock Text="{Binding Erro}" TextWrapping="Wrap" FontSize="12.5" />
           <Button Classes="mini" Command="{Binding AtualizarCommand}" HorizontalAlignment="Left" Content="{l:T 'Tentar de novo'}" />
         </StackPanel>
-      </Border>
+      </c:Caixa>
 
       <StackPanel Spacing="8" IsVisible="{Binding NaPrincipal}">
         <TextBlock Classes="secao-pr" Text="PULL REQUEST" />
         <TextBlock Classes="suave" Text="{l:T 'Esta sessão está na branch principal. Crie uma branch ou um worktree para abrir um PR.'}" TextWrapping="Wrap" />
       </StackPanel>
 
-      <Border Classes="aviso" IsVisible="{Binding TemAviso}" Padding="12,8">
+      <c:Caixa Classes="aviso" IsVisible="{Binding TemAviso}" Padding="12,8">
         <TextBlock Text="{Binding Aviso}" TextWrapping="Wrap" FontSize="12.5" />
-      </Border>
+      </c:Caixa>
 
-      <Border Classes="alerta-pr" Classes.atencao="{Binding !ConfirmacaoPerigosa}" IsVisible="{Binding TemConfirmacao}">
+      <c:Caixa Classes="alerta-pr" Classes.atencao="{Binding !ConfirmacaoPerigosa}" IsVisible="{Binding TemConfirmacao}">
         <StackPanel Spacing="10">
           <TextBlock Text="{Binding Confirmacao.Texto, FallbackValue=''}" TextWrapping="Wrap" FontSize="12.5" />
           <StackPanel Orientation="Horizontal" Spacing="8">
@@ -135,14 +135,14 @@
             <Button Classes="contorno pequeno" Command="{Binding CancelarConfirmacaoCommand}" Content="{l:T 'Cancelar'}" />
           </StackPanel>
         </StackPanel>
-      </Border>
+      </c:Caixa>
 
       <StackPanel Spacing="18" IsVisible="{Binding TemPr}">
         <StackPanel Spacing="6">
           <Grid ColumnDefinitions="Auto,Auto,*,Auto,Auto">
-            <Border Classes="estado-pr" Classes.rascunho="{Binding Rascunho}" Classes.mergeado="{Binding Mergeado}" Classes.fechado="{Binding Fechado}">
+            <c:Caixa Classes="estado-pr" Classes.rascunho="{Binding Rascunho}" Classes.mergeado="{Binding Mergeado}" Classes.fechado="{Binding Fechado}">
               <TextBlock Text="{Binding EstadoTexto}" />
-            </Border>
+            </c:Caixa>
             <TextBlock Grid.Column="1" Classes="fraco mono" Text="{Binding Numero}" VerticalAlignment="Center" Margin="8,0,0,0" />
             <Button Grid.Column="3" Classes="icone pequeno" Command="{Binding AtualizarCommand}" ToolTip.Tip="{l:T 'Ler o PR de novo'}" AutomationProperties.Name="{l:T 'Ler o PR de novo'}">
               <c:Icone Nome="atualizar" Tamanho="12" />
@@ -156,7 +156,7 @@
           <TextBlock Classes="fraco" Text="{Binding InfoAutor}" FontSize="11.5" TextWrapping="Wrap" />
         </StackPanel>
 
-        <Border Classes="alerta-pr" IsVisible="{Binding TemConflito}">
+        <c:Caixa Classes="alerta-pr" IsVisible="{Binding TemConflito}">
           <StackPanel Spacing="8">
             <Grid ColumnDefinitions="Auto,*">
               <c:Icone Nome="alerta" Tamanho="14" Foreground="{DynamicResource Vermelho}" VerticalAlignment="Top" Margin="0,1,8,0" />
@@ -167,7 +167,7 @@
               <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="faisca" Tamanho="12" /><TextBlock Text="{l:T 'Pedir ao agente para resolver'}" /></StackPanel>
             </Button>
           </StackPanel>
-        </Border>
+        </c:Caixa>
 
         <StackPanel Spacing="6">
           <Grid ColumnDefinitions="*,Auto">
@@ -204,7 +204,7 @@
             <ItemsControl.ItemTemplate>
               <DataTemplate x:DataType="vm:RevisorPrVM">
                 <Grid ColumnDefinitions="Auto,*,Auto" Margin="0,3">
-                  <Border Classes="avatar-pr" Margin="0,0,9,0"><TextBlock Text="{Binding Inicial}" /></Border>
+                  <c:Caixa Classes="avatar-pr" Margin="0,0,9,0"><TextBlock Text="{Binding Inicial}" /></c:Caixa>
                   <TextBlock Grid.Column="1" Text="{Binding Login}" FontSize="12.5" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
                   <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="5" VerticalAlignment="Center">
                     <c:Icone Nome="{Binding Icone}" Tamanho="12" Classes.ok="{Binding Aprovou}" Classes.falhou="{Binding PediuMudancas}" Classes.pendente="{Binding Esperando}" VerticalAlignment="Center" />
@@ -248,13 +248,13 @@
                   <ItemsControl ItemsSource="{Binding Conversas}">
                     <ItemsControl.ItemTemplate>
                       <DataTemplate x:DataType="vm:ConversaPrVM">
-                        <Border Classes="conversa-pr">
+                        <c:Caixa Classes="conversa-pr">
                           <StackPanel Spacing="6">
                             <WrapPanel ItemSpacing="6">
                               <CheckBox IsChecked="{Binding Incluir}" VerticalAlignment="Center" MinWidth="0" Padding="0"
                                         ToolTip.Tip="{l:T 'Incluir este comentário no que vai para o agente'}" AutomationProperties.Name="{l:T 'Incluir este comentário'}" />
                               <Panel Width="20" Height="20" VerticalAlignment="Center">
-                                <Border Classes="avatar-pr" IsVisible="{Binding EhPessoa}"><TextBlock Text="{Binding Iniciais}" /></Border>
+                                <c:Caixa Classes="avatar-pr" IsVisible="{Binding EhPessoa}"><TextBlock Text="{Binding Iniciais}" /></c:Caixa>
                                 <c:AvatarVivo Agente="{Binding Agente}" Parado="True" Rotulo="" IsVisible="{Binding EhAgente}" />
                               </Panel>
                               <Button Classes="mini" Command="{Binding AbrirArquivoCommand}" Padding="6,1" ToolTip.Tip="{l:T 'Abrir o arquivo nesta linha'}">
@@ -276,7 +276,7 @@
                               </Button>
                             </Grid>
                           </StackPanel>
-                        </Border>
+                        </c:Caixa>
                       </DataTemplate>
                     </ItemsControl.ItemTemplate>
                   </ItemsControl>
@@ -310,7 +310,7 @@
           </ItemsControl>
         </StackPanel>
 
-        <Border Classes="conversa-pr" IsVisible="{Binding TemEnvio}" Padding="12,10">
+        <c:Caixa Classes="conversa-pr" IsVisible="{Binding TemEnvio}" Padding="12,10">
           <StackPanel Spacing="8">
             <StackPanel Spacing="2">
               <TextBlock Classes="secao-pr" Text="{l:T 'MANDAR PARA O AGENTE'}" />
@@ -338,7 +338,7 @@
               <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="enviar" Tamanho="13" /><TextBlock Text="{l:T 'Mandar para o agente'}" /></StackPanel>
             </Button>
           </StackPanel>
-        </Border>
+        </c:Caixa>
 
         <StackPanel Spacing="8" IsVisible="{Binding PodeMarcarPronto}">
           <TextBlock Classes="secao-pr" Text="{l:T 'RASCUNHO'}" />
@@ -402,9 +402,9 @@
                    AutomationProperties.Name="{l:T 'Descrição do PR'}" />
         </StackPanel>
         <CheckBox IsChecked="{Binding NovoRascunho}" Content="{l:T 'Abrir como rascunho'}" />
-        <Border Classes="alerta-pr atencao" IsVisible="{Binding TemAvisoNovo}" Padding="10,8">
+        <c:Caixa Classes="alerta-pr atencao" IsVisible="{Binding TemAvisoNovo}" Padding="10,8">
           <TextBlock Text="{Binding AvisoNovo}" TextWrapping="Wrap" FontSize="12" />
-        </Border>
+        </c:Caixa>
         <WrapPanel ItemSpacing="8" LineSpacing="8">
           <Button Classes="primario" Command="{Binding CriarPrCommand}"
                   ToolTip.Tip="{l:T 'Envia a branch e abre o PR pelo gh, sem passar pelo agente'}">

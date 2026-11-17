@@ -26,7 +26,7 @@
           <c:Icone Nome="busca" Tamanho="18" Classes="fraco" VerticalAlignment="Center" Margin="0,0,8,0" />
           <TextBox x:Name="Campo" Grid.Column="1" Classes="busca-rapida" Text="{Binding Busca}"
                    PlaceholderText="{l:T 'Procurar telas, comandos, projetos e conversas'}" />
-          <Border Grid.Column="2" Classes="tecla" VerticalAlignment="Center"><TextBlock Text="Esc" /></Border>
+          <c:Caixa Grid.Column="2" Classes="tecla" VerticalAlignment="Center"><TextBlock Text="Esc" /></c:Caixa>
         </Grid>
         <Border Height="1" Background="{DynamicResource Borda}" />
         <ListBox x:Name="Lista" Classes="lista" ItemsSource="{Binding Resultados}" SelectedItem="{Binding ResultadoSelecionado}" MaxHeight="420" Background="Transparent">
@@ -42,10 +42,10 @@
         </ListBox>
         <TextBlock Classes="fraco" Text="{l:T 'Nada encontrado.'}" IsVisible="{Binding SemResultados}" Margin="12,6,12,10" />
         <StackPanel Orientation="Horizontal" Spacing="6" Margin="12,2,12,4">
-          <Border Classes="tecla"><TextBlock Text="↑" /></Border>
-          <Border Classes="tecla"><TextBlock Text="↓" /></Border>
+          <c:Caixa Classes="tecla"><TextBlock Text="↑" /></c:Caixa>
+          <c:Caixa Classes="tecla"><TextBlock Text="↓" /></c:Caixa>
           <TextBlock Classes="fraco" Text="{l:T 'escolhe'}" FontSize="12" VerticalAlignment="Center" Margin="0,0,10,0" />
-          <Border Classes="tecla"><TextBlock Text="Enter" /></Border>
+          <c:Caixa Classes="tecla"><TextBlock Text="Enter" /></c:Caixa>
           <TextBlock Classes="fraco" Text="{l:T 'abre'}" FontSize="12" VerticalAlignment="Center" />
         </StackPanel>
       </StackPanel>

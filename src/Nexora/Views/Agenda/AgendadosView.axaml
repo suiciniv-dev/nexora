@@ -15,7 +15,7 @@
                    Text="{l:T 'Pedidos que o agente roda sozinho num projeto, no horário marcado. Cada um abre uma sessão nova, que aparece no quadro. Só rodam com o Nexora aberto: se ele estava fechado na hora, roda quando você abrir no mesmo dia.'}" />
       </StackPanel>
 
-      <Border Classes="painel">
+      <c:Caixa Classes="painel">
         <StackPanel Spacing="12">
           <TextBlock Classes="titulo-painel" Text="{l:T 'Novo agendado'}" />
           <Grid ColumnDefinitions="*,16,260,16,90" RowDefinitions="Auto,Auto">
@@ -62,14 +62,14 @@
             </Button>
           </Grid>
         </StackPanel>
-      </Border>
+      </c:Caixa>
 
       <TextBlock Classes="suave" Text="{l:T 'Nenhum agendado ainda.'}" IsVisible="{Binding Vazio}" />
       <ItemsControl ItemsSource="{Binding Itens}">
         <ItemsControl.ItemsPanel><ItemsPanelTemplate><StackPanel Spacing="10" /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
         <ItemsControl.ItemTemplate>
           <DataTemplate x:DataType="vm:AgendamentoVM">
-            <Border Classes="painel">
+            <c:Caixa Classes="painel">
               <Grid ColumnDefinitions="*,Auto,Auto,Auto">
                 <StackPanel Spacing="3">
                   <TextBlock Text="{Binding Nome}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
@@ -93,7 +93,7 @@
                   <c:Icone Nome="lixeira" Tamanho="14" />
                 </Button>
               </Grid>
-            </Border>
+            </c:Caixa>
           </DataTemplate>
         </ItemsControl.ItemTemplate>
       </ItemsControl>

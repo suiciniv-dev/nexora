@@ -15,9 +15,9 @@
     </Style>
   </UserControl.Styles>
   <StackPanel Spacing="14">
-    <Border Classes="aviso" IsVisible="{Binding TemMensagem}">
+    <c:Caixa Classes="aviso" IsVisible="{Binding TemMensagem}">
       <TextBlock Text="{Binding Mensagem}" TextWrapping="Wrap" />
-    </Border>
+    </c:Caixa>
 
     <StackPanel Spacing="12" IsVisible="{Binding NaGaleria}">
       <ItemsControl ItemsSource="{Binding Grupos}">
