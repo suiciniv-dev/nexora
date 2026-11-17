@@ -1,6 +1,5 @@
 using System.Collections.ObjectModel;
 using System.Text.Json;
-using CommunityToolkit.Mvvm.Input;
 using Nexora.Core.Claude;
 using Nexora.Core.Git;
 using Nexora.Core.Revisao;

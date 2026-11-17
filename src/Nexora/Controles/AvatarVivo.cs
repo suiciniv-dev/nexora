@@ -8,7 +8,7 @@ using Avalonia.Media;
 using Avalonia.Threading;
 using Nexora.Core.Avatares;
 
-namespace Nexora.Views;
+namespace Nexora.Controles;
 
 public sealed class AvatarVivo : Control
 {

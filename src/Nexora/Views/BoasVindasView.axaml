@@ -1,7 +1,7 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="using:Nexora.ViewModels"
-             xmlns:v="using:Nexora.Views"
+             xmlns:c="using:Nexora.Controles"
              xmlns:l="using:Nexora"
              x:Class="Nexora.Views.BoasVindasView"
              x:DataType="vm:BoasVindasVM"
@@ -76,7 +76,7 @@
               <StackPanel Spacing="10">
                 <Border Classes="linha-bv">
                   <Grid ColumnDefinitions="Auto,*">
-                    <v:Icone Nome="quadro" Tamanho="18" VerticalAlignment="Top" Margin="0,2,14,0" />
+                    <c:Icone Nome="quadro" Tamanho="18" VerticalAlignment="Top" Margin="0,2,14,0" />
                     <StackPanel Grid.Column="1" Spacing="2">
                       <TextBlock Text="{l:T 'Todas as conversas num lugar'}" FontWeight="SemiBold" />
                       <TextBlock Classes="texto-bv" Text="{l:T 'Veja o que cada agente está fazendo. Quem precisa de você aparece primeiro.'}" />
@@ -85,7 +85,7 @@
                 </Border>
                 <Border Classes="linha-bv">
                   <Grid ColumnDefinitions="Auto,*">
-                    <v:Icone Nome="ok" Tamanho="18" VerticalAlignment="Top" Margin="0,2,14,0" />
+                    <c:Icone Nome="ok" Tamanho="18" VerticalAlignment="Top" Margin="0,2,14,0" />
                     <StackPanel Grid.Column="1" Spacing="2">
                       <TextBlock Text="{l:T 'Aprove os pedidos sem caçar janela'}" FontWeight="SemiBold" />
                       <TextBlock Classes="texto-bv" Text="{l:T 'Quando um agente pede para rodar um comando ou mudar um arquivo, você permite ou nega ali mesmo.'}" />
@@ -94,7 +94,7 @@
                 </Border>
                 <Border Classes="linha-bv">
                   <Grid ColumnDefinitions="Auto,*">
-                    <v:Icone Nome="camadas" Tamanho="18" VerticalAlignment="Top" Margin="0,2,14,0" />
+                    <c:Icone Nome="camadas" Tamanho="18" VerticalAlignment="Top" Margin="0,2,14,0" />
                     <StackPanel Grid.Column="1" Spacing="2">
                       <TextBlock Text="{l:T 'Cada conversa no projeto certo'}" FontWeight="SemiBold" />
                       <TextBlock Classes="texto-bv" Text="{l:T 'Escolha a pasta do seu código uma vez. As conversas novas já começam nela, com a branch e os arquivos à vista.'}" />
@@ -115,8 +115,8 @@
                     <Border Classes="linha-bv" Margin="0,0,0,8">
                       <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto">
                         <Panel Margin="0,2,14,0" VerticalAlignment="Top">
-                          <v:Icone Nome="ok" Tamanho="17" Foreground="{DynamicResource Verde}" IsVisible="{Binding Ok}" />
-                          <v:Icone Nome="alerta" Tamanho="17" Foreground="{DynamicResource Laranja}" IsVisible="{Binding Falta}" />
+                          <c:Icone Nome="ok" Tamanho="17" Foreground="{DynamicResource Verde}" IsVisible="{Binding Ok}" />
+                          <c:Icone Nome="alerta" Tamanho="17" Foreground="{DynamicResource Laranja}" IsVisible="{Binding Falta}" />
                         </Panel>
                         <StackPanel Grid.Column="1" Spacing="2">
                           <StackPanel Orientation="Horizontal" Spacing="10">
@@ -134,7 +134,7 @@
                 </ItemsControl.ItemTemplate>
               </ItemsControl>
               <Button Classes="contorno" Command="{Binding VerificarCommand}" HorizontalAlignment="Left">
-                <StackPanel Orientation="Horizontal" Spacing="7"><v:Icone Nome="atualizar" Tamanho="13" /><TextBlock Text="{l:T 'Verificar de novo'}" /></StackPanel>
+                <StackPanel Orientation="Horizontal" Spacing="7"><c:Icone Nome="atualizar" Tamanho="13" /><TextBlock Text="{l:T 'Verificar de novo'}" /></StackPanel>
               </Button>
             </StackPanel>
 
@@ -146,9 +146,9 @@
               <Border Classes="linha-bv">
                 <Grid ColumnDefinitions="Auto,*">
                   <Panel Margin="0,1,14,0" VerticalAlignment="Top">
-                    <v:Icone Nome="ok" Tamanho="17" Foreground="{DynamicResource Verde}" IsVisible="{Binding Logado}" />
-                    <v:Icone Nome="alerta" Tamanho="17" Foreground="{DynamicResource Laranja}" IsVisible="{Binding FaltaLogin}" />
-                    <v:Icone Nome="terminal" Tamanho="17" Foreground="{DynamicResource TextoSuave}" IsVisible="{Binding SemConferencia}" />
+                    <c:Icone Nome="ok" Tamanho="17" Foreground="{DynamicResource Verde}" IsVisible="{Binding Logado}" />
+                    <c:Icone Nome="alerta" Tamanho="17" Foreground="{DynamicResource Laranja}" IsVisible="{Binding FaltaLogin}" />
+                    <c:Icone Nome="terminal" Tamanho="17" Foreground="{DynamicResource TextoSuave}" IsVisible="{Binding SemConferencia}" />
                   </Panel>
                   <TextBlock Grid.Column="1" Text="{Binding TextoLogin}" TextWrapping="Wrap" />
                 </Grid>
@@ -157,7 +157,7 @@
                 <TextBlock Classes="texto-bv" Text="{Binding AjudaLogin}" />
                 <StackPanel Orientation="Horizontal" Spacing="8">
                   <Button Classes="primario" Command="{Binding EntrarCommand}" IsVisible="{Binding PodeEntrar}">
-                    <StackPanel Orientation="Horizontal" Spacing="7"><v:Icone Nome="terminal" Tamanho="14" /><TextBlock Text="{Binding TextoEntrar}" /></StackPanel>
+                    <StackPanel Orientation="Horizontal" Spacing="7"><c:Icone Nome="terminal" Tamanho="14" /><TextBlock Text="{Binding TextoEntrar}" /></StackPanel>
                   </Button>
                   <Button Classes="contorno" Content="{l:T 'Já entrei'}" Command="{Binding VerificarLoginCommand}" IsVisible="{Binding ConfereLogin}" />
                 </StackPanel>
@@ -174,13 +174,13 @@
                   <DataTemplate x:DataType="vm:RaizVM">
                     <Border Classes="linha-bv" Margin="0,0,0,8">
                       <Grid ColumnDefinitions="Auto,*,Auto">
-                        <v:Icone Nome="pasta" Tamanho="16" Classes="suave" VerticalAlignment="Center" Margin="0,0,12,0" />
+                        <c:Icone Nome="pasta" Tamanho="16" Classes="suave" VerticalAlignment="Center" Margin="0,0,12,0" />
                         <StackPanel Grid.Column="1">
                           <TextBlock Text="{Binding Pasta}" TextTrimming="CharacterEllipsis" />
                           <TextBlock Classes="fraco" Text="{l:T 'Essa pasta não existe neste computador.'}" IsVisible="{Binding !Existe}" />
                         </StackPanel>
                         <Button Grid.Column="2" Classes="icone pequeno" Command="{Binding RemoverCommand}" ToolTip.Tip="{l:T 'Tirar da lista'}" AutomationProperties.Name="{l:T 'Tirar a pasta da lista'}">
-                          <v:Icone Nome="fechar" Tamanho="12" />
+                          <c:Icone Nome="fechar" Tamanho="12" />
                         </Button>
                       </Grid>
                     </Border>
@@ -190,13 +190,13 @@
               <TextBlock Classes="suave" Text="{Binding TextoProjetos}" TextWrapping="Wrap" />
               <WrapPanel>
                 <Button Classes="contorno" Click="AdicionarProjeto_Click" Margin="0,0,8,8">
-                  <StackPanel Orientation="Horizontal" Spacing="7"><v:Icone Nome="pasta" Tamanho="14" /><TextBlock Text="{l:T 'Pasta de um projeto'}" /></StackPanel>
+                  <StackPanel Orientation="Horizontal" Spacing="7"><c:Icone Nome="pasta" Tamanho="14" /><TextBlock Text="{l:T 'Pasta de um projeto'}" /></StackPanel>
                 </Button>
                 <Button Classes="contorno" Click="AdicionarPasta_Click" Margin="0,0,8,8">
-                  <StackPanel Orientation="Horizontal" Spacing="7"><v:Icone Nome="camadas" Tamanho="14" /><TextBlock Text="{l:T 'Pasta com vários projetos'}" /></StackPanel>
+                  <StackPanel Orientation="Horizontal" Spacing="7"><c:Icone Nome="camadas" Tamanho="14" /><TextBlock Text="{l:T 'Pasta com vários projetos'}" /></StackPanel>
                 </Button>
                 <Button Classes="contorno" Click="Importar_Click" Margin="0,0,8,8">
-                  <StackPanel Orientation="Horizontal" Spacing="7"><v:Icone Nome="importar" Tamanho="14" /><TextBlock Text="{l:T 'Importar um .code-workspace'}" /></StackPanel>
+                  <StackPanel Orientation="Horizontal" Spacing="7"><c:Icone Nome="importar" Tamanho="14" /><TextBlock Text="{l:T 'Importar um .code-workspace'}" /></StackPanel>
                 </Button>
               </WrapPanel>
             </StackPanel>

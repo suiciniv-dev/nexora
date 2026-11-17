@@ -2,7 +2,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
 
-namespace Nexora.Views;
+namespace Nexora.Controles;
 
 public sealed class AnelDeUso : Control
 {

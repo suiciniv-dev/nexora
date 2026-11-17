@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:l="using:Nexora"
              xmlns:vm="using:Nexora.ViewModels"
-             xmlns:v="using:Nexora.Views"
+             xmlns:c="using:Nexora.Controles"
              x:Class="Nexora.Views.EscolhaDeAgenteView"
              x:DataType="vm:EscolhaDeAgenteVM">
   <UserControl.Styles>
@@ -42,7 +42,7 @@
     </Style>
   </UserControl.Styles>
   <Panel Background="#0E1024">
-    <v:FundoVivo Estilo="nexora:constelacao" Modo="animado" />
+    <c:FundoVivo Estilo="nexora:constelacao" Modo="animado" />
     <ScrollViewer HorizontalScrollBarVisibility="Disabled">
       <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="24,40" Spacing="8">
         <TextBlock Text="{l:T 'NEXORA · PRIMEIRO PASSO'}" FontFamily="{DynamicResource Mono}" FontSize="12" LetterSpacing="3" Foreground="#9C978F" HorizontalAlignment="Center" />
@@ -59,7 +59,7 @@
               <Button Classes="cartao-agente" Classes.escolhido="{Binding Escolhido}" Classes.ausente="{Binding !Detectado}" Command="{Binding EscolherCommand}"
                       AutomationProperties.Name="{Binding Nome}">
                 <StackPanel Spacing="10">
-                  <v:AvatarVivo Agente="{Binding Id}" Comemorar="{Binding Escolhido}" Rotulo="" Width="64" Height="64" HorizontalAlignment="Center" />
+                  <c:AvatarVivo Agente="{Binding Id}" Comemorar="{Binding Escolhido}" Rotulo="" Width="64" Height="64" HorizontalAlignment="Center" />
                   <TextBlock Text="{Binding Nome}" FontSize="19" FontWeight="SemiBold" HorizontalAlignment="Center" />
                   <TextBlock Text="{Binding Empresa}" FontFamily="{DynamicResource Mono}" FontSize="10.5" LetterSpacing="1.4" Foreground="#7F7A72" HorizontalAlignment="Center" Margin="0,-6,0,0" />
                   <TextBlock Classes="estado-agente" Classes.ok="{Binding Detectado}" Text="{Binding TextoEstado}" />
@@ -76,7 +76,7 @@
         <StackPanel Orientation="Horizontal" Spacing="14" HorizontalAlignment="Center" Margin="0,16,0,0">
           <Button Classes="fantasma" Command="{Binding ProcurarCommand}" Foreground="#C9C6BF">
             <StackPanel Orientation="Horizontal" Spacing="7">
-              <v:Icone Nome="atualizar" Tamanho="14" />
+              <c:Icone Nome="atualizar" Tamanho="14" />
               <TextBlock Text="{l:T 'PROCURAR DE NOVO'}" FontFamily="{DynamicResource Mono}" LetterSpacing="1.6" FontSize="12.5" VerticalAlignment="Center" />
             </StackPanel>
           </Button>

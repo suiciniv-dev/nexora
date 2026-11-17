@@ -3,6 +3,7 @@
              xmlns:l="using:Nexora"
              xmlns:vm="using:Nexora.ViewModels"
              xmlns:v="using:Nexora.Views"
+             xmlns:c="using:Nexora.Controles"
              x:Class="Nexora.Views.AreaView"
              x:DataType="vm:AreaVM">
   <UserControl.DataTemplates>
@@ -79,23 +80,23 @@
               <Ellipse Classes="estado" Classes.trabalhando="{Binding Chat.Trabalhando, FallbackValue=False}" Classes.precisa="{Binding Chat.Precisa, FallbackValue=False}"
                        Classes.pronta="{Binding Chat.EstaPronta, FallbackValue=False}" Classes.erro="{Binding Chat.TemErro, FallbackValue=False}"
                        IsVisible="{Binding Chat, Converter={x:Static ObjectConverters.IsNotNull}}" VerticalAlignment="Center" Margin="0,0,8,0" />
-              <v:Icone Nome="{Binding Icone}" Tamanho="13" Classes="suave" VerticalAlignment="Center" Margin="0,0,8,0"
+              <c:Icone Nome="{Binding Icone}" Tamanho="13" Classes="suave" VerticalAlignment="Center" Margin="0,0,8,0"
                        IsVisible="{Binding Chat, Converter={x:Static ObjectConverters.IsNull}}" />
               <TextBlock Grid.Column="1" Text="{Binding Titulo}" FontSize="13" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
-              <v:Icone Grid.Column="2" Nome="abaixo" Tamanho="12" Classes="fraco" VerticalAlignment="Center" Margin="6,0,0,0" />
+              <c:Icone Grid.Column="2" Nome="abaixo" Tamanho="12" Classes="fraco" VerticalAlignment="Center" Margin="6,0,0,0" />
             </Grid>
           </Button>
           <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="2" VerticalAlignment="Center">
-            <v:BotaoLigado Classes="icone pequeno" Classes.ligado="{Binding Chat.TerminalAberto, FallbackValue=False}" IsChecked="{Binding Chat.TerminalAberto, FallbackValue=False, Mode=OneWay}" Command="{Binding Chat.AlternarTerminalCommand, FallbackValue={x:Null}}"
+            <c:BotaoLigado Classes="icone pequeno" Classes.ligado="{Binding Chat.TerminalAberto, FallbackValue=False}" IsChecked="{Binding Chat.TerminalAberto, FallbackValue=False, Mode=OneWay}" Command="{Binding Chat.AlternarTerminalCommand, FallbackValue={x:Null}}"
                     IsVisible="{Binding Chat, Converter={x:Static ObjectConverters.IsNotNull}}" ToolTip.Tip="{l:T 'Terminal nesta pasta (Ctrl+`)'}" AutomationProperties.Name="Terminal">
-              <v:Icone Nome="terminal" Tamanho="14" />
-            </v:BotaoLigado>
-            <v:BotaoLigado Classes="icone pequeno" Classes.ligado="{Binding Chat.DetalhesLigados, FallbackValue=False}" IsChecked="{Binding Chat.DetalhesLigados, FallbackValue=False, Mode=OneWay}" Command="{Binding Chat.AlternarDetalhesAquiCommand, FallbackValue={x:Null}}"
+              <c:Icone Nome="terminal" Tamanho="14" />
+            </c:BotaoLigado>
+            <c:BotaoLigado Classes="icone pequeno" Classes.ligado="{Binding Chat.DetalhesLigados, FallbackValue=False}" IsChecked="{Binding Chat.DetalhesLigados, FallbackValue=False, Mode=OneWay}" Command="{Binding Chat.AlternarDetalhesAquiCommand, FallbackValue={x:Null}}"
                     IsVisible="{Binding Chat.DetalhesDisponiveis, FallbackValue=False}" ToolTip.Tip="{l:T 'Detalhes da sessão: ambiente, contexto e arquivos alterados (Ctrl+Alt+B)'}" AutomationProperties.Name="{l:T 'Detalhes da sessão'}">
-              <v:Icone Nome="painel-direito" Tamanho="14" />
-            </v:BotaoLigado>
+              <c:Icone Nome="painel-direito" Tamanho="14" />
+            </c:BotaoLigado>
             <Button Classes="icone pequeno" Command="{Binding FecharPainelCommand}" ToolTip.Tip="{l:T 'Fechar painel (mantém a aba)'}" AutomationProperties.Name="{l:T 'Fechar painel'}">
-              <v:Icone Nome="fechar" Tamanho="13" />
+              <c:Icone Nome="fechar" Tamanho="13" />
             </Button>
           </StackPanel>
         </Grid>
@@ -106,14 +107,14 @@
     <v:AbasVivas x:Name="Abas" Conteudo="{Binding Conteudo}" Conteudos="{Binding Conteudos}" CabecalhoTemplate="{StaticResource CabecalhoPainel}" />
     <StackPanel IsVisible="{Binding SemConteudo}" VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="12">
       <Border Classes="selo" HorizontalAlignment="Center">
-        <v:Icone Nome="brilho" Tamanho="28" Foreground="{DynamicResource Acento}" />
+        <c:Icone Nome="brilho" Tamanho="28" Foreground="{DynamicResource Acento}" />
       </Border>
       <TextBlock Text="Nexora" FontSize="28" FontWeight="SemiBold" HorizontalAlignment="Center" />
       <TextBlock Classes="suave" Text="{l:T 'Escolha um ambiente, abra uma conversa ou comece uma sessão nova.'}" HorizontalAlignment="Center" />
       <TextBlock Classes="fraco" Text="{l:T 'Arraste uma aba para fora da barra para abrir em outra janela.'}" HorizontalAlignment="Center" />
       <Button Classes="primario" HorizontalAlignment="Center" Margin="0,8,0,0" Command="{Binding NovaSessaoCommand}">
         <StackPanel Orientation="Horizontal" Spacing="8">
-          <v:Icone Nome="mais" />
+          <c:Icone Nome="mais" />
           <TextBlock Text="{l:T 'Nova sessão'}" />
           <TextBlock Text="Ctrl+N" Opacity="0.6" />
         </StackPanel>

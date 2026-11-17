@@ -4,7 +4,7 @@ using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Nexora.Temas;
 
-namespace Nexora.Views;
+namespace Nexora.Controles;
 
 public sealed class FundoIluminado : Control
 {

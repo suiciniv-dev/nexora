@@ -3,7 +3,7 @@ using Avalonia.Animation.Easings;
 using Avalonia.Media;
 using Avalonia.Media.Immutable;
 
-namespace Nexora.Views;
+namespace Nexora.Controles;
 
 public sealed class TransicaoDeCor : InterpolatingTransitionBase<IBrush?>
 {

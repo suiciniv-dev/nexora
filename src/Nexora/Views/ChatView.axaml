@@ -4,6 +4,7 @@
              xmlns:vm="using:Nexora.ViewModels"
              xmlns:m="using:Nexora.Modelos"
              xmlns:v="using:Nexora.Views"
+             xmlns:c="using:Nexora.Controles"
              xmlns:arq="using:Nexora.Core.Arquivos"
              xmlns:claude="using:Nexora.Core.Claude"
              xmlns:img="using:Avalonia.Media.Imaging"
@@ -57,16 +58,16 @@
           </Thumb.Template>
         </Thumb>
         <Grid DockPanel.Dock="Top" ColumnDefinitions="Auto,Auto,*,Auto,Auto" Margin="14,0,8,2">
-          <v:Icone Nome="terminal" Tamanho="13" Classes="suave" VerticalAlignment="Center" />
+          <c:Icone Nome="terminal" Tamanho="13" Classes="suave" VerticalAlignment="Center" />
           <TextBlock Grid.Column="1" Classes="secao-geral" Text="TERMINAL" Margin="8,0,10,0" VerticalAlignment="Center" />
           <TextBlock Grid.Column="2" Classes="fraco" Text="{Binding Pasta}" FontSize="11.5" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
           <Button Grid.Column="3" Classes="icone pequeno" Command="{Binding Terminal.ReiniciarCommand}" ToolTip.Tip="{l:T 'Abrir um terminal novo nesta pasta'}"
                   AutomationProperties.Name="{l:T 'Reiniciar o terminal'}">
-            <v:Icone Nome="atualizar" Tamanho="12" />
+            <c:Icone Nome="atualizar" Tamanho="12" />
           </Button>
           <Button Grid.Column="4" Classes="icone pequeno" Command="{Binding AlternarTerminalCommand}" ToolTip.Tip="{l:T 'Esconder o terminal (Ctrl+`). Ele continua rodando.'}"
                   AutomationProperties.Name="{l:T 'Esconder o terminal'}">
-            <v:Icone Nome="fechar" Tamanho="11" />
+            <c:Icone Nome="fechar" Tamanho="11" />
           </Button>
         </Grid>
         <ContentControl Content="{Binding TerminalExibido}">
@@ -81,18 +82,18 @@
     <Border x:Name="Cabecalho" Classes="cabecalho-chat" DockPanel.Dock="Top"
             BorderBrush="{DynamicResource BordaVidro}" BorderThickness="0,0,0,1" Padding="22,12,16,12">
       <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto">
-        <v:Avatar Width="46" Height="46" HorizontalAlignment="Left" VerticalAlignment="Center" Imagem="{Binding IconeRepo}" Iniciais="{Binding Iniciais}"
+        <c:Avatar Width="46" Height="46" HorizontalAlignment="Left" VerticalAlignment="Center" Imagem="{Binding IconeRepo}" Iniciais="{Binding Iniciais}"
                    Trabalhando="{Binding Trabalhando}" Precisa="{Binding Precisa}" Pronta="{Binding EstaPronta}" Erro="{Binding TemErro}"
                    Fracao="{Binding ContextoFracao}" ToolTip.Tip="{Binding ContextoTexto}" />
         <StackPanel Spacing="3" Margin="60,0,0,0">
           <TextBlock Classes="titulo-chat" Text="{Binding Titulo}" FontSize="16" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" ToolTip.Tip="{Binding Titulo}" />
           <WrapPanel>
             <StackPanel Orientation="Horizontal" Spacing="6" Margin="0,0,14,0">
-              <v:Icone Nome="pasta" Tamanho="13" Classes="fraco" />
+              <c:Icone Nome="pasta" Tamanho="13" Classes="fraco" />
               <TextBlock Classes="fraco" Text="{Binding NomePasta}" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" Spacing="6" Margin="0,0,14,0" IsVisible="{Binding Branch, Converter={x:Static ObjectConverters.IsNotNull}}">
-              <v:Icone Nome="branch" Tamanho="13" Classes="fraco" />
+              <c:Icone Nome="branch" Tamanho="13" Classes="fraco" />
               <TextBlock Classes="fraco mono" Text="{Binding Branch}" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" Spacing="6" Margin="0,0,14,0">
@@ -102,7 +103,7 @@
                   <Binding Path="!DetalhesAoLado" />
                 </MultiBinding>
               </StackPanel.IsVisible>
-              <v:Icone Nome="vinculo" Tamanho="13" Classes="fraco" />
+              <c:Icone Nome="vinculo" Tamanho="13" Classes="fraco" />
               <TextBlock Classes="fraco" Text="{Binding TextoVinculados}" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" Spacing="6" Margin="0,0,14,0" ToolTip.Tip="{l:T 'Contexto usado na última resposta'}">
@@ -122,7 +123,7 @@
                   <Binding Path="!DetalhesAoLado" />
                 </MultiBinding>
               </StackPanel.IsVisible>
-              <v:Icone Nome="relogio" Tamanho="13" Classes="fraco" />
+              <c:Icone Nome="relogio" Tamanho="13" Classes="fraco" />
               <TextBlock Classes="cache" Classes.acabando="{Binding CacheAcabando}" Classes.expirado="{Binding CacheExpirado}" Text="{Binding CacheTexto}" />
             </StackPanel>
           </WrapPanel>
@@ -146,34 +147,34 @@
                 Classes.fechado="{Binding PrFechado}" IsVisible="{Binding TemPr}" Command="{Binding MostrarAbaCommand}" CommandParameter="pr" Padding="9,4"
                 ToolTip.Tip="{Binding TextoPr}" AutomationProperties.Name="{l:T 'Painel do PR'}">
           <StackPanel Orientation="Horizontal" Spacing="5">
-            <v:Icone Nome="pr" Tamanho="12" VerticalAlignment="Center" />
+            <c:Icone Nome="pr" Tamanho="12" VerticalAlignment="Center" />
             <TextBlock Text="{Binding Pr.Numero, StringFormat='#{0}', FallbackValue=''}" FontSize="12" VerticalAlignment="Center" />
           </StackPanel>
         </Button>
-        <v:BotaoLigado Classes="icone" Classes.ligado="{Binding TerminalAberto}" IsChecked="{Binding TerminalAberto, Mode=OneWay}" Command="{Binding AlternarTerminalCommand}" IsVisible="{x:Static vm:ChatVM.TemTerminal}"
+        <c:BotaoLigado Classes="icone" Classes.ligado="{Binding TerminalAberto}" IsChecked="{Binding TerminalAberto, Mode=OneWay}" Command="{Binding AlternarTerminalCommand}" IsVisible="{x:Static vm:ChatVM.TemTerminal}"
                 ToolTip.Tip="{l:T 'Terminal nesta pasta (Ctrl+`)'}" AutomationProperties.Name="Terminal">
-          <v:Icone Nome="terminal" />
-        </v:BotaoLigado>
-        <v:BotaoLigado Classes="icone" Classes.ligado="{Binding DetalhesLigados}" IsChecked="{Binding DetalhesLigados, Mode=OneWay}" Command="{Binding AlternarDetalhesAquiCommand}" IsVisible="{Binding DetalhesDisponiveis}"
+          <c:Icone Nome="terminal" />
+        </c:BotaoLigado>
+        <c:BotaoLigado Classes="icone" Classes.ligado="{Binding DetalhesLigados}" IsChecked="{Binding DetalhesLigados, Mode=OneWay}" Command="{Binding AlternarDetalhesAquiCommand}" IsVisible="{Binding DetalhesDisponiveis}"
                 ToolTip.Tip="{l:T 'Detalhes da sessão: ambiente, contexto e arquivos alterados (Ctrl+Alt+B)'}" AutomationProperties.Name="{l:T 'Detalhes da sessão'}">
-          <v:Icone Nome="painel-direito" />
-        </v:BotaoLigado>
+          <c:Icone Nome="painel-direito" />
+        </c:BotaoLigado>
         <Button x:Name="MaisAcoes" Classes="icone" ToolTip.Tip="{l:T 'Mais ações: arquivos, git, executar e Remote Control'}" AutomationProperties.Name="{l:T 'Mais ações da conversa'}">
-          <v:Icone Nome="mais-acoes" />
+          <c:Icone Nome="mais-acoes" />
           <Button.Flyout>
             <MenuFlyout Placement="BottomEdgeAlignedRight">
               <MenuItem Header="{l:T 'Arquivos do projeto'}" InputGesture="Ctrl+Shift+E" Command="{Binding MostrarAbaCommand}" CommandParameter="arquivos">
-                <MenuItem.Icon><v:Icone Nome="arquivos" Tamanho="14" /></MenuItem.Icon>
+                <MenuItem.Icon><c:Icone Nome="arquivos" Tamanho="14" /></MenuItem.Icon>
               </MenuItem>
               <MenuItem Header="{l:T 'Alterações do git'}" InputGesture="Ctrl+Shift+G" Command="{Binding MostrarAbaCommand}" CommandParameter="git">
-                <MenuItem.Icon><v:Icone Nome="branch" Tamanho="14" /></MenuItem.Icon>
+                <MenuItem.Icon><c:Icone Nome="branch" Tamanho="14" /></MenuItem.Icon>
               </MenuItem>
               <MenuItem Header="{l:T 'Executar o projeto desta pasta'}" Command="{Binding ExecutarCommand}">
-                <MenuItem.Icon><v:Icone Nome="executar" Tamanho="14" /></MenuItem.Icon>
+                <MenuItem.Icon><c:Icone Nome="executar" Tamanho="14" /></MenuItem.Icon>
               </MenuItem>
               <Separator />
               <MenuItem Header="{Binding TextoRemoto}" Command="{Binding AlternarRemotoCommand}" IsEnabled="{Binding RemotoDisponivel}">
-                <MenuItem.Icon><v:Icone Nome="celular" Tamanho="14" /></MenuItem.Icon>
+                <MenuItem.Icon><c:Icone Nome="celular" Tamanho="14" /></MenuItem.Icon>
               </MenuItem>
             </MenuFlyout>
           </Button.Flyout>
@@ -193,20 +194,20 @@
               <DataTemplate x:DataType="vm:MensagemNaFilaVM">
                 <Border Classes="na-fila" v:Animacoes.Entrada="True">
                   <Grid ColumnDefinitions="Auto,*,Auto,Auto,Auto,Auto">
-                    <v:Icone Nome="relogio" Tamanho="13" Classes="suave" VerticalAlignment="Center" Margin="0,0,8,0" />
+                    <c:Icone Nome="relogio" Tamanho="13" Classes="suave" VerticalAlignment="Center" Margin="0,0,8,0" />
                     <TextBlock Grid.Column="1" Text="{Binding Resumo}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" ToolTip.Tip="{Binding Texto}" />
                     <TextBlock Grid.Column="2" Classes="fraco" Text="{Binding TextoImagens}" IsVisible="{Binding TemImagens}" FontSize="12" VerticalAlignment="Center" Margin="8,0,0,0" />
                     <Button Grid.Column="3" Classes="icone pequeno" Command="{Binding EnviarAgoraCommand}" Margin="8,0,0,0"
                             ToolTip.Tip="{l:T 'Mandar agora: o agente recebe no meio do que está fazendo'}" AutomationProperties.Name="{l:T 'Mandar agora'}">
-                      <v:Icone Nome="enviar" Tamanho="13" />
+                      <c:Icone Nome="enviar" Tamanho="13" />
                     </Button>
                     <Button Grid.Column="4" Classes="icone pequeno" Command="{Binding EditarCommand}"
                             ToolTip.Tip="{l:T 'Voltar para o campo e editar'}" AutomationProperties.Name="{l:T 'Editar a mensagem da fila'}">
-                      <v:Icone Nome="lapis" Tamanho="13" />
+                      <c:Icone Nome="lapis" Tamanho="13" />
                     </Button>
                     <Button Grid.Column="5" Classes="icone pequeno" Command="{Binding RemoverCommand}"
                             ToolTip.Tip="{l:T 'Tirar da fila'}" AutomationProperties.Name="{l:T 'Tirar da fila'}">
-                      <v:Icone Nome="fechar" Tamanho="11" />
+                      <c:Icone Nome="fechar" Tamanho="11" />
                     </Button>
                   </Grid>
                 </Border>
@@ -224,7 +225,7 @@
                 </Border>
                 <Button Classes="icone pequeno" Command="{Binding RemoverCommand}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,2,2,0"
                         Width="24" Height="24" Padding="0" Background="{DynamicResource Superficie}" ToolTip.Tip="{l:T 'Tirar a imagem'}" AutomationProperties.Name="{l:T 'Tirar a imagem'}">
-                  <v:Icone Nome="fechar" Tamanho="10" />
+                  <c:Icone Nome="fechar" Tamanho="10" />
                 </Button>
               </Panel>
             </DataTemplate>
@@ -236,12 +237,12 @@
             <DataTemplate x:DataType="vm:CitadoVM">
               <Border Classes="citado" ToolTip.Tip="{Binding Caminho}">
                 <StackPanel Orientation="Horizontal" Spacing="6">
-                  <v:Icone Nome="arquivo" Tamanho="12" VerticalAlignment="Center" />
+                  <c:Icone Nome="arquivo" Tamanho="12" VerticalAlignment="Center" />
                   <TextBlock Text="{Binding Nome}" FontSize="12.5" FontWeight="Medium" VerticalAlignment="Center" />
                   <TextBlock Classes="fraco" Text="{Binding Pasta}" IsVisible="{Binding TemPasta}" FontSize="11.5" MaxWidth="240" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
                   <Button Classes="icone pequeno" Command="{Binding RemoverCommand}" Width="24" Height="24" Padding="0" VerticalAlignment="Center"
                           ToolTip.Tip="{l:T 'Tirar a citação'}" AutomationProperties.Name="{l:T 'Tirar a citação'}">
-                    <v:Icone Nome="fechar" Tamanho="9" />
+                    <c:Icone Nome="fechar" Tamanho="9" />
                   </Button>
                 </StackPanel>
               </Border>
@@ -277,7 +278,7 @@
               <ListBox.ItemTemplate>
                 <DataTemplate x:DataType="arq:ArquivoIndexado">
                   <Grid ColumnDefinitions="Auto,Auto,*">
-                    <v:Icone Nome="arquivo" Tamanho="14" Classes="suave" VerticalAlignment="Center" Margin="0,0,8,0" />
+                    <c:Icone Nome="arquivo" Tamanho="14" Classes="suave" VerticalAlignment="Center" Margin="0,0,8,0" />
                     <TextBlock Grid.Column="1" Text="{Binding Nome}" VerticalAlignment="Center" Margin="0,0,10,0" />
                     <TextBlock Grid.Column="2" Classes="fraco" Text="{Binding Local}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
                   </Grid>
@@ -298,7 +299,7 @@
           </Border>
         </Popup>
         <Popup x:Name="MenuAgente" PlacementTarget="{Binding #BotaoAgente}" Placement="TopEdgeAlignedLeft" IsLightDismissEnabled="True" VerticalOffset="-8">
-          <v:Adiado Mostrar="{Binding MenuAgenteAberto}">
+          <c:Adiado Mostrar="{Binding MenuAgenteAberto}">
             <DataTemplate x:DataType="vm:ChatVM">
               <Border Theme="{DynamicResource Flutuante}" Padding="6" Width="372" v:Animacoes.Entrada="True">
                 <StackPanel Spacing="2">
@@ -313,7 +314,7 @@
                                 <TextBlock Text="{Binding Nome}" FontWeight="Medium" />
                                 <TextBlock Classes="fraco" Text="{Binding Descricao}" IsVisible="{Binding TemDescricao}" FontSize="11.5" TextWrapping="Wrap" />
                               </StackPanel>
-                              <v:Icone Grid.Column="1" Nome="ok" Tamanho="14" IsVisible="{Binding Selecionada}" VerticalAlignment="Center" Margin="10,0,2,0" />
+                              <c:Icone Grid.Column="1" Nome="ok" Tamanho="14" IsVisible="{Binding Selecionada}" VerticalAlignment="Center" Margin="10,0,2,0" />
                             </Grid>
                           </Button>
                         </DataTemplate>
@@ -325,10 +326,10 @@
                 </StackPanel>
               </Border>
             </DataTemplate>
-          </v:Adiado>
+          </c:Adiado>
         </Popup>
         <Popup x:Name="MenuModelo" PlacementTarget="{Binding #BotaoModelo}" Placement="TopEdgeAlignedLeft" IsLightDismissEnabled="True" VerticalOffset="-8">
-          <v:Adiado Mostrar="{Binding MenuModeloAberto}">
+          <c:Adiado Mostrar="{Binding MenuModeloAberto}">
             <DataTemplate x:DataType="vm:ChatVM">
               <Border Theme="{DynamicResource Flutuante}" Padding="6" Width="372" v:Animacoes.Entrada="True">
                 <StackPanel Spacing="2">
@@ -350,7 +351,7 @@
                                 <TextBlock Text="{Binding Nome}" FontWeight="Medium" />
                                 <TextBlock Classes="fraco" Text="{Binding Descricao}" IsVisible="{Binding TemDescricao}" FontSize="11.5" TextWrapping="Wrap" />
                               </StackPanel>
-                              <v:Icone Grid.Column="1" Nome="ok" Tamanho="14" IsVisible="{Binding Selecionada}" VerticalAlignment="Center" Margin="10,0,2,0" />
+                              <c:Icone Grid.Column="1" Nome="ok" Tamanho="14" IsVisible="{Binding Selecionada}" VerticalAlignment="Center" Margin="10,0,2,0" />
                             </Grid>
                           </Button>
                         </DataTemplate>
@@ -401,7 +402,7 @@
                 </StackPanel>
               </Border>
             </DataTemplate>
-          </v:Adiado>
+          </c:Adiado>
         </Popup>
         <Popup x:Name="MenuPassagens" PlacementTarget="{Binding #BotaoPassagens}" Placement="TopEdgeAlignedLeft" IsLightDismissEnabled="True" VerticalOffset="-8">
           <Border Theme="{DynamicResource Flutuante}" Padding="6" Width="440" v:Animacoes.Entrada="True">
@@ -436,7 +437,7 @@
           </Border>
         </Popup>
         <Popup x:Name="MenuModo" PlacementTarget="{Binding #BotaoModo}" Placement="TopEdgeAlignedRight" IsLightDismissEnabled="True" VerticalOffset="-8">
-          <v:Adiado Mostrar="{Binding MenuModoAberto}">
+          <c:Adiado Mostrar="{Binding MenuModoAberto}">
             <DataTemplate x:DataType="vm:ChatVM">
               <Border Theme="{DynamicResource Flutuante}" Padding="6" Width="340" v:Animacoes.Entrada="True">
                 <StackPanel Spacing="2">
@@ -450,7 +451,7 @@
                               <TextBlock Text="{Binding Nome}" FontWeight="Medium" />
                               <TextBlock Classes="fraco" Text="{Binding Descricao}" IsVisible="{Binding TemDescricao}" FontSize="11.5" TextWrapping="Wrap" />
                             </StackPanel>
-                            <v:Icone Grid.Column="1" Nome="ok" Tamanho="14" IsVisible="{Binding Selecionada}" VerticalAlignment="Center" Margin="10,0,2,0" />
+                            <c:Icone Grid.Column="1" Nome="ok" Tamanho="14" IsVisible="{Binding Selecionada}" VerticalAlignment="Center" Margin="10,0,2,0" />
                           </Grid>
                         </Button>
                       </DataTemplate>
@@ -460,10 +461,10 @@
                 </StackPanel>
               </Border>
             </DataTemplate>
-          </v:Adiado>
+          </c:Adiado>
         </Popup>
         <Popup x:Name="MenuTemplates" PlacementTarget="{Binding #BotaoTemplates}" Placement="TopEdgeAlignedLeft" IsLightDismissEnabled="True" VerticalOffset="-8">
-          <v:Adiado Mostrar="{Binding MenuTemplatesAberto}">
+          <c:Adiado Mostrar="{Binding MenuTemplatesAberto}">
             <DataTemplate x:DataType="vm:ChatVM">
               <Border Theme="{DynamicResource Flutuante}" Padding="6" Width="420" v:Animacoes.Entrada="True">
                 <StackPanel Spacing="2">
@@ -485,17 +486,17 @@
                   <Border Height="1" Background="{DynamicResource Borda}" Margin="4,4" />
                   <Button Classes="opcao-menu" Command="{Binding EditarTemplatesCommand}">
                     <StackPanel Orientation="Horizontal" Spacing="8">
-                      <v:Icone Nome="lapis" Tamanho="13" Classes="suave" />
+                      <c:Icone Nome="lapis" Tamanho="13" Classes="suave" />
                       <TextBlock Text="{l:T 'Editar templates…'}" />
                     </StackPanel>
                   </Button>
                 </StackPanel>
               </Border>
             </DataTemplate>
-          </v:Adiado>
+          </c:Adiado>
         </Popup>
         <Popup x:Name="MenuSubagentes" PlacementTarget="{Binding #BotaoSubagentes}" Placement="TopEdgeAlignedLeft" IsLightDismissEnabled="True" VerticalOffset="-8">
-          <v:Adiado Mostrar="{Binding MenuSubagentesAberto}">
+          <c:Adiado Mostrar="{Binding MenuSubagentesAberto}">
             <DataTemplate x:DataType="vm:ChatVM">
               <Border Theme="{DynamicResource Flutuante}" Padding="8" Width="460" v:Animacoes.Entrada="True">
                 <StackPanel Spacing="4">
@@ -516,7 +517,7 @@
                             <Button Classes="linha-subagente" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Command="{Binding AlternarCommand}"
                                     ToolTip.Tip="{l:T 'Ver o pedido, as ferramentas e o resultado deste subagent'}" AutomationProperties.Name="{Binding Descricao}">
                               <Grid ColumnDefinitions="Auto,*,Auto" Margin="0,4">
-                                <v:AvatarVivo Subagente="{Binding Tipo}" Humor="{Binding Humor}" Comemorar="{Binding Ok}" Desbotado="{Binding Falhou}" Rotulo=""
+                                <c:AvatarVivo Subagente="{Binding Tipo}" Humor="{Binding Humor}" Comemorar="{Binding Ok}" Desbotado="{Binding Falhou}" Rotulo=""
                                               Width="44" Height="44" Margin="2,0,12,0" VerticalAlignment="Top" />
                                 <StackPanel Grid.Column="1" Spacing="2">
                                   <TextBlock Text="{Binding Descricao}" FontWeight="SemiBold" FontSize="13.5" TextTrimming="CharacterEllipsis" />
@@ -550,7 +551,7 @@
                                 <TextBlock Classes="secao-geral" Text="{l:T 'RESULTADO'}" Margin="0,8,0,4" />
                                 <Border Classes="mdCodigo" MaxHeight="220">
                                   <ScrollViewer HorizontalScrollBarVisibility="Disabled">
-                                    <v:MarkdownTexto Texto="{Binding Resultado}" />
+                                    <c:MarkdownTexto Texto="{Binding Resultado}" />
                                   </ScrollViewer>
                                 </Border>
                               </StackPanel>
@@ -563,53 +564,53 @@
                 </StackPanel>
               </Border>
             </DataTemplate>
-          </v:Adiado>
+          </c:Adiado>
         </Popup>
         <Grid ColumnDefinitions="Auto,Auto,Auto,*,Auto,Auto,Auto">
           <Button Classes="icone pequeno" Click="Anexar_Click" Margin="0,0,4,0" VerticalAlignment="Center"
                   ToolTip.Tip="{l:T 'Anexar imagem ou arquivo (ou cole com Ctrl+V, ou arraste para cá)'}" AutomationProperties.Name="{l:T 'Anexar imagem ou arquivo'}">
-            <v:Icone Nome="clipe" Tamanho="14" />
+            <c:Icone Nome="clipe" Tamanho="14" />
           </Button>
           <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
             <Button Classes="icone pequeno" Click="Ditar_Click" Margin="0,0,4,0" VerticalAlignment="Center"
                     IsVisible="{x:Static v:ChatView.TemDitado}"
                     ToolTip.Tip="{l:T 'Ditar por voz (digitação por voz do Windows, Win+H). Fale e o texto entra no campo.'}" AutomationProperties.Name="{l:T 'Ditar por voz'}">
-              <v:Icone Nome="microfone" Tamanho="14" />
+              <c:Icone Nome="microfone" Tamanho="14" />
             </Button>
-            <v:BotaoLigado x:Name="BotaoPassagens" Classes="icone pequeno" Classes.ligado="{Binding MenuPassagensAberto}" IsChecked="{Binding MenuPassagensAberto, Mode=OneWay}" Command="{Binding AbrirPassagensCommand}"
+            <c:BotaoLigado x:Name="BotaoPassagens" Classes="icone pequeno" Classes.ligado="{Binding MenuPassagensAberto}" IsChecked="{Binding MenuPassagensAberto, Mode=OneWay}" Command="{Binding AbrirPassagensCommand}"
                     Margin="0,0,4,0" VerticalAlignment="Center" IsVisible="{x:Static vm:ChatVM.SennaDisponivel}"
                     ToolTip.Tip="{l:T 'Handoffs salvos no Senna: clique num para copiar o nome'}" AutomationProperties.Name="{l:T 'Handoffs'}">
-              <v:Icone Nome="passagem" Tamanho="14" />
-            </v:BotaoLigado>
-            <v:BotaoLigado x:Name="BotaoSubagentes" Classes="icone pequeno" Classes.ligado="{Binding MenuSubagentesAberto}" IsChecked="{Binding MenuSubagentesAberto, Mode=OneWay}" Command="{Binding AbrirSubagentesCommand}"
+              <c:Icone Nome="passagem" Tamanho="14" />
+            </c:BotaoLigado>
+            <c:BotaoLigado x:Name="BotaoSubagentes" Classes="icone pequeno" Classes.ligado="{Binding MenuSubagentesAberto}" IsChecked="{Binding MenuSubagentesAberto, Mode=OneWay}" Command="{Binding AbrirSubagentesCommand}"
                     Margin="0,0,4,0" VerticalAlignment="Center" IsVisible="{Binding TemSubagentes}"
                     ToolTip.Tip="{l:T 'Subagents desta conversa: o que cada um está fazendo e o que entregou'}" AutomationProperties.Name="{l:T 'Subagents'}">
               <StackPanel Orientation="Horizontal" Spacing="5">
-                <v:Icone Nome="subagente" Tamanho="14" />
+                <c:Icone Nome="subagente" Tamanho="14" />
                 <TextBlock Text="{Binding TextoBotaoSubagentes}" FontSize="12" FontWeight="SemiBold" VerticalAlignment="Center" />
                 <Ellipse Classes="estado trabalhando" Width="6" Height="6" VerticalAlignment="Center" IsVisible="{Binding TemSubagentesRodando}" />
               </StackPanel>
-            </v:BotaoLigado>
-            <v:BotaoLigado x:Name="BotaoTemplates" Classes="icone pequeno" Classes.ligado="{Binding MenuTemplatesAberto}" IsChecked="{Binding MenuTemplatesAberto, Mode=OneWay}" Command="{Binding AbrirTemplatesCommand}"
+            </c:BotaoLigado>
+            <c:BotaoLigado x:Name="BotaoTemplates" Classes="icone pequeno" Classes.ligado="{Binding MenuTemplatesAberto}" IsChecked="{Binding MenuTemplatesAberto, Mode=OneWay}" Command="{Binding AbrirTemplatesCommand}"
                     Margin="0,0,4,0" VerticalAlignment="Center"
                     ToolTip.Tip="{l:T 'Templates de tarefa: um pedido pronto, com a issue e a branch preenchidas'}" AutomationProperties.Name="{l:T 'Templates'}">
-              <v:Icone Nome="modelo" Tamanho="14" />
-            </v:BotaoLigado>
+              <c:Icone Nome="modelo" Tamanho="14" />
+            </c:BotaoLigado>
           </StackPanel>
           <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
           <Button x:Name="BotaoOndeRoda" Classes="seletor onde-roda" Classes.nuvem="{Binding NaNuvem}" Classes.aberto="{Binding MenuOndeRodaAberto}" Command="{Binding AbrirOndeRodaCommand}" IsEnabled="{Binding PodeTrocarOndeRoda}"
                   IsVisible="{Binding MostraOndeRoda}" ToolTip.Tip="{Binding DicaOndeRoda}" AutomationProperties.Name="{l:T 'Onde roda'}">
             <StackPanel Orientation="Horizontal" Spacing="6">
-              <v:Icone Nome="nuvem" Tamanho="13" IsVisible="{Binding NaNuvem}" VerticalAlignment="Center" />
-              <v:Icone Nome="monitor" Tamanho="13" IsVisible="{Binding !NaNuvem}" Classes="suave" VerticalAlignment="Center" />
+              <c:Icone Nome="nuvem" Tamanho="13" IsVisible="{Binding NaNuvem}" VerticalAlignment="Center" />
+              <c:Icone Nome="monitor" Tamanho="13" IsVisible="{Binding !NaNuvem}" Classes="suave" VerticalAlignment="Center" />
               <TextBlock Classes="rotulo-compactavel" Text="{Binding OndeRodaRotulo}" FontWeight="Medium" VerticalAlignment="Center" />
-              <v:Icone Nome="abaixo" Tamanho="12" Classes="fraco" VerticalAlignment="Center" IsVisible="{Binding PodeTrocarOndeRoda}" />
+              <c:Icone Nome="abaixo" Tamanho="12" Classes="fraco" VerticalAlignment="Center" IsVisible="{Binding PodeTrocarOndeRoda}" />
             </StackPanel>
           </Button>
           <Button x:Name="BotaoAgente" Classes="seletor agente" Classes.codex="{Binding !EhClaude}" Classes.aberto="{Binding MenuAgenteAberto}" Command="{Binding TrocarAgenteCommand}" IsEnabled="{Binding PodeTrocarAgente}"
                   IsVisible="{Binding MostraTrocaDeAgente}" ToolTip.Tip="{Binding DicaDoAgente}" AutomationProperties.Name="{l:T 'Agente da conversa'}">
             <StackPanel Orientation="Horizontal" Spacing="6">
-              <v:AvatarVivo Agente="{Binding Agente}" Parado="True" Rotulo="" Width="18" Height="18" Margin="-2,-2,0,-2" VerticalAlignment="Center" />
+              <c:AvatarVivo Agente="{Binding Agente}" Parado="True" Rotulo="" Width="18" Height="18" Margin="-2,-2,0,-2" VerticalAlignment="Center" />
               <TextBlock Classes="rotulo-compactavel" Text="{Binding NomeAgente}" FontWeight="Medium" VerticalAlignment="Center" />
             </StackPanel>
           </Button>
@@ -619,12 +620,12 @@
               <TextBlock Text="{Binding ModeloRotulo}" FontWeight="Medium" VerticalAlignment="Center" />
               <TextBlock Classes="fraco" Text="{Binding EsforcoRotulo}" IsVisible="{Binding TemEsforcoRotulo}" VerticalAlignment="Center" />
               <Border Classes="etiqueta-pilula" IsVisible="{Binding MostraRapido}" ToolTip.Tip="{l:T 'Modo rápido ligado'}">
-                <v:Icone Nome="raio" Tamanho="11" />
+                <c:Icone Nome="raio" Tamanho="11" />
               </Border>
               <Border Classes="etiqueta-pilula" IsVisible="{Binding MostraUltracode}" ToolTip.Tip="{l:T 'Ultracode ligado'}">
                 <TextBlock Text="Ultracode" FontSize="11" />
               </Border>
-              <v:Icone Nome="abaixo" Tamanho="12" Classes="fraco" VerticalAlignment="Center" />
+              <c:Icone Nome="abaixo" Tamanho="12" Classes="fraco" VerticalAlignment="Center" />
             </StackPanel>
           </Button>
           </StackPanel>
@@ -633,17 +634,17 @@
           <Button x:Name="BotaoModo" Grid.Column="4" Classes="seletor" Classes.aberto="{Binding MenuModoAberto}" Command="{Binding AbrirMenuModoCommand}" Margin="0,0,8,0"
                   ToolTip.Tip="{l:T 'Modo de permissão (Alt+M alterna)'}" AutomationProperties.Name="{l:T 'Escolher o modo de permissão'}">
             <StackPanel Orientation="Horizontal" Spacing="6">
-              <v:Icone Nome="raio" Tamanho="12" Classes="suave" VerticalAlignment="Center" />
+              <c:Icone Nome="raio" Tamanho="12" Classes="suave" VerticalAlignment="Center" />
               <TextBlock Classes="rotulo-compactavel" Text="{Binding ModoRotulo}" VerticalAlignment="Center" />
-              <v:Icone Nome="abaixo" Tamanho="12" Classes="fraco" VerticalAlignment="Center" />
+              <c:Icone Nome="abaixo" Tamanho="12" Classes="fraco" VerticalAlignment="Center" />
             </StackPanel>
           </Button>
           <Button Grid.Column="5" Classes="redondo contorno" Command="{Binding PararCommand}" IsVisible="{Binding Trabalhando}" Margin="0,0,8,0"
                   ToolTip.Tip="{l:T 'Parar'}" AutomationProperties.Name="{l:T 'Parar'}">
-            <v:Icone Nome="parar" Tamanho="14" />
+            <c:Icone Nome="parar" Tamanho="14" />
           </Button>
           <Button Grid.Column="6" Classes="redondo primario" Command="{Binding EnviarCommand}" ToolTip.Tip="{l:T 'Enviar (Enter)'}" AutomationProperties.Name="{l:T 'Enviar'}">
-            <v:Icone Nome="enviar" Tamanho="16" />
+            <c:Icone Nome="enviar" Tamanho="16" />
           </Button>
         </Grid>
       </StackPanel>
@@ -659,7 +660,7 @@
             IsVisible="{Binding TemSubagentesRodando}" v:Animacoes.Entrada="True">
       <StackPanel Spacing="2">
         <StackPanel Orientation="Horizontal" Spacing="8" Margin="4,0,0,2">
-          <v:Icone Nome="subagente" Tamanho="13" Classes="suave" VerticalAlignment="Center" />
+          <c:Icone Nome="subagente" Tamanho="13" Classes="suave" VerticalAlignment="Center" />
           <TextBlock Classes="secao-geral" Text="{Binding TextoSubagentes}" VerticalAlignment="Center" />
         </StackPanel>
         <ScrollViewer MaxHeight="150" HorizontalScrollBarVisibility="Disabled">
@@ -704,7 +705,7 @@
     <Border DockPanel.Dock="Bottom" Classes="aviso-compactar" Margin="24,8,24,0" MaxWidth="{StaticResource LarguraConversa}"
             IsVisible="{Binding AvisoCacheVisivel}" v:Animacoes.Entrada="True">
       <Grid ColumnDefinitions="Auto,*">
-        <v:Icone Nome="relogio" Tamanho="15" Foreground="{DynamicResource Laranja}" VerticalAlignment="Center" Margin="0,0,10,0" />
+        <c:Icone Nome="relogio" Tamanho="15" Foreground="{DynamicResource Laranja}" VerticalAlignment="Center" Margin="0,0,10,0" />
         <TextBlock Grid.Column="1" Text="{Binding AvisoCache}" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="12.5" />
       </Grid>
     </Border>
@@ -719,7 +720,7 @@
         <DataTemplate x:DataType="m:SeloRevisao">
           <Border Classes="selo-revisao" Classes.ok="{Binding Ok}" Classes.erro="{Binding Falhou}" Classes.alerta="{Binding Alerta}" ToolTip.Tip="{Binding Dica}">
             <StackPanel Orientation="Horizontal" Spacing="6">
-              <v:Icone Nome="{Binding Icone}" Tamanho="12" VerticalAlignment="Center" Classes="selo" />
+              <c:Icone Nome="{Binding Icone}" Tamanho="12" VerticalAlignment="Center" Classes="selo" />
               <TextBlock Text="{Binding Texto}" FontSize="12" VerticalAlignment="Center" />
               <Button Classes="fantasma pequeno" IsVisible="{Binding PodeCorrigir}" Command="{Binding $parent[UserControl].((vm:ChatVM)DataContext).PedirCorrecaoCommand}" CommandParameter="{Binding}"
                       ToolTip.Tip="{l:T 'Escreve no campo um pedido de correção para o agente; você revisa e manda'}" VerticalAlignment="Center" Padding="4,0,0,0">
@@ -734,17 +735,17 @@
     <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Spacing="8" Margin="24,6,24,0" HorizontalAlignment="Center"
                 IsVisible="{Binding MostraAcoesRapidas}">
       <Button Classes="mini" Command="{Binding ComitarEPrCommand}" ToolTip.Tip="{l:T 'Abre o painel do PR com título e descrição prontos para revisar antes de criar'}">
-        <StackPanel Orientation="Horizontal" Spacing="6"><v:Icone Nome="pr" Tamanho="12" /><TextBlock Text="{l:T 'Commit e PR'}" /></StackPanel>
+        <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="pr" Tamanho="12" /><TextBlock Text="{l:T 'Commit e PR'}" /></StackPanel>
       </Button>
       <Button Classes="mini" Command="{Binding ComitarCommand}" ToolTip.Tip="{l:T 'Pede ao agente só o commit'}">
-        <StackPanel Orientation="Horizontal" Spacing="6"><v:Icone Nome="commit" Tamanho="12" /><TextBlock Text="{l:T 'Só o commit'}" /></StackPanel>
+        <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="commit" Tamanho="12" /><TextBlock Text="{l:T 'Só o commit'}" /></StackPanel>
       </Button>
     </StackPanel>
 
     <Border DockPanel.Dock="Bottom" Classes="aviso-compactar" Margin="24,8,24,0" MaxWidth="{StaticResource LarguraConversa}"
             IsVisible="{Binding SugerirCompactar}" v:Animacoes.Entrada="True">
       <Grid ColumnDefinitions="Auto,*,Auto,Auto">
-        <v:Icone Nome="alerta" Tamanho="15" Foreground="{DynamicResource Laranja}" VerticalAlignment="Center" Margin="0,0,10,0" />
+        <c:Icone Nome="alerta" Tamanho="15" Foreground="{DynamicResource Laranja}" VerticalAlignment="Center" Margin="0,0,10,0" />
         <TextBlock Grid.Column="1" Text="{Binding TextoCompactar}" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="12.5" />
         <Button Grid.Column="2" Classes="mini" Command="{Binding CompactarCommand}" Margin="12,0,6,0" VerticalAlignment="Center"
                 ToolTip.Tip="{l:T 'Manda o /compact: o Claude resume a conversa e continua dali'}">
@@ -752,7 +753,7 @@
         </Button>
         <Button Grid.Column="3" Classes="icone pequeno" Command="{Binding DispensarCompactarCommand}" VerticalAlignment="Center"
                 ToolTip.Tip="{l:T 'Agora não'}" AutomationProperties.Name="{l:T 'Dispensar o aviso de contexto'}">
-          <v:Icone Nome="fechar" Tamanho="11" />
+          <c:Icone Nome="fechar" Tamanho="11" />
         </Button>
       </Grid>
     </Border>
@@ -762,7 +763,7 @@
         <StackPanel IsVisible="{Binding Vazia}" HorizontalAlignment="Center" Spacing="14" Margin="0,36,0,0" MaxWidth="700">
           <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center">
             <TextBlock Text="✻" FontSize="22" Foreground="{DynamicResource Acento}" VerticalAlignment="Center" IsVisible="{Binding EhClaude}" />
-            <v:Icone Nome="terminal" Tamanho="20" Foreground="{DynamicResource Acento}" VerticalAlignment="Center" IsVisible="{Binding !EhClaude}" />
+            <c:Icone Nome="terminal" Tamanho="20" Foreground="{DynamicResource Acento}" VerticalAlignment="Center" IsVisible="{Binding !EhClaude}" />
             <TextBlock Text="{Binding NomeAgente}" FontSize="21" FontWeight="SemiBold" VerticalAlignment="Center" />
           </StackPanel>
           <Image Source="/Assets/nexora.png" Width="76" Height="76" HorizontalAlignment="Center" Margin="0,22,0,6"
@@ -773,7 +774,7 @@
               <ComboBox.ItemTemplate>
                 <DataTemplate x:DataType="m:Local">
                   <StackPanel Orientation="Horizontal" Spacing="8">
-                    <v:Icone Nome="camadas" Tamanho="14" Classes="suave" VerticalAlignment="Center" />
+                    <c:Icone Nome="camadas" Tamanho="14" Classes="suave" VerticalAlignment="Center" />
                     <TextBlock Text="{Binding Nome}" VerticalAlignment="Center" />
                     <TextBlock Classes="fraco mono" Text="{Binding Branch}" VerticalAlignment="Center" />
                   </StackPanel>
@@ -781,11 +782,11 @@
               </ComboBox.ItemTemplate>
             </ComboBox>
             <Button Classes="contorno" Click="OutraPasta_Click" ToolTip.Tip="{l:T 'Usar outra pasta'}" Margin="0,0,0,8">
-              <StackPanel Orientation="Horizontal" Spacing="6"><v:Icone Nome="pasta" Tamanho="14" /><TextBlock Text="{l:T 'Outra pasta'}" /></StackPanel>
+              <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="pasta" Tamanho="14" /><TextBlock Text="{l:T 'Outra pasta'}" /></StackPanel>
             </Button>
           </WrapPanel>
           <StackPanel Orientation="Horizontal" Spacing="6" HorizontalAlignment="Center" IsVisible="{Binding TemVinculados}">
-            <v:Icone Nome="vinculo" Tamanho="13" Classes="fraco" />
+            <c:Icone Nome="vinculo" Tamanho="13" Classes="fraco" />
             <TextBlock Classes="fraco" Text="{Binding TextoVinculados}" />
             <TextBlock Classes="fraco" Text="{l:T 'entram como diretórios extras'}" />
           </StackPanel>
@@ -868,7 +869,7 @@
         </StackPanel>
 
         <Button Classes="mini" HorizontalAlignment="Center" Margin="0,0,0,12" IsVisible="{Binding TemEscondidas}" IsEnabled="{Binding !CarregandoAnteriores}" Command="{Binding MostrarAnterioresCommand}">
-          <StackPanel Orientation="Horizontal" Spacing="6"><v:Icone Nome="acima" Tamanho="12" /><TextBlock Text="{Binding TextoEscondidas}" /></StackPanel>
+          <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="acima" Tamanho="12" /><TextBlock Text="{Binding TextoEscondidas}" /></StackPanel>
         </Button>
 
         <ItemsControl ItemsSource="{Binding ItensNaTela}">
@@ -894,7 +895,7 @@
                     </ItemsControl.ItemTemplate>
                   </ItemsControl>
                   <StackPanel Orientation="Horizontal" Spacing="6" IsVisible="{Binding TemImagensSalvas}">
-                    <v:Icone Nome="imagem" Tamanho="13" Classes="suave" VerticalAlignment="Center" />
+                    <c:Icone Nome="imagem" Tamanho="13" Classes="suave" VerticalAlignment="Center" />
                     <TextBlock Classes="suave" Text="{Binding TextoImagens}" FontSize="12.5" VerticalAlignment="Center" />
                   </StackPanel>
                   <ItemsControl ItemsSource="{Binding Citados}" IsVisible="{Binding TemCitados}">
@@ -903,7 +904,7 @@
                       <DataTemplate x:DataType="vm:CitadoVM">
                         <Border Classes="citado" ToolTip.Tip="{Binding Caminho}">
                           <StackPanel Orientation="Horizontal" Spacing="6">
-                            <v:Icone Nome="arquivo" Tamanho="12" VerticalAlignment="Center" />
+                            <c:Icone Nome="arquivo" Tamanho="12" VerticalAlignment="Center" />
                             <TextBlock Text="{Binding Nome}" FontSize="12.5" FontWeight="Medium" VerticalAlignment="Center" />
                           </StackPanel>
                         </Border>
@@ -917,7 +918,7 @@
               <Button Classes="fantasma copiar-msg" HorizontalAlignment="Right" Click="CopiarMensagem_Click" IsVisible="{Binding TemTexto}"
                       ToolTip.Tip="{l:T 'Copiar a mensagem inteira'}" AutomationProperties.Name="{l:T 'Copiar a mensagem'}">
                 <StackPanel Orientation="Horizontal" Spacing="6">
-                  <v:Icone Nome="copiar" Tamanho="13" VerticalAlignment="Center" />
+                  <c:Icone Nome="copiar" Tamanho="13" VerticalAlignment="Center" />
                   <TextBlock Text="{l:T 'Copiar'}" FontSize="12.5" VerticalAlignment="Center" />
                 </StackPanel>
               </Button>
@@ -929,21 +930,21 @@
                 <Border Classes="bolha-claude">
                   <Grid ColumnDefinitions="Auto,*">
                     <TextBlock Classes="marca-claude" Text="✻" />
-                    <v:MarkdownTexto Grid.Column="1" Texto="{Binding Texto}" />
+                    <c:MarkdownTexto Grid.Column="1" Texto="{Binding Texto}" />
                   </Grid>
                 </Border>
                 <StackPanel Orientation="Horizontal" Spacing="2">
                   <Button Classes="fantasma copiar-msg" Click="CopiarMensagem_Click"
                           ToolTip.Tip="{l:T 'Copiar a mensagem inteira'}" AutomationProperties.Name="{l:T 'Copiar a mensagem'}">
                     <StackPanel Orientation="Horizontal" Spacing="6">
-                      <v:Icone Nome="copiar" Tamanho="13" VerticalAlignment="Center" />
+                      <c:Icone Nome="copiar" Tamanho="13" VerticalAlignment="Center" />
                       <TextBlock Text="{l:T 'Copiar'}" FontSize="12.5" VerticalAlignment="Center" />
                     </StackPanel>
                   </Button>
                   <Button Classes="fantasma copiar-msg responder-msg" Click="ResponderMensagem_Click" Focusable="False"
                           ToolTip.Tip="{l:T 'Responder a esta mensagem. Com um trecho selecionado, cita só o trecho'}" AutomationProperties.Name="{l:T 'Responder a esta mensagem'}">
                     <StackPanel Orientation="Horizontal" Spacing="6">
-                      <v:Icone Nome="responder" Tamanho="13" VerticalAlignment="Center" />
+                      <c:Icone Nome="responder" Tamanho="13" VerticalAlignment="Center" />
                       <TextBlock Text="{l:T 'Responder'}" FontSize="12.5" VerticalAlignment="Center" />
                     </StackPanel>
                   </Button>
@@ -961,7 +962,7 @@
                       <TextBlock Classes="fraco" Text="  ·  " FontStyle="Italic" FontSize="13" IsVisible="{Binding TemTokens}" />
                       <v:Contador Classes="suave" Valor="{Binding Tokens}" FontStyle="Italic" FontSize="13" IsVisible="{Binding TemTokens}" />
                     </StackPanel>
-                    <v:Icone Grid.Column="2" Nome="abaixo" Tamanho="14" Classes="fraco" Margin="8,0,0,0" IsVisible="{Binding TemTexto}" />
+                    <c:Icone Grid.Column="2" Nome="abaixo" Tamanho="14" Classes="fraco" Margin="8,0,0,0" IsVisible="{Binding TemTexto}" />
                   </Grid>
                 </Button>
                 <Border Classes="mdCodigo" IsVisible="{Binding Aberto}" Margin="17,0,0,4" MaxHeight="320">
@@ -980,15 +981,15 @@
                              Classes.pronta="{Binding Ok}" Classes.erro="{Binding Erro}" Classes.trabalhando="{Binding Rodando}" />
                     <TextBlock Grid.Column="1" Text="{Binding Rotulo}" FontWeight="SemiBold" FontSize="13" Margin="0,0,10,0" VerticalAlignment="Center" />
                     <TextBlock Grid.Column="2" Classes="suave mono" Text="{Binding Resumo}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
-                    <v:Icone Grid.Column="3" Nome="abaixo" Tamanho="14" Classes="fraco" Margin="8,0,0,0" IsVisible="{Binding Concluida}" />
+                    <c:Icone Grid.Column="3" Nome="abaixo" Tamanho="14" Classes="fraco" Margin="8,0,0,0" IsVisible="{Binding Concluida}" />
                   </Grid>
                 </Button>
                 <StackPanel Orientation="Horizontal" Spacing="6" Margin="23,0,0,0" IsVisible="{Binding TemArquivo}">
                   <Button Classes="mini" Command="{Binding VerDiffCommand}" IsVisible="{Binding TemDiff}">
-                    <StackPanel Orientation="Horizontal" Spacing="5"><v:Icone Nome="diff" Tamanho="12" /><TextBlock Text="{l:T 'Ver diff'}" /></StackPanel>
+                    <StackPanel Orientation="Horizontal" Spacing="5"><c:Icone Nome="diff" Tamanho="12" /><TextBlock Text="{l:T 'Ver diff'}" /></StackPanel>
                   </Button>
                   <Button Classes="mini" Command="{Binding AbrirArquivoCommand}">
-                    <StackPanel Orientation="Horizontal" Spacing="5"><v:Icone Nome="arquivo" Tamanho="12" /><TextBlock Text="{l:T 'Abrir'}" /></StackPanel>
+                    <StackPanel Orientation="Horizontal" Spacing="5"><c:Icone Nome="arquivo" Tamanho="12" /><TextBlock Text="{l:T 'Abrir'}" /></StackPanel>
                   </Button>
                 </StackPanel>
                 <Border Classes="mdCodigo" IsVisible="{Binding Aberta}" Margin="17,0,0,4" MaxHeight="320">
@@ -1010,8 +1011,8 @@
                       <TextBlock Grid.Column="1" Text="{Binding Rotulo}" FontWeight="SemiBold" FontSize="13" Margin="0,0,10,0" VerticalAlignment="Center" />
                       <TextBlock Grid.Column="2" Classes="suave" Text="{Binding Resumo}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
                       <Panel Grid.Column="3" Margin="8,0,0,0">
-                        <v:Icone Nome="direita" Tamanho="14" Classes="fraco" IsVisible="{Binding !Aberta}" />
-                        <v:Icone Nome="abaixo" Tamanho="14" Classes="fraco" IsVisible="{Binding Aberta}" />
+                        <c:Icone Nome="direita" Tamanho="14" Classes="fraco" IsVisible="{Binding !Aberta}" />
+                        <c:Icone Nome="abaixo" Tamanho="14" Classes="fraco" IsVisible="{Binding Aberta}" />
                       </Panel>
                     </Grid>
                   </Button>
@@ -1033,8 +1034,8 @@
                 <StackPanel Spacing="10">
                   <ContentControl Content="{Binding}" ContentTemplate="{StaticResource OrigemDoPedido}" IsVisible="{Binding TemSubagente}" />
                   <StackPanel Orientation="Horizontal" Spacing="8">
-                    <v:Icone Nome="alerta" Tamanho="16" Foreground="{DynamicResource Laranja}" IsVisible="{Binding Pendente}" />
-                    <v:Icone Nome="ok" Tamanho="16" Classes="fraco" IsVisible="{Binding Respondida}" />
+                    <c:Icone Nome="alerta" Tamanho="16" Foreground="{DynamicResource Laranja}" IsVisible="{Binding Pendente}" />
+                    <c:Icone Nome="ok" Tamanho="16" Classes="fraco" IsVisible="{Binding Respondida}" />
                     <TextBlock Text="{Binding Titulo}" FontWeight="SemiBold" TextWrapping="Wrap" />
                   </StackPanel>
                   <TextBlock Classes="suave" Text="{Binding Motivo}" IsVisible="{Binding TemMotivo}" TextWrapping="Wrap" FontSize="12.5" />
@@ -1043,7 +1044,7 @@
                       <SelectableTextBlock Text="{Binding Detalhe}" FontFamily="{DynamicResource Mono}" FontSize="12.5" TextWrapping="Wrap" />
                     </ScrollViewer>
                   </Border>
-                  <v:MarkdownTexto Texto="{Binding Plano}" IsVisible="{Binding TemPlano}" />
+                  <c:MarkdownTexto Texto="{Binding Plano}" IsVisible="{Binding TemPlano}" />
                   <ItemsControl ItemsSource="{Binding Perguntas}" IsVisible="{Binding EhPergunta}">
                     <ItemsControl.ItemTemplate>
                       <DataTemplate x:DataType="vm:PerguntaVM">
@@ -1086,17 +1087,17 @@
               <Border Theme="{StaticResource ResumoDoTurno}" Classes.confirmando="{Binding Confirmando}" IsVisible="{Binding Visivel}" v:Animacoes.Entrada="True">
                 <StackPanel Spacing="8">
                   <WrapPanel Orientation="Horizontal">
-                    <v:Icone Nome="diff" Tamanho="12" Classes="fraco" VerticalAlignment="Center" Margin="0,0,7,0" />
+                    <c:Icone Nome="diff" Tamanho="12" Classes="fraco" VerticalAlignment="Center" Margin="0,0,7,0" />
                     <TextBlock Classes="suave" Text="{Binding TextoArquivos}" FontSize="12" VerticalAlignment="Center" />
                     <TextBlock Classes="mais" Text="{Binding TextoMais}" FontSize="12" VerticalAlignment="Center" Margin="8,0,0,0" IsVisible="{Binding TemArquivos}" />
                     <TextBlock Classes="menos" Text="{Binding TextoMenos}" FontSize="12" VerticalAlignment="Center" Margin="5,0,0,0" IsVisible="{Binding TemArquivos}" />
                     <Button Classes="mini" Command="{Binding VerCommand}" IsVisible="{Binding TemArquivos}" Margin="12,0,0,0"
                             ToolTip.Tip="{l:T 'Abre o painel Git só com o que este turno mudou'}">
-                      <StackPanel Orientation="Horizontal" Spacing="5"><v:Icone Nome="diff" Tamanho="12" /><TextBlock Text="{l:T 'Ver o que mudou'}" /></StackPanel>
+                      <StackPanel Orientation="Horizontal" Spacing="5"><c:Icone Nome="diff" Tamanho="12" /><TextBlock Text="{l:T 'Ver o que mudou'}" /></StackPanel>
                     </Button>
                     <Button Classes="mini" Command="{Binding DesfazerCommand}" IsVisible="{Binding MostraAcoes}" Margin="6,0,0,0"
                             ToolTip.Tip="{l:T 'Volta os arquivos e a conversa para antes desta mensagem'}">
-                      <StackPanel Orientation="Horizontal" Spacing="5"><v:Icone Nome="desfazer" Tamanho="12" /><TextBlock Text="{l:T 'Desfazer este turno'}" /></StackPanel>
+                      <StackPanel Orientation="Horizontal" Spacing="5"><c:Icone Nome="desfazer" Tamanho="12" /><TextBlock Text="{l:T 'Desfazer este turno'}" /></StackPanel>
                     </Button>
                     <TextBlock Classes="suave" Text="{l:T 'Desfazendo…'}" FontSize="12" VerticalAlignment="Center" Margin="12,0,0,0" IsVisible="{Binding Desfazendo}" />
                   </WrapPanel>
@@ -1124,7 +1125,7 @@
                     </Border.OpacityMask>
                   </Border>
                   <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="7" Margin="12,0">
-                    <v:Icone Nome="faisca" Tamanho="11" Classes="suave" VerticalAlignment="Center" />
+                    <c:Icone Nome="faisca" Tamanho="11" Classes="suave" VerticalAlignment="Center" />
                     <TextBlock Classes="suave" Text="{Binding Texto}" FontSize="12" VerticalAlignment="Center" />
                   </StackPanel>
                   <Border Grid.Column="2" Height="1" VerticalAlignment="Center" Background="{DynamicResource SelecaoBorda}">
@@ -1147,7 +1148,7 @@
         </ItemsControl>
 
         <StackPanel Orientation="Horizontal" Spacing="8" Margin="4,14,0,6" IsVisible="{Binding Trabalhando}">
-          <v:Icone Nome="faisca" Tamanho="15" Width="18" Height="18" Foreground="{DynamicResource Acento}" VerticalAlignment="Center"
+          <c:Icone Nome="faisca" Tamanho="15" Width="18" Height="18" Foreground="{DynamicResource Acento}" VerticalAlignment="Center"
                    v:Animacoes.Girar="{Binding Trabalhando}" />
           <TextBlock Classes="suave" Text="{Binding AndamentoTexto}" FontSize="13" VerticalAlignment="Center" />
         </StackPanel>
@@ -1161,11 +1162,11 @@
     <Button Theme="{StaticResource VeuSobreposto}" Command="{Binding FecharDetalhesSobrepostosCommand}" IsVisible="{Binding DetalhesPorCima}"
             AutomationProperties.Name="{l:T 'Fechar os detalhes da sessão'}" />
     <Border Theme="{StaticResource GavetaSobreposta}" Classes.sobreposta="{Binding DetalhesSobrepostos}" HorizontalAlignment="Right">
-      <v:Adiado Mostrar="{Binding DetalhesNaTela}">
+      <c:Adiado Mostrar="{Binding DetalhesNaTela}">
         <DataTemplate x:DataType="vm:ChatVM">
           <v:DetalhesSessaoView />
         </DataTemplate>
-      </v:Adiado>
+      </c:Adiado>
     </Border>
   </Panel>
   </Grid>

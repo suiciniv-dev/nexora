@@ -3,6 +3,7 @@
         xmlns:l="using:Nexora"
         xmlns:vm="using:Nexora.ViewModels"
         xmlns:v="using:Nexora.Views"
+             xmlns:c="using:Nexora.Controles"
         xmlns:sys="using:System"
         x:Class="Nexora.Janela"
         RenderOptions.TextRenderingMode="SubpixelAntialias"
@@ -108,8 +109,8 @@
   <Grid x:Name="Moldura" RowDefinitions="54,*,28">
     <Image Grid.RowSpan="3" Source="{Binding ImagemFundo}" Stretch="UniformToFill" IsVisible="{Binding TemImagem}" IsHitTestVisible="False" />
     <Border Grid.RowSpan="3" Background="{DynamicResource BrilhoFundo}" IsHitTestVisible="False" />
-    <v:FundoIluminado Grid.RowSpan="3" />
-    <v:FundoVivo Grid.RowSpan="3" Estilo="{Binding FundoAnimado}" Modo="{Binding ModoFundo}" Agitado="{Binding TemTrabalhando}" />
+    <c:FundoIluminado Grid.RowSpan="3" />
+    <c:FundoVivo Grid.RowSpan="3" Estilo="{Binding FundoAnimado}" Modo="{Binding ModoFundo}" Agitado="{Binding TemTrabalhando}" />
     <Border Grid.RowSpan="3" Background="{DynamicResource Fundo}" Opacity="{Binding Escurecer}" IsVisible="{Binding TemVeu}" IsHitTestVisible="False" />
     <Border Grid.RowSpan="3" Background="{DynamicResource VeuConteudo}" IsHitTestVisible="False" />
 
@@ -129,21 +130,21 @@
         <v:AbasView x:Name="Abas" Grid.Column="2" DataContext="{Binding Principal}" Margin="10,0,8,0" />
         <Button Grid.Column="3" Classes="topo" Command="{Binding ProcurarCommand}" WindowDecorationProperties.ElementRole="User" Margin="0,0,4,0"
                 ToolTip.Tip="{l:T 'Procurar telas, comandos, projetos e conversas (Ctrl+K)'}" AutomationProperties.Name="{l:T 'Procurar'}">
-          <v:Icone Nome="busca" Tamanho="16" />
+          <c:Icone Nome="busca" Tamanho="16" />
         </Button>
         <StackPanel Grid.Column="4" Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
           <Button Classes="contorno novidade" Command="{Binding AbrirRecuperacaoCommand}" IsVisible="{Binding TemAvisoDeRecuperacao}" WindowDecorationProperties.ElementRole="User"
                   ToolTip.Tip="{Binding DicaRecuperacao}" AutomationProperties.Name="{Binding TextoRecuperacao}">
-            <StackPanel Orientation="Horizontal" Spacing="7"><v:Icone Nome="alerta" Tamanho="14" /><TextBlock Text="{Binding TextoRecuperacao}" /></StackPanel>
+            <StackPanel Orientation="Horizontal" Spacing="7"><c:Icone Nome="alerta" Tamanho="14" /><TextBlock Text="{Binding TextoRecuperacao}" /></StackPanel>
           </Button>
           <Button Classes="contorno novidade" Command="{Binding AtualizarAgoraCommand}" IsVisible="{Binding TemAtualizacao}" WindowDecorationProperties.ElementRole="User"
                   ToolTip.Tip="{Binding DicaAtualizacao}" AutomationProperties.Name="{l:T 'Atualizar o Nexora'}">
-            <StackPanel Orientation="Horizontal" Spacing="7"><v:Icone Nome="brilho" Tamanho="14" /><TextBlock Text="{Binding TextoAtualizacao}" /></StackPanel>
+            <StackPanel Orientation="Horizontal" Spacing="7"><c:Icone Nome="brilho" Tamanho="14" /><TextBlock Text="{Binding TextoAtualizacao}" /></StackPanel>
           </Button>
           <Button Classes="topo foco" Classes.chamando="{Binding TemPrecisa}" Classes.vazio="{Binding !TemPrecisa}" Command="{Binding AbrirFocoCommand}" WindowDecorationProperties.ElementRole="User"
                   ToolTip.Tip="{l:T 'Modo foco: um pedido por vez, respondido pelo teclado (Ctrl+J)'}" AutomationProperties.Name="{l:T 'Modo foco'}">
             <StackPanel Orientation="Horizontal" Spacing="6">
-              <v:Icone Nome="foco" Tamanho="16" />
+              <c:Icone Nome="foco" Tamanho="16" />
               <TextBlock x:Name="TextoFoco" Text="{l:T 'Foco'}" FontSize="12.5" VerticalAlignment="Center" />
             </StackPanel>
           </Button>
@@ -167,12 +168,12 @@
           </Panel>
           </Panel>
           <Button Classes="topo" Click="Importar_Click" WindowDecorationProperties.ElementRole="User" ToolTip.Tip="{l:T 'Abrir um .code-workspace que está fora da pasta de projetos'}" AutomationProperties.Name="{l:T 'Importar projeto'}">
-            <v:Icone Nome="importar" Tamanho="16" />
+            <c:Icone Nome="importar" Tamanho="16" />
           </Button>
-          <v:BotaoLigado Classes="topo" Classes.ativo="{Binding TelaCheia}" IsChecked="{Binding TelaCheia, Mode=OneWay}" Command="{Binding AlternarTelaCheiaCommand}" WindowDecorationProperties.ElementRole="User"
+          <c:BotaoLigado Classes="topo" Classes.ativo="{Binding TelaCheia}" IsChecked="{Binding TelaCheia, Mode=OneWay}" Command="{Binding AlternarTelaCheiaCommand}" WindowDecorationProperties.ElementRole="User"
                   ToolTip.Tip="{Binding DicaTelaCheia}" AutomationProperties.Name="{l:T 'Tela cheia'}">
-            <v:Icone Nome="maximizar" Tamanho="15" />
-          </v:BotaoLigado>
+            <c:Icone Nome="maximizar" Tamanho="15" />
+          </c:BotaoLigado>
         </StackPanel>
       </Grid>
     </Border>
@@ -197,7 +198,7 @@
     <Grid Grid.Row="2" ColumnDefinitions="Auto,Auto,*,Auto" Margin="16,0,16,2" IsVisible="{Binding !TelaCheia}">
       <Button Classes="rodape" Command="{Binding MostrarUsoCommand}" IsVisible="{Binding TemPlano}" ToolTip.Tip="{Binding DicaPlano}" AutomationProperties.Name="{l:T 'Uso do plano'}">
         <StackPanel Orientation="Horizontal" Spacing="8">
-          <v:Icone Nome="faisca" Tamanho="12" Foreground="{DynamicResource Laranja}" VerticalAlignment="Center" />
+          <c:Icone Nome="faisca" Tamanho="12" Foreground="{DynamicResource Laranja}" VerticalAlignment="Center" />
           <ProgressBar Classes="plano" Classes.alerta="{Binding SessaoEmAlerta}" Classes.critico="{Binding SessaoCritica}" Width="46" VerticalAlignment="Center"
                        Minimum="0" Maximum="1" Value="{Binding ValorPlanoSessao}" />
           <TextBlock Text="{Binding TextoLimites}" FontSize="11.5" VerticalAlignment="Center" />
@@ -205,13 +206,13 @@
       </Button>
       <Button Grid.Column="1" Classes="rodape" Command="{Binding MostrarUsoCommand}" IsVisible="{Binding TemPlanoCodex}" ToolTip.Tip="{Binding DetalheCodex}" AutomationProperties.Name="{l:T 'Uso do Codex'}" Margin="14,0,0,0">
         <StackPanel Orientation="Horizontal" Spacing="7">
-          <v:Icone Nome="terminal" Tamanho="12" VerticalAlignment="Center" />
+          <c:Icone Nome="terminal" Tamanho="12" VerticalAlignment="Center" />
           <TextBlock Text="{Binding TextoLimitesCodex}" FontSize="11.5" VerticalAlignment="Center" />
         </StackPanel>
       </Button>
       <Button Grid.Column="3" Classes="rodape" Command="{Binding MostrarRecursosCommand}" IsVisible="{Binding TemMemoria}" ToolTip.Tip="{l:T 'Memória do Nexora, das sessões e dos MCPs'}" AutomationProperties.Name="{l:T 'Memória'}">
         <StackPanel Orientation="Horizontal" Spacing="7">
-          <v:Icone Nome="memoria" Tamanho="12" VerticalAlignment="Center" />
+          <c:Icone Nome="memoria" Tamanho="12" VerticalAlignment="Center" />
           <TextBlock Text="{Binding TextoMemoria}" FontSize="11.5" VerticalAlignment="Center" />
         </StackPanel>
       </Button>
@@ -219,7 +220,7 @@
 
     <Border Grid.Row="1" Theme="{StaticResource RecadoFlutuante}" IsVisible="{Binding TemRecado}" ZIndex="20" v:Animacoes.Aparecer="perto">
       <StackPanel Orientation="Horizontal" Spacing="10">
-        <v:Icone Nome="pasta" Tamanho="15" Foreground="{DynamicResource Acento}" VerticalAlignment="Center" />
+        <c:Icone Nome="pasta" Tamanho="15" Foreground="{DynamicResource Acento}" VerticalAlignment="Center" />
         <TextBlock Text="{Binding RecadoSoltar}" TextWrapping="Wrap" VerticalAlignment="Center" />
       </StackPanel>
     </Border>
@@ -245,7 +246,7 @@
               <StackPanel Spacing="14">
                 <Grid ColumnDefinitions="Auto,*">
                   <Border Width="36" Height="36" CornerRadius="10" Background="{DynamicResource ErroFundo}" VerticalAlignment="Top" Margin="0,0,12,0">
-                    <v:Icone Nome="lixeira" Tamanho="17" Foreground="{DynamicResource Vermelho}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <c:Icone Nome="lixeira" Tamanho="17" Foreground="{DynamicResource Vermelho}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                   </Border>
                   <StackPanel Grid.Column="1" Spacing="3">
                     <TextBlock Text="{Binding Titulo}" FontSize="18" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
@@ -275,7 +276,7 @@
                       <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="sys:String">
                           <Grid ColumnDefinitions="Auto,*" Margin="0,2">
-                            <v:Icone Nome="alerta" Tamanho="13" Foreground="{DynamicResource Laranja}" VerticalAlignment="Top" Margin="0,2,8,0" />
+                            <c:Icone Nome="alerta" Tamanho="13" Foreground="{DynamicResource Laranja}" VerticalAlignment="Top" Margin="0,2,8,0" />
                             <TextBlock Grid.Column="1" Text="{Binding}" TextWrapping="Wrap" FontSize="12.5" />
                           </Grid>
                         </DataTemplate>
@@ -297,7 +298,7 @@
                     <TextBlock Text="{l:T 'Cancelar'}" />
                   </Button>
                   <Button Classes="perigo" Command="{Binding ExcluirCommand}" IsEnabled="{Binding PodeExcluir}">
-                    <StackPanel Orientation="Horizontal" Spacing="7"><v:Icone Nome="lixeira" Tamanho="13" /><TextBlock Text="{Binding TextoBotao}" /></StackPanel>
+                    <StackPanel Orientation="Horizontal" Spacing="7"><c:Icone Nome="lixeira" Tamanho="13" /><TextBlock Text="{Binding TextoBotao}" /></StackPanel>
                   </Button>
                 </StackPanel>
               </StackPanel>
@@ -313,7 +314,7 @@
         <StackPanel Spacing="14">
           <Grid ColumnDefinitions="Auto,*">
             <Border Width="36" Height="36" CornerRadius="10" Background="{DynamicResource AcentoFundo}" VerticalAlignment="Top" Margin="0,0,12,0">
-              <v:Icone Nome="atualizar" Tamanho="17" Foreground="{DynamicResource Acento}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+              <c:Icone Nome="atualizar" Tamanho="17" Foreground="{DynamicResource Acento}" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Border>
             <TextBlock Grid.Column="1" Text="{l:T 'Reiniciar o Nexora?'}" FontSize="18" FontWeight="SemiBold" VerticalAlignment="Center" />
           </Grid>

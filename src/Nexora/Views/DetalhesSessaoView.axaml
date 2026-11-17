@@ -3,6 +3,7 @@
              xmlns:l="using:Nexora"
              xmlns:vm="using:Nexora.ViewModels"
              xmlns:v="using:Nexora.Views"
+             xmlns:c="using:Nexora.Controles"
              x:Class="Nexora.Views.DetalhesSessaoView"
              x:DataType="vm:ChatVM">
   <UserControl.Styles>
@@ -47,11 +48,11 @@
               ToolTip.Tip="{l:T 'Pull request desta branch: checks, revisões, comentários e merge'}" />
       <Button Grid.Column="5" Classes="guia" Classes.ativa="{Binding AbaNavegador}" Command="{Binding MostrarAbaCommand}" CommandParameter="navegador" Padding="7,5"
               ToolTip.Tip="{l:T 'Navegador: veja a página do projeto e anote o que mudar'}" AutomationProperties.Name="{l:T 'Navegador'}">
-        <v:Icone Nome="globo" Tamanho="14" />
+        <c:Icone Nome="globo" Tamanho="14" />
       </Button>
       <Button Grid.Column="7" Classes="icone pequeno" Command="{Binding AlternarDetalhesAquiCommand}" Margin="4,0,0,0" VerticalAlignment="Center"
               ToolTip.Tip="{l:T 'Recolher o painel (Ctrl+Alt+B)'}" AutomationProperties.Name="{l:T 'Recolher o painel'}">
-        <v:Icone Nome="painel-direito" Tamanho="14" />
+        <c:Icone Nome="painel-direito" Tamanho="14" />
       </Button>
     </Grid>
     <Panel>
@@ -60,16 +61,16 @@
         <StackPanel Spacing="8">
           <TextBlock Classes="titulo-detalhe" Text="{l:T 'AMBIENTE'}" />
           <Grid Classes="linha-detalhe" ColumnDefinitions="Auto,*">
-            <v:Icone Nome="pasta" Tamanho="14" Classes="suave" VerticalAlignment="Center" Margin="0,0,10,0" />
+            <c:Icone Nome="pasta" Tamanho="14" Classes="suave" VerticalAlignment="Center" Margin="0,0,10,0" />
             <TextBlock Grid.Column="1" Text="{Binding NomePasta}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" ToolTip.Tip="{Binding Pasta}" />
           </Grid>
           <Panel IsVisible="{Binding Branch, Converter={x:Static ObjectConverters.IsNotNull}}">
             <Button x:Name="BotaoBranch" Classes="opcao-menu" Classes.selecionada="{Binding MenuBranchAberto}" Command="{Binding AbrirMenuBranchCommand}"
                     Padding="6,4" Margin="-6,0" ToolTip.Tip="{l:T 'Trocar a branch desta pasta'}" AutomationProperties.Name="{l:T 'Trocar a branch'}">
               <Grid ColumnDefinitions="Auto,*,Auto">
-                <v:Icone Nome="branch" Tamanho="14" Classes="suave" VerticalAlignment="Center" Margin="0,0,10,0" />
+                <c:Icone Nome="branch" Tamanho="14" Classes="suave" VerticalAlignment="Center" Margin="0,0,10,0" />
                 <TextBlock Grid.Column="1" Classes="mono" Text="{Binding Branch}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" FontSize="12.5" />
-                <v:Icone Grid.Column="2" Nome="abaixo" Tamanho="12" Classes="fraco" VerticalAlignment="Center" Margin="8,0,0,0" />
+                <c:Icone Grid.Column="2" Nome="abaixo" Tamanho="12" Classes="fraco" VerticalAlignment="Center" Margin="8,0,0,0" />
               </Grid>
             </Button>
             <Popup PlacementTarget="{Binding #BotaoBranch}" Placement="BottomEdgeAlignedLeft" VerticalOffset="4" IsLightDismissEnabled="True"
@@ -93,7 +94,7 @@
                                 <TextBlock Classes="mono" Text="{Binding Nome}" FontSize="12.5" TextTrimming="CharacterEllipsis" />
                                 <TextBlock Classes="fraco" Text="{Binding Descricao}" IsVisible="{Binding TemDescricao}" FontSize="11.5" />
                               </StackPanel>
-                              <v:Icone Grid.Column="1" Nome="ok" Tamanho="13" IsVisible="{Binding Selecionada}" VerticalAlignment="Center" Margin="8,0,0,0" />
+                              <c:Icone Grid.Column="1" Nome="ok" Tamanho="13" IsVisible="{Binding Selecionada}" VerticalAlignment="Center" Margin="8,0,0,0" />
                             </Grid>
                           </Button>
                         </DataTemplate>
@@ -105,28 +106,28 @@
             </Popup>
           </Panel>
           <Grid Classes="linha-detalhe" ColumnDefinitions="Auto,*" IsVisible="{Binding TemVinculados}">
-            <v:Icone Nome="vinculo" Tamanho="14" Classes="suave" VerticalAlignment="Center" Margin="0,0,10,0" />
+            <c:Icone Nome="vinculo" Tamanho="14" Classes="suave" VerticalAlignment="Center" Margin="0,0,10,0" />
             <TextBlock Grid.Column="1" Classes="suave" Text="{Binding TextoVinculados}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
           </Grid>
           <Grid Classes="linha-detalhe" ColumnDefinitions="Auto,*" IsVisible="{Binding TemMcpDoHub}"
                 ToolTip.Tip="{l:T 'Estes servidores do .mcp.json rodam uma vez só no hub do Nexora e são divididos entre as sessões'}">
-            <v:Icone Nome="memoria" Tamanho="14" Classes="suave" VerticalAlignment="Center" Margin="0,0,10,0" />
+            <c:Icone Nome="memoria" Tamanho="14" Classes="suave" VerticalAlignment="Center" Margin="0,0,10,0" />
             <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="6">
               <TextBlock Classes="suave" Text="{Binding TextoMcpDoHub}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" MaxWidth="170" />
               <Border Classes="etiqueta"><TextBlock Text="{l:T 'pelo hub'}" /></Border>
             </StackPanel>
           </Grid>
           <Grid Classes="linha-detalhe" ColumnDefinitions="Auto,*,Auto">
-            <v:Icone Nome="celular" Tamanho="14" Classes="suave" VerticalAlignment="Center" Margin="0,0,10,0" />
+            <c:Icone Nome="celular" Tamanho="14" Classes="suave" VerticalAlignment="Center" Margin="0,0,10,0" />
             <TextBlock Grid.Column="1" Text="Remote Control" VerticalAlignment="Center" />
             <ToggleSwitch Grid.Column="2" IsChecked="{Binding RemotoLigado, Mode=OneWay}" Command="{Binding AlternarRemotoCommand}" IsEnabled="{Binding RemotoDisponivel}"
                           OnContent="" OffContent="" MinWidth="0" ToolTip.Tip="{l:T 'Continuar esta conversa pelo celular ou pelo claude.ai'}" />
           </Grid>
           <Button Classes="mini" Command="{Binding AbrirRemotoCommand}" IsVisible="{Binding RemotoLigado}" HorizontalAlignment="Left" ToolTip.Tip="{Binding EnderecoRemoto}">
-            <StackPanel Orientation="Horizontal" Spacing="5"><v:Icone Nome="externo" Tamanho="12" /><TextBlock Text="{l:T 'Abrir o link do Remote Control'}" /></StackPanel>
+            <StackPanel Orientation="Horizontal" Spacing="5"><c:Icone Nome="externo" Tamanho="12" /><TextBlock Text="{l:T 'Abrir o link do Remote Control'}" /></StackPanel>
           </Button>
           <Button Classes="mini" Command="{Binding ExecutarCommand}" HorizontalAlignment="Left" Margin="0,2,0,0">
-            <StackPanel Orientation="Horizontal" Spacing="5"><v:Icone Nome="executar" Tamanho="12" /><TextBlock Text="{l:T 'Executar o projeto'}" /></StackPanel>
+            <StackPanel Orientation="Horizontal" Spacing="5"><c:Icone Nome="executar" Tamanho="12" /><TextBlock Text="{l:T 'Executar o projeto'}" /></StackPanel>
           </Button>
         </StackPanel>
 
@@ -135,7 +136,7 @@
             <TextBlock Classes="titulo-detalhe" Text="{l:T 'CONTEXTO'}" />
             <Button Grid.Column="1" Classes="icone pequeno" Command="{Binding DetalharContextoCommand}" ToolTip.Tip="{l:T 'Medir o contexto de novo'}"
                     AutomationProperties.Name="{l:T 'Medir o contexto de novo'}">
-              <v:Icone Nome="atualizar" Tamanho="12" />
+              <c:Icone Nome="atualizar" Tamanho="12" />
             </Button>
           </Grid>
           <TextBlock Classes="fraco" Text="{l:T 'Aparece depois da primeira resposta.'}" IsVisible="{Binding !TemContexto}" TextWrapping="Wrap" />
@@ -175,7 +176,7 @@
                     </ContextMenu>
                   </Button.ContextMenu>
                   <Grid ColumnDefinitions="Auto,*,Auto">
-                    <v:Icone Nome="{Binding Icone}" Tamanho="14" Classes="suave" VerticalAlignment="Center" Margin="0,0,10,0" />
+                    <c:Icone Nome="{Binding Icone}" Tamanho="14" Classes="suave" VerticalAlignment="Center" Margin="0,0,10,0" />
                     <StackPanel Grid.Column="1">
                       <TextBlock Text="{Binding Nome}" TextTrimming="CharacterEllipsis" FontSize="13" />
                       <TextBlock Classes="fraco" Text="{Binding Diretorio}" FontSize="11" TextTrimming="CharacterEllipsis" />
@@ -201,7 +202,7 @@
         </ContentControl.DataTemplates>
       </ContentControl>
       <StackPanel IsVisible="{Binding NavegadorDestacado}" VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="10" Margin="20">
-        <v:Icone Nome="globo" Tamanho="24" Classes="suave" HorizontalAlignment="Center" />
+        <c:Icone Nome="globo" Tamanho="24" Classes="suave" HorizontalAlignment="Center" />
         <TextBlock Classes="suave" Text="{l:T 'O navegador está numa janela flutuante.'}" TextWrapping="Wrap" TextAlignment="Center" />
         <Button Classes="contorno pequeno" Command="{Binding Navegador.EncaixarCommand}" HorizontalAlignment="Center" Content="{l:T 'Trazer de volta para cá'}" />
       </StackPanel>

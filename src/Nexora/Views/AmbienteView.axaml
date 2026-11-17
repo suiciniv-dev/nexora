@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:l="using:Nexora"
              xmlns:vm="using:Nexora.ViewModels"
-             xmlns:v="using:Nexora.Views"
+             xmlns:c="using:Nexora.Controles"
              x:Class="Nexora.Views.AmbienteView"
              x:DataType="vm:AmbienteVM">
   <UserControl.Styles>
@@ -32,7 +32,7 @@
             <TextBlock Text="{Binding Iniciais}" Foreground="{DynamicResource SobreMarca}" FontWeight="SemiBold" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" />
           </Border>
           <Border Width="52" Height="52" CornerRadius="14" ClipToBounds="True" Background="{DynamicResource SuperficieAlta}" IsVisible="{Binding TemIconeRepo}">
-            <Border Background="{Binding IconeRepo, Converter={x:Static v:FundoDoIcone.Instancia}}">
+            <Border Background="{Binding IconeRepo, Converter={x:Static c:FundoDoIcone.Instancia}}">
               <Image Source="{Binding IconeRepo}" Stretch="UniformToFill" />
             </Border>
           </Border>
@@ -41,11 +41,11 @@
           <TextBlock Text="{Binding Nome}" FontSize="26" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
           <WrapPanel>
             <StackPanel Orientation="Horizontal" Spacing="6" Margin="0,0,14,0">
-              <v:Icone Nome="branch" Tamanho="13" Classes="fraco" />
+              <c:Icone Nome="branch" Tamanho="13" Classes="fraco" />
               <TextBlock Classes="fraco mono" Text="{Binding BranchCurta}" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" Spacing="6" Margin="0,0,14,0" IsVisible="{Binding TemVinculados}">
-              <v:Icone Nome="vinculo" Tamanho="13" Classes="fraco" />
+              <c:Icone Nome="vinculo" Tamanho="13" Classes="fraco" />
               <TextBlock Classes="fraco" Text="{Binding Resumo}" />
             </StackPanel>
             <TextBlock Classes="alerta" Text="{Binding TextoAlteracoes}" IsVisible="{Binding TemAlteracoes}" FontSize="12" />
@@ -53,16 +53,16 @@
         </StackPanel>
         <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
           <Button Classes="icone" Command="{Binding ExcluirCommand}" ToolTip.Tip="{l:T 'Excluir o projeto: tirar da lista e, se quiser, mandar a pasta e as conversas para a Lixeira'}" AutomationProperties.Name="{l:T 'Excluir projeto'}">
-            <v:Icone Nome="lixeira" />
+            <c:Icone Nome="lixeira" />
           </Button>
           <Button Classes="contorno" Command="{Binding AbrirPastaCommand}" ToolTip.Tip="{l:T 'Abrir a pasta no Explorer'}">
-            <StackPanel Orientation="Horizontal" Spacing="6"><v:Icone Nome="pasta" Tamanho="14" /><TextBlock Text="{l:T 'Pasta'}" /></StackPanel>
+            <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="pasta" Tamanho="14" /><TextBlock Text="{l:T 'Pasta'}" /></StackPanel>
           </Button>
           <Button Classes="contorno" Command="{Binding AbrirNoVsCodeCommand}" ToolTip.Tip="{l:T 'Abrir no VS Code (para depurar)'}">
-            <StackPanel Orientation="Horizontal" Spacing="6"><v:Icone Nome="codigo" Tamanho="14" /><TextBlock Text="VS Code" /></StackPanel>
+            <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="codigo" Tamanho="14" /><TextBlock Text="VS Code" /></StackPanel>
           </Button>
           <Button Classes="contorno" Command="{Binding ExecutarCommand}" ToolTip.Tip="{l:T 'Rodar o projeto com a porta do worktree'}">
-            <StackPanel Orientation="Horizontal" Spacing="6"><v:Icone Nome="executar" Tamanho="13" /><TextBlock Text="{l:T 'Executar'}" /></StackPanel>
+            <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="executar" Tamanho="13" /><TextBlock Text="{l:T 'Executar'}" /></StackPanel>
           </Button>
         </StackPanel>
       </Grid>
@@ -73,7 +73,7 @@
 
       <Border Classes="painel" IsVisible="{Binding TemPr}">
         <Grid ColumnDefinitions="Auto,*,Auto">
-          <v:Icone Nome="diff" Classes="suave" VerticalAlignment="Center" Margin="0,0,12,0" />
+          <c:Icone Nome="diff" Classes="suave" VerticalAlignment="Center" Margin="0,0,12,0" />
           <StackPanel Grid.Column="1" Spacing="2">
             <StackPanel Orientation="Horizontal" Spacing="8">
               <TextBlock Text="{Binding Pr.Numero, StringFormat='PR #{0}', FallbackValue=''}" FontWeight="SemiBold" />
@@ -97,21 +97,21 @@
               <Grid ColumnDefinitions="Auto,Auto,*,Auto">
                 <ToggleButton Classes="opcao" IsChecked="{Binding MostraTarefa}" Padding="10,5" ToolTip.Tip="{l:T 'Criar uma branch e um worktree novos para esta tarefa'}">
                   <StackPanel Orientation="Horizontal" Spacing="6">
-                    <v:Icone Nome="worktree" Tamanho="13" />
+                    <c:Icone Nome="worktree" Tamanho="13" />
                     <TextBlock Text="{l:T 'Nova tarefa em worktree'}" FontSize="12.5" />
                   </StackPanel>
                 </ToggleButton>
                 <ToggleButton Grid.Column="1" Classes="opcao" IsChecked="{Binding MostraIssues, Mode=OneWay}" Command="{Binding AlternarIssuesCommand}" Padding="10,5" Margin="8,0,0,0"
                               ToolTip.Tip="{l:T 'Escolher uma issue aberta do GitHub para começar'}">
                   <StackPanel Orientation="Horizontal" Spacing="6">
-                    <v:Icone Nome="commit" Tamanho="13" />
+                    <c:Icone Nome="commit" Tamanho="13" />
                     <TextBlock Text="{l:T 'Começar por uma issue'}" FontSize="12.5" />
                   </StackPanel>
                 </ToggleButton>
                 <TextBlock Grid.Column="2" Classes="fraco" Text="{Binding TextoNaBranch}" VerticalAlignment="Center" Margin="12,0" TextTrimming="CharacterEllipsis"
                            IsVisible="{Binding !MostraTarefa}" />
                 <Button Grid.Column="3" Classes="redondo primario" Command="{Binding ComecarCommand}" ToolTip.Tip="{l:T 'Começar a sessão (Enter)'}" AutomationProperties.Name="{l:T 'Começar a sessão'}">
-                  <v:Icone Nome="enviar" Tamanho="16" />
+                  <c:Icone Nome="enviar" Tamanho="16" />
                 </Button>
               </Grid>
             </StackPanel>
@@ -122,7 +122,7 @@
               <Grid ColumnDefinitions="*,Auto">
                 <TextBlock Classes="titulo-painel" Text="{l:T 'Issues abertas'}" />
                 <Button Grid.Column="1" Classes="icone pequeno" Command="{Binding RecarregarIssuesCommand}" ToolTip.Tip="{l:T 'Buscar de novo'}" AutomationProperties.Name="{l:T 'Buscar as issues de novo'}">
-                  <v:Icone Nome="atualizar" Tamanho="13" />
+                  <c:Icone Nome="atualizar" Tamanho="13" />
                 </Button>
               </Grid>
               <TextBlock Classes="fraco" Text="{Binding TextoIssues}" TextWrapping="Wrap" IsVisible="{Binding TextoIssues, Converter={x:Static ObjectConverters.IsNotNull}}" />
@@ -158,11 +158,11 @@
               <Border Classes="previa">
                 <StackPanel Spacing="4">
                   <StackPanel Orientation="Horizontal" Spacing="8">
-                    <v:Icone Nome="branch" Tamanho="13" Classes="fraco" />
+                    <c:Icone Nome="branch" Tamanho="13" Classes="fraco" />
                     <TextBlock Classes="mono" Text="{Binding PreviaBranch}" FontSize="12.5" TextTrimming="CharacterEllipsis" />
                   </StackPanel>
                   <StackPanel Orientation="Horizontal" Spacing="8">
-                    <v:Icone Nome="pasta" Tamanho="13" Classes="fraco" />
+                    <c:Icone Nome="pasta" Tamanho="13" Classes="fraco" />
                     <TextBlock Classes="mono fraco" Text="{Binding PreviaPasta}" TextTrimming="CharacterEllipsis" />
                   </StackPanel>
                 </StackPanel>
@@ -170,7 +170,7 @@
               <TextBox Classes="campo" Text="{Binding Descricao}" AcceptsReturn="True" TextWrapping="Wrap" MinHeight="64" MaxHeight="160"
                        PlaceholderText="{l:T 'O que o agente deve fazer? (opcional, vira a primeira mensagem)'}" />
               <Button Classes="primario" Command="{Binding CriarTarefaCommand}" IsEnabled="{Binding PodeCriar}" HorizontalAlignment="Left">
-                <StackPanel Orientation="Horizontal" Spacing="6"><v:Icone Nome="mais" Tamanho="14" /><TextBlock Text="{l:T 'Criar worktree e abrir sessão'}" /></StackPanel>
+                <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="mais" Tamanho="14" /><TextBlock Text="{l:T 'Criar worktree e abrir sessão'}" /></StackPanel>
               </Button>
             </StackPanel>
           </Border>
@@ -198,7 +198,7 @@
           <Border Classes="painel">
             <StackPanel Spacing="10">
               <StackPanel Orientation="Horizontal" Spacing="8">
-                <v:Icone Nome="worktree" Classes="suave" />
+                <c:Icone Nome="worktree" Classes="suave" />
                 <TextBlock Classes="titulo-cartao" Text="{l:T 'Worktrees deste repositório'}" />
               </StackPanel>
               <StackPanel IsVisible="{Binding Carregando}" Spacing="10">
@@ -209,7 +209,7 @@
                 <ItemsControl.ItemTemplate>
                   <DataTemplate x:DataType="vm:WorktreeVM">
                     <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,Auto" Classes="linha">
-                      <v:Icone Nome="pasta" Classes="suave" VerticalAlignment="Center" Margin="0,0,12,0" />
+                      <c:Icone Nome="pasta" Classes="suave" VerticalAlignment="Center" Margin="0,0,12,0" />
                       <StackPanel Grid.Column="1" Spacing="2">
                         <StackPanel Orientation="Horizontal" Spacing="8">
                           <TextBlock Text="{Binding Nome}" FontWeight="Medium" />
@@ -222,7 +222,7 @@
                         <Button Classes="contorno pequeno" Content="{l:T 'Nova sessão'}" Command="{Binding NovaSessaoCommand}" />
                         <Button Classes="icone" Command="{Binding PedirRemocaoCommand}" IsVisible="{Binding Removivel}"
                                 ToolTip.Tip="{l:T 'Encerrar a tarefa: remover o worktree e, se já estiver mergeada, a branch'}" AutomationProperties.Name="{l:T 'Remover o worktree'}">
-                          <v:Icone Nome="lixeira" Tamanho="14" />
+                          <c:Icone Nome="lixeira" Tamanho="14" />
                         </Button>
                       </StackPanel>
                       <Border Grid.Row="1" Grid.ColumnSpan="3" Classes="aviso erro" Margin="0,10,0,0" IsVisible="{Binding Confirmando}">
@@ -268,7 +268,7 @@
           <Border Classes="painel">
             <StackPanel Spacing="10">
               <StackPanel Orientation="Horizontal" Spacing="8">
-                <v:Icone Nome="branch" Classes="suave" />
+                <c:Icone Nome="branch" Classes="suave" />
                 <TextBlock Classes="titulo-cartao" Text="Branch" />
               </StackPanel>
               <TextBlock Classes="mono" Text="{Binding BranchCurta}" TextTrimming="CharacterEllipsis" />
@@ -285,15 +285,15 @@
             <StackPanel Spacing="10">
               <Grid ColumnDefinitions="*,Auto">
                 <StackPanel Orientation="Horizontal" Spacing="8">
-                  <v:Icone Nome="pasta" Classes="suave" />
+                  <c:Icone Nome="pasta" Classes="suave" />
                   <TextBlock Classes="titulo-cartao" Text="{l:T 'Pastas'}" />
                 </StackPanel>
                 <Button Grid.Column="1" Classes="icone pequeno" Click="AdicionarPasta_Click" ToolTip.Tip="{l:T 'Vincular outra pasta'}" AutomationProperties.Name="{l:T 'Vincular outra pasta'}">
-                  <v:Icone Nome="mais" Tamanho="13" />
+                  <c:Icone Nome="mais" Tamanho="13" />
                 </Button>
               </Grid>
               <Grid ColumnDefinitions="Auto,*" Classes="linha">
-                <v:Icone Nome="pasta" Tamanho="14" Classes="suave" VerticalAlignment="Center" Margin="0,0,10,0" />
+                <c:Icone Nome="pasta" Tamanho="14" Classes="suave" VerticalAlignment="Center" Margin="0,0,10,0" />
                 <StackPanel Grid.Column="1" Spacing="1">
                   <TextBlock Text="{Binding Nome}" FontWeight="Medium" TextTrimming="CharacterEllipsis" />
                   <TextBlock Classes="fraco" Text="{l:T 'principal · neste computador'}" />
@@ -303,14 +303,14 @@
                 <ItemsControl.ItemTemplate>
                   <DataTemplate x:DataType="vm:VinculadoVM">
                     <Grid ColumnDefinitions="Auto,*,Auto" Classes="linha">
-                      <v:Icone Nome="vinculo" Tamanho="14" Classes="suave" VerticalAlignment="Center" Margin="0,0,10,0" />
+                      <c:Icone Nome="vinculo" Tamanho="14" Classes="suave" VerticalAlignment="Center" Margin="0,0,10,0" />
                       <StackPanel Grid.Column="1" Spacing="1">
                         <TextBlock Text="{Binding Nome}" FontWeight="Medium" TextTrimming="CharacterEllipsis" ToolTip.Tip="{Binding Pasta}" />
                         <TextBlock Classes="mono fraco" Text="{Binding Branch}" TextTrimming="CharacterEllipsis" />
                       </StackPanel>
                       <Button Grid.Column="2" Classes="icone pequeno" Command="{Binding RemoverCommand}" ToolTip.Tip="{l:T 'Tirar esta pasta do projeto'}"
                               AutomationProperties.Name="{l:T 'Tirar esta pasta do projeto'}" VerticalAlignment="Center">
-                        <v:Icone Nome="fechar" Tamanho="12" />
+                        <c:Icone Nome="fechar" Tamanho="12" />
                       </Button>
                     </Grid>
                   </DataTemplate>

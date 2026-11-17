@@ -1,5 +1,3 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using Nexora.Core.Arquivos;
 using Idioma = Nexora.Core.Texto.Idioma;
 

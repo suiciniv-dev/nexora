@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:l="using:Nexora"
              xmlns:vm="using:Nexora.ViewModels"
-             xmlns:v="using:Nexora.Views"
+             xmlns:c="using:Nexora.Controles"
              x:Class="Nexora.Views.ProjetosView"
              x:DataType="vm:ProjetosVM">
   <UserControl.Styles>
@@ -37,7 +37,7 @@
     <Style Selector="Window.vertical ItemsControl.cartoes-projeto">
       <Setter Property="ItemsPanel">
         <ItemsPanelTemplate>
-          <v:GradeAdaptativa LarguraMinima="340" />
+          <c:GradeAdaptativa LarguraMinima="340" />
         </ItemsPanelTemplate>
       </Setter>
     </Style>
@@ -57,10 +57,10 @@
         </StackPanel>
         <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center" Margin="16,0,0,0">
           <Button Classes="contorno" Click="AdicionarProjeto_Click" ToolTip.Tip="{l:T 'Escolher a pasta de um projeto que já existe'}">
-            <StackPanel Orientation="Horizontal" Spacing="6"><v:Icone Nome="pasta" Tamanho="14" /><TextBlock Text="{l:T 'Adicionar pasta'}" /></StackPanel>
+            <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="pasta" Tamanho="14" /><TextBlock Text="{l:T 'Adicionar pasta'}" /></StackPanel>
           </Button>
           <Button Classes="contorno" Command="{Binding NovoProjetoCommand}" ToolTip.Tip="{l:T 'Montar um projeto com uma pasta principal e outras vinculadas'}">
-            <StackPanel Orientation="Horizontal" Spacing="6"><v:Icone Nome="mais" Tamanho="14" /><TextBlock Text="{l:T 'Novo projeto'}" /></StackPanel>
+            <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="mais" Tamanho="14" /><TextBlock Text="{l:T 'Novo projeto'}" /></StackPanel>
           </Button>
         </StackPanel>
       </Grid>
@@ -73,13 +73,13 @@
           </StackPanel>
           <WrapPanel>
             <Button Classes="primario" Click="AdicionarProjeto_Click" Margin="0,0,8,8">
-              <StackPanel Orientation="Horizontal" Spacing="7"><v:Icone Nome="pasta" Tamanho="14" /><TextBlock Text="{l:T 'Escolher a pasta de um projeto'}" /></StackPanel>
+              <StackPanel Orientation="Horizontal" Spacing="7"><c:Icone Nome="pasta" Tamanho="14" /><TextBlock Text="{l:T 'Escolher a pasta de um projeto'}" /></StackPanel>
             </Button>
             <Button Classes="contorno" Click="AdicionarRaiz_Click" Margin="0,0,8,8">
-              <StackPanel Orientation="Horizontal" Spacing="7"><v:Icone Nome="camadas" Tamanho="14" /><TextBlock Text="{l:T 'Escolher a pasta onde ficam vários'}" /></StackPanel>
+              <StackPanel Orientation="Horizontal" Spacing="7"><c:Icone Nome="camadas" Tamanho="14" /><TextBlock Text="{l:T 'Escolher a pasta onde ficam vários'}" /></StackPanel>
             </Button>
             <Button Classes="contorno" Click="Importar_Click" Margin="0,0,8,8">
-              <StackPanel Orientation="Horizontal" Spacing="7"><v:Icone Nome="importar" Tamanho="14" /><TextBlock Text="{l:T 'Importar um .code-workspace'}" /></StackPanel>
+              <StackPanel Orientation="Horizontal" Spacing="7"><c:Icone Nome="importar" Tamanho="14" /><TextBlock Text="{l:T 'Importar um .code-workspace'}" /></StackPanel>
             </Button>
           </WrapPanel>
         </StackPanel>
@@ -110,7 +110,7 @@
                 <StackPanel Grid.Column="1" Spacing="3">
                   <TextBlock Text="{Binding Nome}" FontWeight="SemiBold" FontSize="15" TextTrimming="CharacterEllipsis" />
                   <StackPanel Orientation="Horizontal" Spacing="6">
-                    <v:Icone Nome="branch" Tamanho="12" Classes="fraco" VerticalAlignment="Center" />
+                    <c:Icone Nome="branch" Tamanho="12" Classes="fraco" VerticalAlignment="Center" />
                     <TextBlock Classes="fraco mono" Text="{Binding Branch}" TextTrimming="CharacterEllipsis" MaxWidth="240" />
                   </StackPanel>
                   <TextBlock Classes="fraco" Text="{Binding Vinculados}" />
@@ -125,10 +125,10 @@
                   </StackPanel>
                   <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
                     <Button Classes="contorno pequeno" Command="{Binding NovaSessaoCommand}" ToolTip.Tip="{l:T 'Começar uma sessão neste projeto'}">
-                      <StackPanel Orientation="Horizontal" Spacing="5"><v:Icone Nome="mais" Tamanho="12" /><TextBlock Text="{l:T 'Sessão'}" /></StackPanel>
+                      <StackPanel Orientation="Horizontal" Spacing="5"><c:Icone Nome="mais" Tamanho="12" /><TextBlock Text="{l:T 'Sessão'}" /></StackPanel>
                     </Button>
                     <Button Classes="icone pequeno" ToolTip.Tip="{l:T 'Mais opções'}" AutomationProperties.Name="{l:T 'Mais opções do projeto'}">
-                      <v:Icone Nome="mais-acoes" Tamanho="14" />
+                      <c:Icone Nome="mais-acoes" Tamanho="14" />
                       <Button.Flyout>
                         <MenuFlyout Placement="BottomEdgeAlignedRight">
                           <MenuItem Header="{l:T 'Abrir a pasta'}" Command="{Binding Ambiente.AbrirPastaCommand}" />
@@ -150,7 +150,7 @@
   <Border x:Name="RealceSoltar" Theme="{StaticResource ZonaDeSoltar}" Margin="24">
     <Border Background="{DynamicResource AcentoFundo}" CornerRadius="12">
       <StackPanel Spacing="10" HorizontalAlignment="Center" VerticalAlignment="Center">
-        <v:Icone Nome="pasta" Tamanho="34" Foreground="{DynamicResource Acento}" HorizontalAlignment="Center" />
+        <c:Icone Nome="pasta" Tamanho="34" Foreground="{DynamicResource Acento}" HorizontalAlignment="Center" />
         <TextBlock Text="{l:T 'Solte para adicionar como projeto'}" FontSize="17" FontWeight="SemiBold" HorizontalAlignment="Center" />
         <TextBlock Classes="fraco" Text="{l:T 'Só pastas viram projeto.'}" HorizontalAlignment="Center" />
       </StackPanel>

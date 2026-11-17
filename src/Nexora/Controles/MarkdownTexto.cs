@@ -7,7 +7,7 @@ using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Nexora.Core.Texto;
 
-namespace Nexora.Views;
+namespace Nexora.Controles;
 
 public sealed class MarkdownTexto : StackPanel
 {

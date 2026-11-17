@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:l="using:Nexora"
              xmlns:vm="using:Nexora.ViewModels"
-             xmlns:v="using:Nexora.Views"
+             xmlns:c="using:Nexora.Controles"
              x:Class="Nexora.Views.BuscaView"
              x:DataType="vm:JanelaVM">
   <UserControl.Styles>
@@ -23,7 +23,7 @@
     <Border Theme="{StaticResource Dialogo}" Width="640" Padding="8" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,90,0,0">
       <StackPanel Spacing="6">
         <Grid ColumnDefinitions="Auto,*,Auto" Margin="10,0,8,0">
-          <v:Icone Nome="busca" Tamanho="18" Classes="fraco" VerticalAlignment="Center" Margin="0,0,8,0" />
+          <c:Icone Nome="busca" Tamanho="18" Classes="fraco" VerticalAlignment="Center" Margin="0,0,8,0" />
           <TextBox x:Name="Campo" Grid.Column="1" Classes="busca-rapida" Text="{Binding Busca}"
                    PlaceholderText="{l:T 'Procurar telas, comandos, projetos e conversas'}" />
           <Border Grid.Column="2" Classes="tecla" VerticalAlignment="Center"><TextBlock Text="Esc" /></Border>
@@ -33,7 +33,7 @@
           <ListBox.ItemTemplate>
             <DataTemplate x:DataType="vm:ResultadoBuscaVM">
               <Grid ColumnDefinitions="Auto,*,Auto" Background="Transparent" Tapped="Resultado_Tapped">
-                <v:Icone Nome="{Binding Icone}" Tamanho="15" Classes="suave" VerticalAlignment="Center" Margin="0,0,12,0" />
+                <c:Icone Nome="{Binding Icone}" Tamanho="15" Classes="suave" VerticalAlignment="Center" Margin="0,0,12,0" />
                 <TextBlock Grid.Column="1" Text="{Binding Titulo}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
                 <TextBlock Grid.Column="2" Classes="fraco" Text="{Binding Detalhe}" FontSize="12" VerticalAlignment="Center" Margin="12,0,0,0" MaxWidth="240" TextTrimming="CharacterEllipsis" />
               </Grid>

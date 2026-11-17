@@ -3,6 +3,7 @@
              xmlns:l="using:Nexora"
              xmlns:vm="using:Nexora.ViewModels"
              xmlns:v="using:Nexora.Views"
+             xmlns:c="using:Nexora.Controles"
              x:Class="Nexora.Views.TelaGrandeView"
              x:DataType="vm:TelaGrandeVM"
              Focusable="True">
@@ -81,7 +82,7 @@
       <Setter Property="Transitions">
         <Transitions>
           <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.18" Easing="CubicEaseOut" />
-          <v:TransicaoDeCor Property="Background" Duration="0:0:0.16" />
+          <c:TransicaoDeCor Property="Background" Duration="0:0:0.16" />
         </Transitions>
       </Setter>
     </Style>
@@ -122,7 +123,7 @@
       <Border Classes="cartao-g" Classes.precisa="{Binding Precisa}" PointerPressed="Cartao_PointerPressed">
         <Grid RowDefinitions="Auto,*,Auto">
           <Grid ColumnDefinitions="Auto,*">
-            <v:Avatar Width="44" Height="44" Margin="0,0,12,0" Imagem="{Binding IconeRepo}" Iniciais="{Binding Iniciais}" Trabalhando="{Binding Trabalhando}"
+            <c:Avatar Width="44" Height="44" Margin="0,0,12,0" Imagem="{Binding IconeRepo}" Iniciais="{Binding Iniciais}" Trabalhando="{Binding Trabalhando}"
                       Precisa="{Binding Precisa}" Pronta="{Binding Pronta}" Fracao="{Binding ContextoFracao}" VerticalAlignment="Top" />
             <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center">
               <TextBlock Text="{ReflectionBinding Titulo}" FontSize="14.5" FontWeight="SemiBold" TextWrapping="Wrap" MaxLines="2" TextTrimming="CharacterEllipsis" />
@@ -148,7 +149,7 @@
           <TransitioningContentControl.ContentTemplate>
             <DataTemplate x:DataType="vm:CartaoVM">
               <Grid ColumnDefinitions="Auto,*">
-                <v:Avatar Width="116" Height="116" Imagem="{Binding IconeRepo}" Iniciais="{Binding Iniciais}" Trabalhando="{Binding Trabalhando}"
+                <c:Avatar Width="116" Height="116" Imagem="{Binding IconeRepo}" Iniciais="{Binding Iniciais}" Trabalhando="{Binding Trabalhando}"
                           Precisa="{Binding Precisa}" Pronta="{Binding Pronta}" Fracao="{Binding ContextoFracao}" VerticalAlignment="Top" />
                 <StackPanel Grid.Column="1" Margin="28,2,0,0" Spacing="6">
                   <StackPanel Orientation="Horizontal" Spacing="10">
@@ -225,7 +226,7 @@
 
       <ItemsControl Grid.Row="1" ItemsSource="{Binding Fileiras}" Margin="46,18,0,0">
         <ItemsControl.ItemsPanel>
-          <ItemsPanelTemplate><v:Prateleira x:DataType="vm:TelaGrandeVM" Orientacao="Vertical" Foco="{Binding Linha}" Ativa="False" Ancorada="True" /></ItemsPanelTemplate>
+          <ItemsPanelTemplate><c:Prateleira x:DataType="vm:TelaGrandeVM" Orientacao="Vertical" Foco="{Binding Linha}" Ativa="False" Ancorada="True" /></ItemsPanelTemplate>
         </ItemsControl.ItemsPanel>
         <ItemsControl.ItemTemplate>
           <DataTemplate x:DataType="vm:FileiraVM">
@@ -237,7 +238,7 @@
               </StackPanel>
               <ItemsControl ItemsSource="{Binding Cartoes}" ItemTemplate="{StaticResource CartaoGrande}">
                 <ItemsControl.ItemsPanel>
-                  <ItemsPanelTemplate><v:Prateleira x:DataType="vm:FileiraVM" Foco="{Binding Foco}" Ativa="{Binding Ativa}" Espia="64" /></ItemsPanelTemplate>
+                  <ItemsPanelTemplate><c:Prateleira x:DataType="vm:FileiraVM" Foco="{Binding Foco}" Ativa="{Binding Ativa}" Espia="64" /></ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
               </ItemsControl>
             </StackPanel>

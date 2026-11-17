@@ -7,7 +7,7 @@ using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Nexora.Core.Avatares;
 
-namespace Nexora.Views;
+namespace Nexora.Controles;
 
 public static class PintorDeAvatar
 {

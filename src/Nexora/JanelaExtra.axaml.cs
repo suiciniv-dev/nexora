@@ -11,7 +11,7 @@ public partial class JanelaExtra : Window
         IdentidadeJanela.Aplicar(TryGetPlatformHandle()?.Handle ?? IntPtr.Zero);
         Temas.VidroDaJanela.Acompanhar(this);
         Views.FecharPopups.Ligar(this);
-        Views.Disposicao.Acompanhar(this);
+        Nexora.Controles.Disposicao.Acompanhar(this);
         if (Sistema.Mac)
         {
             Sistema.AjustarAtalhos(this);

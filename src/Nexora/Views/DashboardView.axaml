@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:l="using:Nexora"
              xmlns:vm="using:Nexora.ViewModels"
-             xmlns:v="using:Nexora.Views"
+             xmlns:c="using:Nexora.Controles"
              x:Class="Nexora.Views.DashboardView"
              x:DataType="vm:DashboardVM">
   <UserControl.Styles>
@@ -105,7 +105,7 @@
                 <ComboBox.ItemTemplate>
                   <DataTemplate x:DataType="vm:AmbienteVM">
                     <StackPanel Orientation="Horizontal" Spacing="7">
-                      <v:Icone Nome="pasta" Tamanho="13" Foreground="{DynamicResource TextoSuave}" VerticalAlignment="Center" />
+                      <c:Icone Nome="pasta" Tamanho="13" Foreground="{DynamicResource TextoSuave}" VerticalAlignment="Center" />
                       <TextBlock Text="{Binding Nome}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
                     </StackPanel>
                   </DataTemplate>
@@ -113,16 +113,16 @@
               </ComboBox>
               <Button Grid.Column="1" Classes="icone fixar-projeto" Classes.ligado="{Binding ProjetoFixo}" Command="{Binding AlternarFixoCommand}" Margin="6,0,0,0"
                       IsVisible="{Binding TemProjeto}" ToolTip.Tip="{Binding DicaDoFixo}" AutomationProperties.Name="{l:T 'Fixar o projeto do Dashboard'}">
-                <v:Icone Nome="fixar" Tamanho="14" />
+                <c:Icone Nome="fixar" Tamanho="14" />
               </Button>
               <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="6" Margin="12,0" VerticalAlignment="Center" IsVisible="{Binding TemProjeto}">
-                <v:Icone Nome="branch" Tamanho="13" Foreground="{DynamicResource TextoFraco}" VerticalAlignment="Center" />
+                <c:Icone Nome="branch" Tamanho="13" Foreground="{DynamicResource TextoFraco}" VerticalAlignment="Center" />
                 <TextBlock Classes="fraco" Text="{Binding BranchDoProjeto}" FontFamily="{DynamicResource Mono}" FontSize="12" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
               </StackPanel>
               <Button Grid.Column="3" Classes="primario" Command="{Binding ComecarCommand}" AutomationProperties.Name="{l:T 'Começar'}">
                 <StackPanel Orientation="Horizontal" Spacing="7">
                   <TextBlock Text="{l:T 'Começar'}" VerticalAlignment="Center" />
-                  <v:Icone Nome="enviar" Tamanho="13" VerticalAlignment="Center" />
+                  <c:Icone Nome="enviar" Tamanho="13" VerticalAlignment="Center" />
                 </StackPanel>
               </Button>
             </Grid>
@@ -138,13 +138,13 @@
               <Border Theme="{StaticResource Widget}" Margin="7,0">
                 <StackPanel Spacing="6">
                   <Grid ColumnDefinitions="Auto,*,Auto">
-                    <v:Icone Nome="{Binding Icone}" Tamanho="14" Foreground="{Binding Cor}" VerticalAlignment="Center" Margin="0,0,8,0" />
+                    <c:Icone Nome="{Binding Icone}" Tamanho="14" Foreground="{Binding Cor}" VerticalAlignment="Center" Margin="0,0,8,0" />
                     <TextBlock Grid.Column="1" Theme="{StaticResource TituloDoWidget}" Text="{Binding Nome}" />
                     <TextBlock Grid.Column="2" Theme="{StaticResource RotuloDoWidget}" Foreground="{DynamicResource Laranja}" Text="{Binding Renova}" />
                   </Grid>
                   <TextBlock Theme="{StaticResource NumeroDoWidget}" Text="{Binding Numero}" Margin="0,6,0,0" />
                   <TextBlock Classes="suave" FontSize="12" Text="{Binding Detalhe}" />
-                  <v:LinhaDoTempo Height="44" Margin="0,8,0,0" Valores="{Binding Linha}" Maximo="0" Cor="{Binding Cor}" Guia="{DynamicResource Borda}" />
+                  <c:LinhaDoTempo Height="44" Margin="0,8,0,0" Valores="{Binding Linha}" Maximo="0" Cor="{Binding Cor}" Guia="{DynamicResource Borda}" />
                   <Grid ColumnDefinitions="*,Auto">
                     <TextBlock Theme="{StaticResource RotuloDoWidget}" Text="{l:T 'ÚLTIMAS 24 H'}" />
                     <TextBlock Grid.Column="1" Theme="{StaticResource RotuloDoWidget}" Text="{Binding RotuloDaLinha}" />
@@ -159,12 +159,12 @@
           <Border Grid.ColumnSpan="3" Theme="{StaticResource Widget}">
             <StackPanel Spacing="10">
               <Grid ColumnDefinitions="Auto,*,Auto,Auto">
-                <v:Icone Nome="quadro" Tamanho="14" Foreground="{DynamicResource TextoSuave}" VerticalAlignment="Center" Margin="0,0,8,0" />
+                <c:Icone Nome="quadro" Tamanho="14" Foreground="{DynamicResource TextoSuave}" VerticalAlignment="Center" Margin="0,0,8,0" />
                 <TextBlock Grid.Column="1" Theme="{StaticResource TituloDoWidget}" Text="{l:T 'Atividade no GitHub'}" />
                 <TextBlock Grid.Column="2" Classes="suave" FontSize="12" Text="{Binding TextoAtividade}" VerticalAlignment="Center" Margin="0,0,12,0" />
                 <TextBlock Grid.Column="3" Theme="{StaticResource RotuloDoWidget}" Text="{Binding LoginDoGitHub}" />
               </Grid>
-              <v:GradeDeAtividade Niveis="{Binding Contribuicoes}" Inicio="{Binding InicioDasContribuicoes}" Cor="{DynamicResource Verde}"
+              <c:GradeDeAtividade Niveis="{Binding Contribuicoes}" Inicio="{Binding InicioDasContribuicoes}" Cor="{DynamicResource Verde}"
                                   Vazio="{DynamicResource SuperficieAlta}" Rotulo="{DynamicResource TextoFraco}" />
               <TextBlock Classes="suave" FontSize="12.5" IsVisible="{Binding SemGitHub}" TextWrapping="Wrap"
                          Text="{l:T 'Não deu para ler o GitHub. Confira se o gh está instalado e conectado (gh auth login).'}" />
@@ -174,13 +174,13 @@
           <Border Grid.Row="2" Theme="{StaticResource Widget}">
             <Grid RowDefinitions="Auto,*,Auto,Auto">
               <Grid ColumnDefinitions="Auto,*,Auto">
-                <v:Icone Nome="grafico" Tamanho="14" Foreground="{DynamicResource TextoSuave}" VerticalAlignment="Center" Margin="0,0,8,0" />
+                <c:Icone Nome="grafico" Tamanho="14" Foreground="{DynamicResource TextoSuave}" VerticalAlignment="Center" Margin="0,0,8,0" />
                 <TextBlock Grid.Column="1" Theme="{StaticResource TituloDoWidget}" Text="{l:T 'Uso'}" />
                 <Button Grid.Column="2" Theme="{StaticResource ItemDoWidget}" Margin="0" Padding="6,2" HorizontalAlignment="Right" Command="{Binding AbrirUsoCommand}" VerticalAlignment="Center">
                   <TextBlock Classes="suave" FontSize="12" Text="{Binding TextoUso}" />
                 </Button>
               </Grid>
-              <v:GraficoDeUso Grid.Row="1" MinHeight="110" Margin="0,12,0,4" Series="{Binding SeriesDeUso}" Guia="{DynamicResource Borda}" Rotulo="{DynamicResource TextoFraco}" />
+              <c:GraficoDeUso Grid.Row="1" MinHeight="110" Margin="0,12,0,4" Series="{Binding SeriesDeUso}" Guia="{DynamicResource Borda}" Rotulo="{DynamicResource TextoFraco}" />
               <Grid Grid.Row="2" ColumnDefinitions="40,*,*,*">
                 <TextBlock Grid.Column="1" Theme="{StaticResource RotuloDoWidget}" Text="{Binding InicioDoUso}" />
                 <TextBlock Grid.Column="2" Theme="{StaticResource RotuloDoWidget}" Text="{Binding MeioDoUso}" HorizontalAlignment="Center" />
@@ -205,7 +205,7 @@
           <Border Grid.Row="2" Grid.Column="2" Theme="{StaticResource Widget}">
             <Grid RowDefinitions="Auto,Auto,*,Auto">
               <Grid ColumnDefinitions="Auto,*,Auto">
-                <v:Icone Nome="relogio" Tamanho="14" Foreground="{DynamicResource TextoSuave}" VerticalAlignment="Center" Margin="0,0,8,0" />
+                <c:Icone Nome="relogio" Tamanho="14" Foreground="{DynamicResource TextoSuave}" VerticalAlignment="Center" Margin="0,0,8,0" />
                 <TextBlock Grid.Column="1" Theme="{StaticResource TituloDoWidget}" Text="{l:T 'Tempo no Nexora'}" />
                 <TextBlock Grid.Column="2" Theme="{StaticResource RotuloDoWidget}" Text="{l:T 'ESTA SEMANA'}" />
               </Grid>
@@ -225,7 +225,7 @@
                   </StackPanel>
                 </StackPanel>
               </Grid>
-              <v:BarrasDeUso Grid.Row="2" Height="72" VerticalAlignment="Bottom" Margin="0,14,0,4" Primeira="{Binding SemanaAgentes}" Segunda="{Binding SemanaResto}"
+              <c:BarrasDeUso Grid.Row="2" Height="72" VerticalAlignment="Bottom" Margin="0,14,0,4" Primeira="{Binding SemanaAgentes}" Segunda="{Binding SemanaResto}"
                              CorPrimeira="{DynamicResource Verde}" CorSegunda="{DynamicResource Acento}" Guia="{DynamicResource Borda}" />
               <Grid Grid.Row="3" RowDefinitions="Auto,Auto">
                 <ItemsControl ItemsSource="{Binding Semana}">
@@ -247,7 +247,7 @@
           <Border Grid.Row="4" Theme="{StaticResource Widget}">
             <StackPanel Spacing="8">
               <Grid ColumnDefinitions="Auto,*,Auto">
-                <v:Icone Nome="sino" Tamanho="14" Foreground="{DynamicResource TextoSuave}" VerticalAlignment="Center" Margin="0,0,8,0" />
+                <c:Icone Nome="sino" Tamanho="14" Foreground="{DynamicResource TextoSuave}" VerticalAlignment="Center" Margin="0,0,8,0" />
                 <TextBlock Grid.Column="1" Theme="{StaticResource TituloDoWidget}" Text="{l:T 'Precisa de você'}" />
                 <Button Grid.Column="2" Theme="{StaticResource ItemDoWidget}" Margin="0" Padding="6,2" HorizontalAlignment="Right" Command="{Binding AbrirAoVivoCommand}" VerticalAlignment="Center">
                   <TextBlock Classes="suave" FontSize="12" Text="{l:T 'Ao vivo'}" />
@@ -296,7 +296,7 @@
           <Border Grid.Row="4" Grid.Column="2" Theme="{StaticResource Widget}">
             <StackPanel Spacing="6">
               <Grid ColumnDefinitions="Auto,*">
-                <v:Icone Nome="conversa" Tamanho="14" Foreground="{DynamicResource TextoSuave}" VerticalAlignment="Center" Margin="0,0,8,0" />
+                <c:Icone Nome="conversa" Tamanho="14" Foreground="{DynamicResource TextoSuave}" VerticalAlignment="Center" Margin="0,0,8,0" />
                 <TextBlock Grid.Column="1" Theme="{StaticResource TituloDoWidget}" Text="{l:T 'Retomar uma conversa'}" />
               </Grid>
               <ItemsControl ItemsSource="{Binding Recentes}">
@@ -320,7 +320,7 @@
           <Border Grid.Row="6" Grid.ColumnSpan="3" Theme="{StaticResource Widget}">
             <StackPanel Spacing="6">
               <Grid ColumnDefinitions="Auto,*,Auto">
-                <v:Icone Nome="globo" Tamanho="14" Foreground="{DynamicResource TextoSuave}" VerticalAlignment="Center" Margin="0,0,8,0" />
+                <c:Icone Nome="globo" Tamanho="14" Foreground="{DynamicResource TextoSuave}" VerticalAlignment="Center" Margin="0,0,8,0" />
                 <TextBlock Grid.Column="1" Theme="{StaticResource TituloDoWidget}" Text="{l:T 'Notícias'}" />
                 <TextBlock Grid.Column="2" Theme="{StaticResource RotuloDoWidget}" Text="{Binding TextoNoticias}" />
               </Grid>
@@ -351,27 +351,27 @@
         <Border Theme="{StaticResource Widget}" IsVisible="{Binding TemProjeto}">
           <StackPanel Spacing="9">
             <Grid ColumnDefinitions="Auto,*">
-              <v:Icone Nome="pasta" Tamanho="14" Foreground="{DynamicResource TextoSuave}" VerticalAlignment="Center" Margin="0,0,8,0" />
+              <c:Icone Nome="pasta" Tamanho="14" Foreground="{DynamicResource TextoSuave}" VerticalAlignment="Center" Margin="0,0,8,0" />
               <TextBlock Grid.Column="1" Theme="{StaticResource TituloDoWidget}" Text="{Binding NomeDoProjeto}" TextTrimming="CharacterEllipsis" />
             </Grid>
             <TextBlock Classes="fraco" FontFamily="{DynamicResource Mono}" FontSize="11.5" Text="{Binding PastaDoProjeto}" TextTrimming="PrefixCharacterEllipsis" ToolTip.Tip="{Binding PastaDoProjeto}" />
             <Border Height="1" Background="{DynamicResource Borda}" Margin="0,2" />
             <Grid ColumnDefinitions="Auto,*">
-              <v:Icone Nome="branch" Tamanho="13" Foreground="{DynamicResource TextoSuave}" VerticalAlignment="Center" Margin="0,0,8,0" />
+              <c:Icone Nome="branch" Tamanho="13" Foreground="{DynamicResource TextoSuave}" VerticalAlignment="Center" Margin="0,0,8,0" />
               <TextBlock Grid.Column="1" FontSize="12.5" FontFamily="{DynamicResource Mono}" Text="{Binding BranchDoProjeto}" TextTrimming="CharacterEllipsis" />
             </Grid>
             <Grid ColumnDefinitions="Auto,*,Auto,Auto">
-              <v:Icone Nome="diff" Tamanho="13" Foreground="{DynamicResource TextoSuave}" VerticalAlignment="Center" Margin="0,0,8,0" />
+              <c:Icone Nome="diff" Tamanho="13" Foreground="{DynamicResource TextoSuave}" VerticalAlignment="Center" Margin="0,0,8,0" />
               <TextBlock Grid.Column="1" FontSize="12.5" Text="{Binding TextoMudancas}" />
               <TextBlock Grid.Column="2" FontSize="12.5" FontFamily="{DynamicResource Mono}" Foreground="{DynamicResource Verde}" Text="{Binding Mais}" Margin="0,0,8,0" />
               <TextBlock Grid.Column="3" FontSize="12.5" FontFamily="{DynamicResource Mono}" Foreground="{DynamicResource Vermelho}" Text="{Binding Menos}" />
             </Grid>
             <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,4,0,0">
               <Button Classes="contorno" Command="{Binding AbrirProjetoCommand}">
-                <StackPanel Orientation="Horizontal" Spacing="6"><v:Icone Nome="camadas" Tamanho="13" /><TextBlock Text="{l:T 'Abrir projeto'}" /></StackPanel>
+                <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="camadas" Tamanho="13" /><TextBlock Text="{l:T 'Abrir projeto'}" /></StackPanel>
               </Button>
               <Button Classes="contorno" Command="{Binding NovaSessaoNoProjetoCommand}">
-                <StackPanel Orientation="Horizontal" Spacing="6"><v:Icone Nome="mais" Tamanho="13" /><TextBlock Text="{l:T 'Nova sessão'}" /></StackPanel>
+                <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="mais" Tamanho="13" /><TextBlock Text="{l:T 'Nova sessão'}" /></StackPanel>
               </Button>
             </StackPanel>
           </StackPanel>

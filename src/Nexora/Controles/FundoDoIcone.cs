@@ -8,7 +8,7 @@ using Avalonia.Media.Imaging;
 using Avalonia.Media.Immutable;
 using Avalonia.Platform;
 
-namespace Nexora.Views;
+namespace Nexora.Controles;
 
 public sealed class FundoDoIcone : IValueConverter
 {

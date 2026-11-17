@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:l="using:Nexora"
              xmlns:vm="using:Nexora.ViewModels"
-             xmlns:v="using:Nexora.Views"
+             xmlns:c="using:Nexora.Controles"
              x:Class="Nexora.Views.TemasView"
              x:DataType="vm:TemasVM">
   <UserControl.Styles>
@@ -44,11 +44,11 @@
                       </Button>
                       <Border IsVisible="{Binding EmUso}" Width="22" Height="22" CornerRadius="11" Background="{DynamicResource AcentoCheio}" BorderBrush="{DynamicResource Superficie}" BorderThickness="2"
                               HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,4,4,0" IsHitTestVisible="False" ToolTip.Tip="{l:T 'em uso'}">
-                        <v:Icone Nome="ok" Tamanho="11" Foreground="{DynamicResource SobreAcento}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <c:Icone Nome="ok" Tamanho="11" Foreground="{DynamicResource SobreAcento}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                       </Border>
                       <Button Classes="icone pequeno" IsVisible="{Binding PodeDuplicar}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,8,12"
                               ToolTip.Tip="{l:T 'Mais ações do tema'}" AutomationProperties.Name="{l:T 'Mais ações do tema'}">
-                        <v:Icone Nome="mais-acoes" Tamanho="14" />
+                        <c:Icone Nome="mais-acoes" Tamanho="14" />
                         <Button.Flyout>
                           <MenuFlyout>
                             <MenuItem Header="{l:T 'Duplicar e editar'}" Command="{Binding DuplicarCommand}" />
@@ -68,10 +68,10 @@
       </ItemsControl>
       <WrapPanel ItemSpacing="8" LineSpacing="8">
         <Button Classes="contorno" Command="{Binding NovoTemaCommand}">
-          <StackPanel Orientation="Horizontal" Spacing="6"><v:Icone Nome="lapis" Tamanho="13" /><TextBlock Text="{l:T 'Criar um tema a partir do atual'}" /></StackPanel>
+          <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="lapis" Tamanho="13" /><TextBlock Text="{l:T 'Criar um tema a partir do atual'}" /></StackPanel>
         </Button>
         <Button Classes="contorno" Click="Importar_Click">
-          <StackPanel Orientation="Horizontal" Spacing="6"><v:Icone Nome="importar" Tamanho="13" /><TextBlock Text="{l:T 'Importar tema'}" /></StackPanel>
+          <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="importar" Tamanho="13" /><TextBlock Text="{l:T 'Importar tema'}" /></StackPanel>
         </Button>
       </WrapPanel>
     </StackPanel>
@@ -82,7 +82,7 @@
           <StackPanel Spacing="16">
             <WrapPanel ItemSpacing="10" LineSpacing="8">
               <Button Classes="primario" Command="{Binding SalvarCommand}">
-                <StackPanel Orientation="Horizontal" Spacing="6"><v:Icone Nome="ok" Tamanho="14" /><TextBlock Text="{l:T 'Salvar e usar'}" /></StackPanel>
+                <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="ok" Tamanho="14" /><TextBlock Text="{l:T 'Salvar e usar'}" /></StackPanel>
               </Button>
               <Button Classes="contorno" Content="{l:T 'Cancelar'}" Command="{Binding CancelarCommand}" />
               <TextBlock Classes="fraco" Text="{l:T 'O app inteiro já mostra o tema enquanto você edita.'}" VerticalAlignment="Center" TextWrapping="Wrap" />
@@ -107,7 +107,7 @@
                 <TextBlock Classes="titulo-painel" Text="{l:T 'Imagem de fundo'}" />
                 <StackPanel Orientation="Horizontal" Spacing="8">
                   <Button Classes="contorno" Click="Imagem_Click">
-                    <StackPanel Orientation="Horizontal" Spacing="6"><v:Icone Nome="pasta" Tamanho="14" /><TextBlock Text="{l:T 'Escolher imagem'}" /></StackPanel>
+                    <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="pasta" Tamanho="14" /><TextBlock Text="{l:T 'Escolher imagem'}" /></StackPanel>
                   </Button>
                   <Button Classes="fantasma" Content="{l:T 'Tirar'}" Command="{Binding TirarImagemCommand}" IsVisible="{Binding TemImagem}" />
                 </StackPanel>

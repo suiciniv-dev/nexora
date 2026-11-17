@@ -4,6 +4,7 @@
              xmlns:vm="using:Nexora.ViewModels"
              xmlns:m="using:Nexora.Modelos"
              xmlns:v="using:Nexora.Views"
+             xmlns:c="using:Nexora.Controles"
              x:Class="Nexora.Views.AgendadosView"
              x:DataType="vm:AgendadosVM">
   <ScrollViewer HorizontalScrollBarVisibility="Disabled">
@@ -53,11 +54,11 @@
                        IsVisible="{Binding Erro, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
             <StackPanel Orientation="Horizontal" Spacing="7" VerticalAlignment="Center" v:Animacoes.Entrada="True"
                         IsVisible="{Binding Confirmacao, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
-              <v:Icone Nome="ok" Tamanho="14" Foreground="{DynamicResource Verde}" VerticalAlignment="Center" />
+              <c:Icone Nome="ok" Tamanho="14" Foreground="{DynamicResource Verde}" VerticalAlignment="Center" />
               <TextBlock Text="{Binding Confirmacao}" TextWrapping="Wrap" VerticalAlignment="Center" />
             </StackPanel>
             <Button Grid.Column="1" Classes="primario" Command="{Binding SalvarCommand}">
-              <StackPanel Orientation="Horizontal" Spacing="7"><v:Icone Nome="relogio" Tamanho="14" /><TextBlock Text="{l:T 'Agendar'}" /></StackPanel>
+              <StackPanel Orientation="Horizontal" Spacing="7"><c:Icone Nome="relogio" Tamanho="14" /><TextBlock Text="{l:T 'Agendar'}" /></StackPanel>
             </Button>
           </Grid>
         </StackPanel>
@@ -73,7 +74,7 @@
                 <StackPanel Spacing="3">
                   <TextBlock Text="{Binding Nome}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
                   <StackPanel Orientation="Horizontal" Spacing="6">
-                    <v:Icone Nome="pasta" Tamanho="12" Classes="fraco" VerticalAlignment="Center" />
+                    <c:Icone Nome="pasta" Tamanho="12" Classes="fraco" VerticalAlignment="Center" />
                     <TextBlock Classes="fraco" Text="{Binding Projeto}" />
                     <TextBlock Classes="fraco" Text="·" />
                     <TextBlock Classes="fraco" Text="{Binding Quando}" />
@@ -85,11 +86,11 @@
                               VerticalAlignment="Center" Margin="16,0,12,0" ToolTip.Tip="{l:T 'Ligar ou desligar este agendado'}" />
                 <Button Grid.Column="2" Classes="mini" Command="{Binding RodarAgoraCommand}" VerticalAlignment="Center" Margin="0,0,8,0"
                         ToolTip.Tip="{l:T 'Abre a sessão e manda o pedido agora'}">
-                  <StackPanel Orientation="Horizontal" Spacing="5"><v:Icone Nome="executar" Tamanho="12" /><TextBlock Text="{l:T 'Rodar agora'}" /></StackPanel>
+                  <StackPanel Orientation="Horizontal" Spacing="5"><c:Icone Nome="executar" Tamanho="12" /><TextBlock Text="{l:T 'Rodar agora'}" /></StackPanel>
                 </Button>
                 <Button Grid.Column="3" Classes="icone pequeno" Command="{Binding ExcluirCommand}" VerticalAlignment="Center"
                         ToolTip.Tip="{l:T 'Excluir este agendado'}" AutomationProperties.Name="{l:T 'Excluir o agendado'}">
-                  <v:Icone Nome="lixeira" Tamanho="14" />
+                  <c:Icone Nome="lixeira" Tamanho="14" />
                 </Button>
               </Grid>
             </Border>

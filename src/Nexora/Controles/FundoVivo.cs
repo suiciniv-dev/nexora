@@ -12,7 +12,7 @@ using Avalonia.Threading;
 using Nexora.Fundos;
 using SkiaSharp;
 
-namespace Nexora.Views;
+namespace Nexora.Controles;
 
 public sealed class FundoVivo : Control
 {

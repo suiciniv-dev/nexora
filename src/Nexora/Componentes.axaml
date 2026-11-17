@@ -1,7 +1,8 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:l="using:Nexora"
-                    xmlns:v="using:Nexora.Views"
+             xmlns:v="using:Nexora.Views"
+             xmlns:c="using:Nexora.Controles"
                     xmlns:vm="using:Nexora.ViewModels"
                     xmlns:conv="using:Avalonia.Controls.Converters">
 
@@ -124,7 +125,7 @@
                               HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                               VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                               Foreground="{TemplateBinding Foreground}" />
-            <v:Icone Name="Marca" Grid.Column="1" Nome="ok" Tamanho="13" Margin="12,0,0,0" VerticalAlignment="Center"
+            <c:Icone Name="Marca" Grid.Column="1" Nome="ok" Tamanho="13" Margin="12,0,0,0" VerticalAlignment="Center"
                      Foreground="{DynamicResource Texto}" IsVisible="False" />
           </Grid>
         </Border>
@@ -137,7 +138,7 @@
       <Setter Property="Background" Value="{DynamicResource SelecaoFundo}" />
       <Setter Property="BorderBrush" Value="{DynamicResource SelecaoBorda}" />
     </Style>
-    <Style Selector="^:selected /template/ v|Icone#Marca">
+    <Style Selector="^:selected /template/ c|Icone#Marca">
       <Setter Property="IsVisible" Value="True" />
     </Style>
     <Style Selector="^:focus-visible /template/ Border#Fundo">
@@ -179,7 +180,7 @@
                               HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                               VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                               Foreground="{TemplateBinding Foreground}" />
-              <v:Icone Name="Seta" Grid.Column="1" Nome="abaixo" Tamanho="14" Margin="10,0,0,0" VerticalAlignment="Center"
+              <c:Icone Name="Seta" Grid.Column="1" Nome="abaixo" Tamanho="14" Margin="10,0,0,0" VerticalAlignment="Center"
                        Foreground="{DynamicResource TextoSuave}" RenderTransformOrigin="50%,50%" />
             </Grid>
           </Border>
@@ -208,7 +209,7 @@
       <Setter Property="Background" Value="{DynamicResource MarcaFundo}" />
       <Setter Property="BorderBrush" Value="{DynamicResource SelecaoBorda}" />
     </Style>
-    <Style Selector="^:dropdownopen /template/ v|Icone#Seta">
+    <Style Selector="^:dropdownopen /template/ c|Icone#Seta">
       <Setter Property="RenderTransform" Value="rotate(180deg)" />
       <Setter Property="Foreground" Value="{DynamicResource Texto}" />
     </Style>
@@ -283,7 +284,7 @@
               <TextBlock Grid.Column="2" Foreground="{DynamicResource TextoFraco}" FontSize="12" Margin="24,0,0,0" VerticalAlignment="Center"
                          Text="{TemplateBinding InputGesture, Converter={StaticResource ConversorDeAtalho}}"
                          IsVisible="{TemplateBinding InputGesture, Converter={x:Static ObjectConverters.IsNotNull}}" />
-              <v:Icone Name="Seta" Grid.Column="3" Nome="direita" Tamanho="12" Margin="12,0,0,0" VerticalAlignment="Center"
+              <c:Icone Name="Seta" Grid.Column="3" Nome="direita" Tamanho="12" Margin="12,0,0,0" VerticalAlignment="Center"
                        Foreground="{DynamicResource TextoFraco}" IsVisible="False" />
             </Grid>
           </Border>
@@ -301,7 +302,7 @@
     <Style Selector="^:pointerover /template/ Border#Fundo, ^:selected /template/ Border#Fundo, ^:open /template/ Border#Fundo">
       <Setter Property="Background" Value="{DynamicResource SuperficieAlta}" />
     </Style>
-    <Style Selector="^:not(:empty) /template/ v|Icone#Seta">
+    <Style Selector="^:not(:empty) /template/ c|Icone#Seta">
       <Setter Property="IsVisible" Value="True" />
     </Style>
     <Style Selector="^:disabled">
@@ -332,7 +333,7 @@
           <Border Name="Caixa" Width="18" Height="18" CornerRadius="5" BorderThickness="1.5" VerticalAlignment="Center"
                   BorderBrush="{DynamicResource TextoFraco}" Background="Transparent">
             <Panel>
-              <v:Icone Name="Marca" Nome="ok" Tamanho="12" Foreground="{DynamicResource Texto}" IsVisible="False" />
+              <c:Icone Name="Marca" Nome="ok" Tamanho="12" Foreground="{DynamicResource Texto}" IsVisible="False" />
               <Border Name="Parcial" Width="8" Height="2" CornerRadius="1" Background="{DynamicResource Texto}" IsVisible="False" />
             </Panel>
           </Border>
@@ -350,7 +351,7 @@
       <Setter Property="Background" Value="{DynamicResource SelecaoTexto}" />
       <Setter Property="BorderBrush" Value="{DynamicResource MarcaGradiente}" />
     </Style>
-    <Style Selector="^:checked /template/ v|Icone#Marca">
+    <Style Selector="^:checked /template/ c|Icone#Marca">
       <Setter Property="IsVisible" Value="True" />
     </Style>
     <Style Selector="^:indeterminate /template/ Border#Parcial">
@@ -587,7 +588,7 @@
           <Button Theme="{StaticResource PilulaPr}" Classes.falhou="{Binding Falhou}" Classes.aprovado="{Binding Aprovado}" Classes.mergeado="{Binding Mergeado}"
                   Classes.fechado="{Binding Fechado}" Command="{Binding AbrirCommand}" ToolTip.Tip="{Binding Dica}" AutomationProperties.Name="{Binding Dica}">
             <StackPanel Orientation="Horizontal" Spacing="5">
-              <v:Icone Nome="pr" Tamanho="11" VerticalAlignment="Center" />
+              <c:Icone Nome="pr" Tamanho="11" VerticalAlignment="Center" />
               <TextBlock Text="{Binding Texto}" VerticalAlignment="Center" />
             </StackPanel>
           </Button>
@@ -722,7 +723,7 @@
           <Grid ColumnDefinitions="Auto,Auto,*,Auto,Auto" RowDefinitions="Auto,Auto">
             <Ellipse Classes="estado" Width="7" Height="7" Margin="0,0,10,0" VerticalAlignment="Center"
                      Classes.trabalhando="{Binding Rodando}" Classes.pronta="{Binding Ok}" Classes.erro="{Binding Falhou}" />
-            <v:Icone Grid.Column="1" Nome="subagente" Tamanho="14" Classes="suave" VerticalAlignment="Center" Margin="0,0,9,0" />
+            <c:Icone Grid.Column="1" Nome="subagente" Tamanho="14" Classes="suave" VerticalAlignment="Center" Margin="0,0,9,0" />
             <TextBlock Grid.Column="2" Text="{Binding Descricao}" FontWeight="SemiBold" FontSize="13" TextTrimming="CharacterEllipsis"
                        VerticalAlignment="Center" Margin="0,0,12,0" />
             <TextBlock Grid.Column="3" Classes="fraco" FontSize="12" VerticalAlignment="Center">
@@ -730,7 +731,7 @@
               <Run Text="  ·  " />
               <Run Text="{Binding TextoFerramentas}" />
             </TextBlock>
-            <v:Icone Grid.Column="4" Nome="abaixo" Tamanho="14" Classes="fraco" Margin="10,0,0,0" VerticalAlignment="Center" />
+            <c:Icone Grid.Column="4" Nome="abaixo" Tamanho="14" Classes="fraco" Margin="10,0,0,0" VerticalAlignment="Center" />
             <Grid Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="3" ColumnDefinitions="Auto,Auto,Auto,*" Margin="0,5,0,0">
               <Border Classes="etiqueta-pilula" Margin="0,0,6,0">
                 <TextBlock Text="{Binding Tipo}" FontSize="11.5" FontWeight="SemiBold" />
@@ -778,7 +779,7 @@
             <TextBlock Classes="secao-geral" Text="{l:T 'RESULTADO'}" Margin="0,8,0,4" />
             <Border Classes="mdCodigo" MaxHeight="360">
               <ScrollViewer HorizontalScrollBarVisibility="Disabled">
-                <v:MarkdownTexto Texto="{Binding Resultado}" />
+                <c:MarkdownTexto Texto="{Binding Resultado}" />
               </ScrollViewer>
             </Border>
           </StackPanel>
@@ -790,7 +791,7 @@
   <DataTemplate x:Key="GrupoDeSubagentes" x:DataType="vm:ItemSubagentes">
     <StackPanel Spacing="6">
       <StackPanel Orientation="Horizontal" Spacing="8" Margin="2,2,0,0" IsVisible="{Binding Varios}">
-        <v:Icone Nome="subagente" Tamanho="14" Classes="suave" VerticalAlignment="Center" />
+        <c:Icone Nome="subagente" Tamanho="14" Classes="suave" VerticalAlignment="Center" />
         <TextBlock Text="{Binding Titulo}" FontWeight="SemiBold" FontSize="13" VerticalAlignment="Center" />
         <TextBlock Classes="fraco" Text="{Binding Resumo}" FontSize="12" VerticalAlignment="Center" />
       </StackPanel>
@@ -814,7 +815,7 @@
           <Grid ColumnDefinitions="Auto,Auto,Auto,*,Auto" Margin="0,2">
             <Ellipse Classes="estado" Width="6" Height="6" Margin="0,0,8,0" VerticalAlignment="Center"
                      Classes.trabalhando="{Binding Rodando}" Classes.pronta="{Binding Ok}" Classes.erro="{Binding Falhou}" />
-            <v:Icone Grid.Column="1" Nome="subagente" Tamanho="12" Classes="suave" VerticalAlignment="Center" Margin="0,0,6,0" />
+            <c:Icone Grid.Column="1" Nome="subagente" Tamanho="12" Classes="suave" VerticalAlignment="Center" Margin="0,0,6,0" />
             <TextBlock Grid.Column="2" Text="{Binding Tipo}" FontWeight="SemiBold" FontSize="12" Margin="0,0,8,0" VerticalAlignment="Center" />
             <TextBlock Grid.Column="3" Classes="suave" Text="{Binding Descricao}" FontSize="12" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
             <TextBlock Grid.Column="4" Classes="fraco" Text="{Binding TextoFerramentas}" FontSize="11.5" Margin="8,0,0,0" VerticalAlignment="Center" />
@@ -845,15 +846,15 @@
     <Border Classes="pedido" Classes.respondida="{Binding Respondida}">
       <StackPanel Spacing="10">
         <Grid ColumnDefinitions="Auto,*">
-          <v:Icone Nome="chave" Tamanho="16" Foreground="{DynamicResource Laranja}" IsVisible="{Binding Pendente}" VerticalAlignment="Top" Margin="0,1,8,0" />
-          <v:Icone Nome="ok" Tamanho="16" Classes="fraco" IsVisible="{Binding Respondida}" VerticalAlignment="Top" Margin="0,1,8,0" />
+          <c:Icone Nome="chave" Tamanho="16" Foreground="{DynamicResource Laranja}" IsVisible="{Binding Pendente}" VerticalAlignment="Top" Margin="0,1,8,0" />
+          <c:Icone Nome="ok" Tamanho="16" Classes="fraco" IsVisible="{Binding Respondida}" VerticalAlignment="Top" Margin="0,1,8,0" />
           <TextBlock Grid.Column="1" TextWrapping="Wrap">
             <Run Text="{Binding Titulo}" FontWeight="SemiBold" /><Run Classes="suave" Text="{Binding Motivo, StringFormat=' — {0}'}" />
           </TextBlock>
         </Grid>
         <Border Theme="{StaticResource DestinoDoSegredo}" IsVisible="{Binding Pendente}">
           <Grid ColumnDefinitions="Auto,*">
-            <v:Icone Nome="{Binding IconeDestino}" Tamanho="13" Classes="suave" VerticalAlignment="Center" Margin="0,0,8,0" />
+            <c:Icone Nome="{Binding IconeDestino}" Tamanho="13" Classes="suave" VerticalAlignment="Center" Margin="0,0,8,0" />
             <TextBlock Grid.Column="1" Classes="suave" Text="{Binding Destino}" TextWrapping="Wrap" FontSize="12.5" VerticalAlignment="Center" />
           </Grid>
         </Border>
@@ -867,8 +868,8 @@
               <Button Classes="icone pequeno" Command="{Binding AlternarMostrarCommand}" Margin="0,0,4,0" Focusable="False"
                       ToolTip.Tip="{l:T 'Mostrar ou esconder o valor'}" AutomationProperties.Name="{l:T 'Mostrar ou esconder o valor'}">
                 <Panel>
-                  <v:Icone Nome="olho" Tamanho="14" IsVisible="{Binding !Mostrando}" />
-                  <v:Icone Nome="olho-fechado" Tamanho="14" IsVisible="{Binding Mostrando}" />
+                  <c:Icone Nome="olho" Tamanho="14" IsVisible="{Binding !Mostrando}" />
+                  <c:Icone Nome="olho-fechado" Tamanho="14" IsVisible="{Binding Mostrando}" />
                 </Panel>
               </Button>
             </TextBox.InnerRightContent>
@@ -902,7 +903,7 @@
     <Border Theme="{StaticResource SegredoNoCartaoFundo}">
       <StackPanel Spacing="6">
         <Grid ColumnDefinitions="Auto,*">
-          <v:Icone Nome="chave" Tamanho="13" Foreground="{DynamicResource Laranja}" VerticalAlignment="Top" Margin="0,2,7,0" />
+          <c:Icone Nome="chave" Tamanho="13" Foreground="{DynamicResource Laranja}" VerticalAlignment="Top" Margin="0,2,7,0" />
           <TextBlock Grid.Column="1" Text="{Binding SegredoPendente.Titulo, FallbackValue={x:Null}}" FontWeight="SemiBold" FontSize="12.5" TextWrapping="Wrap" MaxLines="2" TextTrimming="CharacterEllipsis" />
         </Grid>
         <TextBlock Classes="suave" Text="{Binding SegredoPendente.Motivo, FallbackValue={x:Null}}" FontSize="12" TextWrapping="Wrap" MaxLines="2" TextTrimming="CharacterEllipsis" />
@@ -914,7 +915,7 @@
 
   <DataTemplate x:Key="LinhaDeSegredo" x:DataType="vm:SegredoGuardadoVM">
     <Grid ColumnDefinitions="Auto,*,Auto" Margin="0,4">
-      <v:Icone Nome="chave" Tamanho="14" Classes="suave" VerticalAlignment="Center" Margin="0,0,10,0" />
+      <c:Icone Nome="chave" Tamanho="14" Classes="suave" VerticalAlignment="Center" Margin="0,0,10,0" />
       <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center">
         <TextBlock Classes="mono" Text="{Binding Nome}" FontSize="13" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
         <TextBlock Classes="fraco" FontSize="12" TextTrimming="CharacterEllipsis" ToolTip.Tip="{Binding CaminhoDoProjeto}">
@@ -924,7 +925,7 @@
       <Panel Grid.Column="2" VerticalAlignment="Center" Margin="10,0,0,0">
         <Button Classes="icone pequeno" Command="{Binding PedirApagarCommand}" IsVisible="{Binding !Confirmando}"
                 ToolTip.Tip="{Binding DicaApagar}" AutomationProperties.Name="{l:T 'Apagar o segredo'}">
-          <v:Icone Nome="lixeira" Tamanho="14" />
+          <c:Icone Nome="lixeira" Tamanho="14" />
         </Button>
         <StackPanel Orientation="Horizontal" Spacing="6" IsVisible="{Binding Confirmando}">
           <Button Classes="primario pequeno" Content="{l:T 'Apagar'}" Command="{Binding ApagarCommand}" ToolTip.Tip="{Binding DicaApagar}" />
@@ -939,13 +940,13 @@
             ClipToBounds="True" ToolTip.Tip="{Binding Texto}">
       <Grid ColumnDefinitions="Auto,Auto,*,Auto">
         <Border Width="3" Background="{DynamicResource Acento}" />
-        <v:Icone Grid.Column="1" Nome="responder" Tamanho="13" Classes="suave" VerticalAlignment="Top" Margin="10,9,8,0" />
+        <c:Icone Grid.Column="1" Nome="responder" Tamanho="13" Classes="suave" VerticalAlignment="Top" Margin="10,9,8,0" />
         <TextBlock Grid.Column="2" Classes="suave" Text="{Binding Previa}" FontSize="12.5" TextWrapping="Wrap" MaxLines="3"
                    TextTrimming="CharacterEllipsis" Margin="0,7,10,7" />
         <Button Grid.Column="3" Classes="icone pequeno" Command="{Binding RemoverCommand}" IsVisible="{Binding Removivel}"
                 Width="24" Height="24" Padding="0" VerticalAlignment="Top" Margin="0,4,4,0"
                 ToolTip.Tip="{l:T 'Tirar a citação'}" AutomationProperties.Name="{l:T 'Tirar a citação'}">
-          <v:Icone Nome="fechar" Tamanho="9" />
+          <c:Icone Nome="fechar" Tamanho="9" />
         </Button>
       </Grid>
     </Border>
@@ -956,7 +957,7 @@
       <Border Width="2" CornerRadius="1" Background="{DynamicResource SelecaoBorda}" Margin="0,1,9,1" />
       <StackPanel Grid.Column="1" Spacing="3">
         <StackPanel Orientation="Horizontal" Spacing="5">
-          <v:Icone Nome="responder" Tamanho="11" Classes="fraco" VerticalAlignment="Center" />
+          <c:Icone Nome="responder" Tamanho="11" Classes="fraco" VerticalAlignment="Center" />
           <TextBlock Classes="fraco" Text="{l:T 'Respondendo a'}" FontSize="11.5" VerticalAlignment="Center" />
         </StackPanel>
         <TextBlock Classes="suave" Text="{Binding Previa}" FontSize="12.5" TextWrapping="Wrap" MaxLines="4" TextTrimming="CharacterEllipsis" />
@@ -968,7 +969,7 @@
     <Border Background="{DynamicResource SuperficieAlta}" BorderBrush="{DynamicResource Laranja}" BorderThickness="1" CornerRadius="9"
             Padding="10,7" Margin="6,0,6,6">
       <Grid ColumnDefinitions="Auto,*">
-        <v:Icone Nome="alerta" Tamanho="13" Foreground="{DynamicResource Laranja}" VerticalAlignment="Top" Margin="0,1,8,0" />
+        <c:Icone Nome="alerta" Tamanho="13" Foreground="{DynamicResource Laranja}" VerticalAlignment="Top" Margin="0,1,8,0" />
         <TextBlock Grid.Column="1" Text="{Binding}" FontSize="11.5" TextWrapping="Wrap" />
       </Grid>
     </Border>
@@ -980,7 +981,7 @@
       <Border Grid.Column="1" Background="{DynamicResource AcentoFundo}" BorderBrush="{DynamicResource SelecaoBorda}" BorderThickness="1"
               CornerRadius="999" Padding="12,4" Margin="10,0">
         <StackPanel Orientation="Horizontal" Spacing="7">
-          <v:Icone Nome="atualizar" Tamanho="12" Foreground="{DynamicResource Acento}" VerticalAlignment="Center" />
+          <c:Icone Nome="atualizar" Tamanho="12" Foreground="{DynamicResource Acento}" VerticalAlignment="Center" />
           <TextBlock Text="{Binding Texto}" FontSize="12" FontWeight="Medium" VerticalAlignment="Center" />
         </StackPanel>
       </Border>
@@ -991,7 +992,7 @@
   <DataTemplate x:Key="OrigemDoPedido" x:DataType="vm:ItemPermissao">
     <Border Classes="etiqueta-pilula" HorizontalAlignment="Left" Padding="7,2" ToolTip.Tip="{l:T 'Este pedido veio de um subagent desta conversa'}">
       <StackPanel Orientation="Horizontal" Spacing="6">
-        <v:Icone Nome="subagente" Tamanho="12" Classes="suave" VerticalAlignment="Center" />
+        <c:Icone Nome="subagente" Tamanho="12" Classes="suave" VerticalAlignment="Center" />
         <TextBlock Text="{Binding Subagente}" FontSize="12" FontWeight="Medium" TextTrimming="CharacterEllipsis" MaxWidth="560" VerticalAlignment="Center" />
       </StackPanel>
     </Border>
@@ -1052,7 +1053,7 @@
       <Border CornerRadius="9" Margin="1.5" Background="{DynamicResource MarcaGradiente}" IsVisible="{Binding EhPessoa}">
         <TextBlock Text="{Binding Iniciais}" FontSize="8.5" FontWeight="Bold" Foreground="{DynamicResource SobreMarca}" HorizontalAlignment="Center" VerticalAlignment="Center" />
       </Border>
-      <v:AvatarVivo Agente="{Binding Agente}" Parado="True" Rotulo="" IsVisible="{Binding EhAgente}" Margin="1" />
+      <c:AvatarVivo Agente="{Binding Agente}" Parado="True" Rotulo="" IsVisible="{Binding EhAgente}" Margin="1" />
     </Panel>
   </DataTemplate>
 
@@ -1150,7 +1151,7 @@
           </WrapPanel>
           <Button Grid.Column="2" Classes="icone pequeno" Command="{Binding AbrirCommand}" IsVisible="{Binding TemLink}"
                   ToolTip.Tip="{l:T 'Ver a conversa no GitHub'}" AutomationProperties.Name="{l:T 'Ver a conversa no GitHub'}">
-            <v:Icone Nome="externo" Tamanho="11" />
+            <c:Icone Nome="externo" Tamanho="11" />
           </Button>
         </Grid>
         <TextBlock Text="{Binding Corpo}" TextWrapping="Wrap" FontSize="12.5" FontFamily="{DynamicResource FonteUi}" />
@@ -1175,7 +1176,7 @@
     <Border Theme="{StaticResource CaixaDeComentario}" Classes="pendente">
       <StackPanel Spacing="6">
         <Grid ColumnDefinitions="Auto,*,Auto,Auto">
-          <v:Icone Nome="conversa" Tamanho="12" Foreground="{DynamicResource Acento}" VerticalAlignment="Center" Margin="0,0,7,0" />
+          <c:Icone Nome="conversa" Tamanho="12" Foreground="{DynamicResource Acento}" VerticalAlignment="Center" Margin="0,0,7,0" />
           <TextBlock Grid.Column="1" Classes="fraco" FontSize="11" FontFamily="{DynamicResource FonteUi}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis">
             <Run Text="{l:T 'Seu comentário, ainda não mandado'}" />
             <Run Text="·" />
@@ -1183,11 +1184,11 @@
           </TextBlock>
           <Button Grid.Column="2" Classes="icone pequeno" Command="{Binding EditarCommand}" IsVisible="{Binding !Editando}"
                   ToolTip.Tip="{l:T 'Editar o comentário'}" AutomationProperties.Name="{l:T 'Editar o comentário'}">
-            <v:Icone Nome="lapis" Tamanho="11" />
+            <c:Icone Nome="lapis" Tamanho="11" />
           </Button>
           <Button Grid.Column="3" Classes="icone pequeno" Command="{Binding ApagarCommand}"
                   ToolTip.Tip="{l:T 'Apagar o comentário'}" AutomationProperties.Name="{l:T 'Apagar o comentário'}">
-            <v:Icone Nome="lixeira" Tamanho="11" />
+            <c:Icone Nome="lixeira" Tamanho="11" />
           </Button>
         </Grid>
         <TextBlock Text="{Binding Texto}" TextWrapping="Wrap" FontSize="12.5" FontFamily="{DynamicResource FonteUi}" IsVisible="{Binding !Editando}" />
@@ -1210,7 +1211,7 @@
           <TextBlock Text="{Binding Nome}" FontWeight="Medium" />
           <TextBlock Classes="fraco" Text="{Binding Descricao}" IsVisible="{Binding TemDescricao}" FontSize="11.5" TextWrapping="Wrap" />
         </StackPanel>
-        <v:Icone Grid.Column="1" Nome="ok" Tamanho="14" IsVisible="{Binding Selecionada}" VerticalAlignment="Center" Margin="10,0,2,0" />
+        <c:Icone Grid.Column="1" Nome="ok" Tamanho="14" IsVisible="{Binding Selecionada}" VerticalAlignment="Center" Margin="10,0,2,0" />
       </Grid>
     </Button>
   </DataTemplate>
@@ -1239,7 +1240,7 @@
   <DataTemplate x:Key="SeloNaNuvem" x:DataType="vm:CartaoVM">
     <Border Theme="{StaticResource SeloDaNuvem}" ToolTip.Tip="{Binding DicaOndeRoda}">
       <StackPanel Orientation="Horizontal" Spacing="4">
-        <v:Icone Nome="nuvem" Tamanho="11" Foreground="{DynamicResource Ciano}" VerticalAlignment="Center" />
+        <c:Icone Nome="nuvem" Tamanho="11" Foreground="{DynamicResource Ciano}" VerticalAlignment="Center" />
         <TextBlock Text="{Binding NomeDaMaquina}" FontSize="11" MaxWidth="110" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
         <Ellipse Width="5" Height="5" Fill="{DynamicResource Laranja}" IsVisible="{Binding NuvemCaiu}" VerticalAlignment="Center" />
       </StackPanel>
@@ -1249,21 +1250,21 @@
   <DataTemplate x:Key="FaixaDaNuvem" x:DataType="vm:ChatVM">
     <Border Classes="faixa-subagentes" Classes.caiu="{Binding NuvemCaiu}" v:Animacoes.Entrada="True">
       <Grid ColumnDefinitions="Auto,*,Auto,Auto,Auto" Margin="4,0">
-        <v:Icone Nome="nuvem" Tamanho="14" Foreground="{DynamicResource Ciano}" VerticalAlignment="Center" Margin="0,0,10,0" />
+        <c:Icone Nome="nuvem" Tamanho="14" Foreground="{DynamicResource Ciano}" VerticalAlignment="Center" Margin="0,0,10,0" />
         <TextBlock Grid.Column="1" Text="{Binding TextoNuvem}" TextWrapping="Wrap" FontSize="12.5" VerticalAlignment="Center" />
         <Button Grid.Column="2" Classes="contorno pequeno" Content="{l:T 'Reconectar agora'}" Command="{Binding ReconectarNuvemCommand}" IsVisible="{Binding NuvemCaiu}" Margin="10,0,0,0"
                 ToolTip.Tip="{l:T 'O Nexora tenta sozinho; isto tenta agora mesmo.'}" />
         <Button Grid.Column="3" Classes="contorno pequeno" Command="{Binding TrazerDaNuvemCommand}" IsVisible="{Binding PodeTrazerDaNuvem}" Margin="8,0,0,0"
                 ToolTip.Tip="{l:T 'Traz a branch e as mudanças da máquina para um worktree neste PC, para o commit e o PR.'}" AutomationProperties.Name="{l:T 'Trazer para cá'}">
           <StackPanel Orientation="Horizontal" Spacing="6">
-            <v:Icone Nome="importar" Tamanho="12" VerticalAlignment="Center" />
+            <c:Icone Nome="importar" Tamanho="12" VerticalAlignment="Center" />
             <TextBlock Text="{l:T 'Trazer para cá'}" VerticalAlignment="Center" />
           </StackPanel>
         </Button>
         <Button Grid.Column="4" Classes="contorno pequeno" Command="{Binding EncerrarNaMaquinaCommand}" IsVisible="{Binding PodeEncerrarNaMaquina}" Margin="8,0,0,0"
                 ToolTip.Tip="{l:T 'Encerra o agente na máquina. A conversa fica aqui, e a próxima mensagem abre o agente de novo.'}" AutomationProperties.Name="{l:T 'Encerrar na máquina'}">
           <StackPanel Orientation="Horizontal" Spacing="6">
-            <v:Icone Nome="parar" Tamanho="12" VerticalAlignment="Center" />
+            <c:Icone Nome="parar" Tamanho="12" VerticalAlignment="Center" />
             <TextBlock Text="{l:T 'Encerrar na máquina'}" VerticalAlignment="Center" />
           </StackPanel>
         </Button>
@@ -1274,12 +1275,12 @@
   <DataTemplate x:Key="SugestaoDaNuvem" x:DataType="vm:ChatVM">
     <Border Classes="faixa-subagentes" v:Animacoes.Entrada="True">
       <Grid ColumnDefinitions="Auto,*,Auto,Auto" Margin="4,0">
-        <v:Icone Nome="nuvem" Tamanho="14" Foreground="{DynamicResource Ciano}" VerticalAlignment="Center" Margin="0,0,10,0" />
+        <c:Icone Nome="nuvem" Tamanho="14" Foreground="{DynamicResource Ciano}" VerticalAlignment="Center" Margin="0,0,10,0" />
         <TextBlock Grid.Column="1" Text="{Binding SugestaoNuvem}" TextWrapping="Wrap" FontSize="12.5" VerticalAlignment="Center" />
         <Button Grid.Column="2" Classes="contorno pequeno" Content="{Binding TextoAceitarSugestao}" Command="{Binding AceitarSugestaoNuvemCommand}" Margin="10,0,0,0" />
         <Button Grid.Column="3" Classes="icone pequeno" Command="{Binding DispensarSugestaoNuvemCommand}" Margin="6,0,0,0"
                 ToolTip.Tip="{l:T 'Continuar neste PC'}" AutomationProperties.Name="{l:T 'Continuar neste PC'}">
-          <v:Icone Nome="fechar" Tamanho="12" />
+          <c:Icone Nome="fechar" Tamanho="12" />
         </Button>
       </Grid>
     </Border>
@@ -1296,7 +1297,7 @@
   <DataTemplate x:Key="LinhaDeMaquina" x:DataType="vm:MaquinaVM">
     <Border Theme="{StaticResource CartaoDeMaquina}" Margin="0,4">
       <Grid ColumnDefinitions="Auto,*,Auto">
-        <v:Icone Nome="nuvem" Tamanho="18" Foreground="{DynamicResource Ciano}" VerticalAlignment="Center" Margin="0,0,12,0" />
+        <c:Icone Nome="nuvem" Tamanho="18" Foreground="{DynamicResource Ciano}" VerticalAlignment="Center" Margin="0,0,12,0" />
         <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center">
           <StackPanel Orientation="Horizontal" Spacing="8">
             <TextBlock Text="{Binding Nome}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
@@ -1320,7 +1321,7 @@
           <Button Classes="contorno pequeno" Content="{l:T 'Testar conexão'}" Command="{Binding TestarCommand}" IsVisible="{Binding !Confirmando}" />
           <Button Classes="icone pequeno" Command="{Binding PedirApagarCommand}" IsVisible="{Binding !Confirmando}"
                   ToolTip.Tip="{Binding DicaTirar}" AutomationProperties.Name="{Binding DicaTirar}">
-            <v:Icone Nome="lixeira" Tamanho="14" />
+            <c:Icone Nome="lixeira" Tamanho="14" />
           </Button>
           <Button Classes="primario pequeno" Content="{Binding TextoTirar}" Command="{Binding ApagarCommand}" IsVisible="{Binding Confirmando}" />
           <Button Classes="fantasma pequeno" Content="{l:T 'Cancelar'}" Command="{Binding CancelarCommand}" IsVisible="{Binding Confirmando}" />
@@ -1336,13 +1337,13 @@
                  Text="{l:T 'Deixe o agente (e até o projeto rodando) numa máquina na nuvem em vez de gastar o processador e a memória deste PC. Este PC só controla, e o agente continua lá mesmo com ele desligado. Cada conversa escolhe onde roda pelo botão Neste PC, ao lado do agente; o projeto precisa permitir a nuvem na página dele.'}" />
       <Border Classes="painel" IsVisible="{Binding TemAviso}" Padding="10,8">
         <Grid ColumnDefinitions="Auto,*">
-          <v:Icone Nome="alerta" Tamanho="14" Foreground="{DynamicResource Laranja}" VerticalAlignment="Top" Margin="0,1,8,0" />
+          <c:Icone Nome="alerta" Tamanho="14" Foreground="{DynamicResource Laranja}" VerticalAlignment="Top" Margin="0,1,8,0" />
           <SelectableTextBlock Grid.Column="1" Text="{Binding Aviso}" TextWrapping="Wrap" FontSize="12.5" />
         </Grid>
       </Border>
       <ItemsControl ItemsSource="{Binding Maquinas}" ItemTemplate="{StaticResource LinhaDeMaquina}" IsVisible="{Binding TemMaquinas}" />
       <Button HorizontalAlignment="Left" Command="{Binding NovaMaquinaCommand}" IsVisible="{Binding !Formulario}">
-        <StackPanel Orientation="Horizontal" Spacing="6"><v:Icone Nome="mais" Tamanho="13" /><TextBlock Text="{l:T 'Conectar minha máquina (SSH)…'}" /></StackPanel>
+        <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="mais" Tamanho="13" /><TextBlock Text="{l:T 'Conectar minha máquina (SSH)…'}" /></StackPanel>
       </Button>
       <Border Theme="{StaticResource CartaoDeMaquina}" IsVisible="{Binding Formulario}" v:Animacoes.Entrada="True">
         <StackPanel Spacing="10">
@@ -1364,7 +1365,7 @@
           <Grid ColumnDefinitions="*,Auto" IsVisible="{Binding TemLinhaPublica}">
             <SelectableTextBlock Classes="mono" Text="{Binding LinhaPublica}" FontSize="11.5" TextWrapping="Wrap" VerticalAlignment="Center" />
             <Button Grid.Column="1" Classes="contorno pequeno" Command="{Binding CopiarChaveCommand}" Margin="8,0,0,0" VerticalAlignment="Center" AutomationProperties.Name="{l:T 'Copiar a linha pública'}">
-              <StackPanel Orientation="Horizontal" Spacing="6"><v:Icone Nome="copiar" Tamanho="12" /><TextBlock Text="{l:T 'Copiar'}" /></StackPanel>
+              <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="copiar" Tamanho="12" /><TextBlock Text="{l:T 'Copiar'}" /></StackPanel>
             </Button>
           </Grid>
           <StackPanel Orientation="Horizontal" Spacing="8">
@@ -1376,7 +1377,7 @@
       <Border Theme="{StaticResource CartaoDeMaquina}">
         <StackPanel Spacing="8">
           <StackPanel Orientation="Horizontal" Spacing="8">
-            <v:Icone Nome="nuvem" Tamanho="14" Foreground="{DynamicResource Ciano}" VerticalAlignment="Center" />
+            <c:Icone Nome="nuvem" Tamanho="14" Foreground="{DynamicResource Ciano}" VerticalAlignment="Center" />
             <TextBlock Text="InstaBox" FontWeight="SemiBold" VerticalAlignment="Center" />
             <Border Classes="etiqueta-pilula" IsVisible="{Binding TemChaveInstaBox}"><TextBlock Text="{l:T 'chave guardada'}" FontSize="11" /></Border>
           </StackPanel>
@@ -1389,8 +1390,8 @@
                 <Button Classes="icone pequeno" Command="{Binding AlternarChaveInstaBoxCommand}" Margin="0,0,4,0" Focusable="False"
                         ToolTip.Tip="{l:T 'Mostrar ou esconder o valor'}" AutomationProperties.Name="{l:T 'Mostrar ou esconder o valor'}">
                   <Panel>
-                    <v:Icone Nome="olho" Tamanho="14" IsVisible="{Binding !MostrandoChaveInstaBox}" />
-                    <v:Icone Nome="olho-fechado" Tamanho="14" IsVisible="{Binding MostrandoChaveInstaBox}" />
+                    <c:Icone Nome="olho" Tamanho="14" IsVisible="{Binding !MostrandoChaveInstaBox}" />
+                    <c:Icone Nome="olho-fechado" Tamanho="14" IsVisible="{Binding MostrandoChaveInstaBox}" />
                   </Panel>
                 </Button>
               </TextBox.InnerRightContent>
@@ -1400,7 +1401,7 @@
           <StackPanel Spacing="10" IsVisible="{Binding TemChaveInstaBox}">
             <StackPanel Orientation="Horizontal" Spacing="8" IsVisible="{Binding !FormularioInstaBox}">
               <Button Command="{Binding NovaInstaBoxCommand}">
-                <StackPanel Orientation="Horizontal" Spacing="6"><v:Icone Nome="mais" Tamanho="13" /><TextBlock Text="{l:T 'Criar máquina no InstaBox…'}" /></StackPanel>
+                <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="mais" Tamanho="13" /><TextBlock Text="{l:T 'Criar máquina no InstaBox…'}" /></StackPanel>
               </Button>
               <Button Classes="fantasma" Content="{l:T 'Apagar a chave'}" Command="{Binding ApagarChaveInstaBoxCommand}" />
             </StackPanel>
@@ -1432,7 +1433,7 @@
       <Border Theme="{StaticResource CartaoDeMaquina}">
         <StackPanel Spacing="8">
           <StackPanel Orientation="Horizontal" Spacing="8">
-            <v:Icone Nome="nuvem" Tamanho="14" Foreground="{DynamicResource Ciano}" VerticalAlignment="Center" />
+            <c:Icone Nome="nuvem" Tamanho="14" Foreground="{DynamicResource Ciano}" VerticalAlignment="Center" />
             <TextBlock Text="Freestyle" FontWeight="SemiBold" VerticalAlignment="Center" />
             <Border Classes="etiqueta-pilula" IsVisible="{Binding TemChaveFreestyle}"><TextBlock Text="{l:T 'chave guardada'}" FontSize="11" /></Border>
           </StackPanel>
@@ -1445,8 +1446,8 @@
                 <Button Classes="icone pequeno" Command="{Binding AlternarChaveFreestyleCommand}" Margin="0,0,4,0" Focusable="False"
                         ToolTip.Tip="{l:T 'Mostrar ou esconder o valor'}" AutomationProperties.Name="{l:T 'Mostrar ou esconder o valor'}">
                   <Panel>
-                    <v:Icone Nome="olho" Tamanho="14" IsVisible="{Binding !MostrandoChaveFreestyle}" />
-                    <v:Icone Nome="olho-fechado" Tamanho="14" IsVisible="{Binding MostrandoChaveFreestyle}" />
+                    <c:Icone Nome="olho" Tamanho="14" IsVisible="{Binding !MostrandoChaveFreestyle}" />
+                    <c:Icone Nome="olho-fechado" Tamanho="14" IsVisible="{Binding MostrandoChaveFreestyle}" />
                   </Panel>
                 </Button>
               </TextBox.InnerRightContent>
@@ -1456,7 +1457,7 @@
           <StackPanel Spacing="10" IsVisible="{Binding TemChaveFreestyle}">
             <StackPanel Orientation="Horizontal" Spacing="8" IsVisible="{Binding !FormularioFreestyle}">
               <Button Command="{Binding NovaFreestyleCommand}">
-                <StackPanel Orientation="Horizontal" Spacing="6"><v:Icone Nome="mais" Tamanho="13" /><TextBlock Text="{l:T 'Criar máquina na Freestyle…'}" /></StackPanel>
+                <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="mais" Tamanho="13" /><TextBlock Text="{l:T 'Criar máquina na Freestyle…'}" /></StackPanel>
               </Button>
               <Button Classes="fantasma" Content="{l:T 'Apagar a chave'}" Command="{Binding ApagarChaveFreestyleCommand}" />
             </StackPanel>
@@ -1476,7 +1477,7 @@
       <Border Theme="{StaticResource CartaoDeMaquina}">
         <StackPanel Spacing="8">
           <StackPanel Orientation="Horizontal" Spacing="8">
-            <v:Icone Nome="chave" Tamanho="14" Classes="suave" VerticalAlignment="Center" />
+            <c:Icone Nome="chave" Tamanho="14" Classes="suave" VerticalAlignment="Center" />
             <TextBlock Text="{l:T 'Login do Claude na máquina'}" FontWeight="SemiBold" VerticalAlignment="Center" />
             <Border Classes="etiqueta-pilula" IsVisible="{Binding TemToken}"><TextBlock Text="{l:T 'guardado'}" FontSize="11" /></Border>
           </StackPanel>
@@ -1488,8 +1489,8 @@
                 <Button Classes="icone pequeno" Command="{Binding AlternarTokenCommand}" Margin="0,0,4,0" Focusable="False"
                         ToolTip.Tip="{l:T 'Mostrar ou esconder o valor'}" AutomationProperties.Name="{l:T 'Mostrar ou esconder o valor'}">
                   <Panel>
-                    <v:Icone Nome="olho" Tamanho="14" IsVisible="{Binding !MostrandoToken}" />
-                    <v:Icone Nome="olho-fechado" Tamanho="14" IsVisible="{Binding MostrandoToken}" />
+                    <c:Icone Nome="olho" Tamanho="14" IsVisible="{Binding !MostrandoToken}" />
+                    <c:Icone Nome="olho-fechado" Tamanho="14" IsVisible="{Binding MostrandoToken}" />
                   </Panel>
                 </Button>
               </TextBox.InnerRightContent>
@@ -1507,7 +1508,7 @@
       <Grid ColumnDefinitions="*,Auto">
         <StackPanel Spacing="4">
           <StackPanel Orientation="Horizontal" Spacing="8">
-            <v:Icone Nome="nuvem" Classes="suave" />
+            <c:Icone Nome="nuvem" Classes="suave" />
             <TextBlock Classes="titulo-cartao" Text="{l:T 'Pode ir para a nuvem'}" />
           </StackPanel>
           <TextBlock Classes="fraco" TextWrapping="Wrap" FontSize="12" Text="{Binding TextoNuvem}" />

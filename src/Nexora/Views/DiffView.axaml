@@ -3,6 +3,7 @@
              xmlns:l="using:Nexora"
              xmlns:vm="using:Nexora.ViewModels"
              xmlns:v="using:Nexora.Views"
+             xmlns:c="using:Nexora.Controles"
              x:Class="Nexora.Views.DiffView"
              x:DataType="vm:DiffVM">
   <UserControl.Styles>
@@ -18,11 +19,11 @@
     <Border DockPanel.Dock="Top" Padding="14,6,8,6" BorderBrush="{DynamicResource Borda}" BorderThickness="0,0,0,1">
       <DockPanel>
         <Button DockPanel.Dock="Right" Classes="fantasma" Command="{Binding AbrirArquivoCommand}" IsVisible="{Binding PodeAbrir}">
-          <StackPanel Orientation="Horizontal" Spacing="6"><v:Icone Nome="arquivo" Tamanho="14" /><TextBlock Text="{l:T 'Abrir arquivo'}" FontSize="12.5" /></StackPanel>
+          <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="arquivo" Tamanho="14" /><TextBlock Text="{l:T 'Abrir arquivo'}" FontSize="12.5" /></StackPanel>
         </Button>
         <TextBlock DockPanel.Dock="Right" Classes="menos" Text="{Binding Removidas, StringFormat='−{0}'}" VerticalAlignment="Center" Margin="0,0,12,0" />
         <TextBlock DockPanel.Dock="Right" Classes="mais" Text="{Binding Adicionadas, StringFormat='+{0}'}" VerticalAlignment="Center" Margin="12,0,8,0" />
-        <v:Icone DockPanel.Dock="Left" Nome="diff" Tamanho="15" Classes="suave" VerticalAlignment="Center" Margin="0,0,10,0" />
+        <c:Icone DockPanel.Dock="Left" Nome="diff" Tamanho="15" Classes="suave" VerticalAlignment="Center" Margin="0,0,10,0" />
         <TextBlock Classes="mono" Text="{Binding Caminho}" VerticalAlignment="Center" TextTrimming="PathSegmentEllipsis" ToolTip.Tip="{Binding Caminho}" />
       </DockPanel>
     </Border>
@@ -32,9 +33,9 @@
         <Button x:Name="BotaoPendentes" Classes="mini" Command="{Binding Revisao.AlternarListaCommand, FallbackValue={x:Null}}"
                 ToolTip.Tip="{l:T 'Ver, editar ou apagar os comentários antes de mandar'}">
           <StackPanel Orientation="Horizontal" Spacing="6">
-            <v:Icone Nome="conversa" Tamanho="12" />
+            <c:Icone Nome="conversa" Tamanho="12" />
             <TextBlock Text="{Binding Revisao.TextoQuantidade, FallbackValue=''}" />
-            <v:Icone Nome="abaixo" Tamanho="11" />
+            <c:Icone Nome="abaixo" Tamanho="11" />
           </StackPanel>
         </Button>
         <Popup Grid.Column="0" PlacementTarget="{Binding #BotaoPendentes}" Placement="BottomEdgeAlignedLeft" VerticalOffset="4" IsLightDismissEnabled="True"
@@ -50,11 +51,11 @@
                           <TextBlock Classes="mono fraco" Text="{Binding Onde}" FontSize="11.5" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" ToolTip.Tip="{Binding Arquivo}" />
                           <Button Grid.Column="1" Classes="icone pequeno" Command="{Binding EditarCommand}" IsVisible="{Binding !Editando}"
                                   ToolTip.Tip="{l:T 'Editar o comentário'}" AutomationProperties.Name="{l:T 'Editar o comentário'}">
-                            <v:Icone Nome="lapis" Tamanho="11" />
+                            <c:Icone Nome="lapis" Tamanho="11" />
                           </Button>
                           <Button Grid.Column="2" Classes="icone pequeno" Command="{Binding ApagarCommand}"
                                   ToolTip.Tip="{l:T 'Apagar o comentário'}" AutomationProperties.Name="{l:T 'Apagar o comentário'}">
-                            <v:Icone Nome="lixeira" Tamanho="11" />
+                            <c:Icone Nome="lixeira" Tamanho="11" />
                           </Button>
                         </Grid>
                         <TextBlock Text="{Binding Texto}" TextWrapping="Wrap" FontSize="12.5" IsVisible="{Binding !Editando}" />
@@ -80,7 +81,7 @@
                 ToolTip.Tip="{l:T 'Apaga todos os comentários pendentes'}" />
         <Button Grid.Column="3" Classes="primario pequeno" Command="{Binding Revisao.MandarCommand, FallbackValue={x:Null}}"
                 ToolTip.Tip="{l:T 'Manda todos os comentários de uma vez para a conversa, com arquivo, linhas e o trecho do código'}">
-          <StackPanel Orientation="Horizontal" Spacing="6"><v:Icone Nome="enviar" Tamanho="12" /><TextBlock Text="{l:T 'Mandar para o agente'}" /></StackPanel>
+          <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="enviar" Tamanho="12" /><TextBlock Text="{l:T 'Mandar para o agente'}" /></StackPanel>
         </Button>
       </Grid>
     </Border>
@@ -97,7 +98,7 @@
                   <TextBlock Grid.Column="1" Classes="num" Text="{Binding Nova}" />
                   <Button Grid.Column="2" Theme="{StaticResource BotaoComentarLinha}" Classes="comentar-linha" IsVisible="{Binding Comentavel}" Click="Comentar_Click"
                           ToolTip.Tip="{l:T 'Comentar esta linha. Com Shift, estende o comentário até aqui.'}" AutomationProperties.Name="{l:T 'Comentar a linha'}">
-                    <v:Icone Nome="mais" Tamanho="11" />
+                    <c:Icone Nome="mais" Tamanho="11" />
                   </Button>
                   <TextBlock Grid.Column="3" Classes="marca-diff" Text="{Binding Marca}" />
                   <TextBlock Grid.Column="4" Classes="codigo" Text="{Binding Texto}" />

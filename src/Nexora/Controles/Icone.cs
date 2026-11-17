@@ -3,7 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Documents;
 using Avalonia.Media;
 
-namespace Nexora.Views;
+namespace Nexora.Controles;
 
 public sealed class Icone : Control
 {

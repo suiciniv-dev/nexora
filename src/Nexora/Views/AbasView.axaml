@@ -3,6 +3,7 @@
              xmlns:l="using:Nexora"
              xmlns:vm="using:Nexora.ViewModels"
              xmlns:v="using:Nexora.Views"
+             xmlns:c="using:Nexora.Controles"
              x:Class="Nexora.Views.AbasView"
              x:DataType="vm:AreaVM">
   <UserControl.Styles>
@@ -17,7 +18,7 @@
       <Setter Property="ClipToBounds" Value="True" />
       <Setter Property="Cursor" Value="Hand" />
       <Setter Property="Transitions">
-        <Transitions><v:TransicaoDeCor Property="Background" Duration="0:0:0.12" /></Transitions>
+        <Transitions><c:TransicaoDeCor Property="Background" Duration="0:0:0.12" /></Transitions>
       </Setter>
     </Style>
     <Style Selector="Border.guia:pointerover">
@@ -52,12 +53,12 @@
   <DockPanel HorizontalAlignment="Left" VerticalAlignment="Center">
     <Button DockPanel.Dock="Right" Classes="topo" Command="{Binding NovaSessaoCommand}" WindowDecorationProperties.ElementRole="User"
             ToolTip.Tip="{l:T 'Nova sessão (Ctrl+N)'}" AutomationProperties.Name="{l:T 'Nova sessão'}" Margin="2,0,0,0" VerticalAlignment="Center">
-      <v:Icone Nome="mais" Tamanho="16" />
+      <c:Icone Nome="mais" Tamanho="16" />
     </Button>
-    <v:BotaoLigado DockPanel.Dock="Right" Classes="topo" Classes.ligado="{Binding Dividido}" IsChecked="{Binding Dividido, Mode=OneWay}" Command="{Binding AlternarSplitCommand}" WindowDecorationProperties.ElementRole="User"
+    <c:BotaoLigado DockPanel.Dock="Right" Classes="topo" Classes.ligado="{Binding Dividido}" IsChecked="{Binding Dividido, Mode=OneWay}" Command="{Binding AlternarSplitCommand}" WindowDecorationProperties.ElementRole="User"
             ToolTip.Tip="{l:T 'Split view: liga e desliga, sem perder o que estava nele (Ctrl+Shift+\)'}" AutomationProperties.Name="Split view" Margin="2,0,0,0" VerticalAlignment="Center">
-      <v:Icone Nome="dividir" Tamanho="16" />
-    </v:BotaoLigado>
+      <c:Icone Nome="dividir" Tamanho="16" />
+    </c:BotaoLigado>
     <ScrollViewer x:Name="Rolagem" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled">
       <ItemsControl x:Name="Lista" ItemsSource="{Binding Guias}">
         <ItemsControl.ItemsPanel><ItemsPanelTemplate><v:PainelAbas /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
@@ -79,23 +80,23 @@
               </Border.ContextMenu>
               <Grid ColumnDefinitions="Auto,*,Auto">
                 <Panel VerticalAlignment="Center" Width="24" Height="24">
-                  <v:Avatar Width="24" Height="24" IsVisible="{Binding Chat, Converter={x:Static ObjectConverters.IsNotNull}}"
+                  <c:Avatar Width="24" Height="24" IsVisible="{Binding Chat, Converter={x:Static ObjectConverters.IsNotNull}}"
                              Imagem="{Binding Chat.IconeRepo, FallbackValue={x:Null}}" Iniciais="{Binding Chat.Iniciais, FallbackValue={x:Null}}"
                              Trabalhando="{Binding Chat.Trabalhando, FallbackValue=False}"
                              Precisa="{Binding Chat.Precisa, FallbackValue=False}"
                              Pronta="{Binding Chat.EstaPronta, FallbackValue=False}"
                              Erro="{Binding Chat.TemErro, FallbackValue=False}"
                              Fracao="{Binding Chat.ContextoFracao, FallbackValue=0}" />
-                  <v:Icone Nome="{Binding Icone}" Tamanho="14" Classes="suave" VerticalAlignment="Center" HorizontalAlignment="Center"
+                  <c:Icone Nome="{Binding Icone}" Tamanho="14" Classes="suave" VerticalAlignment="Center" HorizontalAlignment="Center"
                            IsVisible="{Binding Chat, Converter={x:Static ObjectConverters.IsNull}}" />
                   <Border Theme="{StaticResource NuvemNaGuia}" IsVisible="{Binding Chat.NaNuvem, FallbackValue=False}" ToolTip.Tip="{Binding Chat.DicaOndeRoda, FallbackValue={x:Null}}">
-                    <v:Icone Nome="nuvem" Tamanho="9" Foreground="{DynamicResource Ciano}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <c:Icone Nome="nuvem" Tamanho="9" Foreground="{DynamicResource Ciano}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                   </Border>
                 </Panel>
                 <TextBlock Grid.Column="1" Classes="titulo-guia" Text="{Binding Titulo}" MaxWidth="170" Margin="7,0" TextTrimming="CharacterEllipsis" FontSize="12.5" VerticalAlignment="Center" />
                 <Button Grid.Column="2" Classes="icone pequeno fechar-guia" Command="{Binding FecharCommand}" Width="24" Height="24" Padding="0"
                         ToolTip.Tip="{l:T 'Fechar aba (Ctrl+W)'}" AutomationProperties.Name="{l:T 'Fechar aba'}">
-                  <v:Icone Nome="fechar" Tamanho="10" />
+                  <c:Icone Nome="fechar" Tamanho="10" />
                 </Button>
               </Grid>
             </Border>

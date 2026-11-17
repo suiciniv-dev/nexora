@@ -1,6 +1,7 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:v="using:Nexora.Views"
+             xmlns:c="using:Nexora.Controles"
              xmlns:n="using:Nexora"
              x:Class="Nexora.App"
              Name="Nexora"
@@ -492,13 +493,13 @@
     <Style Selector="TextBlock.suave, SelectableTextBlock.suave">
       <Setter Property="Foreground" Value="{DynamicResource TextoSuave}" />
     </Style>
-    <Style Selector="v|Icone.suave">
+    <Style Selector="c|Icone.suave">
       <Setter Property="Foreground" Value="{DynamicResource TextoSuave}" />
     </Style>
     <Style Selector="TextBlock.fraco">
       <Setter Property="Foreground" Value="{DynamicResource TextoFraco}" />
     </Style>
-    <Style Selector="v|Icone.fraco">
+    <Style Selector="c|Icone.fraco">
       <Setter Property="Foreground" Value="{DynamicResource TextoFraco}" />
     </Style>
     <Style Selector="TextBlock.fraco">
@@ -531,8 +532,8 @@
     <Style Selector="Button /template/ ContentPresenter#PART_ContentPresenter, ToggleButton /template/ ContentPresenter#PART_ContentPresenter, ListBoxItem /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Transitions">
         <Transitions>
-          <v:TransicaoDeCor Property="Background" Duration="0:0:0.16" />
-          <v:TransicaoDeCor Property="BorderBrush" Duration="0:0:0.16" />
+          <c:TransicaoDeCor Property="Background" Duration="0:0:0.16" />
+          <c:TransicaoDeCor Property="BorderBrush" Duration="0:0:0.16" />
         </Transitions>
       </Setter>
     </Style>
@@ -693,19 +694,19 @@
       <Setter Property="CornerRadius" Value="8" />
       <Setter Property="Padding" Value="8,3" />
     </Style>
-    <Style Selector="Border.selo-revisao.ok v|Icone.selo">
+    <Style Selector="Border.selo-revisao.ok c|Icone.selo">
       <Setter Property="Foreground" Value="{DynamicResource Verde}" />
     </Style>
     <Style Selector="Border.selo-revisao.erro">
       <Setter Property="BorderBrush" Value="{DynamicResource Vermelho}" />
     </Style>
-    <Style Selector="Border.selo-revisao.erro v|Icone.selo">
+    <Style Selector="Border.selo-revisao.erro c|Icone.selo">
       <Setter Property="Foreground" Value="{DynamicResource Vermelho}" />
     </Style>
     <Style Selector="Border.selo-revisao.alerta">
       <Setter Property="BorderBrush" Value="{DynamicResource Laranja}" />
     </Style>
-    <Style Selector="Border.selo-revisao.alerta v|Icone.selo">
+    <Style Selector="Border.selo-revisao.alerta c|Icone.selo">
       <Setter Property="Foreground" Value="{DynamicResource Laranja}" />
     </Style>
     <Style Selector="Border.faixa-subagentes">

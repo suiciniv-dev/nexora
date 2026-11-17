@@ -2,6 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:Nexora.ViewModels"
         xmlns:v="using:Nexora.Views"
+             xmlns:c="using:Nexora.Controles"
         x:Class="Nexora.JanelaExtra"
         RenderOptions.TextRenderingMode="SubpixelAntialias"
         x:DataType="vm:AreaVM"
@@ -26,8 +27,8 @@
   <Grid RowDefinitions="44,*">
     <Image Grid.RowSpan="2" Source="{Binding Janela.ImagemFundo}" Stretch="UniformToFill" IsVisible="{Binding Janela.TemImagem}" IsHitTestVisible="False" />
     <Border Grid.RowSpan="2" Background="{DynamicResource BrilhoFundo}" IsHitTestVisible="False" />
-    <v:FundoIluminado Grid.RowSpan="2" />
-    <v:FundoVivo Grid.RowSpan="2" Estilo="{Binding Janela.FundoAnimado}" Modo="{Binding Janela.ModoFundo}" Agitado="{Binding Janela.TemTrabalhando}" />
+    <c:FundoIluminado Grid.RowSpan="2" />
+    <c:FundoVivo Grid.RowSpan="2" Estilo="{Binding Janela.FundoAnimado}" Modo="{Binding Janela.ModoFundo}" Agitado="{Binding Janela.TemTrabalhando}" />
     <Border Grid.RowSpan="2" Background="{DynamicResource Fundo}" Opacity="{Binding Janela.Escurecer}" IsVisible="{Binding Janela.TemVeu}" IsHitTestVisible="False" />
     <Border WindowDecorationProperties.ElementRole="TitleBar">
       <Grid x:Name="BarraTitulo" ColumnDefinitions="Auto,*,150">

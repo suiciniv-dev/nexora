@@ -5,7 +5,7 @@ using Avalonia.Controls;
 using Avalonia.Platform;
 using Microsoft.Web.WebView2.Core;
 
-namespace Nexora.Views;
+namespace Nexora.Controles;
 
 public sealed partial class WebViewNativo : NativeControlHost
 {
