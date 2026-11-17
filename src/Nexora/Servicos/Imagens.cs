@@ -2,7 +2,7 @@ using Avalonia.Media.Imaging;
 using Nexora.Core.Claude;
 using SkiaSharp;
 
-namespace Nexora;
+namespace Nexora.Servicos;
 
 public static class Imagens
 {

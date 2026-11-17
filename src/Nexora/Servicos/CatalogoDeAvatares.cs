@@ -3,7 +3,7 @@ using System.Text.Json;
 using Avalonia.Platform;
 using Nexora.Core.Avatares;
 
-namespace Nexora;
+namespace Nexora.Servicos;
 
 public sealed record EscolhaDeAvatar(DefinicaoAvatar Definicao, string Cor);
 

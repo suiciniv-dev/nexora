@@ -11,7 +11,7 @@ using Nexora.Core.Texto;
 using Nexora.ViewModels;
 using Nexora.Views;
 
-namespace Nexora;
+namespace Nexora.Aplicativo;
 
 public sealed class Apresentacao : Window
 {

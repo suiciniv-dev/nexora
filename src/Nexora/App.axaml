@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:v="using:Nexora.Views"
              xmlns:c="using:Nexora.Controles"
-             xmlns:n="using:Nexora"
+             xmlns:n="using:Nexora.Servicos"
              x:Class="Nexora.App"
              Name="Nexora"
              RequestedThemeVariant="Default">

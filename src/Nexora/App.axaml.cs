@@ -5,6 +5,8 @@ using Avalonia.Styling;
 using Nexora.Temas;
 using Nexora.ViewModels;
 
+using Nexora.Views;
+
 namespace Nexora;
 
 public partial class App : Application

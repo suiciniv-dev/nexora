@@ -17,6 +17,9 @@
     <Using Include="Nexora.Modelos" />
     <Using Include="Nexora.Servicos" />
     <Using Include="Nexora.Controles" />
+    <Using Include="Nexora.Aplicativo" />
+    <Using Include="Nexora.Desempenho" />
+    <Using Include="Nexora.Views" />
     <ProjectReference Include="..\..\src\Nexora.Core\Nexora.Core.csproj" />
     <ProjectReference Include="..\..\src\Nexora\Nexora.csproj" />
     <ProjectReference Include="..\..\tools\AgenteDeTeste\AgenteDeTeste.csproj" ReferenceOutputAssembly="false" />

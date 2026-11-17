@@ -2,7 +2,7 @@ using System.Text;
 using Avalonia.Threading;
 using Nexora.Core.Texto;
 
-namespace Nexora;
+namespace Nexora.Servicos;
 
 public static class Erros
 {

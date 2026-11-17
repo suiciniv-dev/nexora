@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 using Nexora.Core.Git;
 using Idioma = Nexora.Core.Texto.Idioma;
 
-namespace Nexora;
+namespace Nexora.Servicos;
 
 public static partial class PermissaoGh
 {

@@ -3,7 +3,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Nexora.Core.Texto;
 
-namespace Nexora;
+namespace Nexora.Servicos;
 
 public sealed record Receita(string Id, string Site, string[] Passos, string? Pacote = null, bool Script = false, string? Brew = null)
 {

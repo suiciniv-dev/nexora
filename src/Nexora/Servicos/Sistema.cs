@@ -4,7 +4,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 
-namespace Nexora;
+namespace Nexora.Servicos;
 
 public static partial class Sistema
 {

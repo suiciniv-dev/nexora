@@ -1,7 +1,7 @@
 using Avalonia.Markup.Xaml;
 using Nexora.Core.Texto;
 
-namespace Nexora;
+namespace Nexora.Traducao;
 
 public sealed class T : MarkupExtension
 {

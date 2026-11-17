@@ -1,7 +1,7 @@
 using Avalonia.Controls;
 using Nexora.Views;
 
-namespace Nexora;
+namespace Nexora.Views;
 
 public partial class JanelaExtra : Window
 {

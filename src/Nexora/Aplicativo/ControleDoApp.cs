@@ -6,7 +6,7 @@ using Nexora.Core.Cli;
 using Nexora.Core.Ambientes;
 using Nexora.ViewModels;
 
-namespace Nexora;
+namespace Nexora.Aplicativo;
 
 public sealed class ControleDoApp(JanelaVM janela)
 {
