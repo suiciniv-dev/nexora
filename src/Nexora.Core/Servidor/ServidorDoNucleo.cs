@@ -14,6 +14,8 @@ public static class ServidorDoNucleo
 
     internal static JsonSerializerOptions Json => JsonDoNucleo.Opcoes;
 
+    static long _conexoes;
+
     public static string NomeDoCano(string usuario, string pasta, Guid versao)
     {
         var pastaNormal = Path.GetFullPath(pasta).TrimEnd('\\', '/').ToLowerInvariant();
@@ -118,6 +120,7 @@ public static class ServidorDoNucleo
         var escritor = new StreamWriter(cano, new UTF8Encoding(false));
         var saida = Channel.CreateUnbounded<string>(new UnboundedChannelOptions { SingleReader = true });
         var assinaturas = new Dictionary<string, IDisposable>();
+        var conexao = Interlocked.Increment(ref _conexoes);
         var escrita = Task.Run(async () =>
         {
             try
@@ -144,7 +147,7 @@ public static class ServidorDoNucleo
             MetodosDoNucleo.Turnos => await nucleo.LerTurnosAsync(dados!["arquivo"]!.GetValue<string>(), dados["turnos"]!.GetValue<int>(), dados["ate"]!.GetValue<long>(), cancelar).ConfigureAwait(false),
             MetodosDoNucleo.Modo => new RespostaDeTexto(await nucleo.UltimoModoAsync(dados!["arquivo"]!.GetValue<string>(), cancelar).ConfigureAwait(false)),
             MetodosDoNucleo.Comando => await nucleo.RodarComandoAsync(dados.Deserialize<Git.PedidoDeComando>(Json)!, cancelar).ConfigureAwait(false),
-            MetodosDoNucleo.AbrirSessao => Registro().Abrir(dados!["id"]!.GetValue<string>(), dados["agente"]!.GetValue<string>(), (string?)dados["titulo"], dados["opcoes"].Deserialize<Claude.OpcoesSessao>(Json)!).Resumo(),
+            MetodosDoNucleo.AbrirSessao => Registro().Abrir(dados!["id"]!.GetValue<string>(), dados["agente"]!.GetValue<string>(), (string?)dados["titulo"], dados["opcoes"].Deserialize<Claude.OpcoesSessao>(Json)!, (string?)dados["dono"]).Resumo(),
             MetodosDoNucleo.AssinarSessao => Assinar(Sessao(dados), dados?["desde"]?.GetValue<long>()),
             MetodosDoNucleo.SoltarSessao => Soltar((string?)dados?["id"] ?? ""),
             MetodosDoNucleo.EnviarASessao => Enviar(Sessao(dados), dados!),
@@ -163,6 +166,9 @@ public static class ServidorDoNucleo
             MetodosDoNucleo.PararNoHub => await FeitoAsync(Registro().HubLigado().PararAsync(dados!["instancia"]!.GetValue<string>())).ConfigureAwait(false),
             MetodosDoNucleo.EstadoDoHub => Registro().Hub?.Estado() ?? [],
             MetodosDoNucleo.PidsDoHub => Registro().Hub?.Pids() ?? [],
+            MetodosDoNucleo.ApontarNaPonte => Feito(() => Registro().PonteLigada().Apontar(dados!["servidor"]!.GetValue<string>(), dados["porta"]!.GetValue<int>(), dados["segredo"]!.GetValue<string>(), conexao)),
+            MetodosDoNucleo.RegistrarNaPonte => Registro().PonteLigada().Registrar(dados!["servidor"]!.GetValue<string>(), dados["dono"]!.GetValue<string>()),
+            MetodosDoNucleo.EsquecerNaPonte => Feito(() => Registro().Ponte?.Esquecer(dados!["chave"]!.GetValue<string>())),
             var outro => throw new InvalidOperationException($"Método desconhecido: {outro}"),
         };
         RespostaDeAssinatura Assinar(SessaoNoServidor sessao, long? desde)
@@ -263,6 +269,7 @@ public static class ServidorDoNucleo
         {
         }
         if (sessoes is not null) sessoes.HubMudou -= AvisarHub;
+        sessoes?.Ponte?.Soltar(conexao);
         lock (assinaturas)
         {
             foreach (var assinatura in assinaturas.Values) assinatura.Dispose();

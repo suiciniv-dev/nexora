@@ -25,6 +25,9 @@ public static class MetodosDoNucleo
     public const string PararNoHub = "hub.parar";
     public const string EstadoDoHub = "hub.estado";
     public const string PidsDoHub = "hub.pids";
+    public const string ApontarNaPonte = "ponte.apontar";
+    public const string RegistrarNaPonte = "ponte.registrar";
+    public const string EsquecerNaPonte = "ponte.esquecer";
 
     public static bool EmOrdem(string metodo) =>
         metodo is AbrirSessao or AssinarSessao or SoltarSessao or EnviarASessao or AcaoNaSessao or ListarSessoes or EsquecerSessao;

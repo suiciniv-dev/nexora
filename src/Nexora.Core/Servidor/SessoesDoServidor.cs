@@ -10,6 +10,13 @@ public sealed class SessoesDoServidor(Func<string, OpcoesSessao, ISessaoAgente> 
 
     public Mcp.HubMcp? Hub { get; private set; }
 
+    public PonteMcp? Ponte { get; private set; }
+
+    public PonteMcp PonteLigada()
+    {
+        lock (_travaDoHub) return Ponte ??= new PonteMcp();
+    }
+
     public event Action? HubMudou;
 
     public ContagemDoHub LigarHub(string pastaCache, TimeSpan ocioso)
@@ -34,10 +41,10 @@ public sealed class SessoesDoServidor(Func<string, OpcoesSessao, ISessaoAgente> 
 
     public TimeSpan GuardarEncerrada { get; init; } = TimeSpan.FromMinutes(10);
 
-    public SessaoNoServidor Abrir(string id, string agente, string? titulo, OpcoesSessao opcoes)
+    public SessaoNoServidor Abrir(string id, string agente, string? titulo, OpcoesSessao opcoes, string? dono = null)
     {
         if (_sessoes.TryGetValue(id, out var existente) && !existente.Encerrada) return existente;
-        var sessao = new SessaoNoServidor(id, agente, opcoes.Pasta, titulo, criar(agente, opcoes));
+        var sessao = new SessaoNoServidor(id, agente, opcoes.Pasta, titulo, criar(agente, opcoes)) { Dono = dono };
         _sessoes[id] = sessao;
         sessao.Sessao.Iniciar();
         return sessao;
@@ -76,5 +83,6 @@ public sealed class SessoesDoServidor(Func<string, OpcoesSessao, ISessaoAgente> 
             {
             }
         Hub?.Dispose();
+        Ponte?.Dispose();
     }
 }

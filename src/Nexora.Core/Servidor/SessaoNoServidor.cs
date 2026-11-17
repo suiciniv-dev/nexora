@@ -29,6 +29,7 @@ public sealed class SessaoNoServidor
     public string Agente { get; }
     public string Pasta { get; }
     public string? Titulo { get; set; }
+    public string? Dono { get; init; }
     public ISessaoAgente Sessao { get; }
     public bool Encerrada { get; private set; }
 
@@ -59,7 +60,7 @@ public sealed class SessaoNoServidor
     public ResumoDaSessao Resumo()
     {
         lock (_trava)
-            return new ResumoDaSessao(Id, Agente, Pasta, Titulo, Sessao.SessaoId, !Encerrada && Sessao.Ativa, _trabalhando || _pendentes.Count > 0, Sessao.Pid, _registro.Ultimo, _assinantes.Count);
+            return new ResumoDaSessao(Id, Agente, Pasta, Titulo, Sessao.SessaoId, !Encerrada && Sessao.Ativa, _trabalhando || _pendentes.Count > 0, Sessao.Pid, _registro.Ultimo, _assinantes.Count, Dono);
     }
 
     public IReadOnlyList<EventoClaude> Pendentes()

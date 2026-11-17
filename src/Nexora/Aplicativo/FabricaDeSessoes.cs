@@ -19,9 +19,9 @@ public static class FabricaDeSessoes
         };
     }
 
-    public static ISessaoAgente CriarNoNucleo(string agente, OpcoesSessao opcoes, string? titulo) =>
+    public static ISessaoAgente CriarNoNucleo(string agente, OpcoesSessao opcoes, string? titulo, string? dono = null) =>
         App.Nucleo is NucleoRemoto { Conectado: true } remoto && opcoes.Lancador is null
-            ? new SessaoRemota(remoto, agente, opcoes, titulo)
+            ? new SessaoRemota(remoto, agente, opcoes, titulo, dono)
             : Criar(agente, opcoes);
 
     static ISessaoAgente CriarAcp(DescricaoAgente agente, OpcoesSessao opcoes)

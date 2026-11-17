@@ -22,6 +22,11 @@ public sealed partial class JanelaVM
             var conversa = resumo.SessaoId is { } id ? await Task.Run(() => ConversaDe(id, resumo.Pasta)).ConfigureAwait(false) : null;
             await Dispatcher.UIThread.InvokeAsync(() => Reanexar(remoto, resumo, conversa));
         }
+        await Dispatcher.UIThread.InvokeAsync(() =>
+        {
+            foreach (var resumo in vivas)
+                if (resumo.SessaoId is { } id && OrquestraVM.EhOrquestrador(id)) Orquestra.Retomar(id);
+        });
     }
 
     void Reanexar(NucleoRemoto remoto, ResumoDaSessao resumo, Core.Historico.ConversaSalva? conversa)

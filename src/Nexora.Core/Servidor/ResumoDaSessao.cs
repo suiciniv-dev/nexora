@@ -10,4 +10,5 @@ public sealed record ResumoDaSessao(
     bool Trabalhando,
     int? Pid,
     long Ultimo,
-    int Assinantes);
+    int Assinantes,
+    string? Dono = null);
