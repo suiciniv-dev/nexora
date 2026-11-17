@@ -9,7 +9,7 @@ namespace Nexora.Views;
 
 public partial class VisaoGeralView : UserControl
 {
-    const int Guardadas = 4;
+    const int Guardadas = 2;
     readonly List<(ChatVM Chat, ChatView Vista)> _espiadas = [];
     VisaoGeralVM? _vm;
 
