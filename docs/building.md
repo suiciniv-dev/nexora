@@ -70,7 +70,7 @@ dotnet publish src/Nexora -c Release -r win-x64 --self-contained false -o <folde
 dotnet <folder>\Nexora.dll
 ```
 
-`scripts/publicar.ps1` does this into the maintainer's install folder.
+`scripts/publicar.ps1` does this into the maintainer's install folder. It refuses to run while Nexora is open. The core process (`dotnet Nexora.dll --servidor …`) counts as open: it stays up about 30 seconds after the last window closes, so wait for it before publishing.
 
 ## Releases
 

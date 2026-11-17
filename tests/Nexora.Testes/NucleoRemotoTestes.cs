@@ -116,7 +116,7 @@ public sealed class NucleoRemotoTestes
     {
         var falso = new NucleoFalso();
         var cano = Cano();
-        var servidor = Task.Run(() => ServidorDoNucleo.RodarAsync(cano, falso, TimeSpan.FromSeconds(10)));
+        var servidor = Task.Run(() => ServidorDoNucleo.RodarAsync(cano, falso, TimeSpan.FromSeconds(2)));
         using var remoto = await NucleoRemoto.ConectarAsync(cano, TimeSpan.FromSeconds(10));
         Assert.NotNull(remoto);
 
@@ -173,13 +173,14 @@ public sealed class NucleoRemotoTestes
     }
 
     [Fact]
-    public async Task O_proprio_Nexora_sobe_como_servidor_e_sai_quando_o_app_desconecta()
+    public async Task O_proprio_Nexora_sobe_como_servidor_e_sai_pouco_depois_que_o_app_desconecta()
     {
         var cano = Cano();
         var info = new System.Diagnostics.ProcessStartInfo("dotnet") { UseShellExecute = false, CreateNoWindow = true };
         info.ArgumentList.Add(typeof(App).Assembly.Location);
         info.ArgumentList.Add(ServidorDoNucleo.Argumento);
         info.ArgumentList.Add(cano);
+        info.ArgumentList.Add("1");
         using var processo = System.Diagnostics.Process.Start(info)!;
         try
         {
@@ -204,5 +205,75 @@ public sealed class NucleoRemotoTestes
         var codigo = await ServidorDoNucleo.RodarAsync(Cano(), new NucleoFalso(), TimeSpan.FromMilliseconds(300));
         Assert.Equal(1, codigo);
         Assert.Null(await NucleoRemoto.ConectarAsync(Cano(), TimeSpan.FromMilliseconds(200)));
+    }
+
+    [Fact]
+    public async Task Dois_apps_usam_o_mesmo_servidor_e_ele_so_sai_depois_que_os_dois_saem()
+    {
+        var cano = Cano();
+        var servidor = Task.Run(() => ServidorDoNucleo.RodarAsync(cano, new NucleoFalso(), TimeSpan.FromMilliseconds(500)));
+        var primeiro = await NucleoRemoto.ConectarAsync(cano, TimeSpan.FromSeconds(10));
+        using var segundo = await NucleoRemoto.ConectarAsync(cano, TimeSpan.FromSeconds(10));
+        Assert.NotNull(primeiro);
+        Assert.NotNull(segundo);
+        Assert.Equal(2, (await primeiro.ListarConversasAsync()).Count);
+
+        primeiro.Dispose();
+        await Task.Delay(1200);
+
+        Assert.False(servidor.IsCompleted);
+        Assert.Equal(2, (await segundo.ListarConversasAsync()).Count);
+        Assert.True(segundo.Conectado);
+        segundo.Dispose();
+        Assert.Equal(0, await servidor.WaitAsync(TimeSpan.FromSeconds(10)));
+    }
+
+    [Fact]
+    public async Task Segundo_servidor_com_o_mesmo_nome_desiste_e_o_primeiro_segue()
+    {
+        var cano = Cano();
+        using var fim = new CancellationTokenSource();
+        var primeiro = Task.Run(() => ServidorDoNucleo.RodarAsync(cano, new NucleoFalso(), TimeSpan.FromSeconds(10), fim.Token));
+        using var remoto = await NucleoRemoto.ConectarAsync(cano, TimeSpan.FromSeconds(10));
+        Assert.NotNull(remoto);
+
+        var segundo = await ServidorDoNucleo.RodarAsync(cano, new NucleoFalso(), TimeSpan.FromSeconds(10)).WaitAsync(TimeSpan.FromSeconds(5));
+
+        Assert.Equal(ServidorDoNucleo.OutroServidor, segundo);
+        Assert.Equal(2, (await remoto.ListarConversasAsync()).Count);
+        fim.Cancel();
+        await primeiro.WaitAsync(TimeSpan.FromSeconds(10));
+    }
+
+    [Fact]
+    public async Task Sessao_viva_segura_o_servidor_mesmo_sem_app()
+    {
+        var cano = Cano();
+        var ocupado = 1;
+        var servidor = Task.Run(() => ServidorDoNucleo.RodarAsync(cano, new NucleoFalso(), TimeSpan.FromMilliseconds(200), ocupado: () => Volatile.Read(ref ocupado) == 1));
+        using (var remoto = await NucleoRemoto.ConectarAsync(cano, TimeSpan.FromSeconds(10)))
+            Assert.NotNull(remoto);
+
+        await Task.Delay(1000);
+        Assert.False(servidor.IsCompleted);
+        using (var outro = await NucleoRemoto.ConectarAsync(cano, TimeSpan.FromSeconds(5)))
+            Assert.NotNull(outro);
+
+        Volatile.Write(ref ocupado, 0);
+        Assert.Equal(0, await servidor.WaitAsync(TimeSpan.FromSeconds(10)));
+    }
+
+    [Fact]
+    public void O_nome_do_cano_muda_com_usuario_pasta_e_versao_mas_nao_com_a_grafia_da_pasta()
+    {
+        var versao = Guid.NewGuid();
+        var nome = ServidorDoNucleo.NomeDoCano("vini", @"C:\Users\vini\AppData\Roaming\Nexora", versao);
+
+        Assert.StartsWith("nexora-nucleo-", nome);
+        Assert.True(nome.Length < 60);
+        Assert.Equal(nome, ServidorDoNucleo.NomeDoCano("Vini", @"c:\users\vini\appdata\roaming\nexora\", versao));
+        Assert.NotEqual(nome, ServidorDoNucleo.NomeDoCano("outro", @"C:\Users\vini\AppData\Roaming\Nexora", versao));
+        Assert.NotEqual(nome, ServidorDoNucleo.NomeDoCano("vini", @"D:\Isolada\Nexora", versao));
+        Assert.NotEqual(nome, ServidorDoNucleo.NomeDoCano("vini", @"C:\Users\vini\AppData\Roaming\Nexora", Guid.NewGuid()));
     }
 }
