@@ -74,21 +74,3 @@ public sealed partial class NovoAmbienteVM : ObservableObject
         OnPropertyChanged(nameof(TemOcultos));
     }
 }
-
-public sealed partial class PastaEscolhidaVM(string pasta, Action<PastaEscolhidaVM> remover) : ObservableObject
-{
-    public string Pasta { get; } = pasta;
-    public string Nome { get; } = Path.GetFileName(pasta.TrimEnd('\\', '/'));
-
-    [RelayCommand]
-    void Remover() => remover(this);
-}
-
-public sealed partial class OcultoVM(string pasta, Action<OcultoVM> mostrar) : ObservableObject
-{
-    public string Pasta { get; } = pasta;
-    public string Nome { get; } = Path.GetFileName(pasta.TrimEnd('\\', '/'));
-
-    [RelayCommand]
-    void Mostrar() => mostrar(this);
-}

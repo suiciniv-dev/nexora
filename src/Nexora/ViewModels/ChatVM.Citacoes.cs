@@ -6,28 +6,6 @@ using Nexora.Core.Texto;
 
 namespace Nexora.ViewModels;
 
-public sealed partial class CitadoVM(string caminho, Action<CitadoVM>? remover = null)
-{
-    public string Caminho { get; } = caminho;
-    public string Nome => Path.GetFileName(Caminho.TrimEnd('/', '\\')) is { Length: > 0 } nome ? nome : Caminho;
-    public string Pasta => (Path.GetDirectoryName(Caminho.TrimEnd('/', '\\')) ?? "").Replace('\\', '/');
-    public bool TemPasta => Pasta.Length > 0;
-    public bool Removivel => remover is not null;
-
-    [RelayCommand]
-    void Remover() => remover?.Invoke(this);
-}
-
-public sealed partial class CitacaoVM(string texto, Action<CitacaoVM>? remover = null)
-{
-    public string Texto { get; } = texto;
-    public string Previa { get; } = Resumos.Limitar(string.Join("\n", texto.Replace("\r", "").Split('\n').Select(Resumos.SemMarcas).Where(l => l.Length > 0)), 600);
-    public bool Removivel => remover is not null;
-
-    [RelayCommand]
-    void Remover() => remover?.Invoke(this);
-}
-
 public sealed partial class ChatVM
 {
     public ObservableCollection<CitadoVM> Citados { get; } = [];

@@ -5,11 +5,6 @@ using System.Text.Json;
 
 namespace Nexora.Servicos;
 
-public sealed record VersaoNova(Version Versao, string Tag, string Notas, IReadOnlyDictionary<string, string> Arquivos)
-{
-    public string Rotulo => Versao.ToString(3);
-}
-
 public static class Atualizacoes
 {
     const string Ultima = "https://api.github.com/repos/suiciniv-dev/nexora-releases/releases/latest";

@@ -7,8 +7,6 @@ using Idioma = Nexora.Core.Texto.Idioma;
 
 namespace Nexora.ViewModels;
 
-public sealed record LinhaAlteradaVM(string Nome, string Caminho, string Mais, string Menos, bool Novo);
-
 public sealed partial class ChatVM
 {
     bool _esperandoPr;
