@@ -51,7 +51,7 @@
     <Style Selector="Grid.cabeca-topo.fixa">
       <Setter Property="Width" Value="352" />
     </Style>
-    <Style Selector="Border.cartao-conteudo">
+    <Style Selector="c|Caixa.cartao-conteudo">
       <Setter Property="CornerRadius" Value="14" />
       <Setter Property="ClipToBounds" Value="True" />
       <Setter Property="Margin" Value="0,0,8,0" />
@@ -71,10 +71,10 @@
       <Setter Property="Background" Value="{DynamicResource Superficie}" />
       <Setter Property="Foreground" Value="{DynamicResource Texto}" />
     </Style>
-    <Style Selector="Border.cartao-conteudo.grande">
+    <Style Selector="c|Caixa.cartao-conteudo.grande">
       <Setter Property="Margin" Value="44,0,44,0" />
     </Style>
-    <Style Selector="Border.realce">
+    <Style Selector="c|Caixa.realce">
       <Setter Property="BorderThickness" Value="2.5" />
       <Setter Property="CornerRadius" Value="12" />
       <Setter Property="BorderBrush" Value="{DynamicResource Acento}" />
@@ -90,10 +90,10 @@
         </Transitions>
       </Setter>
     </Style>
-    <Style Selector="Border.vao-lateral">
+    <Style Selector="c|Caixa.vao-lateral">
       <Setter Property="Width" Value="0" />
     </Style>
-    <Style Selector="Border.vao-lateral.aberto">
+    <Style Selector="c|Caixa.vao-lateral.aberto">
       <Setter Property="Width" Value="296" />
     </Style>
     <Style Selector="TextBox.busca-topo">
@@ -180,19 +180,19 @@
 
     <Grid Grid.Row="1" ColumnDefinitions="Auto,Auto,*" IsVisible="{Binding !TelaGrande.Aberta}">
       <v:TrilhoView x:Name="Trilho" IsVisible="{Binding MostraTrilhoSolto}" ZIndex="5" />
-      <Border Grid.Column="1" Classes="vao-lateral" Classes.aberto="{Binding LateralFixa}" IsHitTestVisible="False" />
-      <Border x:Name="CartaoConteudo" Grid.Column="2" Classes="cartao-conteudo" Classes.grande="{Binding TelaCheia}">
+      <c:Caixa Grid.Column="1" Classes="vao-lateral" Classes.aberto="{Binding LateralFixa}" IsHitTestVisible="False" />
+      <c:Caixa x:Name="CartaoConteudo" Grid.Column="2" Classes="cartao-conteudo" Classes.grande="{Binding TelaCheia}">
         <v:AreaView x:Name="Area" DataContext="{Binding Principal}" />
-      </Border>
+      </c:Caixa>
 
       <Button Grid.ColumnSpan="3" Theme="{StaticResource VeuSobreposto}" Command="{Binding FecharLateralSobrepostaCommand}" IsVisible="{Binding VeuDaLateral}"
               AutomationProperties.Name="{l:T 'Fechar as conversas'}" />
-      <Border x:Name="Gaveta" Grid.ColumnSpan="3" Classes="esquerda" Theme="{StaticResource GavetaSobreposta}" Classes.sobreposta="{Binding LateralSobreposta}" HorizontalAlignment="Left">
-        <Border Classes="painel-lateral" Classes.fixa="{Binding LateralFixa}" Classes.grande="{Binding TelaCheia}" Width="280" Background="{DynamicResource Lateral}" BorderBrush="{DynamicResource BordaVidro}"
+      <c:Caixa x:Name="Gaveta" Grid.ColumnSpan="3" Classes="esquerda" Theme="{StaticResource GavetaSobreposta}" Classes.sobreposta="{Binding LateralSobreposta}" HorizontalAlignment="Left">
+        <c:Caixa Classes="painel-lateral" Classes.fixa="{Binding LateralFixa}" Classes.grande="{Binding TelaCheia}" Width="280" Background="{DynamicResource Lateral}" BorderBrush="{DynamicResource BordaVidro}"
                 IsVisible="{Binding LateralNaTela}" v:Animacoes.Aparecer="esquerda">
           <v:LateralView />
-        </Border>
-      </Border>
+        </c:Caixa>
+      </c:Caixa>
     </Grid>
 
     <Grid Grid.Row="2" ColumnDefinitions="Auto,Auto,*,Auto" Margin="16,0,16,2" IsVisible="{Binding !TelaCheia}">
@@ -225,7 +225,7 @@
       </StackPanel>
     </Border>
     <Canvas x:Name="CamadaRealce" Grid.Row="1" Grid.RowSpan="2" IsHitTestVisible="False" ClipToBounds="True">
-      <Border x:Name="Realce" Classes="realce" Opacity="0" />
+      <c:Caixa x:Name="Realce" Classes="realce" Opacity="0" />
     </Canvas>
     <v:TopoTelaGrandeView x:Name="TopoGrande" DataContext="{Binding TelaGrande}" IsVisible="{Binding Ligada}" />
     <v:TelaGrandeView x:Name="Inicio" Grid.Row="1" Grid.RowSpan="2" DataContext="{Binding TelaGrande}" IsVisible="{Binding Aberta}" v:Animacoes.Aparecer="perto" />

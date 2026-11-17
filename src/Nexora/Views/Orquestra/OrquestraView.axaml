@@ -8,7 +8,7 @@
              x:Class="Nexora.Views.OrquestraView"
              x:DataType="vm:OrquestraVM">
   <UserControl.Styles>
-    <Style Selector="Border.no">
+    <Style Selector="c|Caixa.no">
       <Setter Property="Width" Value="300" />
       <Setter Property="Height" Value="204" />
       <Setter Property="Padding" Value="14,12" />
@@ -17,18 +17,18 @@
       <Setter Property="BorderThickness" Value="1" />
       <Setter Property="CornerRadius" Value="14" />
     </Style>
-    <Style Selector="Border.no.trabalhando">
+    <Style Selector="c|Caixa.no.trabalhando">
       <Setter Property="BorderBrush" Value="{DynamicResource Acento}" />
     </Style>
-    <Style Selector="Border.no.precisa">
+    <Style Selector="c|Caixa.no.precisa">
       <Setter Property="BorderBrush" Value="{DynamicResource Laranja}" />
     </Style>
-    <Style Selector="Border.no.chefe">
+    <Style Selector="c|Caixa.no.chefe">
       <Setter Property="BorderBrush" Value="{DynamicResource Acento}" />
       <Setter Property="BorderThickness" Value="1.5" />
       <Setter Property="Background" Value="{DynamicResource SuperficieAlta}" />
     </Style>
-    <Style Selector="Border.grupo">
+    <Style Selector="c|Caixa.grupo">
       <Setter Property="Background" Value="{DynamicResource AcentoFundo}" />
       <Setter Property="BorderBrush" Value="{DynamicResource Borda}" />
       <Setter Property="BorderThickness" Value="1" />
@@ -56,7 +56,7 @@
 
   <UserControl.Resources>
     <DataTemplate x:Key="No" x:DataType="vm:NoVM">
-      <Border Classes="no" Classes.chefe="{Binding EhChefe}" Classes.trabalhando="{Binding Chat.Trabalhando}" Classes.precisa="{Binding Chat.Precisa}">
+      <c:Caixa Classes="no" Classes.chefe="{Binding EhChefe}" Classes.trabalhando="{Binding Chat.Trabalhando}" Classes.precisa="{Binding Chat.Precisa}">
         <DockPanel>
           <Grid DockPanel.Dock="Top" Classes="alca" ColumnDefinitions="Auto,*,Auto" Background="Transparent"
                 PointerPressed="AoPegar" PointerMoved="AoArrastar" PointerReleased="AoSoltar">
@@ -104,16 +104,16 @@
             <TextBlock Classes="fraco" Text="{l:T 'Fale com ele na conversa ao lado.'}" FontSize="12" IsVisible="{Binding EhChefe}" VerticalAlignment="Center" />
           </Grid>
 
-          <Border Classes="agora">
+          <c:Caixa Classes="agora">
             <StackPanel Spacing="3">
               <TextBlock Classes="rotulo-widget" Text="{Binding Chat.TempoTexto}" />
               <TextBlock Text="{Binding Chat.UltimaAtividade}" TextWrapping="Wrap" MaxLines="3" TextTrimming="CharacterEllipsis" FontSize="12.5"
                          IsVisible="{Binding Chat.UltimaAtividade, Converter={x:Static ObjectConverters.IsNotNull}}" />
               <TextBlock Classes="fraco" Text="{l:T 'Sem atividade ainda.'}" FontSize="12.5" IsVisible="{Binding Chat.UltimaAtividade, Converter={x:Static ObjectConverters.IsNull}}" />
             </StackPanel>
-          </Border>
+          </c:Caixa>
         </DockPanel>
-      </Border>
+      </c:Caixa>
     </DataTemplate>
   </UserControl.Resources>
 
@@ -181,12 +181,12 @@
           </StackPanel>
           <TextBlock Classes="fraco" TextWrapping="Wrap" FontSize="12.5"
                      Text="{l:T 'Ler sessões e esperar por elas é liberado. Criar agente, mandar mensagem, parar e responder permissão pedem a sua confirmação, a menos que você permita para a sessão toda.'}" />
-          <Border Classes="aviso-compactar" IsVisible="{Binding $parent[Window].((vm:JanelaVM)DataContext).TemAvisoDoPlano, FallbackValue=False}">
+          <c:Caixa Classes="aviso-compactar" IsVisible="{Binding $parent[Window].((vm:JanelaVM)DataContext).TemAvisoDoPlano, FallbackValue=False}">
             <Grid ColumnDefinitions="Auto,*">
               <c:Icone Nome="alerta" Tamanho="15" Foreground="{DynamicResource Laranja}" VerticalAlignment="Center" Margin="0,0,10,0" />
               <TextBlock Grid.Column="1" Text="{Binding $parent[Window].((vm:JanelaVM)DataContext).AvisoDoPlano, FallbackValue=''}" TextWrapping="Wrap" FontSize="12.5" VerticalAlignment="Center" />
             </Grid>
-          </Border>
+          </c:Caixa>
           <Button Classes="primario" Command="{Binding IniciarCommand}" HorizontalAlignment="Left">
             <StackPanel Orientation="Horizontal" Spacing="8"><c:Icone Nome="orquestra" /><TextBlock Text="{l:T 'Iniciar orquestrador'}" /></StackPanel>
           </Button>
@@ -195,7 +195,7 @@
             <ItemsControl ItemsSource="{Binding Anteriores}">
               <ItemsControl.ItemTemplate>
                 <DataTemplate x:DataType="vm:OrquestraAnteriorVM">
-                  <Border Classes="painel" Padding="14,10" Margin="0,0,0,8">
+                  <c:Caixa Classes="painel" Padding="14,10" Margin="0,0,0,8">
                     <Grid ColumnDefinitions="*,Auto">
                       <StackPanel Spacing="2">
                         <TextBlock Text="{Binding Titulo}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
@@ -203,7 +203,7 @@
                       </StackPanel>
                       <Button Grid.Column="1" Classes="contorno pequeno" Content="{l:T 'Retomar'}" Command="{Binding RetomarCommand}" VerticalAlignment="Center" />
                     </Grid>
-                  </Border>
+                  </c:Caixa>
                 </DataTemplate>
               </ItemsControl.ItemTemplate>
             </ItemsControl>
@@ -225,13 +225,13 @@
                 </ItemsControl.Styles>
                 <ItemsControl.ItemTemplate>
                   <DataTemplate x:DataType="vm:GrupoVM">
-                    <Border Classes="grupo" Width="{Binding Largura}" Height="{Binding Altura}">
+                    <c:Caixa Classes="grupo" Width="{Binding Largura}" Height="{Binding Altura}">
                       <Grid VerticalAlignment="Top" Margin="12,6,12,0" ColumnDefinitions="Auto,*" Background="Transparent" Cursor="SizeAll"
                             PointerPressed="AoPegar" PointerMoved="AoArrastar" PointerReleased="AoSoltar" ToolTip.Tip="{l:T 'Arraste para mover o grupo'}">
                         <c:Icone Nome="camadas" Tamanho="13" Classes="fraco" VerticalAlignment="Center" Margin="0,0,6,0" />
                         <TextBox Grid.Column="1" Classes="nome-grupo" Text="{Binding Nome}" HorizontalAlignment="Left" MinWidth="80" />
                       </Grid>
-                    </Border>
+                    </c:Caixa>
                   </DataTemplate>
                 </ItemsControl.ItemTemplate>
               </ItemsControl>

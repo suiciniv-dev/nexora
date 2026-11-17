@@ -92,7 +92,7 @@
       <TextBlock Text="{Binding Hora}" FontSize="24" FontWeight="Light" HorizontalAlignment="Right" LetterSpacing="-0.4" />
       <TextBlock Classes="fraco" Text="{Binding Janela.TextoLimites}" IsVisible="{Binding Janela.TemPlano}" FontSize="11" HorizontalAlignment="Right" />
       <StackPanel Orientation="Horizontal" Spacing="6" HorizontalAlignment="Right" IsVisible="{Binding MostraDicaMenu}" Margin="0,3,0,0">
-        <Border Classes="tecla" Margin="0" Padding="5,0"><TextBlock Text="Esc" FontSize="10.5" /></Border>
+        <c:Caixa Classes="tecla" Margin="0" Padding="5,0"><TextBlock Text="Esc" FontSize="10.5" /></c:Caixa>
         <TextBlock Classes="fraco" Text="{l:T 'menu'}" FontSize="11" VerticalAlignment="Center" />
       </StackPanel>
     </StackPanel>

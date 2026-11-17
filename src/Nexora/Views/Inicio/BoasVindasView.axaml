@@ -22,23 +22,23 @@
       <Setter Property="TextWrapping" Value="Wrap" />
       <Setter Property="LineHeight" Value="21" />
     </Style>
-    <Style Selector="Border.linha-bv">
+    <Style Selector="c|Caixa.linha-bv">
       <Setter Property="Background" Value="{DynamicResource Superficie}" />
       <Setter Property="BorderBrush" Value="{DynamicResource Borda}" />
       <Setter Property="BorderThickness" Value="1" />
       <Setter Property="CornerRadius" Value="12" />
       <Setter Property="Padding" Value="14,11" />
     </Style>
-    <Style Selector="Border.ponto">
+    <Style Selector="c|Caixa.ponto">
       <Setter Property="Width" Value="7" />
       <Setter Property="Height" Value="7" />
       <Setter Property="CornerRadius" Value="4" />
       <Setter Property="Background" Value="{DynamicResource SuperficieAlta}" />
     </Style>
-    <Style Selector="Border.ponto.feito">
+    <Style Selector="c|Caixa.ponto.feito">
       <Setter Property="Background" Value="{DynamicResource TextoSuave}" />
     </Style>
-    <Style Selector="Border.ponto.atual">
+    <Style Selector="c|Caixa.ponto.atual">
       <Setter Property="Width" Value="20" />
       <Setter Property="Background" Value="{DynamicResource MarcaGradiente}" />
     </Style>
@@ -50,12 +50,12 @@
       <DockPanel>
         <Grid DockPanel.Dock="Bottom" ColumnDefinitions="Auto,*,Auto,Auto" Margin="32,0,32,26">
           <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
-            <Border Classes="ponto" Classes.atual="{Binding NoInicio}" Classes.feito="{Binding !NoInicio}" />
-            <Border Classes="ponto" Classes.atual="{Binding NosRequisitos}" />
-            <Border Classes="ponto" Classes.atual="{Binding NoLogin}" />
-            <Border Classes="ponto" Classes.atual="{Binding NosProjetos}" />
-            <Border Classes="ponto" Classes.atual="{Binding NoVisual}" />
-            <Border Classes="ponto" Classes.atual="{Binding NoFim}" />
+            <c:Caixa Classes="ponto" Classes.atual="{Binding NoInicio}" Classes.feito="{Binding !NoInicio}" />
+            <c:Caixa Classes="ponto" Classes.atual="{Binding NosRequisitos}" />
+            <c:Caixa Classes="ponto" Classes.atual="{Binding NoLogin}" />
+            <c:Caixa Classes="ponto" Classes.atual="{Binding NosProjetos}" />
+            <c:Caixa Classes="ponto" Classes.atual="{Binding NoVisual}" />
+            <c:Caixa Classes="ponto" Classes.atual="{Binding NoFim}" />
             <TextBlock Classes="fraco" Text="{Binding TextoPasso}" Margin="10,0,0,0" VerticalAlignment="Center" />
           </StackPanel>
           <Button Grid.Column="2" Classes="fantasma" Content="{l:T 'Voltar'}" Command="{Binding VoltarCommand}" IsVisible="{Binding PodeVoltar}" Margin="0,0,8,0" />
@@ -74,7 +74,7 @@
                 <TextBlock Classes="texto-bv" Text="{l:T 'Suas conversas com o Claude Code, o Codex, o Gemini e outros agentes de código num lugar só, com os seus projetos à mão.'}" />
               </StackPanel>
               <StackPanel Spacing="10">
-                <Border Classes="linha-bv">
+                <c:Caixa Classes="linha-bv">
                   <Grid ColumnDefinitions="Auto,*">
                     <c:Icone Nome="quadro" Tamanho="18" VerticalAlignment="Top" Margin="0,2,14,0" />
                     <StackPanel Grid.Column="1" Spacing="2">
@@ -82,8 +82,8 @@
                       <TextBlock Classes="texto-bv" Text="{l:T 'Veja o que cada agente está fazendo. Quem precisa de você aparece primeiro.'}" />
                     </StackPanel>
                   </Grid>
-                </Border>
-                <Border Classes="linha-bv">
+                </c:Caixa>
+                <c:Caixa Classes="linha-bv">
                   <Grid ColumnDefinitions="Auto,*">
                     <c:Icone Nome="ok" Tamanho="18" VerticalAlignment="Top" Margin="0,2,14,0" />
                     <StackPanel Grid.Column="1" Spacing="2">
@@ -91,8 +91,8 @@
                       <TextBlock Classes="texto-bv" Text="{l:T 'Quando um agente pede para rodar um comando ou mudar um arquivo, você permite ou nega ali mesmo.'}" />
                     </StackPanel>
                   </Grid>
-                </Border>
-                <Border Classes="linha-bv">
+                </c:Caixa>
+                <c:Caixa Classes="linha-bv">
                   <Grid ColumnDefinitions="Auto,*">
                     <c:Icone Nome="camadas" Tamanho="18" VerticalAlignment="Top" Margin="0,2,14,0" />
                     <StackPanel Grid.Column="1" Spacing="2">
@@ -100,7 +100,7 @@
                       <TextBlock Classes="texto-bv" Text="{l:T 'Escolha a pasta do seu código uma vez. As conversas novas já começam nela, com a branch e os arquivos à vista.'}" />
                     </StackPanel>
                   </Grid>
-                </Border>
+                </c:Caixa>
               </StackPanel>
             </StackPanel>
 
@@ -112,7 +112,7 @@
               <ItemsControl ItemsSource="{Binding Requisitos}">
                 <ItemsControl.ItemTemplate>
                   <DataTemplate x:DataType="vm:RequisitoVM">
-                    <Border Classes="linha-bv" Margin="0,0,0,8">
+                    <c:Caixa Classes="linha-bv" Margin="0,0,0,8">
                       <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto">
                         <Panel Margin="0,2,14,0" VerticalAlignment="Top">
                           <c:Icone Nome="ok" Tamanho="17" Foreground="{DynamicResource Verde}" IsVisible="{Binding Ok}" />
@@ -125,11 +125,11 @@
                           </StackPanel>
                           <TextBlock Classes="fraco" Text="{Binding Detalhe}" TextTrimming="CharacterEllipsis" />
                         </StackPanel>
-                        <Border Grid.Row="1" Grid.Column="1" Classes="mdCodigo" Margin="0,8,0,0" IsVisible="{Binding Falta}">
+                        <c:Caixa Grid.Row="1" Grid.Column="1" Classes="mdCodigo" Margin="0,8,0,0" IsVisible="{Binding Falta}">
                           <SelectableTextBlock Text="{Binding ComoInstalar}" FontFamily="{DynamicResource Mono}" FontSize="12.5" />
-                        </Border>
+                        </c:Caixa>
                       </Grid>
-                    </Border>
+                    </c:Caixa>
                   </DataTemplate>
                 </ItemsControl.ItemTemplate>
               </ItemsControl>
@@ -143,7 +143,7 @@
                 <TextBlock Classes="titulo-bv" Text="{Binding TituloLogin}" />
                 <TextBlock Classes="texto-bv" Text="{Binding ExplicacaoLogin}" />
               </StackPanel>
-              <Border Classes="linha-bv">
+              <c:Caixa Classes="linha-bv">
                 <Grid ColumnDefinitions="Auto,*">
                   <Panel Margin="0,1,14,0" VerticalAlignment="Top">
                     <c:Icone Nome="ok" Tamanho="17" Foreground="{DynamicResource Verde}" IsVisible="{Binding Logado}" />
@@ -152,7 +152,7 @@
                   </Panel>
                   <TextBlock Grid.Column="1" Text="{Binding TextoLogin}" TextWrapping="Wrap" />
                 </Grid>
-              </Border>
+              </c:Caixa>
               <StackPanel Spacing="8" IsVisible="{Binding MostraEntrar}">
                 <TextBlock Classes="texto-bv" Text="{Binding AjudaLogin}" />
                 <StackPanel Orientation="Horizontal" Spacing="8">
@@ -172,7 +172,7 @@
               <ItemsControl ItemsSource="{Binding Raizes}">
                 <ItemsControl.ItemTemplate>
                   <DataTemplate x:DataType="vm:RaizVM">
-                    <Border Classes="linha-bv" Margin="0,0,0,8">
+                    <c:Caixa Classes="linha-bv" Margin="0,0,0,8">
                       <Grid ColumnDefinitions="Auto,*,Auto">
                         <c:Icone Nome="pasta" Tamanho="16" Classes="suave" VerticalAlignment="Center" Margin="0,0,12,0" />
                         <StackPanel Grid.Column="1">
@@ -183,7 +183,7 @@
                           <c:Icone Nome="fechar" Tamanho="12" />
                         </Button>
                       </Grid>
-                    </Border>
+                    </c:Caixa>
                   </DataTemplate>
                 </ItemsControl.ItemTemplate>
               </ItemsControl>
@@ -259,17 +259,17 @@
                 <TextBlock Classes="texto-bv" Text="{l:T 'Alguns atalhos para começar. O botão de ajuda, na barra da esquerda, abre este guia de novo.'}" />
               </StackPanel>
               <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
-                <Border Classes="tecla" Margin="0,0,14,10"><TextBlock Text="Ctrl+N" /></Border>
+                <c:Caixa Classes="tecla" Margin="0,0,14,10"><TextBlock Text="Ctrl+N" /></c:Caixa>
                 <TextBlock Grid.Column="1" Classes="texto-bv" Text="{l:T 'Nova sessão no projeto da aba atual'}" VerticalAlignment="Center" Margin="0,0,0,10" />
-                <Border Grid.Row="1" Classes="tecla" Margin="0,0,14,10"><TextBlock Text="Ctrl+K" /></Border>
+                <c:Caixa Grid.Row="1" Classes="tecla" Margin="0,0,14,10"><TextBlock Text="Ctrl+K" /></c:Caixa>
                 <TextBlock Grid.Row="1" Grid.Column="1" Classes="texto-bv" Text="{l:T 'Procurar conversas e projetos'}" VerticalAlignment="Center" Margin="0,0,0,10" />
-                <Border Grid.Row="2" Classes="tecla" Margin="0,0,14,10"><TextBlock Text="Ctrl+0" /></Border>
+                <c:Caixa Grid.Row="2" Classes="tecla" Margin="0,0,14,10"><TextBlock Text="Ctrl+0" /></c:Caixa>
                 <TextBlock Grid.Row="2" Grid.Column="1" Classes="texto-bv" Text="{l:T 'Quadro de sessões'}" VerticalAlignment="Center" Margin="0,0,0,10" />
-                <Border Grid.Row="3" Classes="tecla" Margin="0,0,14,10"><TextBlock Text="Ctrl+B" /></Border>
+                <c:Caixa Grid.Row="3" Classes="tecla" Margin="0,0,14,10"><TextBlock Text="Ctrl+B" /></c:Caixa>
                 <TextBlock Grid.Row="3" Grid.Column="1" Classes="texto-bv" Text="{l:T 'Mostrar ou esconder as conversas'}" VerticalAlignment="Center" Margin="0,0,0,10" />
-                <Border Grid.Row="4" Classes="tecla" Margin="0,0,14,10"><TextBlock Text="Ctrl+Alt+B" /></Border>
+                <c:Caixa Grid.Row="4" Classes="tecla" Margin="0,0,14,10"><TextBlock Text="Ctrl+Alt+B" /></c:Caixa>
                 <TextBlock Grid.Row="4" Grid.Column="1" Classes="texto-bv" Text="{l:T 'Painel da sessão: ambiente, contexto, arquivos e git'}" VerticalAlignment="Center" Margin="0,0,0,10" />
-                <Border Grid.Row="5" Classes="tecla" Margin="0,0,14,10"><TextBlock Text="F1" /></Border>
+                <c:Caixa Grid.Row="5" Classes="tecla" Margin="0,0,14,10"><TextBlock Text="F1" /></c:Caixa>
                 <TextBlock Grid.Row="5" Grid.Column="1" Classes="texto-bv" Text="{l:T 'Ver todos os atalhos de teclado'}" VerticalAlignment="Center" Margin="0,0,0,10" />
               </Grid>
             </StackPanel>

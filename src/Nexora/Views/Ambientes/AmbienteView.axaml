@@ -67,11 +67,11 @@
         </StackPanel>
       </Grid>
 
-      <Border Classes="aviso" Classes.erro="{Binding MensagemDeErro}" IsVisible="{Binding TemMensagem}">
+      <c:Caixa Classes="aviso" Classes.erro="{Binding MensagemDeErro}" IsVisible="{Binding TemMensagem}">
         <SelectableTextBlock Text="{Binding Mensagem}" TextWrapping="Wrap" />
-      </Border>
+      </c:Caixa>
 
-      <Border Classes="painel" IsVisible="{Binding TemPr}">
+      <c:Caixa Classes="painel" IsVisible="{Binding TemPr}">
         <Grid ColumnDefinitions="Auto,*,Auto">
           <c:Icone Nome="diff" Classes="suave" VerticalAlignment="Center" Margin="0,0,12,0" />
           <StackPanel Grid.Column="1" Spacing="2">
@@ -87,11 +87,11 @@
             <Button Classes="contorno pequeno" Content="{l:T 'Abrir no GitHub'}" Command="{Binding AbrirPrCommand}" />
           </StackPanel>
         </Grid>
-      </Border>
+      </c:Caixa>
 
       <Grid ColumnDefinitions="*,24,330">
         <StackPanel Spacing="22">
-          <Border Classes="cartao" Padding="16,12,12,12" BoxShadow="{DynamicResource BrilhoCaixa}">
+          <c:Caixa Classes="cartao" Padding="16,12,12,12" BoxShadow="{DynamicResource BrilhoCaixa}">
             <StackPanel Spacing="8">
               <TextBox x:Name="Composer" Classes="composer" Text="{Binding Rascunho}" PlaceholderText="{Binding PlaceholderSessao}" AcceptsReturn="True" TextWrapping="Wrap" MaxHeight="200" MinHeight="54" />
               <Grid ColumnDefinitions="Auto,Auto,*,Auto">
@@ -115,9 +115,9 @@
                 </Button>
               </Grid>
             </StackPanel>
-          </Border>
+          </c:Caixa>
 
-          <Border Classes="painel" IsVisible="{Binding MostraIssues}">
+          <c:Caixa Classes="painel" IsVisible="{Binding MostraIssues}">
             <StackPanel Spacing="8">
               <Grid ColumnDefinitions="*,Auto">
                 <TextBlock Classes="titulo-painel" Text="{l:T 'Issues abertas'}" />
@@ -146,16 +146,16 @@
                 </ItemsControl>
               </ScrollViewer>
             </StackPanel>
-          </Border>
+          </c:Caixa>
 
-          <Border Classes="painel" IsVisible="{Binding MostraTarefa}">
+          <c:Caixa Classes="painel" IsVisible="{Binding MostraTarefa}">
             <StackPanel Spacing="10">
               <TextBox Classes="campo" Text="{Binding NomeTarefa}" PlaceholderText="{l:T 'Nome da tarefa (ex.: ajuste no login)'}" />
               <Grid ColumnDefinitions="Auto,*">
                 <TextBlock Classes="fraco" Text="{l:T 'a partir de'}" VerticalAlignment="Center" Margin="0,0,10,0" />
                 <ComboBox Grid.Column="1" ItemsSource="{Binding Branches}" SelectedItem="{Binding BaseTarefa}" HorizontalAlignment="Stretch" />
               </Grid>
-              <Border Classes="previa">
+              <c:Caixa Classes="previa">
                 <StackPanel Spacing="4">
                   <StackPanel Orientation="Horizontal" Spacing="8">
                     <c:Icone Nome="branch" Tamanho="13" Classes="fraco" />
@@ -166,14 +166,14 @@
                     <TextBlock Classes="mono fraco" Text="{Binding PreviaPasta}" TextTrimming="CharacterEllipsis" />
                   </StackPanel>
                 </StackPanel>
-              </Border>
+              </c:Caixa>
               <TextBox Classes="campo" Text="{Binding Descricao}" AcceptsReturn="True" TextWrapping="Wrap" MinHeight="64" MaxHeight="160"
                        PlaceholderText="{l:T 'O que o agente deve fazer? (opcional, vira a primeira mensagem)'}" />
               <Button Classes="primario" Command="{Binding CriarTarefaCommand}" IsEnabled="{Binding PodeCriar}" HorizontalAlignment="Left">
                 <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="mais" Tamanho="14" /><TextBlock Text="{l:T 'Criar worktree e abrir sessão'}" /></StackPanel>
               </Button>
             </StackPanel>
-          </Border>
+          </c:Caixa>
 
           <StackPanel Spacing="6">
             <TextBlock Classes="secao-geral" Text="{l:T 'RECENTES'}" />
@@ -195,15 +195,15 @@
             </ItemsControl>
           </StackPanel>
 
-          <Border Classes="painel">
+          <c:Caixa Classes="painel">
             <StackPanel Spacing="10">
               <StackPanel Orientation="Horizontal" Spacing="8">
                 <c:Icone Nome="worktree" Classes="suave" />
                 <TextBlock Classes="titulo-cartao" Text="{l:T 'Worktrees deste repositório'}" />
               </StackPanel>
               <StackPanel IsVisible="{Binding Carregando}" Spacing="10">
-                <Border Classes="esqueleto" Height="14" Width="420" />
-                <Border Classes="esqueleto" Height="14" Width="360" />
+                <c:Caixa Classes="esqueleto" Height="14" Width="420" />
+                <c:Caixa Classes="esqueleto" Height="14" Width="360" />
               </StackPanel>
               <ItemsControl ItemsSource="{Binding Worktrees}">
                 <ItemsControl.ItemTemplate>
@@ -213,8 +213,8 @@
                       <StackPanel Grid.Column="1" Spacing="2">
                         <StackPanel Orientation="Horizontal" Spacing="8">
                           <TextBlock Text="{Binding Nome}" FontWeight="Medium" />
-                          <Border Classes="etiqueta" IsVisible="{Binding Atual}"><TextBlock Text="{l:T 'este'}" /></Border>
-                          <Border Classes="etiqueta" IsVisible="{Binding Principal}"><TextBlock Text="{l:T 'principal'}" /></Border>
+                          <c:Caixa Classes="etiqueta" IsVisible="{Binding Atual}"><TextBlock Text="{l:T 'este'}" /></c:Caixa>
+                          <c:Caixa Classes="etiqueta" IsVisible="{Binding Principal}"><TextBlock Text="{l:T 'principal'}" /></c:Caixa>
                         </StackPanel>
                         <TextBlock Classes="mono fraco" Text="{Binding Branch}" TextTrimming="CharacterEllipsis" />
                       </StackPanel>
@@ -225,7 +225,7 @@
                           <c:Icone Nome="lixeira" Tamanho="14" />
                         </Button>
                       </StackPanel>
-                      <Border Grid.Row="1" Grid.ColumnSpan="3" Classes="aviso erro" Margin="0,10,0,0" IsVisible="{Binding Confirmando}">
+                      <c:Caixa Grid.Row="1" Grid.ColumnSpan="3" Classes="aviso erro" Margin="0,10,0,0" IsVisible="{Binding Confirmando}">
                         <StackPanel Spacing="8">
                           <TextBlock Text="{Binding TextoConfirmar}" TextWrapping="Wrap" />
                           <CheckBox IsChecked="{Binding ApagarBranch}" Content="{Binding TextoApagarBranch}" />
@@ -234,18 +234,18 @@
                             <Button Classes="fantasma pequeno" Content="{l:T 'Cancelar'}" Command="{Binding CancelarRemocaoCommand}" />
                           </StackPanel>
                         </StackPanel>
-                      </Border>
+                      </c:Caixa>
                     </Grid>
                   </DataTemplate>
                 </ItemsControl.ItemTemplate>
               </ItemsControl>
             </StackPanel>
-          </Border>
+          </c:Caixa>
         </StackPanel>
 
         <StackPanel Grid.Column="2" Spacing="14">
           <ContentControl Content="{Binding}" ContentTemplate="{StaticResource NuvemDoProjeto}" />
-          <Border Classes="painel">
+          <c:Caixa Classes="painel">
             <StackPanel Spacing="8">
               <TextBlock Classes="titulo-cartao" Text="{l:T 'Instruções'}" />
               <TextBlock Classes="fraco" TextWrapping="Wrap" Text="{l:T 'Sem CLAUDE.md neste projeto.'}" IsVisible="{Binding !TemInstrucoes}" />
@@ -263,9 +263,9 @@
                 </ItemsControl.ItemTemplate>
               </ItemsControl>
             </StackPanel>
-          </Border>
+          </c:Caixa>
 
-          <Border Classes="painel">
+          <c:Caixa Classes="painel">
             <StackPanel Spacing="10">
               <StackPanel Orientation="Horizontal" Spacing="8">
                 <c:Icone Nome="branch" Classes="suave" />
@@ -279,9 +279,9 @@
               </Grid>
               <TextBlock Classes="fraco" TextWrapping="Wrap" Text="{l:T 'A troca fica travada enquanto uma sessão estiver trabalhando nesta pasta.'}" />
             </StackPanel>
-          </Border>
+          </c:Caixa>
 
-          <Border Classes="painel">
+          <c:Caixa Classes="painel">
             <StackPanel Spacing="10">
               <Grid ColumnDefinitions="*,Auto">
                 <StackPanel Orientation="Horizontal" Spacing="8">
@@ -319,7 +319,7 @@
               <TextBlock Classes="fraco" TextWrapping="Wrap"
                          Text="{l:T 'Toda sessão deste projeto recebe as pastas vinculadas como diretórios extras do agente. O .code-workspace muda junto, então o VS Code vê a mesma lista.'}" />
             </StackPanel>
-          </Border>
+          </c:Caixa>
         </StackPanel>
       </Grid>
     </StackPanel>

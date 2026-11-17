@@ -9,9 +9,9 @@
     <DockPanel>
       <Panel>
         <DockPanel IsVisible="{Binding MostraArquivos}">
-        <Border DockPanel.Dock="Top" Classes="aviso erro" Margin="8,0,8,6" IsVisible="{Binding TemAvisoArvore}">
+        <c:Caixa DockPanel.Dock="Top" Classes="aviso erro" Margin="8,0,8,6" IsVisible="{Binding TemAvisoArvore}">
           <TextBlock Text="{Binding AvisoArvore}" TextWrapping="Wrap" FontSize="12" />
-        </Border>
+        </c:Caixa>
         <TreeView Classes="arvore" ItemsSource="{Binding Raizes}" SelectedItem="{Binding Selecionado}">
           <TreeView.KeyBindings>
             <KeyBinding Gesture="F2" Command="{Binding Selecionado.RenomearCommand, FallbackValue={x:Null}}" />
@@ -131,9 +131,9 @@
                         <TextBlock Classes="mais" Text="{Binding TextoMais}" FontSize="11.5" />
                         <TextBlock Classes="menos" Text="{Binding TextoMenos}" FontSize="11.5" />
                       </StackPanel>
-                      <Border Grid.Column="2" Classes="etiqueta" Classes.nova="{Binding Nova}" Classes.apagada="{Binding Apagada}" Margin="8,0,0,0">
+                      <c:Caixa Grid.Column="2" Classes="etiqueta" Classes.nova="{Binding Nova}" Classes.apagada="{Binding Apagada}" Margin="8,0,0,0">
                         <TextBlock Text="{Binding Rotulo}" />
-                      </Border>
+                      </c:Caixa>
                     </Grid>
                   </Button>
                 </DataTemplate>

@@ -54,7 +54,7 @@
             </DataTemplate>
 
             <DataTemplate DataType="vm:ItemPermissao">
-              <Border Classes="pedido" Classes.respondida="{Binding Respondida}" Padding="10,8" Margin="0,6">
+              <c:Caixa Classes="pedido" Classes.respondida="{Binding Respondida}" Padding="10,8" Margin="0,6">
                 <StackPanel Spacing="6">
                   <ContentControl Content="{Binding}" ContentTemplate="{StaticResource OrigemDoPedido}" IsVisible="{Binding TemSubagente}" />
                   <TextBlock Text="{Binding Titulo}" FontWeight="SemiBold" FontSize="12.5" TextWrapping="Wrap" />
@@ -67,15 +67,15 @@
                   <TextBlock Classes="fraco" Text="{l:T 'É uma pergunta: responda pela conversa completa.'}" FontSize="12" IsVisible="{Binding MostraResponder}" />
                   <TextBlock Classes="fraco" Text="{Binding Resposta}" FontSize="12" IsVisible="{Binding Respondida}" />
                 </StackPanel>
-              </Border>
+              </c:Caixa>
             </DataTemplate>
 
             <DataTemplate DataType="vm:ItemAviso">
               <Panel Margin="0,3">
                 <TextBlock Classes="fraco" Text="{Binding Texto}" FontSize="12" TextWrapping="Wrap" IsVisible="{Binding !EhErro}" />
-                <Border Classes="erro" IsVisible="{Binding EhErro}" Padding="8,6">
+                <c:Caixa Classes="erro" IsVisible="{Binding EhErro}" Padding="8,6">
                   <TextBlock Text="{Binding Texto}" TextWrapping="Wrap" FontSize="12" MaxLines="4" TextTrimming="CharacterEllipsis" />
-                </Border>
+                </c:Caixa>
               </Panel>
             </DataTemplate>
           </ItemsControl.DataTemplates>

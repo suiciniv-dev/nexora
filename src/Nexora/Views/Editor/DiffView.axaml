@@ -7,10 +7,10 @@
              x:Class="Nexora.Views.DiffView"
              x:DataType="vm:DiffVM">
   <UserControl.Styles>
-    <Style Selector="Border.linha-diff:pointerover Button.comentar-linha">
+    <Style Selector="c|Caixa.linha-diff:pointerover Button.comentar-linha">
       <Setter Property="Opacity" Value="1" />
     </Style>
-    <Style Selector="Border.linha-diff.na-faixa">
+    <Style Selector="c|Caixa.linha-diff.na-faixa">
       <Setter Property="BorderBrush" Value="{DynamicResource Acento}" />
       <Setter Property="BorderThickness" Value="3,0,0,0" />
     </Style>
@@ -91,7 +91,7 @@
         <ListBox.ItemTemplate>
           <DataTemplate x:DataType="vm:LinhaDiffVM">
             <StackPanel>
-              <Border Classes="linha-diff" Classes.adicionada="{Binding Adicionada}" Classes.removida="{Binding Removida}" Classes.cabecalho="{Binding Cabecalho}"
+              <c:Caixa Classes="linha-diff" Classes.adicionada="{Binding Adicionada}" Classes.removida="{Binding Removida}" Classes.cabecalho="{Binding Cabecalho}"
                       Classes.na-faixa="{Binding NaFaixa}">
                 <Grid ColumnDefinitions="44,44,22,20,*,Auto">
                   <TextBlock Classes="num" Text="{Binding Antiga}" />
@@ -110,10 +110,10 @@
                     </StackPanel>
                   </Button>
                 </Grid>
-              </Border>
+              </c:Caixa>
               <ItemsControl ItemsSource="{Binding Conversas}" ItemTemplate="{StaticResource ConversaNaLinha}" />
               <ItemsControl ItemsSource="{Binding Comentarios}" ItemTemplate="{StaticResource ComentarioPendenteNaLinha}" />
-              <Border Theme="{StaticResource CaixaDeComentario}" Classes="pendente" IsVisible="{Binding Escrevendo}">
+              <c:Caixa Theme="{StaticResource CaixaDeComentario}" Classes="pendente" IsVisible="{Binding Escrevendo}">
                 <StackPanel Spacing="6">
                   <TextBlock Classes="fraco" FontSize="11" FontFamily="{DynamicResource FonteUi}">
                     <Run Text="{l:T 'Comentário para o agente'}" />
@@ -130,7 +130,7 @@
                     <Button Grid.Column="2" Classes="primario pequeno" Command="{Binding ConfirmarCommand}" Content="{l:T 'Comentar'}" />
                   </Grid>
                 </StackPanel>
-              </Border>
+              </c:Caixa>
             </StackPanel>
           </DataTemplate>
         </ListBox.ItemTemplate>

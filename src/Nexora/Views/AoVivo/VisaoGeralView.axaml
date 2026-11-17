@@ -15,10 +15,10 @@
       <Setter Property="Opacity" Value="1" />
       <Setter Property="IsHitTestVisible" Value="True" />
     </Style>
-    <Style Selector="Border.widget.expandido">
+    <Style Selector="c|Caixa.widget.expandido">
       <Setter Property="Width" Value="734" />
     </Style>
-    <Style Selector="Border.coluna">
+    <Style Selector="c|Caixa.coluna">
       <Setter Property="Background" Value="#18000000" />
       <Setter Property="BorderBrush" Value="{DynamicResource Borda}" />
       <Setter Property="BorderThickness" Value="1" />
@@ -45,7 +45,7 @@
     <Style Selector="Button.tirar">
       <Setter Property="Opacity" Value="0" />
     </Style>
-    <Style Selector="Button.card:pointerover Button.tirar, Border.widget:pointerover Button.tirar, Button.tirar:focus-visible">
+    <Style Selector="Button.card:pointerover Button.tirar, c|Caixa.widget:pointerover Button.tirar, Button.tirar:focus-visible">
       <Setter Property="Opacity" Value="1" />
     </Style>
     <Style Selector="Button.card.destaque">
@@ -61,54 +61,54 @@
       <Setter Property="Background" Value="{DynamicResource AcentoFundo}" />
       <Setter Property="BorderBrush" Value="{DynamicResource Acento}" />
     </Style>
-    <Style Selector="Border.sigla">
+    <Style Selector="c|Caixa.sigla">
       <Setter Property="Width" Value="22" />
       <Setter Property="Height" Value="22" />
       <Setter Property="CornerRadius" Value="6" />
       <Setter Property="Background" Value="{DynamicResource MarcaGradiente}" />
       <Setter Property="Margin" Value="0,0,9,0" />
     </Style>
-    <Style Selector="Border.issue-cartao">
+    <Style Selector="c|Caixa.issue-cartao">
       <Setter Property="Background" Value="{DynamicResource AcentoFundo}" />
       <Setter Property="CornerRadius" Value="99" />
       <Setter Property="Padding" Value="7,1" />
       <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
-    <Style Selector="Border.fila">
+    <Style Selector="c|Caixa.fila">
       <Setter Property="Background" Value="{DynamicResource PedidoFundo}" />
       <Setter Property="BorderBrush" Value="{DynamicResource Laranja}" />
       <Setter Property="BorderThickness" Value="1" />
       <Setter Property="CornerRadius" Value="14" />
       <Setter Property="Padding" Value="14,10" />
     </Style>
-    <Style Selector="Border.pedido-fila">
+    <Style Selector="c|Caixa.pedido-fila">
       <Setter Property="Background" Value="{DynamicResource Superficie}" />
       <Setter Property="CornerRadius" Value="10" />
       <Setter Property="Padding" Value="12,8" />
       <Setter Property="Margin" Value="0,3,0,0" />
     </Style>
-    <Style Selector="Border.icone-repo">
+    <Style Selector="c|Caixa.icone-repo">
       <Setter Property="Width" Value="22" />
       <Setter Property="Height" Value="22" />
       <Setter Property="CornerRadius" Value="6" />
       <Setter Property="ClipToBounds" Value="True" />
       <Setter Property="Background" Value="{DynamicResource SuperficieAlta}" />
     </Style>
-    <Style Selector="Border.sigla > TextBlock">
+    <Style Selector="c|Caixa.sigla > TextBlock">
       <Setter Property="Foreground" Value="{DynamicResource SobreMarca}" />
       <Setter Property="FontSize" Value="10" />
       <Setter Property="FontWeight" Value="SemiBold" />
       <Setter Property="HorizontalAlignment" Value="Center" />
       <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
-    <Style Selector="Border.contagem">
+    <Style Selector="c|Caixa.contagem">
       <Setter Property="Background" Value="{DynamicResource SuperficieAlta}" />
       <Setter Property="CornerRadius" Value="9" />
       <Setter Property="Padding" Value="7,0" />
       <Setter Property="Margin" Value="8,0,0,0" />
       <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
-    <Style Selector="Border.contagem > TextBlock">
+    <Style Selector="c|Caixa.contagem > TextBlock">
       <Setter Property="FontSize" Value="11" />
       <Setter Property="Foreground" Value="{DynamicResource TextoSuave}" />
     </Style>
@@ -183,7 +183,7 @@
     <Style Selector="Window.vertical c|GradeAdaptativa.colunas-quadro">
       <Setter Property="PreencherAltura" Value="False" />
     </Style>
-    <Style Selector="Window.vertical c|GradeAdaptativa.colunas-quadro > Border.coluna">
+    <Style Selector="Window.vertical c|GradeAdaptativa.colunas-quadro > c|Caixa.coluna">
       <Setter Property="Margin" Value="0,0,12,12" />
     </Style>
     <Style Selector="c|Avatar.avatar-mesa">
@@ -342,7 +342,7 @@
         </Button>
       </StackPanel>
     </Grid>
-    <Border DockPanel.Dock="Top" Classes="fila" IsVisible="{Binding TemFila}" Margin="24,0,24,12">
+    <c:Caixa DockPanel.Dock="Top" Classes="fila" IsVisible="{Binding TemFila}" Margin="24,0,24,12">
       <StackPanel Spacing="6">
         <Grid ColumnDefinitions="Auto,*,Auto">
           <Ellipse Classes="estado precisa" VerticalAlignment="Center" Margin="0,0,9,0" />
@@ -355,7 +355,7 @@
         <ItemsControl ItemsSource="{Binding Fila}">
           <ItemsControl.ItemTemplate>
             <DataTemplate x:DataType="vm:PedidoDaFilaVM">
-              <Border Classes="pedido-fila">
+              <c:Caixa Classes="pedido-fila">
                 <Grid ColumnDefinitions="*,Auto">
                   <StackPanel Spacing="2" VerticalAlignment="Center">
                     <TextBlock TextTrimming="CharacterEllipsis">
@@ -375,12 +375,12 @@
                     </Button>
                   </StackPanel>
                 </Grid>
-              </Border>
+              </c:Caixa>
             </DataTemplate>
           </ItemsControl.ItemTemplate>
         </ItemsControl>
       </StackPanel>
-    </Border>
+    </c:Caixa>
     <Panel>
     <ScrollViewer x:Name="RolagemQuadro" IsVisible="{Binding ModoQuadro}" HorizontalScrollBarVisibility="Disabled">
       <Panel>
@@ -401,9 +401,9 @@
                                Pronta="{Binding EstaPronta}" Erro="{Binding TemErro}" Fracao="{Binding ContextoFracao}" ToolTip.Tip="{Binding ContextoTexto}" />
                     <c:AvatarVivo Classes="agente-mesa" Agente="{Binding AgenteDoCartao}" Parado="{Binding !Trabalhando}" SegueMouse="False" Rotulo="" ToolTip.Tip="{Binding NomeDoAgente}" />
                     <Panel Classes="icone-cartao">
-                    <Border Classes="sigla" Margin="0" IsVisible="{Binding MostrarIniciais}"><TextBlock Text="{Binding Iniciais}" /></Border>
-                    <Border Classes="icone-repo" IsVisible="{Binding PastaSolta}" ToolTip.Tip="{Binding NomeProjeto}"><c:Icone Nome="pasta" Tamanho="13" Classes="suave" HorizontalAlignment="Center" VerticalAlignment="Center" /></Border>
-                    <Border Classes="icone-repo" IsVisible="{Binding TemIconeRepo}" ToolTip.Tip="{Binding NomeProjeto}"><Image Source="{Binding IconeRepo}" Stretch="UniformToFill" /></Border>
+                    <c:Caixa Classes="sigla" Margin="0" IsVisible="{Binding MostrarIniciais}"><TextBlock Text="{Binding Iniciais}" /></c:Caixa>
+                    <c:Caixa Classes="icone-repo" IsVisible="{Binding PastaSolta}" ToolTip.Tip="{Binding NomeProjeto}"><c:Icone Nome="pasta" Tamanho="13" Classes="suave" HorizontalAlignment="Center" VerticalAlignment="Center" /></c:Caixa>
+                    <c:Caixa Classes="icone-repo" IsVisible="{Binding TemIconeRepo}" ToolTip.Tip="{Binding NomeProjeto}"><Image Source="{Binding IconeRepo}" Stretch="UniformToFill" /></c:Caixa>
                   </Panel>
                   </Panel>
                   <TextBlock Grid.Column="1" Classes="titulo-cartao" Text="{Binding Titulo}" FontWeight="Medium" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" MaxLines="2" VerticalAlignment="Center" ToolTip.Tip="{Binding Titulo}" />
@@ -417,13 +417,13 @@
                     <Run FontFamily="{DynamicResource Mono}" Text="{Binding Onde}" /><Run Text="{Binding NomeDoAgente, StringFormat='  ·  {0}'}" />
                   </TextBlock>
                   <ContentControl Grid.Column="2" Content="{Binding}" ContentTemplate="{StaticResource SeloNaNuvem}" IsVisible="{Binding NaNuvem}" Margin="8,0,0,0" />
-                  <Border Grid.Column="1" Classes="issue-cartao" IsVisible="{Binding TemIssue}" ToolTip.Tip="{Binding DicaIssue}" Margin="8,0,0,0">
+                  <c:Caixa Grid.Column="1" Classes="issue-cartao" IsVisible="{Binding TemIssue}" ToolTip.Tip="{Binding DicaIssue}" Margin="8,0,0,0">
                     <StackPanel Orientation="Horizontal" Spacing="4">
                       <c:Icone Nome="issue" Tamanho="11" VerticalAlignment="Center" />
                       <TextBlock Classes="mono" Text="{Binding TextoIssue}" FontSize="11" VerticalAlignment="Center" />
                       <TextBlock Classes="fraco" Text="{Binding TarefaTexto, StringFormat='· {0}'}" IsVisible="{Binding TemTarefa}" FontSize="11" VerticalAlignment="Center" />
                     </StackPanel>
-                  </Border>
+                  </c:Caixa>
                 </Grid>
                 <TextBlock Classes="fraco" Text="{Binding PedidoInicial}" IsVisible="{Binding TemPedidoInicial}" FontSize="12" TextWrapping="Wrap" MaxLines="2" TextTrimming="CharacterEllipsis"
                            ToolTip.Tip="{l:T 'Primeiro pedido da sessão'}" />
@@ -431,12 +431,12 @@
                   <Ellipse Classes="estado trabalhando" Width="7" Height="7" IsVisible="{Binding Trabalhando}" VerticalAlignment="Top" Margin="0,5,8,0" />
                   <TextBlock Grid.Column="1" Classes="suave" Text="{Binding UltimaAtividade}" FontSize="12.5" TextWrapping="Wrap" MaxLines="2" TextTrimming="CharacterEllipsis" />
                 </Grid>
-                <Border Classes="etiqueta-pilula" HorizontalAlignment="Left" IsVisible="{Binding TemSubagentesRodando}">
+                <c:Caixa Classes="etiqueta-pilula" HorizontalAlignment="Left" IsVisible="{Binding TemSubagentesRodando}">
                   <StackPanel Orientation="Horizontal" Spacing="5">
                     <c:Icone Nome="subagente" Tamanho="12" VerticalAlignment="Center" />
                     <TextBlock Text="{Binding TextoSubagentes}" FontSize="11.5" VerticalAlignment="Center" />
                   </StackPanel>
-                </Border>
+                </c:Caixa>
                 <Grid ColumnDefinitions="*,Auto,Auto">
                   <TextBlock Classes="fraco" Text="{Binding TempoTexto}" FontSize="11" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
                   <ProgressBar Grid.Column="1" Classes="contexto" Classes.cheio="{Binding ContextoCheio}" Minimum="0" Maximum="1" Value="{Binding ContextoFracao}"
@@ -485,9 +485,9 @@
                                Pronta="{Binding Pronta}" Fracao="{Binding ContextoFracao}" />
                     <c:AvatarVivo Classes="agente-mesa" Agente="{Binding AgenteDoCartao}" Parado="{Binding !Trabalhando}" SegueMouse="False" Rotulo="" ToolTip.Tip="{Binding NomeDoAgente}" />
                     <Panel Classes="icone-cartao">
-                    <Border Classes="sigla" Margin="0" IsVisible="{Binding MostrarIniciais}"><TextBlock Text="{Binding Iniciais}" /></Border>
-                    <Border Classes="icone-repo" IsVisible="{Binding PastaSolta}" ToolTip.Tip="{Binding NomeProjeto}"><c:Icone Nome="pasta" Tamanho="13" Classes="suave" HorizontalAlignment="Center" VerticalAlignment="Center" /></Border>
-                    <Border Classes="icone-repo" IsVisible="{Binding TemIconeRepo}" ToolTip.Tip="{Binding NomeProjeto}"><Image Source="{Binding IconeRepo}" Stretch="UniformToFill" /></Border>
+                    <c:Caixa Classes="sigla" Margin="0" IsVisible="{Binding MostrarIniciais}"><TextBlock Text="{Binding Iniciais}" /></c:Caixa>
+                    <c:Caixa Classes="icone-repo" IsVisible="{Binding PastaSolta}" ToolTip.Tip="{Binding NomeProjeto}"><c:Icone Nome="pasta" Tamanho="13" Classes="suave" HorizontalAlignment="Center" VerticalAlignment="Center" /></c:Caixa>
+                    <c:Caixa Classes="icone-repo" IsVisible="{Binding TemIconeRepo}" ToolTip.Tip="{Binding NomeProjeto}"><Image Source="{Binding IconeRepo}" Stretch="UniformToFill" /></c:Caixa>
                   </Panel>
                   </Panel>
                   <TextBlock Grid.Column="1" Classes="titulo-cartao" Text="{Binding Titulo}" FontWeight="Medium" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" MaxLines="2" VerticalAlignment="Center" ToolTip.Tip="{Binding Titulo}" />
@@ -508,7 +508,7 @@
                 </Button>
                 <Grid ColumnDefinitions="*,Auto">
                   <TextBlock Classes="fraco" Text="{Binding TempoTexto}" FontSize="11" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
-                  <Border Grid.Column="1" Classes="etiqueta" Margin="8,0,0,0"><TextBlock Text="{Binding Origem}" /></Border>
+                  <c:Caixa Grid.Column="1" Classes="etiqueta" Margin="8,0,0,0"><TextBlock Text="{Binding Origem}" /></c:Caixa>
                 </Grid>
               </StackPanel>
             </Button>
@@ -525,7 +525,7 @@
               <StackPanel Orientation="Horizontal" Spacing="8">
                 <c:Icone Nome="foco" Tamanho="14" />
                 <TextBlock Text="{l:T 'Modo foco'}" />
-                <Border Classes="tecla"><TextBlock Text="F" /></Border>
+                <c:Caixa Classes="tecla"><TextBlock Text="F" /></c:Caixa>
               </StackPanel>
             </Button>
             <Button Classes="contorno" Command="{Binding EditarTemplatesCommand}" ToolTip.Tip="{l:T 'Pedidos prontos para começar uma sessão'}">
@@ -542,51 +542,51 @@
       </StackPanel>
 
       <c:GradeAdaptativa Classes="colunas-quadro" Margin="24,0,12,80" IsVisible="{Binding VerColunas}">
-        <Border Classes="coluna">
+        <c:Caixa Classes="coluna">
           <StackPanel>
             <StackPanel Orientation="Horizontal" Margin="4,0,0,10">
               <Ellipse Classes="estado precisa" VerticalAlignment="Center" Margin="0,0,9,0" />
               <TextBlock Text="{l:T 'Precisa de você'}" FontWeight="Medium" VerticalAlignment="Center" />
-              <Border Classes="contagem"><TextBlock Text="{Binding ColPrecisa.Count}" /></Border>
+              <c:Caixa Classes="contagem"><TextBlock Text="{Binding ColPrecisa.Count}" /></c:Caixa>
             </StackPanel>
             <ItemsControl ItemsSource="{Binding ColPrecisa}" />
             <TextBlock Classes="fraco" Text="{l:T 'Nada esperando por você.'}" Margin="4,2,4,6" IsVisible="{Binding !ColPrecisa.Count}" />
           </StackPanel>
-        </Border>
-        <Border Classes="coluna">
+        </c:Caixa>
+        <c:Caixa Classes="coluna">
           <StackPanel>
             <StackPanel Orientation="Horizontal" Margin="4,0,0,10">
               <Ellipse Classes="estado trabalhando" VerticalAlignment="Center" Margin="0,0,9,0" />
               <TextBlock Text="{l:T 'Trabalhando'}" FontWeight="Medium" VerticalAlignment="Center" />
-              <Border Classes="contagem"><TextBlock Text="{Binding ColTrabalhando.Count}" /></Border>
+              <c:Caixa Classes="contagem"><TextBlock Text="{Binding ColTrabalhando.Count}" /></c:Caixa>
             </StackPanel>
             <ItemsControl ItemsSource="{Binding ColTrabalhando}" />
             <Button Classes="fantasma" Command="{Binding NovaSessaoCommand}" HorizontalAlignment="Left" Padding="6,4">
               <StackPanel Orientation="Horizontal" Spacing="7"><c:Icone Nome="mais" Tamanho="13" /><TextBlock Text="{l:T 'Nova sessão'}" FontSize="12.5" /></StackPanel>
             </Button>
           </StackPanel>
-        </Border>
-        <Border Classes="coluna">
+        </c:Caixa>
+        <c:Caixa Classes="coluna">
           <StackPanel>
             <StackPanel Orientation="Horizontal" Margin="4,0,0,10">
               <Ellipse Classes="estado pronta" VerticalAlignment="Center" Margin="0,0,9,0" />
               <TextBlock Text="{l:T 'Prontas'}" FontWeight="Medium" VerticalAlignment="Center" />
-              <Border Classes="contagem"><TextBlock Text="{Binding ColProntas.Count}" /></Border>
+              <c:Caixa Classes="contagem"><TextBlock Text="{Binding ColProntas.Count}" /></c:Caixa>
             </StackPanel>
             <ItemsControl ItemsSource="{Binding ColProntas}" />
             <TextBlock Classes="fraco" Text="{l:T 'As que terminaram o turno aparecem aqui.'}" Margin="4,2,4,6" TextWrapping="Wrap" IsVisible="{Binding !ColProntas.Count}" />
           </StackPanel>
-        </Border>
-        <Border Classes="coluna">
+        </c:Caixa>
+        <c:Caixa Classes="coluna">
           <StackPanel>
             <StackPanel Orientation="Horizontal" Margin="4,0,0,10">
               <Ellipse Classes="estado" VerticalAlignment="Center" Margin="0,0,9,0" />
               <TextBlock Text="{l:T 'Paradas'}" FontWeight="Medium" VerticalAlignment="Center" />
-              <Border Classes="contagem"><TextBlock Text="{Binding ColParadas.Count}" /></Border>
+              <c:Caixa Classes="contagem"><TextBlock Text="{Binding ColParadas.Count}" /></c:Caixa>
             </StackPanel>
             <ItemsControl ItemsSource="{Binding ColParadas}" />
           </StackPanel>
-        </Border>
+        </c:Caixa>
       </c:GradeAdaptativa>
 
       <StackPanel Margin="24,0,12,80" Spacing="12" IsVisible="{Binding VerFaixas}">
@@ -594,32 +594,32 @@
           <StackPanel Orientation="Horizontal" Margin="16,0,0,0">
             <Ellipse Classes="estado precisa" VerticalAlignment="Center" Margin="0,0,9,0" />
             <TextBlock Text="{l:T 'Precisa de você'}" FontWeight="Medium" VerticalAlignment="Center" />
-            <Border Classes="contagem"><TextBlock Text="{Binding ColPrecisa.Count}" /></Border>
+            <c:Caixa Classes="contagem"><TextBlock Text="{Binding ColPrecisa.Count}" /></c:Caixa>
           </StackPanel>
           <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="16,0,0,0">
             <Ellipse Classes="estado trabalhando" VerticalAlignment="Center" Margin="0,0,9,0" />
             <TextBlock Text="{l:T 'Trabalhando'}" FontWeight="Medium" VerticalAlignment="Center" />
-            <Border Classes="contagem"><TextBlock Text="{Binding ColTrabalhando.Count}" /></Border>
+            <c:Caixa Classes="contagem"><TextBlock Text="{Binding ColTrabalhando.Count}" /></c:Caixa>
           </StackPanel>
           <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="16,0,0,0">
             <Ellipse Classes="estado pronta" VerticalAlignment="Center" Margin="0,0,9,0" />
             <TextBlock Text="{l:T 'Prontas'}" FontWeight="Medium" VerticalAlignment="Center" />
-            <Border Classes="contagem"><TextBlock Text="{Binding ColProntas.Count}" /></Border>
+            <c:Caixa Classes="contagem"><TextBlock Text="{Binding ColProntas.Count}" /></c:Caixa>
           </StackPanel>
           <StackPanel Grid.Column="3" Orientation="Horizontal" Margin="16,0,0,0">
             <Ellipse Classes="estado" VerticalAlignment="Center" Margin="0,0,9,0" />
             <TextBlock Text="{l:T 'Paradas'}" FontWeight="Medium" VerticalAlignment="Center" />
-            <Border Classes="contagem"><TextBlock Text="{Binding ColParadas.Count}" /></Border>
+            <c:Caixa Classes="contagem"><TextBlock Text="{Binding ColParadas.Count}" /></c:Caixa>
           </StackPanel>
         </Grid>
         <TextBlock Classes="fraco" Text="{l:T 'Nenhuma sessão aberta neste filtro.'}" Margin="16,8" IsVisible="{Binding !Faixas.Count}" />
         <ItemsControl ItemsSource="{Binding Faixas}">
           <ItemsControl.ItemTemplate>
             <DataTemplate DataType="vm:FaixaVM">
-              <Border Classes="coluna" Margin="0,0,0,12">
+              <c:Caixa Classes="coluna" Margin="0,0,0,12">
                 <StackPanel Spacing="10">
                   <StackPanel Orientation="Horizontal" Spacing="9" Margin="4,0,0,0">
-                    <Border Classes="sigla"><TextBlock Text="{Binding Iniciais}" /></Border>
+                    <c:Caixa Classes="sigla"><TextBlock Text="{Binding Iniciais}" /></c:Caixa>
                     <TextBlock Text="{Binding Nome}" FontWeight="SemiBold" VerticalAlignment="Center" />
                     <TextBlock Classes="fraco" Text="{Binding Resumo}" VerticalAlignment="Center" FontSize="12.5" />
                   </StackPanel>
@@ -662,7 +662,7 @@
                     </StackPanel>
                   </c:GradeAdaptativa>
                 </StackPanel>
-              </Border>
+              </c:Caixa>
             </DataTemplate>
           </ItemsControl.ItemTemplate>
         </ItemsControl>
@@ -679,18 +679,18 @@
         </StackPanel>
 
         <WrapPanel IsVisible="{Binding !Vazia}" Margin="0,0,0,4">
-          <Border Classes="resumo precisa" IsVisible="{Binding TemPrecisam}"><TextBlock Text="{Binding TextoPrecisam}" /></Border>
-          <Border Classes="resumo trabalhando" IsVisible="{Binding TemTrabalhando}"><TextBlock Text="{Binding TextoTrabalhando}" /></Border>
-          <Border Classes="resumo" IsVisible="{Binding TemParadas}"><TextBlock Text="{Binding TextoParadas}" /></Border>
+          <c:Caixa Classes="resumo precisa" IsVisible="{Binding TemPrecisam}"><TextBlock Text="{Binding TextoPrecisam}" /></c:Caixa>
+          <c:Caixa Classes="resumo trabalhando" IsVisible="{Binding TemTrabalhando}"><TextBlock Text="{Binding TextoTrabalhando}" /></c:Caixa>
+          <c:Caixa Classes="resumo" IsVisible="{Binding TemParadas}"><TextBlock Text="{Binding TextoParadas}" /></c:Caixa>
         </WrapPanel>
         <ItemsControl ItemsSource="{Binding Todas}">
           <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
           <ItemsControl.DataTemplates>
             <DataTemplate DataType="vm:ChatVM">
-              <Border Classes="widget" Classes.precisa="{Binding Precisa}" Classes.trabalhando="{Binding Trabalhando}" Classes.expandido="{Binding Expandido}">
-                    <Border.ContextMenu>
+              <c:Caixa Classes="widget" Classes.precisa="{Binding Precisa}" Classes.trabalhando="{Binding Trabalhando}" Classes.expandido="{Binding Expandido}">
+                    <c:Caixa.ContextMenu>
                       <ContextMenu><MenuItem Header="{l:T 'Abrir em split view'}" Command="{Binding AbrirEmSplitCommand}" /></ContextMenu>
-                    </Border.ContextMenu>
+                    </c:Caixa.ContextMenu>
                 <StackPanel Spacing="10">
                   <Grid ColumnDefinitions="Auto,*,Auto,Auto,Auto">
                     <Ellipse Classes="estado"
@@ -717,17 +717,17 @@
                   <WrapPanel>
                     <c:Icone Nome="camadas" Tamanho="13" Classes="fraco" VerticalAlignment="Center" Margin="0,0,6,0" />
                     <TextBlock Classes="fraco" Text="{Binding Onde}" TextTrimming="CharacterEllipsis" MaxWidth="220" VerticalAlignment="Center" Margin="0,0,8,0" />
-                    <Border Classes="etiqueta" IsVisible="{Binding TemModelo}"><TextBlock Text="{Binding Modelo}" /></Border>
+                    <c:Caixa Classes="etiqueta" IsVisible="{Binding TemModelo}"><TextBlock Text="{Binding Modelo}" /></c:Caixa>
                   </WrapPanel>
                   <StackPanel Spacing="10" IsVisible="{Binding !Expandido}">
-                    <Border Classes="agora">
+                    <c:Caixa Classes="agora">
                       <StackPanel Spacing="3">
                         <TextBlock Classes="rotulo-widget" Text="{Binding TempoTexto}" />
                         <TextBlock Text="{Binding UltimaAtividade}" TextWrapping="Wrap" MaxLines="3" TextTrimming="CharacterEllipsis" FontSize="13"
                                    IsVisible="{Binding UltimaAtividade, Converter={x:Static ObjectConverters.IsNotNull}}" />
                         <TextBlock Classes="fraco" Text="{l:T 'Sem atividade ainda.'}" IsVisible="{Binding UltimaAtividade, Converter={x:Static ObjectConverters.IsNull}}" />
                       </StackPanel>
-                    </Border>
+                    </c:Caixa>
                     <StackPanel Orientation="Horizontal" Spacing="6" IsVisible="{Binding TemPedidoNoCartao}">
                       <Button Classes="primario pequeno" Content="{l:T 'Permitir'}" Command="{Binding PermissaoPendente.PermitirCommand}" />
                       <Button Classes="contorno pequeno" Content="{l:T 'Negar'}" Command="{Binding PermissaoPendente.NegarCommand}" />
@@ -754,10 +754,10 @@
                     <StackPanel Orientation="Horizontal" Spacing="5"><c:Icone Nome="parar" Tamanho="12" /><TextBlock Text="{l:T 'Parar'}" /></StackPanel>
                   </Button>
                 </StackPanel>
-              </Border>
+              </c:Caixa>
             </DataTemplate>
             <DataTemplate DataType="vm:SessaoForaVM">
-              <Border Classes="widget" Classes.precisa="{Binding Precisa}" Classes.trabalhando="{Binding Trabalhando}" Classes.expandido="{Binding Expandido}">
+              <c:Caixa Classes="widget" Classes.precisa="{Binding Precisa}" Classes.trabalhando="{Binding Trabalhando}" Classes.expandido="{Binding Expandido}">
                 <StackPanel Spacing="10">
                   <Grid ColumnDefinitions="Auto,*,Auto,Auto,Auto">
                     <Ellipse Classes="estado"
@@ -768,7 +768,7 @@
                     <Button Grid.Column="1" Classes="titulo-widget" Command="{Binding VerCommand}" ToolTip.Tip="{l:T 'Abrir a conversa numa aba'}">
                       <TextBlock Text="{Binding Titulo}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
                     </Button>
-                    <Border Grid.Column="2" Classes="etiqueta" VerticalAlignment="Center" Margin="8,0,6,0"><TextBlock Text="{Binding Origem}" /></Border>
+                    <c:Caixa Grid.Column="2" Classes="etiqueta" VerticalAlignment="Center" Margin="8,0,6,0"><TextBlock Text="{Binding Origem}" /></c:Caixa>
                     <c:BotaoLigado Grid.Column="3" Classes="icone pequeno" Classes.ligado="{Binding Expandido}" IsChecked="{Binding Expandido, Mode=OneWay}" Command="{Binding AlternarExpandidoCommand}"
                             ToolTip.Tip="{l:T 'Ver a conversa aqui'}" AutomationProperties.Name="{l:T 'Ver a conversa no card'}">
                       <c:Icone Nome="conversa" Tamanho="13" />
@@ -781,16 +781,16 @@
                   <WrapPanel>
                     <c:Icone Nome="camadas" Tamanho="13" Classes="fraco" VerticalAlignment="Center" Margin="0,0,6,0" />
                     <TextBlock Classes="fraco" Text="{Binding Onde}" TextTrimming="CharacterEllipsis" MaxWidth="220" VerticalAlignment="Center" Margin="0,0,8,0" />
-                    <Border Classes="etiqueta" IsVisible="{Binding TemModelo}"><TextBlock Text="{Binding Modelo}" /></Border>
+                    <c:Caixa Classes="etiqueta" IsVisible="{Binding TemModelo}"><TextBlock Text="{Binding Modelo}" /></c:Caixa>
                   </WrapPanel>
-                  <Border Classes="agora" IsVisible="{Binding !Expandido}">
+                  <c:Caixa Classes="agora" IsVisible="{Binding !Expandido}">
                     <StackPanel Spacing="3">
                       <TextBlock Classes="rotulo-widget" Text="{Binding TempoTexto}" />
                       <TextBlock Text="{Binding UltimaAtividade}" TextWrapping="Wrap" MaxLines="3" TextTrimming="CharacterEllipsis" FontSize="13"
                                  IsVisible="{Binding UltimaAtividade, Converter={x:Static ObjectConverters.IsNotNull}}" />
                       <TextBlock Classes="fraco" Text="{l:T 'Sem atividade ainda.'}" IsVisible="{Binding UltimaAtividade, Converter={x:Static ObjectConverters.IsNull}}" />
                     </StackPanel>
-                  </Border>
+                  </c:Caixa>
                   <StackPanel Spacing="8" IsVisible="{Binding Expandido}">
                     <TextBlock Classes="rotulo-widget" Text="{Binding TempoTexto}" />
                     <v:TrechoView />
@@ -809,7 +809,7 @@
                   <ContentControl Content="{Binding}" ContentTemplate="{StaticResource Medidores}" />
                   <Button Classes="contorno pequeno" Content="{l:T 'Ver conversa'}" Command="{Binding VerCommand}" HorizontalAlignment="Left" />
                 </StackPanel>
-              </Border>
+              </c:Caixa>
             </DataTemplate>
           </ItemsControl.DataTemplates>
         </ItemsControl>
@@ -842,7 +842,7 @@
                   <StackPanel Spacing="2">
                     <StackPanel Orientation="Horizontal" Spacing="8">
                       <TextBlock Text="{Binding Titulo}" FontSize="16" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
-                      <Border Classes="etiqueta" VerticalAlignment="Center"><TextBlock Text="{Binding Origem}" /></Border>
+                      <c:Caixa Classes="etiqueta" VerticalAlignment="Center"><TextBlock Text="{Binding Origem}" /></c:Caixa>
                     </StackPanel>
                     <TextBlock Classes="fraco mono" Text="{Binding Onde}" FontSize="12" TextTrimming="CharacterEllipsis" />
                   </StackPanel>

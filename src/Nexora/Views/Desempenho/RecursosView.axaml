@@ -32,11 +32,11 @@
           <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="atualizar" Tamanho="14" /><TextBlock Text="{l:T 'Medir de novo'}" /></StackPanel>
         </Button>
       </Grid>
-      <Border Classes="aviso" IsVisible="{Binding Economia, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+      <c:Caixa Classes="aviso" IsVisible="{Binding Economia, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
         <TextBlock Text="{Binding Economia}" TextWrapping="Wrap" />
-      </Border>
+      </c:Caixa>
 
-      <Border Classes="painel">
+      <c:Caixa Classes="painel">
         <StackPanel Spacing="18">
           <Grid ColumnDefinitions="*,Auto">
             <StackPanel Spacing="3">
@@ -148,9 +148,9 @@
             </ItemsControl>
           </StackPanel>
         </StackPanel>
-      </Border>
+      </c:Caixa>
 
-      <Border Classes="painel">
+      <c:Caixa Classes="painel">
         <Grid ColumnDefinitions="*,Auto">
           <StackPanel Spacing="4">
             <TextBlock Classes="titulo-painel" Text="{l:T 'Processos de build do .NET'}" />
@@ -163,10 +163,10 @@
             <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="lixeira" Tamanho="14" /><TextBlock Text="{l:T 'Liberar'}" /></StackPanel>
           </Button>
         </Grid>
-      </Border>
+      </c:Caixa>
 
       <Grid ColumnDefinitions="*,20,*">
-        <Border Classes="painel">
+        <c:Caixa Classes="painel">
           <StackPanel Spacing="8">
             <TextBlock Classes="titulo-painel" Text="{l:T 'MCPs compartilhados'}" />
             <TextBlock Classes="fraco" TextWrapping="Wrap" Text="{l:T 'Os servidores do .mcp.json rodam uma vez só no Nexora, divididos entre as sessões do mesmo projeto. O navegador fica um por sessão. Cada um sobe na primeira chamada e desliga depois de 10 minutos parado.'}" />
@@ -193,9 +193,9 @@
               </ItemsControl.ItemTemplate>
             </ItemsControl>
           </StackPanel>
-        </Border>
+        </c:Caixa>
 
-        <Border Grid.Column="2" Classes="painel">
+        <c:Caixa Grid.Column="2" Classes="painel">
           <StackPanel Spacing="8">
             <TextBlock Classes="titulo-painel" Text="{l:T 'Sessões dos agentes'}" />
             <TextBlock Classes="fraco" TextWrapping="Wrap" Text="{l:T 'Cada conversa aberta é um processo do agente dela. Encerrar a sessão libera a memória; a conversa continua no histórico.'}" />
@@ -215,7 +215,7 @@
             </ItemsControl>
             <TextBlock Classes="fraco" Text="{Binding FraseNexora}" Margin="0,8,0,0" />
           </StackPanel>
-        </Border>
+        </c:Caixa>
       </Grid>
     </StackPanel>
   </ScrollViewer>

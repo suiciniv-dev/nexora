@@ -7,7 +7,7 @@
              x:DataType="vm:JanelaVM"
              ClipToBounds="False">
   <UserControl.Styles>
-    <Style Selector="Border.capsula">
+    <Style Selector="c|Caixa.capsula">
       <Setter Property="Width" Value="48" />
       <Setter Property="CornerRadius" Value="24" />
       <Setter Property="Padding" Value="0,6" />
@@ -23,7 +23,7 @@
         </Transitions>
       </Setter>
     </Style>
-    <Style Selector="Border.capsula.aberta">
+    <Style Selector="c|Caixa.capsula.aberta">
       <Setter Property="Width" Value="188" />
       <Setter Property="Background" Value="{DynamicResource FundoSolido}" />
       <Setter Property="BoxShadow" Value="0 14 40 0 #73000000" />
@@ -48,7 +48,7 @@
         <Transitions><c:TransicaoDeCor Property="Background" Duration="0:0:0.14" /></Transitions>
       </Setter>
     </Style>
-    <Style Selector="Border.capsula:not(.aberta) Button.trilho:pointerover">
+    <Style Selector="c|Caixa.capsula:not(.aberta) Button.trilho:pointerover">
       <Setter Property="RenderTransform" Value="scale(1.1)" />
     </Style>
     <Style Selector="Button.trilho:pressed">
@@ -80,7 +80,7 @@
         </Transitions>
       </Setter>
     </Style>
-    <Style Selector="Border.capsula.aberta TextBlock.rotulo-trilho">
+    <Style Selector="c|Caixa.capsula.aberta TextBlock.rotulo-trilho">
       <Setter Property="Opacity" Value="1" />
       <Setter Property="RenderTransform" Value="translateX(0px)" />
       <Setter Property="Transitions">
@@ -90,7 +90,7 @@
         </Transitions>
       </Setter>
     </Style>
-    <Style Selector="Border.contador-trilho">
+    <Style Selector="c|Caixa.contador-trilho">
       <Setter Property="MinWidth" Value="16" />
       <Setter Property="Height" Value="16" />
       <Setter Property="CornerRadius" Value="8" />
@@ -100,14 +100,14 @@
       <Setter Property="VerticalAlignment" Value="Top" />
       <Setter Property="Margin" Value="0,-8,-10,0" />
     </Style>
-    <Style Selector="Border.contador-trilho > TextBlock">
+    <Style Selector="c|Caixa.contador-trilho > TextBlock">
       <Setter Property="FontSize" Value="10" />
       <Setter Property="FontWeight" Value="Bold" />
       <Setter Property="Foreground" Value="{DynamicResource SobreLaranja}" />
       <Setter Property="HorizontalAlignment" Value="Center" />
       <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
-    <Style Selector="Border.capsula.embutida">
+    <Style Selector="c|Caixa.capsula.embutida">
       <Setter Property="Width" Value="NaN" />
       <Setter Property="HorizontalAlignment" Value="Stretch" />
       <Setter Property="Background" Value="Transparent" />
@@ -116,27 +116,27 @@
       <Setter Property="Padding" Value="0" />
       <Setter Property="Transitions" Value="{x:Null}" />
     </Style>
-    <Style Selector="Border.capsula.embutida TextBlock.rotulo-trilho">
+    <Style Selector="c|Caixa.capsula.embutida TextBlock.rotulo-trilho">
       <Setter Property="Transitions" Value="{x:Null}" />
     </Style>
-    <Style Selector="Border.capsula.embutida Button.so-trilho">
+    <Style Selector="c|Caixa.capsula.embutida Button.so-trilho">
       <Setter Property="IsVisible" Value="False" />
     </Style>
-    <Style Selector="Border.capsula.embutida Button.trilho">
+    <Style Selector="c|Caixa.capsula.embutida Button.trilho">
       <Setter Property="Height" Value="32" />
       <Setter Property="CornerRadius" Value="10" />
       <Setter Property="Margin" Value="0" />
     </Style>
-    <Style Selector="Border.capsula.embutida StackPanel">
+    <Style Selector="c|Caixa.capsula.embutida StackPanel">
       <Setter Property="Spacing" Value="1" />
     </Style>
-    <Style Selector="Border.capsula.rodape.embutida">
+    <Style Selector="c|Caixa.capsula.rodape.embutida">
       <Setter Property="IsVisible" Value="False" />
     </Style>
   </UserControl.Styles>
 
   <DockPanel x:Name="Raiz" Width="64" ClipToBounds="False">
-    <Border DockPanel.Dock="Bottom" Classes="capsula rodape" Margin="8,0,0,8">
+    <c:Caixa DockPanel.Dock="Bottom" Classes="capsula rodape" Margin="8,0,0,8">
       <StackPanel Spacing="4">
         <Button Classes="trilho" Command="{Binding AbrirBoasVindasCommand}" ToolTip.Tip="{l:T 'Guia de primeiros passos'}" AutomationProperties.Name="{l:T 'Guia de primeiros passos'}">
           <Grid ColumnDefinitions="38,*">
@@ -157,9 +157,9 @@
           </Grid>
         </c:BotaoLigado>
       </StackPanel>
-    </Border>
+    </c:Caixa>
 
-    <Border Classes="capsula" VerticalAlignment="Top" Margin="8,4,0,0">
+    <c:Caixa Classes="capsula" VerticalAlignment="Top" Margin="8,4,0,0">
       <StackPanel Spacing="4">
         <c:BotaoLigado Classes="trilho" Classes.ativo="{Binding NaDashboard}" IsChecked="{Binding NaDashboard, Mode=OneWay}" Command="{Binding MostrarDashboardCommand}" ToolTip.Tip="{l:T 'Dashboard (Ctrl+0)'}" AutomationProperties.Name="{l:T 'Dashboard'}">
           <Grid ColumnDefinitions="38,*">
@@ -171,7 +171,7 @@
           <Grid ColumnDefinitions="38,*">
             <Panel HorizontalAlignment="Center" VerticalAlignment="Center">
               <c:Icone Nome="painel-geral" Tamanho="17" />
-              <Border Classes="contador-trilho" IsVisible="{Binding TemPrecisa}" ToolTip.Tip="{l:T 'Sessões que precisam de você'}"><TextBlock Text="{Binding TotalPrecisa}" /></Border>
+              <c:Caixa Classes="contador-trilho" IsVisible="{Binding TemPrecisa}" ToolTip.Tip="{l:T 'Sessões que precisam de você'}"><TextBlock Text="{Binding TotalPrecisa}" /></c:Caixa>
             </Panel>
             <TextBlock Grid.Column="1" Classes="rotulo-trilho" Text="{l:T 'Ao vivo'}" />
           </Grid>
@@ -219,6 +219,6 @@
           </Grid>
         </c:BotaoLigado>
       </StackPanel>
-    </Border>
+    </c:Caixa>
   </DockPanel>
 </UserControl>

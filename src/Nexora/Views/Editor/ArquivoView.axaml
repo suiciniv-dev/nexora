@@ -20,13 +20,13 @@
         </StackPanel>
       </Grid>
     </Border>
-    <Border DockPanel.Dock="Top" Classes="aviso" IsVisible="{Binding MudouNoDisco}" Margin="12,8,12,0">
+    <c:Caixa DockPanel.Dock="Top" Classes="aviso" IsVisible="{Binding MudouNoDisco}" Margin="12,8,12,0">
       <Grid ColumnDefinitions="*,Auto,Auto">
         <TextBlock Text="{l:T 'O arquivo mudou no disco (talvez pelo agente) e você tem alterações não salvas.'}" TextWrapping="Wrap" VerticalAlignment="Center" />
         <Button Grid.Column="1" Classes="contorno" Content="{l:T 'Recarregar'}" Command="{Binding RecarregarCommand}" Margin="8,0,0,0" />
         <Button Grid.Column="2" Classes="fantasma" Content="{l:T 'Manter o meu'}" Command="{Binding ManterMeuCommand}" Margin="4,0,0,0" />
       </Grid>
-    </Border>
+    </c:Caixa>
     <Panel>
       <ae:TextEditor x:Name="Texto" IsVisible="{Binding MostraTexto}" ShowLineNumbers="True" FontFamily="{DynamicResource Mono}"
                      FontSize="13" Padding="6,4" />

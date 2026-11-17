@@ -42,9 +42,9 @@
                   <StackPanel Spacing="1">
                     <StackPanel Orientation="Horizontal" Spacing="6">
                       <TextBlock Text="{Binding Nome}" FontWeight="Medium" TextTrimming="CharacterEllipsis" MaxWidth="170" />
-                      <Border Classes="etiqueta" IsVisible="{Binding DaIssue}" ToolTip.Tip="{l:T 'Usado no botão Nova sessão da página de Issues'}">
+                      <c:Caixa Classes="etiqueta" IsVisible="{Binding DaIssue}" ToolTip.Tip="{l:T 'Usado no botão Nova sessão da página de Issues'}">
                         <TextBlock Text="{l:T 'issues'}" />
-                      </Border>
+                      </c:Caixa>
                     </StackPanel>
                     <TextBlock Classes="fraco" Text="{Binding Previa}" FontSize="11.5" TextTrimming="CharacterEllipsis" />
                   </StackPanel>

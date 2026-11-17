@@ -42,7 +42,7 @@
                     <ItemsControl.ItemTemplate>
                       <DataTemplate x:DataType="n:AtalhoDoApp">
                         <Grid ColumnDefinitions="118,*" Margin="0,0,0,6">
-                          <Border Classes="tecla" HorizontalAlignment="Left" Margin="0"><TextBlock Text="{Binding TeclaExibida}" /></Border>
+                          <c:Caixa Classes="tecla" HorizontalAlignment="Left" Margin="0"><TextBlock Text="{Binding TeclaExibida}" /></c:Caixa>
                           <TextBlock Grid.Column="1" Text="{Binding Descricao}" TextWrapping="Wrap" VerticalAlignment="Center" />
                         </Grid>
                       </DataTemplate>

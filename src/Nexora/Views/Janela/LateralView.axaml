@@ -23,10 +23,10 @@
     <Style Selector="Button.nav.ativo">
       <Setter Property="Background" Value="{DynamicResource MarcaFundo}" />
     </Style>
-    <Style Selector="Button.nav Border.marca-sel">
+    <Style Selector="Button.nav c|Caixa.marca-sel">
       <Setter Property="IsVisible" Value="False" />
     </Style>
-    <Style Selector="Button.nav.ativo Border.marca-sel">
+    <Style Selector="Button.nav.ativo c|Caixa.marca-sel">
       <Setter Property="IsVisible" Value="True" />
     </Style>
     <Style Selector="Button.grupo">
@@ -64,13 +64,13 @@
       <Setter Property="BorderThickness" Value="1" />
       <Setter Property="BoxShadow" Value="{DynamicResource SelecaoSombra}" />
     </Style>
-    <Style Selector="Button.sessao Border.marca-sel">
+    <Style Selector="Button.sessao c|Caixa.marca-sel">
       <Setter Property="IsVisible" Value="False" />
     </Style>
     <Style Selector="Button.sessao, Button.sessao /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="ClipToBounds" Value="False" />
     </Style>
-    <Style Selector="Button.sessao.ativo Border.marca-sel">
+    <Style Selector="Button.sessao.ativo c|Caixa.marca-sel">
       <Setter Property="IsVisible" Value="True" />
     </Style>
     <Style Selector="Button.sessao.ativo TextBlock.titulo-sessao">
@@ -133,31 +133,31 @@
     <Style Selector="c|AnelDeUso.uso.critico">
       <Setter Property="Cor" Value="{DynamicResource Vermelho}" />
     </Style>
-    <Style Selector="Border.sigla-lateral">
+    <Style Selector="c|Caixa.sigla-lateral">
       <Setter Property="Width" Value="18" />
       <Setter Property="Height" Value="18" />
       <Setter Property="CornerRadius" Value="5" />
       <Setter Property="ClipToBounds" Value="True" />
       <Setter Property="Background" Value="{DynamicResource MarcaGradiente}" />
     </Style>
-    <Style Selector="Border.sigla-lateral.imagem">
+    <Style Selector="c|Caixa.sigla-lateral.imagem">
       <Setter Property="Background" Value="Transparent" />
     </Style>
-    <Style Selector="Border.sigla-lateral > TextBlock">
+    <Style Selector="c|Caixa.sigla-lateral > TextBlock">
       <Setter Property="FontSize" Value="8.5" />
       <Setter Property="FontWeight" Value="Bold" />
       <Setter Property="Foreground" Value="{DynamicResource SobreMarca}" />
       <Setter Property="HorizontalAlignment" Value="Center" />
       <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
-    <Style Selector="Border.contador-nav">
+    <Style Selector="c|Caixa.contador-nav">
       <Setter Property="MinWidth" Value="20" />
       <Setter Property="Height" Value="18" />
       <Setter Property="CornerRadius" Value="9" />
       <Setter Property="Padding" Value="6,0" />
       <Setter Property="Background" Value="{DynamicResource Laranja}" />
     </Style>
-    <Style Selector="Border.contador-nav > TextBlock">
+    <Style Selector="c|Caixa.contador-nav > TextBlock">
       <Setter Property="FontSize" Value="11" />
       <Setter Property="FontWeight" Value="Bold" />
       <Setter Property="Foreground" Value="{DynamicResource SobreLaranja}" />
@@ -231,8 +231,8 @@
                   <Button Classes="grupo" Command="{Binding AbrirCommand}" ToolTip.Tip="{l:T 'Abrir a página do projeto'}">
                     <Grid ColumnDefinitions="Auto,*,Auto">
                       <Panel Margin="0,0,9,0" VerticalAlignment="Center">
-                        <Border Classes="sigla-lateral" IsVisible="{Binding !Primeira.TemIconeRepo, FallbackValue=True}"><TextBlock Text="{Binding Iniciais}" /></Border>
-                        <Border Classes="sigla-lateral imagem" IsVisible="{Binding Primeira.TemIconeRepo, FallbackValue=False}"><Image Source="{Binding Primeira.IconeRepo}" Stretch="UniformToFill" /></Border>
+                        <c:Caixa Classes="sigla-lateral" IsVisible="{Binding !Primeira.TemIconeRepo, FallbackValue=True}"><TextBlock Text="{Binding Iniciais}" /></c:Caixa>
+                        <c:Caixa Classes="sigla-lateral imagem" IsVisible="{Binding Primeira.TemIconeRepo, FallbackValue=False}"><Image Source="{Binding Primeira.IconeRepo}" Stretch="UniformToFill" /></c:Caixa>
                       </Panel>
                       <TextBlock Grid.Column="1" Text="{Binding Nome}" FontSize="12.5" FontWeight="SemiBold" Foreground="{DynamicResource Texto}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
                       <Button Grid.Column="2" Classes="icone pequeno" Command="{Binding NovaSessaoCommand}" IsVisible="{Binding Ambiente, Converter={x:Static ObjectConverters.IsNotNull}}"
@@ -261,7 +261,7 @@
                                     <ContextMenu><MenuItem Header="{l:T 'Abrir em split view'}" Command="{Binding AbrirEmSplitCommand}" /></ContextMenu>
                                   </Button.ContextMenu>
                                   <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,Auto">
-                                    <Border Grid.RowSpan="2" Classes="marca-sel" Width="4" Height="26" CornerRadius="2" Background="{DynamicResource MarcaGradiente}" BoxShadow="{DynamicResource SelecaoBrilho}"
+                                    <c:Caixa Grid.RowSpan="2" Classes="marca-sel" Width="4" Height="26" CornerRadius="2" Background="{DynamicResource MarcaGradiente}" BoxShadow="{DynamicResource SelecaoBrilho}"
                                             Margin="-22,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" />
                                     <Ellipse Classes="estado" Classes.trabalhando="{Binding Trabalhando}" Classes.precisa="{Binding Precisa}"
                                              Classes.pronta="{Binding EstaPronta}" Classes.erro="{Binding TemErro}" VerticalAlignment="Center" Margin="2,0,11,0" />
@@ -304,9 +304,9 @@
                    Text="{l:T 'Nenhuma conversa com esse termo.'}" />
         <TextBlock Classes="secao-lateral" Text="{l:T 'Histórico'}" IsVisible="{Binding !SemConversas}" />
         <StackPanel IsVisible="{Binding CarregandoConversas}" Spacing="12" Margin="20,8,18,0">
-          <Border Classes="esqueleto" Height="12" Width="200" />
-          <Border Classes="esqueleto" Height="12" Width="160" />
-          <Border Classes="esqueleto" Height="12" Width="190" />
+          <c:Caixa Classes="esqueleto" Height="12" Width="200" />
+          <c:Caixa Classes="esqueleto" Height="12" Width="160" />
+          <c:Caixa Classes="esqueleto" Height="12" Width="190" />
         </StackPanel>
         <ItemsControl ItemsSource="{Binding Historico}">
           <ItemsControl.ItemTemplate>

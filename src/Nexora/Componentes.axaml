@@ -716,7 +716,7 @@
   </ControlTheme>
 
   <DataTemplate x:Key="CartaoDeSubagente" x:DataType="vm:ItemSubagente">
-    <Border Theme="{StaticResource CartaoSubagente}" Classes.rodando="{Binding Rodando}" Classes.erro="{Binding Falhou}">
+    <c:Caixa Theme="{StaticResource CartaoSubagente}" Classes.rodando="{Binding Rodando}" Classes.erro="{Binding Falhou}">
       <StackPanel>
         <Button Theme="{StaticResource CabecalhoSubagente}" Command="{Binding AlternarCommand}" ToolTip.Tip="{Binding Descricao}"
                 AutomationProperties.Name="{Binding Descricao}">
@@ -733,12 +733,12 @@
             </TextBlock>
             <c:Icone Grid.Column="4" Nome="abaixo" Tamanho="14" Classes="fraco" Margin="10,0,0,0" VerticalAlignment="Center" />
             <Grid Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="3" ColumnDefinitions="Auto,Auto,Auto,*" Margin="0,5,0,0">
-              <Border Classes="etiqueta-pilula" Margin="0,0,6,0">
+              <c:Caixa Classes="etiqueta-pilula" Margin="0,0,6,0">
                 <TextBlock Text="{Binding Tipo}" FontSize="11.5" FontWeight="SemiBold" />
-              </Border>
-              <Border Grid.Column="1" Classes="etiqueta-pilula" Margin="0,0,6,0" IsVisible="{Binding TemModelo}">
+              </c:Caixa>
+              <c:Caixa Grid.Column="1" Classes="etiqueta-pilula" Margin="0,0,6,0" IsVisible="{Binding TemModelo}">
                 <TextBlock Text="{Binding ModeloPedido}" FontSize="11.5" />
-              </Border>
+              </c:Caixa>
               <TextBlock Grid.Column="2" Classes="fraco" Text="{Binding EstadoTexto}" FontSize="12" VerticalAlignment="Center" Margin="2,0,12,0" />
               <TextBlock Grid.Column="3" Classes="suave mono" Text="{Binding Atividade}" IsVisible="{Binding MostraAtividade}"
                          FontSize="12" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
@@ -777,15 +777,15 @@
                      Text="{l:T 'O Claude Code só mandou a contagem das ferramentas deste subagent, sem as chamadas.'}" />
           <StackPanel IsVisible="{Binding TemResultado}">
             <TextBlock Classes="secao-geral" Text="{l:T 'RESULTADO'}" Margin="0,8,0,4" />
-            <Border Classes="mdCodigo" MaxHeight="360">
+            <c:Caixa Classes="mdCodigo" MaxHeight="360">
               <ScrollViewer HorizontalScrollBarVisibility="Disabled">
                 <c:MarkdownTexto Texto="{Binding Resultado}" />
               </ScrollViewer>
-            </Border>
+            </c:Caixa>
           </StackPanel>
         </StackPanel>
       </StackPanel>
-    </Border>
+    </c:Caixa>
   </DataTemplate>
 
   <DataTemplate x:Key="GrupoDeSubagentes" x:DataType="vm:ItemSubagentes">
@@ -843,7 +843,7 @@
   </ControlTheme>
 
   <DataTemplate x:Key="CartaoDeSegredo" x:DataType="vm:ItemSegredo">
-    <Border Classes="pedido" Classes.respondida="{Binding Respondida}">
+    <c:Caixa Classes="pedido" Classes.respondida="{Binding Respondida}">
       <StackPanel Spacing="10">
         <Grid ColumnDefinitions="Auto,*">
           <c:Icone Nome="chave" Tamanho="16" Foreground="{DynamicResource Laranja}" IsVisible="{Binding Pendente}" VerticalAlignment="Top" Margin="0,1,8,0" />
@@ -876,27 +876,27 @@
           </TextBox>
         </Grid>
         <TextBlock Classes="fraco" Text="{Binding Aviso}" IsVisible="{Binding Pendente}" TextWrapping="Wrap" FontSize="12" />
-        <Border Classes="erro" IsVisible="{Binding TemErro}" Padding="8,6">
+        <c:Caixa Classes="erro" IsVisible="{Binding TemErro}" Padding="8,6">
           <TextBlock Text="{Binding Erro}" TextWrapping="Wrap" FontSize="12" />
-        </Border>
+        </c:Caixa>
         <StackPanel Orientation="Horizontal" Spacing="8" IsVisible="{Binding Pendente}">
           <Button Classes="primario" Content="{l:T 'Salvar'}" Command="{Binding SalvarCommand}" />
           <Button Classes="contorno" Content="{l:T 'Recusar'}" Command="{Binding RecusarCommand}" />
         </StackPanel>
         <TextBlock Classes="fraco" Text="{Binding Resposta}" IsVisible="{Binding Respondida}" TextWrapping="Wrap" />
       </StackPanel>
-    </Border>
+    </c:Caixa>
   </DataTemplate>
 
   <DataTemplate x:Key="SegredoNoTrecho" x:DataType="vm:ItemSegredo">
-    <Border Classes="pedido" Classes.respondida="{Binding Respondida}" Padding="10,8" Margin="0,6">
+    <c:Caixa Classes="pedido" Classes.respondida="{Binding Respondida}" Padding="10,8" Margin="0,6">
       <StackPanel Spacing="6">
         <TextBlock Text="{Binding Titulo}" FontWeight="SemiBold" FontSize="12.5" TextWrapping="Wrap" />
         <TextBlock Classes="suave" Text="{Binding Motivo}" FontSize="12" TextWrapping="Wrap" MaxLines="3" TextTrimming="CharacterEllipsis" />
         <TextBlock Classes="fraco" Text="{l:T 'Responda pela conversa completa: o campo do segredo fica só lá.'}" FontSize="12" TextWrapping="Wrap" IsVisible="{Binding Pendente}" />
         <TextBlock Classes="fraco" Text="{Binding Resposta}" FontSize="12" IsVisible="{Binding Respondida}" />
       </StackPanel>
-    </Border>
+    </c:Caixa>
   </DataTemplate>
 
   <DataTemplate x:Key="SegredoNoCartao" x:DataType="vm:ChatVM">
@@ -990,12 +990,12 @@
   </DataTemplate>
 
   <DataTemplate x:Key="OrigemDoPedido" x:DataType="vm:ItemPermissao">
-    <Border Classes="etiqueta-pilula" HorizontalAlignment="Left" Padding="7,2" ToolTip.Tip="{l:T 'Este pedido veio de um subagent desta conversa'}">
+    <c:Caixa Classes="etiqueta-pilula" HorizontalAlignment="Left" Padding="7,2" ToolTip.Tip="{l:T 'Este pedido veio de um subagent desta conversa'}">
       <StackPanel Orientation="Horizontal" Spacing="6">
         <c:Icone Nome="subagente" Tamanho="12" Classes="suave" VerticalAlignment="Center" />
         <TextBlock Text="{Binding Subagente}" FontSize="12" FontWeight="Medium" TextTrimming="CharacterEllipsis" MaxWidth="560" VerticalAlignment="Center" />
       </StackPanel>
-    </Border>
+    </c:Caixa>
   </DataTemplate>
 
   <ControlTheme x:Key="GraficoDeDias" TargetType="ItemsControl">
@@ -1140,7 +1140,7 @@
   </ControlTheme>
 
   <DataTemplate x:Key="ConversaNaLinha" x:DataType="vm:ConversaNaLinhaVM">
-    <Border Theme="{StaticResource CaixaDeComentario}" Classes.resolvida="{Binding Resolvida}">
+    <c:Caixa Theme="{StaticResource CaixaDeComentario}" Classes.resolvida="{Binding Resolvida}">
       <StackPanel Spacing="5">
         <Grid ColumnDefinitions="Auto,*,Auto">
           <ContentControl Content="{Binding}" ContentTemplate="{StaticResource AvatarDeRevisor}" VerticalAlignment="Center" Margin="0,0,7,0" />
@@ -1169,11 +1169,11 @@
           </ItemsControl.ItemTemplate>
         </ItemsControl>
       </StackPanel>
-    </Border>
+    </c:Caixa>
   </DataTemplate>
 
   <DataTemplate x:Key="ComentarioPendenteNaLinha" x:DataType="vm:ComentarioPendenteVM">
-    <Border Theme="{StaticResource CaixaDeComentario}" Classes="pendente">
+    <c:Caixa Theme="{StaticResource CaixaDeComentario}" Classes="pendente">
       <StackPanel Spacing="6">
         <Grid ColumnDefinitions="Auto,*,Auto,Auto">
           <c:Icone Nome="conversa" Tamanho="12" Foreground="{DynamicResource Acento}" VerticalAlignment="Center" Margin="0,0,7,0" />
@@ -1201,7 +1201,7 @@
           </StackPanel>
         </StackPanel>
       </StackPanel>
-    </Border>
+    </c:Caixa>
   </DataTemplate>
 
   <DataTemplate x:Key="OpcaoDeMenu" x:DataType="vm:OpcaoMenuVM">
@@ -1248,7 +1248,7 @@
   </DataTemplate>
 
   <DataTemplate x:Key="FaixaDaNuvem" x:DataType="vm:ChatVM">
-    <Border Classes="faixa-subagentes" Classes.caiu="{Binding NuvemCaiu}" v:Animacoes.Entrada="True">
+    <c:Caixa Classes="faixa-subagentes" Classes.caiu="{Binding NuvemCaiu}" v:Animacoes.Entrada="True">
       <Grid ColumnDefinitions="Auto,*,Auto,Auto,Auto" Margin="4,0">
         <c:Icone Nome="nuvem" Tamanho="14" Foreground="{DynamicResource Ciano}" VerticalAlignment="Center" Margin="0,0,10,0" />
         <TextBlock Grid.Column="1" Text="{Binding TextoNuvem}" TextWrapping="Wrap" FontSize="12.5" VerticalAlignment="Center" />
@@ -1269,11 +1269,11 @@
           </StackPanel>
         </Button>
       </Grid>
-    </Border>
+    </c:Caixa>
   </DataTemplate>
 
   <DataTemplate x:Key="SugestaoDaNuvem" x:DataType="vm:ChatVM">
-    <Border Classes="faixa-subagentes" v:Animacoes.Entrada="True">
+    <c:Caixa Classes="faixa-subagentes" v:Animacoes.Entrada="True">
       <Grid ColumnDefinitions="Auto,*,Auto,Auto" Margin="4,0">
         <c:Icone Nome="nuvem" Tamanho="14" Foreground="{DynamicResource Ciano}" VerticalAlignment="Center" Margin="0,0,10,0" />
         <TextBlock Grid.Column="1" Text="{Binding SugestaoNuvem}" TextWrapping="Wrap" FontSize="12.5" VerticalAlignment="Center" />
@@ -1283,7 +1283,7 @@
           <c:Icone Nome="fechar" Tamanho="12" />
         </Button>
       </Grid>
-    </Border>
+    </c:Caixa>
   </DataTemplate>
 
   <ControlTheme x:Key="CartaoDeMaquina" TargetType="Border">
@@ -1301,12 +1301,12 @@
         <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center">
           <StackPanel Orientation="Horizontal" Spacing="8">
             <TextBlock Text="{Binding Nome}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
-            <Border Classes="etiqueta-pilula" IsVisible="{Binding TemEstado}" VerticalAlignment="Center">
+            <c:Caixa Classes="etiqueta-pilula" IsVisible="{Binding TemEstado}" VerticalAlignment="Center">
               <StackPanel Orientation="Horizontal" Spacing="5">
                 <Ellipse Width="6" Height="6" Fill="{DynamicResource Verde}" IsVisible="{Binding Ligada}" VerticalAlignment="Center" />
                 <TextBlock Text="{Binding TextoEstado}" FontSize="11" />
               </StackPanel>
-            </Border>
+            </c:Caixa>
           </StackPanel>
           <TextBlock Classes="mono fraco" Text="{Binding Endereco}" FontSize="12" TextTrimming="CharacterEllipsis" />
           <TextBlock Classes="fraco" Text="{Binding Situacao}" FontSize="12" TextWrapping="Wrap" />
@@ -1335,12 +1335,12 @@
       <TextBlock Classes="titulo-painel" Text="{l:T 'Máquinas na nuvem'}" />
       <TextBlock Classes="fraco" TextWrapping="Wrap"
                  Text="{l:T 'Deixe o agente (e até o projeto rodando) numa máquina na nuvem em vez de gastar o processador e a memória deste PC. Este PC só controla, e o agente continua lá mesmo com ele desligado. Cada conversa escolhe onde roda pelo botão Neste PC, ao lado do agente; o projeto precisa permitir a nuvem na página dele.'}" />
-      <Border Classes="painel" IsVisible="{Binding TemAviso}" Padding="10,8">
+      <c:Caixa Classes="painel" IsVisible="{Binding TemAviso}" Padding="10,8">
         <Grid ColumnDefinitions="Auto,*">
           <c:Icone Nome="alerta" Tamanho="14" Foreground="{DynamicResource Laranja}" VerticalAlignment="Top" Margin="0,1,8,0" />
           <SelectableTextBlock Grid.Column="1" Text="{Binding Aviso}" TextWrapping="Wrap" FontSize="12.5" />
         </Grid>
-      </Border>
+      </c:Caixa>
       <ItemsControl ItemsSource="{Binding Maquinas}" ItemTemplate="{StaticResource LinhaDeMaquina}" IsVisible="{Binding TemMaquinas}" />
       <Button HorizontalAlignment="Left" Command="{Binding NovaMaquinaCommand}" IsVisible="{Binding !Formulario}">
         <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="mais" Tamanho="13" /><TextBlock Text="{l:T 'Conectar minha máquina (SSH)…'}" /></StackPanel>
@@ -1379,7 +1379,7 @@
           <StackPanel Orientation="Horizontal" Spacing="8">
             <c:Icone Nome="nuvem" Tamanho="14" Foreground="{DynamicResource Ciano}" VerticalAlignment="Center" />
             <TextBlock Text="InstaBox" FontWeight="SemiBold" VerticalAlignment="Center" />
-            <Border Classes="etiqueta-pilula" IsVisible="{Binding TemChaveInstaBox}"><TextBlock Text="{l:T 'chave guardada'}" FontSize="11" /></Border>
+            <c:Caixa Classes="etiqueta-pilula" IsVisible="{Binding TemChaveInstaBox}"><TextBlock Text="{l:T 'chave guardada'}" FontSize="11" /></c:Caixa>
           </StackPanel>
           <TextBlock Classes="fraco" FontSize="12" TextWrapping="Wrap"
                      Text="{l:T 'O Nexora cria a máquina, entra pelo SSH com um certificado que vale uma hora e instala o Claude Code lá. Pausada, ela só cobra o disco, e uma conversa na nuvem liga a máquina sozinha. O InstaBox não diz quem opera o serviço nem publica termos de uso.'}" />
@@ -1435,7 +1435,7 @@
           <StackPanel Orientation="Horizontal" Spacing="8">
             <c:Icone Nome="nuvem" Tamanho="14" Foreground="{DynamicResource Ciano}" VerticalAlignment="Center" />
             <TextBlock Text="Freestyle" FontWeight="SemiBold" VerticalAlignment="Center" />
-            <Border Classes="etiqueta-pilula" IsVisible="{Binding TemChaveFreestyle}"><TextBlock Text="{l:T 'chave guardada'}" FontSize="11" /></Border>
+            <c:Caixa Classes="etiqueta-pilula" IsVisible="{Binding TemChaveFreestyle}"><TextBlock Text="{l:T 'chave guardada'}" FontSize="11" /></c:Caixa>
           </StackPanel>
           <TextBlock Classes="fraco" FontSize="12" TextWrapping="Wrap"
                      Text="{l:T 'O Nexora cria a máquina (Ubuntu com git, node e Claude Code), entra pelo SSH da Freestyle com um token que vale uma hora e a pausa quando a conversa termina. O plano grátis tem limite de horas por mês. A chave de API sai em dash.freestyle.sh.'}" />
@@ -1479,7 +1479,7 @@
           <StackPanel Orientation="Horizontal" Spacing="8">
             <c:Icone Nome="chave" Tamanho="14" Classes="suave" VerticalAlignment="Center" />
             <TextBlock Text="{l:T 'Login do Claude na máquina'}" FontWeight="SemiBold" VerticalAlignment="Center" />
-            <Border Classes="etiqueta-pilula" IsVisible="{Binding TemToken}"><TextBlock Text="{l:T 'guardado'}" FontSize="11" /></Border>
+            <c:Caixa Classes="etiqueta-pilula" IsVisible="{Binding TemToken}"><TextBlock Text="{l:T 'guardado'}" FontSize="11" /></c:Caixa>
           </StackPanel>
           <TextBlock Classes="fraco" FontSize="12" TextWrapping="Wrap" Text="{Binding TextoToken}" />
           <Grid ColumnDefinitions="*,Auto,Auto" IsVisible="{Binding GuardaToken}" MaxWidth="620" HorizontalAlignment="Left">
@@ -1504,7 +1504,7 @@
   </DataTemplate>
 
   <DataTemplate x:Key="NuvemDoProjeto" x:DataType="vm:AmbienteVM">
-    <Border Classes="painel">
+    <c:Caixa Classes="painel">
       <Grid ColumnDefinitions="*,Auto">
         <StackPanel Spacing="4">
           <StackPanel Orientation="Horizontal" Spacing="8">
@@ -1516,6 +1516,6 @@
         <ToggleSwitch Grid.Column="1" IsChecked="{Binding PodeIrParaNuvem}" OnContent="" OffContent="" VerticalAlignment="Center"
                       AutomationProperties.Name="{l:T 'Pode ir para a nuvem'}" />
       </Grid>
-    </Border>
+    </c:Caixa>
   </DataTemplate>
 </ResourceDictionary>
