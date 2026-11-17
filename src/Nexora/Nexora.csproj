@@ -27,6 +27,13 @@
     <SatelliteResourceLanguages>pt-BR</SatelliteResourceLanguages>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
+  <ItemGroup>
+    <Using Include="Nexora.Modelos" />
+    <Using Include="Nexora.Servicos" />
+    <Using Include="Nexora.Controles" />
+    <Using Include="Nexora.Aplicativo" />
+    <Using Include="Nexora.Desempenho" />
+  </ItemGroup>
   <Target Name="SoOCoreDoWebView2" BeforeTargets="ResolveAssemblyReferences">
     <ItemGroup>
       <Reference Remove="@(Reference)" Condition="'%(Filename)' == 'Microsoft.Web.WebView2.Wpf' Or '%(Filename)' == 'Microsoft.Web.WebView2.WinForms'" />

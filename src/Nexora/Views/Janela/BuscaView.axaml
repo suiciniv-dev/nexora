@@ -1,0 +1,54 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:l="using:Nexora.Traducao"
+             xmlns:vm="using:Nexora.ViewModels"
+             xmlns:c="using:Nexora.Controles"
+             x:Class="Nexora.Views.BuscaView"
+             x:DataType="vm:JanelaVM">
+  <UserControl.Styles>
+    <Style Selector="TextBox.busca-rapida">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="FontSize" Value="17" />
+      <Setter Property="Padding" Value="4,10" />
+    </Style>
+    <Style Selector="TextBox.busca-rapida:focus /template/ Border#PART_BorderElement, TextBox.busca-rapida:pointerover /template/ Border#PART_BorderElement">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="0" />
+    </Style>
+  </UserControl.Styles>
+  <Panel>
+    <Border Background="{DynamicResource VeuLeve}" IsHitTestVisible="False" />
+    <Button Theme="{StaticResource VeuSobreposto}" Command="{Binding FecharBuscaCommand}" AutomationProperties.Name="{l:T 'Fechar a busca'}" />
+    <Border Theme="{StaticResource Dialogo}" Width="640" Padding="8" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,90,0,0">
+      <StackPanel Spacing="6">
+        <Grid ColumnDefinitions="Auto,*,Auto" Margin="10,0,8,0">
+          <c:Icone Nome="busca" Tamanho="18" Classes="fraco" VerticalAlignment="Center" Margin="0,0,8,0" />
+          <TextBox x:Name="Campo" Grid.Column="1" Classes="busca-rapida" Text="{Binding Busca}"
+                   PlaceholderText="{l:T 'Procurar telas, comandos, projetos e conversas'}" />
+          <c:Caixa Grid.Column="2" Classes="tecla" VerticalAlignment="Center"><TextBlock Text="Esc" /></c:Caixa>
+        </Grid>
+        <Border Height="1" Background="{DynamicResource Borda}" />
+        <ListBox x:Name="Lista" Classes="lista" ItemsSource="{Binding Resultados}" SelectedItem="{Binding ResultadoSelecionado}" MaxHeight="420" Background="Transparent">
+          <ListBox.ItemTemplate>
+            <DataTemplate x:DataType="vm:ResultadoBuscaVM">
+              <Grid ColumnDefinitions="Auto,*,Auto" Background="Transparent" Tapped="Resultado_Tapped">
+                <c:Icone Nome="{Binding Icone}" Tamanho="15" Classes="suave" VerticalAlignment="Center" Margin="0,0,12,0" />
+                <TextBlock Grid.Column="1" Text="{Binding Titulo}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+                <TextBlock Grid.Column="2" Classes="fraco" Text="{Binding Detalhe}" FontSize="12" VerticalAlignment="Center" Margin="12,0,0,0" MaxWidth="240" TextTrimming="CharacterEllipsis" />
+              </Grid>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>
+        <TextBlock Classes="fraco" Text="{l:T 'Nada encontrado.'}" IsVisible="{Binding SemResultados}" Margin="12,6,12,10" />
+        <StackPanel Orientation="Horizontal" Spacing="6" Margin="12,2,12,4">
+          <c:Caixa Classes="tecla"><TextBlock Text="↑" /></c:Caixa>
+          <c:Caixa Classes="tecla"><TextBlock Text="↓" /></c:Caixa>
+          <TextBlock Classes="fraco" Text="{l:T 'escolhe'}" FontSize="12" VerticalAlignment="Center" Margin="0,0,10,0" />
+          <c:Caixa Classes="tecla"><TextBlock Text="Enter" /></c:Caixa>
+          <TextBlock Classes="fraco" Text="{l:T 'abre'}" FontSize="12" VerticalAlignment="Center" />
+        </StackPanel>
+      </StackPanel>
+    </Border>
+  </Panel>
+</UserControl>

@@ -1,0 +1,361 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:l="using:Nexora.Traducao"
+             xmlns:vm="using:Nexora.ViewModels"
+             xmlns:v="using:Nexora.Views"
+             xmlns:c="using:Nexora.Controles"
+             x:Class="Nexora.Views.LateralView"
+             x:Name="Raiz"
+             x:DataType="vm:JanelaVM">
+  <UserControl.Styles>
+    <Style Selector="Button.nav">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="HorizontalAlignment" Value="Stretch" />
+      <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+      <Setter Property="Padding" Value="12,6" />
+      <Setter Property="Margin" Value="8,0" />
+      <Setter Property="Foreground" Value="{DynamicResource Texto}" />
+    </Style>
+    <Style Selector="Button.nav:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource Superficie}" />
+      <Setter Property="Foreground" Value="{DynamicResource Texto}" />
+    </Style>
+    <Style Selector="Button.nav.ativo">
+      <Setter Property="Background" Value="{DynamicResource MarcaFundo}" />
+    </Style>
+    <Style Selector="Button.nav c|Caixa.marca-sel">
+      <Setter Property="IsVisible" Value="False" />
+    </Style>
+    <Style Selector="Button.nav.ativo c|Caixa.marca-sel">
+      <Setter Property="IsVisible" Value="True" />
+    </Style>
+    <Style Selector="Button.grupo">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="HorizontalAlignment" Value="Stretch" />
+      <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+      <Setter Property="Padding" Value="8,5" />
+      <Setter Property="Margin" Value="8,0" />
+      <Setter Property="Foreground" Value="{DynamicResource TextoSuave}" />
+    </Style>
+    <Style Selector="Button.grupo:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource Superficie}" />
+      <Setter Property="Foreground" Value="{DynamicResource Texto}" />
+    </Style>
+    <Style Selector="Button.sessao">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="HorizontalAlignment" Value="Stretch" />
+      <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+      <Setter Property="Padding" Value="12,6,6,6" />
+      <Setter Property="Margin" Value="8,0" />
+      <Setter Property="Foreground" Value="{DynamicResource Texto}" />
+    </Style>
+    <Style Selector="Button.sessao /template/ ContentPresenter#PART_ContentPresenter, Button.grupo /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Transitions">
+        <Transitions><c:TransicaoDeCor Property="Background" Duration="0:0:0.12" /></Transitions>
+      </Setter>
+    </Style>
+    <Style Selector="Button.sessao:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource Superficie}" />
+      <Setter Property="Foreground" Value="{DynamicResource Texto}" />
+    </Style>
+    <Style Selector="Button.sessao.ativo /template/ ContentPresenter#PART_ContentPresenter, Button.sessao.ativo:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource SelecaoFundo}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource SelecaoBorda}" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="BoxShadow" Value="{DynamicResource SelecaoSombra}" />
+    </Style>
+    <Style Selector="Button.sessao c|Caixa.marca-sel">
+      <Setter Property="IsVisible" Value="False" />
+    </Style>
+    <Style Selector="Button.sessao, Button.sessao /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="ClipToBounds" Value="False" />
+    </Style>
+    <Style Selector="Button.sessao.ativo c|Caixa.marca-sel">
+      <Setter Property="IsVisible" Value="True" />
+    </Style>
+    <Style Selector="Button.sessao.ativo TextBlock.titulo-sessao">
+      <Setter Property="FontWeight" Value="Medium" />
+    </Style>
+    <Style Selector="Button.sessao Button.icone, Button.grupo Button.icone">
+      <Setter Property="Opacity" Value="0" />
+    </Style>
+    <Style Selector="Button.sessao:pointerover Button.icone, Button.grupo:pointerover Button.icone, Button.sessao:focus-within Button.icone, Button.grupo:focus-within Button.icone">
+      <Setter Property="Opacity" Value="1" />
+    </Style>
+    <Style Selector="Button.sessao.duas-linhas">
+      <Setter Property="Padding" Value="12,5,6,5" />
+    </Style>
+    <Style Selector="Button.sessao.paradas">
+      <Setter Property="Padding" Value="30,3,10,3" />
+      <Setter Property="Margin" Value="8,1,8,2" />
+    </Style>
+    <Style Selector="TextBlock.linha-estado">
+      <Setter Property="FontSize" Value="11" />
+      <Setter Property="Margin" Value="0,1,0,0" />
+      <Setter Property="Foreground" Value="{DynamicResource TextoFraco}" />
+    </Style>
+    <Style Selector="TextBlock.linha-estado.precisa">
+      <Setter Property="Foreground" Value="{DynamicResource Laranja}" />
+    </Style>
+    <Style Selector="TextBlock.linha-estado.erro">
+      <Setter Property="Foreground" Value="{DynamicResource Vermelho}" />
+    </Style>
+    <Style Selector="TextBlock.linha-estado.pronta">
+      <Setter Property="Foreground" Value="{DynamicResource TextoSuave}" />
+    </Style>
+    <Style Selector="Grid.ramo">
+      <Setter Property="Margin" Value="30,7,12,3" />
+    </Style>
+    <Style Selector="TextBlock.ramo">
+      <Setter Property="FontSize" Value="11.5" />
+      <Setter Property="Foreground" Value="{DynamicResource TextoFraco}" />
+    </Style>
+    <Style Selector="Button.uso-rodape">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="HorizontalAlignment" Value="Stretch" />
+      <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+      <Setter Property="Padding" Value="8,6" />
+      <Setter Property="CornerRadius" Value="10" />
+      <Setter Property="Foreground" Value="{DynamicResource Texto}" />
+    </Style>
+    <Style Selector="Button.uso-rodape:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource Superficie}" />
+      <Setter Property="Foreground" Value="{DynamicResource Texto}" />
+    </Style>
+    <Style Selector="c|AnelDeUso.uso">
+      <Setter Property="Cor" Value="{DynamicResource Acento}" />
+      <Setter Property="Trilho" Value="{DynamicResource Borda}" />
+      <Setter Property="Espessura" Value="3.5" />
+    </Style>
+    <Style Selector="c|AnelDeUso.uso.alerta">
+      <Setter Property="Cor" Value="{DynamicResource Laranja}" />
+    </Style>
+    <Style Selector="c|AnelDeUso.uso.critico">
+      <Setter Property="Cor" Value="{DynamicResource Vermelho}" />
+    </Style>
+    <Style Selector="c|Caixa.sigla-lateral">
+      <Setter Property="Width" Value="18" />
+      <Setter Property="Height" Value="18" />
+      <Setter Property="CornerRadius" Value="5" />
+      <Setter Property="ClipToBounds" Value="True" />
+      <Setter Property="Background" Value="{DynamicResource MarcaGradiente}" />
+    </Style>
+    <Style Selector="c|Caixa.sigla-lateral.imagem">
+      <Setter Property="Background" Value="Transparent" />
+    </Style>
+    <Style Selector="c|Caixa.sigla-lateral > TextBlock">
+      <Setter Property="FontSize" Value="8.5" />
+      <Setter Property="FontWeight" Value="Bold" />
+      <Setter Property="Foreground" Value="{DynamicResource SobreMarca}" />
+      <Setter Property="HorizontalAlignment" Value="Center" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+    <Style Selector="c|Caixa.contador-nav">
+      <Setter Property="MinWidth" Value="20" />
+      <Setter Property="Height" Value="18" />
+      <Setter Property="CornerRadius" Value="9" />
+      <Setter Property="Padding" Value="6,0" />
+      <Setter Property="Background" Value="{DynamicResource Laranja}" />
+    </Style>
+    <Style Selector="c|Caixa.contador-nav > TextBlock">
+      <Setter Property="FontSize" Value="11" />
+      <Setter Property="FontWeight" Value="Bold" />
+      <Setter Property="Foreground" Value="{DynamicResource SobreLaranja}" />
+      <Setter Property="HorizontalAlignment" Value="Center" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+    <Style Selector="TextBlock.secao-lateral">
+      <Setter Property="Foreground" Value="{DynamicResource TextoFraco}" />
+      <Setter Property="FontSize" Value="11.5" />
+      <Setter Property="FontWeight" Value="SemiBold" />
+      <Setter Property="Margin" Value="20,18,12,6" />
+    </Style>
+  </UserControl.Styles>
+
+  <Panel x:Name="AreaDeSoltar" Background="Transparent">
+  <DockPanel>
+    <v:TrilhoView DockPanel.Dock="Top" Embutido="True" Margin="0,10,0,6" />
+    <Border DockPanel.Dock="Top" Height="1" Background="{DynamicResource Borda}" Margin="16,2,16,0" />
+    <Border DockPanel.Dock="Bottom" BorderBrush="{DynamicResource Borda}" BorderThickness="0,1,0,0" Padding="12,6">
+      <StackPanel Orientation="Horizontal" Spacing="4">
+        <Button Classes="icone" Command="{Binding AbrirBoasVindasCommand}" ToolTip.Tip="{l:T 'Guia de primeiros passos'}" AutomationProperties.Name="{l:T 'Guia de primeiros passos'}">
+          <c:Icone Nome="ajuda" Tamanho="16" />
+        </Button>
+        <Button Classes="icone" Command="{Binding MostrarAtalhosCommand}" ToolTip.Tip="{l:T 'Atalhos de teclado (F1)'}" AutomationProperties.Name="{l:T 'Atalhos de teclado'}">
+          <c:Icone Nome="teclado" Tamanho="16" />
+        </Button>
+        <Button Classes="icone" Command="{Binding MostrarConfiguracoesCommand}" ToolTip.Tip="{l:T 'Configurações (Ctrl+,)'}" AutomationProperties.Name="{l:T 'Configurações'}">
+          <c:Icone Nome="ajustes" Tamanho="16" />
+        </Button>
+      </StackPanel>
+    </Border>
+    <Grid DockPanel.Dock="Top" ColumnDefinitions="*,Auto" Margin="20,12,10,0">
+      <TextBlock Text="{l:T 'Conversas'}" FontSize="12.5" FontWeight="SemiBold" Foreground="{DynamicResource TextoSuave}" VerticalAlignment="Center" />
+      <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="2">
+        <Button Classes="icone pequeno" Command="{Binding AtualizarCommand}" ToolTip.Tip="{l:T 'Ler de novo os projetos e o histórico'}" AutomationProperties.Name="{l:T 'Atualizar'}">
+          <c:Icone Nome="atualizar" Tamanho="13" />
+        </Button>
+        <Button Classes="icone pequeno fixar-lateral" Classes.ligado="{Binding LateralFixa}" Command="{Binding FixarLateralCommand}" ToolTip.Tip="{Binding DicaBotaoLateral}" AutomationProperties.Name="{l:T 'Fixar a lateral'}">
+          <c:Icone Nome="fixar" Tamanho="14" />
+        </Button>
+      </StackPanel>
+    </Grid>
+
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+      <StackPanel Margin="0,0,0,14">
+        <StackPanel IsVisible="{Binding TemFixadas}">
+          <TextBlock Classes="secao-lateral" Text="{l:T 'Fixadas'}" />
+          <ItemsControl ItemsSource="{Binding Fixadas}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="vm:ConversaVM">
+                <Button Classes="sessao" Command="{Binding AbrirCommand}" ToolTip.Tip="{Binding Local}">
+                  <Button.ContextMenu>
+                    <ContextMenu><MenuItem Header="{Binding TextoFixar}" Command="{Binding AlternarFixadaCommand}" /><MenuItem Header="{l:T 'Abrir em split view'}" Command="{Binding AbrirEmSplitCommand}" /></ContextMenu>
+                  </Button.ContextMenu>
+                  <Grid ColumnDefinitions="Auto,*">
+                    <c:Icone Nome="fixar" Tamanho="13" Classes="fraco" VerticalAlignment="Center" Margin="0,0,10,0" />
+                    <TextBlock Grid.Column="1" Text="{Binding Titulo}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" FontSize="13" />
+                  </Grid>
+                </Button>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </StackPanel>
+
+        <StackPanel IsVisible="{Binding TemEmAndamento}">
+          <TextBlock Classes="secao-lateral" Text="{l:T 'Em andamento'}" />
+          <ItemsControl ItemsSource="{Binding EmAndamento}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="vm:GrupoProjetoVM">
+                <StackPanel Margin="0,0,0,4">
+                  <Button Classes="grupo" Command="{Binding AbrirCommand}" ToolTip.Tip="{l:T 'Abrir a página do projeto'}">
+                    <Grid ColumnDefinitions="Auto,*,Auto">
+                      <Panel Margin="0,0,9,0" VerticalAlignment="Center">
+                        <c:Caixa Classes="sigla-lateral" IsVisible="{Binding !Primeira.TemIconeRepo, FallbackValue=True}"><TextBlock Text="{Binding Iniciais}" /></c:Caixa>
+                        <c:Caixa Classes="sigla-lateral imagem" IsVisible="{Binding Primeira.TemIconeRepo, FallbackValue=False}"><Image Source="{Binding Primeira.IconeRepo}" Stretch="UniformToFill" /></c:Caixa>
+                      </Panel>
+                      <TextBlock Grid.Column="1" Text="{Binding Nome}" FontSize="12.5" FontWeight="SemiBold" Foreground="{DynamicResource Texto}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+                      <Button Grid.Column="2" Classes="icone pequeno" Command="{Binding NovaSessaoCommand}" IsVisible="{Binding Ambiente, Converter={x:Static ObjectConverters.IsNotNull}}"
+                              ToolTip.Tip="{l:T 'Nova sessão neste projeto'}" AutomationProperties.Name="{l:T 'Nova sessão neste projeto'}">
+                        <c:Icone Nome="mais" Tamanho="12" />
+                      </Button>
+                    </Grid>
+                  </Button>
+                  <ItemsControl ItemsSource="{Binding Ramos}">
+                    <ItemsControl.ItemTemplate>
+                      <DataTemplate x:DataType="vm:RamoVM">
+                        <StackPanel>
+                          <Grid Classes="ramo" ColumnDefinitions="Auto,*" IsVisible="{Binding Cabecalho}" ToolTip.Tip="{Binding Nome}">
+                            <Panel Margin="0,0,7,0" VerticalAlignment="Center">
+                              <c:Icone Nome="worktree" Tamanho="11" Classes="fraco" IsVisible="{Binding Worktree}" />
+                              <c:Icone Nome="branch" Tamanho="11" Classes="fraco" IsVisible="{Binding Branch}" />
+                            </Panel>
+                            <TextBlock Grid.Column="1" Classes="ramo" Text="{Binding Nome}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+                          </Grid>
+                          <ItemsControl ItemsSource="{Binding Sessoes}">
+                            <ItemsControl.ItemTemplate>
+                              <DataTemplate x:DataType="vm:ChatVM">
+                                <c:BotaoLigado Classes="sessao duas-linhas" Classes.ativo="{Binding EmFoco}" IsChecked="{Binding EmFoco, Mode=OneWay}" IsVisible="{Binding !RecolhidaNaLateral}"
+                                        Command="{Binding #Raiz.((vm:JanelaVM)DataContext).MostrarChatCommand}" CommandParameter="{Binding}" ToolTip.Tip="{Binding Onde}">
+                                  <Button.ContextMenu>
+                                    <ContextMenu><MenuItem Header="{l:T 'Abrir em split view'}" Command="{Binding AbrirEmSplitCommand}" /></ContextMenu>
+                                  </Button.ContextMenu>
+                                  <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,Auto">
+                                    <c:Caixa Grid.RowSpan="2" Classes="marca-sel" Width="4" Height="26" CornerRadius="2" Background="{DynamicResource MarcaGradiente}" BoxShadow="{DynamicResource SelecaoBrilho}"
+                                            Margin="-22,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                    <Ellipse Classes="estado" Classes.trabalhando="{Binding Trabalhando}" Classes.precisa="{Binding Precisa}"
+                                             Classes.pronta="{Binding EstaPronta}" Classes.erro="{Binding TemErro}" VerticalAlignment="Center" Margin="2,0,11,0" />
+                                    <TextBlock Grid.Column="1" Classes="titulo-sessao" Text="{Binding Titulo}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" FontSize="13" />
+                                    <TextBlock Grid.Row="1" Grid.Column="1" Classes="linha-estado" Classes.precisa="{Binding LinhaPrecisa}" Classes.erro="{Binding LinhaErro}" Classes.pronta="{Binding LinhaPronta}"
+                                               Text="{Binding LinhaLateral}" TextTrimming="CharacterEllipsis" />
+                                    <Button Grid.Column="2" Grid.RowSpan="2" Classes="icone pequeno" Command="{Binding FecharCommand}" Margin="4,0,0,0" VerticalAlignment="Center"
+                                            ToolTip.Tip="{l:T 'Encerrar a sessão (a conversa fica no histórico)'}" AutomationProperties.Name="{l:T 'Encerrar a sessão'}">
+                                      <c:Icone Nome="fechar" Tamanho="11" />
+                                    </Button>
+                                  </Grid>
+                                </c:BotaoLigado>
+                              </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                          </ItemsControl>
+                        </StackPanel>
+                      </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                  </ItemsControl>
+                  <Button Classes="sessao paradas" Command="{Binding AlternarParadasCommand}" IsVisible="{Binding TemParadas}" HorizontalAlignment="Left">
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                      <c:Icone Nome="direita" Tamanho="10" Classes="fraco" IsVisible="{Binding !MostrarParadas}" VerticalAlignment="Center" />
+                      <c:Icone Nome="abaixo" Tamanho="10" Classes="fraco" IsVisible="{Binding MostrarParadas}" VerticalAlignment="Center" />
+                      <TextBlock Classes="fraco" Text="{Binding TextoParadas}" FontSize="11.5" VerticalAlignment="Center" />
+                    </StackPanel>
+                  </Button>
+                </StackPanel>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </StackPanel>
+
+        <StackPanel IsVisible="{Binding SemConversasNenhuma}" Spacing="10" Margin="20,14,18,0">
+          <TextBlock Classes="suave" FontSize="13" TextWrapping="Wrap" Text="{l:T 'Nenhuma conversa ainda. Comece uma e ela aparece aqui, junto com o histórico.'}" />
+          <Button Classes="contorno" Command="{Binding NovaSessaoCommand}" HorizontalAlignment="Left">
+            <StackPanel Orientation="Horizontal" Spacing="7"><c:Icone Nome="mais" Tamanho="13" /><TextBlock Text="{l:T 'Nova conversa'}" /></StackPanel>
+          </Button>
+        </StackPanel>
+        <TextBlock Classes="fraco" FontSize="12.5" TextWrapping="Wrap" Margin="20,14,18,0" IsVisible="{Binding SemConversasNaBusca}"
+                   Text="{l:T 'Nenhuma conversa com esse termo.'}" />
+        <TextBlock Classes="secao-lateral" Text="{l:T 'Histórico'}" IsVisible="{Binding !SemConversas}" />
+        <StackPanel IsVisible="{Binding CarregandoConversas}" Spacing="12" Margin="20,8,18,0">
+          <c:Caixa Classes="esqueleto" Height="12" Width="200" />
+          <c:Caixa Classes="esqueleto" Height="12" Width="160" />
+          <c:Caixa Classes="esqueleto" Height="12" Width="190" />
+        </StackPanel>
+        <ItemsControl ItemsSource="{Binding Historico}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="vm:GrupoHistoricoVM">
+              <StackPanel Margin="0,0,0,4">
+                <Button Classes="grupo" Command="{Binding AlternarCommand}">
+                  <Grid ColumnDefinitions="Auto,*">
+                    <Panel Margin="0,0,8,0" VerticalAlignment="Center">
+                      <c:Icone Nome="abaixo" Tamanho="12" Classes="fraco" IsVisible="{Binding Expandido}" />
+                      <c:Icone Nome="direita" Tamanho="12" Classes="fraco" IsVisible="{Binding !Expandido}" />
+                    </Panel>
+                    <TextBlock Grid.Column="1" Text="{Binding Nome}" FontSize="12.5" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+                  </Grid>
+                </Button>
+                <StackPanel IsVisible="{Binding Expandido}">
+                  <ItemsControl ItemsSource="{Binding Visiveis}">
+                    <ItemsControl.ItemTemplate>
+                      <DataTemplate x:DataType="vm:ConversaVM">
+                        <Button Classes="sessao" Command="{Binding AbrirCommand}" Padding="28,5,8,5" ToolTip.Tip="{Binding Local}">
+                          <Button.ContextMenu>
+                            <ContextMenu><MenuItem Header="{Binding TextoFixar}" Command="{Binding AlternarFixadaCommand}" /><MenuItem Header="{l:T 'Abrir em split view'}" Command="{Binding AbrirEmSplitCommand}" /></ContextMenu>
+                          </Button.ContextMenu>
+                          <Grid ColumnDefinitions="*,Auto">
+                            <TextBlock Text="{Binding Titulo}" TextTrimming="CharacterEllipsis" FontSize="13" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="1" Classes="fraco" Text="{Binding Quando}" FontSize="11" Margin="8,0,0,0" VerticalAlignment="Center" />
+                          </Grid>
+                        </Button>
+                      </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                  </ItemsControl>
+                  <Button Classes="sessao" Command="{Binding AlternarMaisCommand}" IsVisible="{Binding TemMais}" Padding="28,3,8,3">
+                    <TextBlock Classes="fraco" Text="{Binding TextoMais}" FontSize="12" />
+                  </Button>
+                </StackPanel>
+              </StackPanel>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </StackPanel>
+    </ScrollViewer>
+  </DockPanel>
+  <Border x:Name="RealceSoltar" Theme="{StaticResource ZonaDeSoltar}">
+    <Border Background="{DynamicResource AcentoFundo}" CornerRadius="12">
+    <StackPanel Spacing="8" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="16">
+      <c:Icone Nome="pasta" Tamanho="26" Foreground="{DynamicResource Acento}" HorizontalAlignment="Center" />
+      <TextBlock Text="{l:T 'Solte para adicionar como projeto'}" FontWeight="SemiBold" TextWrapping="Wrap" TextAlignment="Center" />
+      <TextBlock Classes="fraco" Text="{l:T 'Só pastas viram projeto.'}" FontSize="12" TextAlignment="Center" />
+    </StackPanel>
+    </Border>
+  </Border>
+  </Panel>
+</UserControl>

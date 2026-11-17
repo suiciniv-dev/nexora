@@ -1,0 +1,151 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:l="using:Nexora.Traducao"
+             xmlns:vm="using:Nexora.ViewModels"
+             xmlns:c="using:Nexora.Controles"
+             x:Class="Nexora.Views.UsoView"
+             x:DataType="vm:UsoVM">
+  <UserControl.Styles>
+    <Style Selector="ProgressBar.plano">
+      <Setter Property="Height" Value="8" />
+      <Setter Property="MinHeight" Value="8" />
+      <Setter Property="CornerRadius" Value="4" />
+      <Setter Property="Foreground" Value="{DynamicResource Acento}" />
+      <Setter Property="Background" Value="{DynamicResource SuperficieAlta}" />
+    </Style>
+    <Style Selector="ProgressBar.plano.alto">
+      <Setter Property="Foreground" Value="{DynamicResource Laranja}" />
+    </Style>
+    <Style Selector="ProgressBar.parte">
+      <Setter Property="Height" Value="6" />
+      <Setter Property="MinHeight" Value="6" />
+      <Setter Property="CornerRadius" Value="3" />
+      <Setter Property="Foreground" Value="{DynamicResource MarcaGradiente}" />
+      <Setter Property="Background" Value="{DynamicResource SuperficieAlta}" />
+    </Style>
+    <Style Selector="c|Caixa.barra">
+      <Setter Property="Width" Value="7" />
+      <Setter Property="CornerRadius" Value="2" />
+      <Setter Property="VerticalAlignment" Value="Bottom" />
+      <Setter Property="Background" Value="{DynamicResource TextoFraco}" />
+      <Setter Property="Opacity" Value="0.55" />
+    </Style>
+    <Style Selector="c|Caixa.barra.atual">
+      <Setter Property="Background" Value="{DynamicResource Acento}" />
+      <Setter Property="Opacity" Value="1" />
+    </Style>
+  </UserControl.Styles>
+
+  <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+    <StackPanel MaxWidth="1100" Margin="40,30,40,36" Spacing="20">
+      <Grid ColumnDefinitions="*,Auto">
+        <StackPanel Spacing="4">
+          <TextBlock Text="{l:T 'Uso'}" FontSize="26" FontWeight="SemiBold" />
+          <TextBlock Classes="suave" TextWrapping="Wrap"
+                     Text="{l:T 'O plano vem do /usage do Claude Code e a divisão por projeto, das conversas guardadas neste computador. Nada disso gasta tokens.'}" />
+        </StackPanel>
+        <Button Grid.Column="1" Classes="contorno" Command="{Binding AtualizarCommand}" VerticalAlignment="Center">
+          <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="atualizar" Tamanho="14" /><TextBlock Text="{l:T 'Atualizar'}" /></StackPanel>
+        </Button>
+      </Grid>
+
+      <c:Caixa Classes="painel">
+        <StackPanel Spacing="14">
+          <Grid ColumnDefinitions="*,Auto">
+            <TextBlock Classes="titulo-painel" Text="{l:T 'Plano'}" />
+            <TextBlock Grid.Column="1" Classes="fraco" Text="{Binding TextoPlano}" VerticalAlignment="Center" />
+          </Grid>
+          <ItemsControl ItemsSource="{Binding Plano}">
+            <ItemsControl.ItemsPanel>
+              <ItemsPanelTemplate><UniformGrid Rows="1" /></ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="vm:JanelaDoPlanoVM">
+                <StackPanel Spacing="6" Margin="0,0,24,0">
+                  <TextBlock Classes="suave" Text="{Binding Nome}" />
+                  <TextBlock Text="{Binding TextoPercentual}" FontSize="26" FontWeight="SemiBold" />
+                  <ProgressBar Classes="plano" Classes.alto="{Binding Alto}" Minimum="0" Maximum="1" Value="{Binding Fracao}" />
+                  <TextBlock Classes="fraco" Text="{Binding Reinicia}" FontSize="12" />
+                </StackPanel>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </StackPanel>
+      </c:Caixa>
+
+      <c:Caixa Classes="painel">
+        <StackPanel Spacing="12">
+          <Grid ColumnDefinitions="Auto,Auto,*,Auto">
+            <Button Classes="icone" Command="{Binding SemanaAnteriorCommand}" ToolTip.Tip="{l:T 'Semana anterior'}" AutomationProperties.Name="{l:T 'Semana anterior'}">
+              <c:Icone Nome="esquerda" Tamanho="15" />
+            </Button>
+            <Button Grid.Column="1" Classes="icone" Command="{Binding ProximaSemanaCommand}" ToolTip.Tip="{l:T 'Semana seguinte'}" AutomationProperties.Name="{l:T 'Semana seguinte'}" Margin="2,0,12,0">
+              <c:Icone Nome="direita" Tamanho="15" />
+            </Button>
+            <StackPanel Grid.Column="2" Spacing="1" VerticalAlignment="Center">
+              <TextBlock Classes="titulo-painel" Text="{Binding TituloSemana}" />
+              <TextBlock Classes="fraco" Text="{Binding ResumoSemana}" />
+            </StackPanel>
+            <TextBlock Grid.Column="3" Classes="fraco" Text="{l:T 'Lendo as conversas…'}" IsVisible="{Binding Carregando}" VerticalAlignment="Center" />
+          </Grid>
+          <StackPanel Spacing="6" IsVisible="{Binding MostraFiltros}">
+            <ItemsControl ItemsSource="{Binding Agentes}" IsVisible="{Binding MostraAgentes}" AutomationProperties.Name="{l:T 'Filtrar por agente'}">
+              <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+              <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="vm:FiltroUsoVM">
+                  <ToggleButton Classes="opcao" IsChecked="{Binding Marcado, Mode=OneWay}" Command="{Binding EscolherCommand}" Content="{Binding Rotulo}" Padding="10,4" Margin="0,0,6,0" />
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <ItemsControl ItemsSource="{Binding Modelos}" IsVisible="{Binding MostraModelos}" AutomationProperties.Name="{l:T 'Filtrar por modelo'}">
+              <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+              <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="vm:FiltroUsoVM">
+                  <ToggleButton Classes="opcao" IsChecked="{Binding Marcado, Mode=OneWay}" Command="{Binding EscolherCommand}" Content="{Binding Rotulo}" Padding="10,4" Margin="0,0,6,0" />
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </StackPanel>
+          <TextBlock Classes="fraco" TextWrapping="Wrap" FontSize="12"
+                     Text="{l:T 'A parte de cada projeto pesa as respostas pelo modelo (uma resposta do Opus conta mais que uma do Haiku), que é como o plano mede. O “do plano” só aparece na semana atual, junto com o /usage.'}" />
+          <TextBlock Classes="suave" Text="{l:T 'Nenhuma conversa nesta semana.'}" IsVisible="{Binding SemDados}" Margin="0,6,0,0" />
+          <ItemsControl ItemsSource="{Binding Linhas}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="vm:LinhaUsoVM">
+                <Grid ColumnDefinitions="Auto,*,Auto" Margin="0,8">
+                  <c:Caixa Classes="sigla-uso" Width="30" Height="30" CornerRadius="8" Background="{DynamicResource MarcaGradiente}" VerticalAlignment="Top" Margin="0,2,14,0">
+                    <TextBlock Text="{Binding Iniciais}" FontSize="11" FontWeight="Bold" Foreground="{DynamicResource SobreMarca}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                  </c:Caixa>
+                  <StackPanel Grid.Column="1" Spacing="5">
+                    <Grid ColumnDefinitions="*,Auto,Auto">
+                      <TextBlock Text="{Binding Nome}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+                      <TextBlock Grid.Column="1" Text="{Binding TextoParte}" FontWeight="Medium" Margin="12,0,0,0" />
+                      <TextBlock Grid.Column="2" Classes="suave" Text="{Binding TextoPlano}" IsVisible="{Binding TemPlano}" Margin="12,0,0,0" />
+                    </Grid>
+                    <ProgressBar Classes="parte" Minimum="0" Maximum="1" Value="{Binding Fracao}" />
+                    <TextBlock Classes="fraco" FontSize="12" TextWrapping="Wrap">
+                      <Run Text="{Binding TextoDetalhe}" />
+                      <Run Text="  ·  " />
+                      <Run Text="{Binding TextoModelos}" />
+                    </TextBlock>
+                  </StackPanel>
+                  <ItemsControl Grid.Column="2" ItemsSource="{Binding Historico}" Margin="22,0,0,0" Height="30" VerticalAlignment="Center"
+                                ToolTip.Tip="{l:T 'Parte deste projeto em cada uma das últimas 8 semanas'}">
+                    <ItemsControl.ItemsPanel>
+                      <ItemsPanelTemplate><StackPanel Orientation="Horizontal" Spacing="3" /></ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                      <DataTemplate x:DataType="vm:BarraVM">
+                        <c:Caixa Classes="barra" Classes.atual="{Binding Atual}" Height="{Binding Altura}" ToolTip.Tip="{Binding Dica}" />
+                      </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                  </ItemsControl>
+                </Grid>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </StackPanel>
+      </c:Caixa>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

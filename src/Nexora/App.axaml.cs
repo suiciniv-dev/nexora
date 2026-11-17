@@ -5,6 +5,8 @@ using Avalonia.Styling;
 using Nexora.Temas;
 using Nexora.ViewModels;
 
+using Nexora.Views;
+
 namespace Nexora;
 
 public partial class App : Application
@@ -21,7 +23,7 @@ public partial class App : Application
         if (Core.Texto.Idioma.EmIngles)
             System.Globalization.CultureInfo.CurrentCulture = System.Globalization.CultureInfo.DefaultThreadCurrentCulture = Core.Texto.Idioma.Cultura;
         AvaloniaXamlLoader.Load(this);
-        Views.NomesAcessiveis.Ligar();
+        Nexora.Controles.NomesAcessiveis.Ligar();
     }
 
     static void LigarHub(string[] args)

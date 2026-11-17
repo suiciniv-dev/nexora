@@ -1,0 +1,199 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:l="using:Nexora.Traducao"
+             xmlns:vm="using:Nexora.ViewModels"
+             xmlns:v="using:Nexora.Views"
+             xmlns:c="using:Nexora.Controles"
+             x:Class="Nexora.Views.FocoView"
+             x:DataType="vm:FocoVM"
+             Focusable="True">
+  <UserControl.Styles>
+    <Style Selector="c|Caixa.cartao-foco">
+      <Setter Property="Background" Value="{DynamicResource FundoSolido}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource Laranja}" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="CornerRadius" Value="24" />
+      <Setter Property="Padding" Value="28,24" />
+      <Setter Property="BoxShadow" Value="{DynamicResource BrilhoPrecisa}" />
+    </Style>
+    <Style Selector="c|Caixa.tecla-foco">
+      <Setter Property="Background" Value="{DynamicResource SuperficieAlta}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource BordaVidro}" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="CornerRadius" Value="6" />
+      <Setter Property="Padding" Value="6,0" />
+      <Setter Property="MinWidth" Value="20" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+    <Style Selector="c|Caixa.tecla-foco > TextBlock">
+      <Setter Property="FontFamily" Value="{DynamicResource Mono}" />
+      <Setter Property="FontSize" Value="11" />
+      <Setter Property="HorizontalAlignment" Value="Center" />
+      <Setter Property="Foreground" Value="{DynamicResource TextoSuave}" />
+    </Style>
+    <Style Selector="Button.primario c|Caixa.tecla-foco">
+      <Setter Property="Background" Value="#22000000" />
+      <Setter Property="BorderBrush" Value="#33000000" />
+    </Style>
+    <Style Selector="Button.primario c|Caixa.tecla-foco > TextBlock">
+      <Setter Property="Foreground" Value="{DynamicResource SobreAcento}" />
+    </Style>
+    <Style Selector="Button.contorno.ligado /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Foreground" Value="{DynamicResource Acento}" />
+      <Setter Property="Background" Value="{DynamicResource AcentoFundo}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource Acento}" />
+    </Style>
+    <Style Selector="Button.proximo-foco">
+      <Setter Property="Background" Value="{DynamicResource Superficie}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource BordaVidro}" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="CornerRadius" Value="14" />
+      <Setter Property="Padding" Value="8,6,12,6" />
+      <Setter Property="Margin" Value="0,0,8,8" />
+    </Style>
+  </UserControl.Styles>
+
+  <Panel>
+    <Border Background="{DynamicResource VeuDenso}" IsHitTestVisible="False" />
+    <Button Theme="{StaticResource VeuSobreposto}" Command="{Binding FecharCommand}" AutomationProperties.Name="{l:T 'Sair do modo foco'}" />
+    <Grid RowDefinitions="Auto,*,Auto" MaxWidth="780" Margin="32,40,32,40" VerticalAlignment="Center">
+      <Grid ColumnDefinitions="Auto,*,Auto" Margin="4,0,4,14">
+        <StackPanel Orientation="Horizontal" Spacing="9" VerticalAlignment="Center">
+          <c:Icone Nome="foco" Tamanho="18" Foreground="{DynamicResource Laranja}" />
+          <TextBlock Text="{l:T 'Modo foco'}" FontSize="18" FontWeight="SemiBold" />
+          <TextBlock Classes="fraco" Text="{Binding Contagem}" FontSize="13" VerticalAlignment="Center" Margin="6,0,0,0" />
+        </StackPanel>
+        <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
+          <c:Caixa Classes="tecla-foco"><TextBlock Text="←" /></c:Caixa>
+          <c:Caixa Classes="tecla-foco"><TextBlock Text="→" /></c:Caixa>
+          <TextBlock Classes="fraco" Text="{l:T 'passa'}" FontSize="12" VerticalAlignment="Center" Margin="0,0,10,0" />
+          <c:Caixa Classes="tecla-foco"><TextBlock Text="Esc" /></c:Caixa>
+          <TextBlock Classes="fraco" Text="{l:T 'sai'}" FontSize="12" VerticalAlignment="Center" />
+        </StackPanel>
+      </Grid>
+
+      <c:Caixa Grid.Row="1" Classes="cartao-foco" IsVisible="{Binding TemAtual}">
+        <ContentControl Content="{Binding Atual}">
+          <ContentControl.ContentTemplate>
+            <DataTemplate x:DataType="vm:PedidoFocoVM">
+              <StackPanel Spacing="16">
+                <Grid ColumnDefinitions="Auto,*,Auto">
+                  <c:Avatar Width="64" Height="64" Margin="0,0,16,0" Imagem="{Binding Chat.IconeRepo}" Iniciais="{Binding Chat.Iniciais}" Precisa="True" Fracao="{Binding Chat.ContextoFracao}" />
+                  <StackPanel Grid.Column="1" Spacing="3" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding Chat.Titulo}" FontSize="19" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                      <TextBlock Classes="fraco mono" Text="{Binding Chat.Onde}" FontSize="12" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+                      <c:Caixa Classes="etiqueta" IsVisible="{Binding Chat.TemIssue}"><TextBlock Text="{Binding Chat.TextoIssue}" /></c:Caixa>
+                    </StackPanel>
+                  </StackPanel>
+                  <Button Grid.Column="2" Classes="contorno pequeno" Command="{Binding $parent[v:FocoView].((vm:FocoVM)DataContext).AbrirConversaCommand}" VerticalAlignment="Top">
+                    <StackPanel Orientation="Horizontal" Spacing="7">
+                      <TextBlock Text="{l:T 'Abrir a conversa'}" />
+                      <c:Caixa Classes="tecla-foco"><TextBlock Text="O" /></c:Caixa>
+                    </StackPanel>
+                  </Button>
+                </Grid>
+
+                <Border BorderBrush="{DynamicResource BordaVidro}" BorderThickness="2,0,0,0" Padding="12,0,0,0" IsVisible="{Binding TemUltimaAtividade}">
+                  <TextBlock Classes="suave" Text="{Binding Chat.UltimaAtividade}" TextWrapping="Wrap" MaxLines="3" TextTrimming="CharacterEllipsis" FontSize="13.5" />
+                </Border>
+
+                <StackPanel Spacing="10">
+                  <TextBlock Text="{Binding Item.Titulo}" FontSize="16" FontWeight="SemiBold" TextWrapping="Wrap" />
+                  <TextBlock Classes="suave" Text="{Binding Item.Motivo}" IsVisible="{Binding Item.TemMotivo}" TextWrapping="Wrap" />
+                  <c:Caixa Classes="mdCodigo" IsVisible="{Binding Item.TemDetalhe}" MaxHeight="220">
+                    <ScrollViewer>
+                      <SelectableTextBlock Classes="mono" Text="{Binding Item.Detalhe}" TextWrapping="Wrap" FontSize="12.5" Foreground="{DynamicResource CodigoTexto}" />
+                    </ScrollViewer>
+                  </c:Caixa>
+                  <c:Caixa Classes="mdCodigo" IsVisible="{Binding EhPlano}" MaxHeight="300">
+                    <ScrollViewer>
+                      <SelectableTextBlock Text="{Binding Item.Plano}" TextWrapping="Wrap" FontSize="13" />
+                    </ScrollViewer>
+                  </c:Caixa>
+                  <StackPanel Spacing="10" IsVisible="{Binding EhPergunta}">
+                    <TextBlock Text="{Binding Pergunta.Texto, FallbackValue=''}" TextWrapping="Wrap" FontSize="14" />
+                    <ItemsControl ItemsSource="{Binding Opcoes}">
+                      <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+                      <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="vm:OpcaoNumeradaVM">
+                          <c:BotaoLigado Classes="contorno" Classes.ligado="{Binding Opcao.Selecionada}" IsChecked="{Binding Opcao.Selecionada, Mode=OneWay}" Command="{Binding Opcao.EscolherCommand}" Margin="0,0,8,8"
+                                  ToolTip.Tip="{Binding Opcao.Descricao}" AutomationProperties.Name="{Binding Opcao.Rotulo}">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                              <c:Caixa Classes="tecla-foco"><TextBlock Text="{Binding Tecla}" /></c:Caixa>
+                              <TextBlock Text="{Binding Opcao.Rotulo}" TextWrapping="Wrap" MaxWidth="280" VerticalAlignment="Center" />
+                            </StackPanel>
+                          </c:BotaoLigado>
+                        </DataTemplate>
+                      </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <TextBlock Classes="fraco" Text="{l:T 'Esta pergunta tem mais partes. Responda as outras na conversa.'}" IsVisible="{Binding TemOutrasPerguntas}" FontSize="12" TextWrapping="Wrap" />
+                  </StackPanel>
+                </StackPanel>
+
+                <WrapPanel>
+                  <Button Classes="primario" Command="{Binding $parent[v:FocoView].((vm:FocoVM)DataContext).PermitirCommand}" Margin="0,0,8,8" IsVisible="{Binding EhPermissao}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                      <TextBlock Text="{Binding Item.RotuloPermitir}" />
+                      <c:Caixa Classes="tecla-foco"><TextBlock Text="Enter" /></c:Caixa>
+                    </StackPanel>
+                  </Button>
+                  <Button Classes="primario" Command="{Binding $parent[v:FocoView].((vm:FocoVM)DataContext).PermitirCommand}" Margin="0,0,8,8" IsVisible="{Binding EhPergunta}"
+                          IsEnabled="{Binding Item.PodeResponder}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                      <TextBlock Text="{l:T 'Responder'}" />
+                      <c:Caixa Classes="tecla-foco"><TextBlock Text="Enter" /></c:Caixa>
+                    </StackPanel>
+                  </Button>
+                  <Button Classes="contorno" Command="{Binding $parent[v:FocoView].((vm:FocoVM)DataContext).EmTodasCommand}" Margin="0,0,8,8" IsVisible="{Binding PodeEmTodas}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                      <TextBlock Text="{l:T 'Em todas'}" />
+                      <c:Caixa Classes="tecla-foco"><TextBlock Text="T" /></c:Caixa>
+                    </StackPanel>
+                  </Button>
+                  <Button Classes="contorno" Command="{Binding $parent[v:FocoView].((vm:FocoVM)DataContext).SempreCommand}" Margin="0,0,8,8" IsVisible="{Binding PodeSempre}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                      <TextBlock Text="{l:T 'Não perguntar de novo'}" />
+                      <c:Caixa Classes="tecla-foco"><TextBlock Text="S" /></c:Caixa>
+                    </StackPanel>
+                  </Button>
+                  <Button Classes="contorno" Command="{Binding $parent[v:FocoView].((vm:FocoVM)DataContext).NegarCommand}" Margin="0,0,8,8" IsVisible="{Binding EhPermissao}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                      <TextBlock Text="{Binding Item.RotuloNegar}" />
+                      <c:Caixa Classes="tecla-foco"><TextBlock Text="N" /></c:Caixa>
+                    </StackPanel>
+                  </Button>
+                </WrapPanel>
+              </StackPanel>
+            </DataTemplate>
+          </ContentControl.ContentTemplate>
+        </ContentControl>
+      </c:Caixa>
+
+      <c:Caixa Grid.Row="1" Classes="cartao" Padding="28,40" IsVisible="{Binding Vazio}">
+        <StackPanel Spacing="10" HorizontalAlignment="Center">
+          <Border Width="64" Height="64" CornerRadius="32" Background="{DynamicResource AcentoFundo}" HorizontalAlignment="Center">
+            <c:Icone Nome="ok" Tamanho="28" Foreground="{DynamicResource Verde}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+          </Border>
+          <TextBlock Text="{l:T 'Nada esperando por você.'}" FontSize="17" FontWeight="SemiBold" HorizontalAlignment="Center" />
+          <TextBlock Classes="fraco" Text="{l:T 'O modo foco fecha sozinho.'}" HorizontalAlignment="Center" />
+        </StackPanel>
+      </c:Caixa>
+
+      <ItemsControl Grid.Row="2" ItemsSource="{Binding Proximos}" Margin="0,16,0,0">
+        <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel HorizontalAlignment="Center" /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+        <ItemsControl.ItemTemplate>
+          <DataTemplate x:DataType="vm:PedidoFocoVM">
+            <Button Classes="proximo-foco" Command="{Binding $parent[v:FocoView].((vm:FocoVM)DataContext).IrCommand}" CommandParameter="{Binding}"
+                    ToolTip.Tip="{Binding Item.Titulo}">
+              <StackPanel Orientation="Horizontal" Spacing="8">
+                <c:Avatar Width="28" Height="28" Imagem="{Binding Chat.IconeRepo}" Iniciais="{Binding Chat.Iniciais}" Precisa="True" Fracao="{Binding Chat.ContextoFracao}" />
+                <TextBlock Text="{Binding Chat.Titulo}" MaxWidth="200" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" FontSize="12.5" />
+              </StackPanel>
+            </Button>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+    </Grid>
+  </Panel>
+</UserControl>

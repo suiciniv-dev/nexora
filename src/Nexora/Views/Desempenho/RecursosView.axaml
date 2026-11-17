@@ -1,0 +1,222 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:l="using:Nexora.Traducao"
+             xmlns:vm="using:Nexora.ViewModels"
+             xmlns:c="using:Nexora.Controles"
+             x:Class="Nexora.Views.RecursosView"
+             x:DataType="vm:RecursosVM">
+  <UserControl.Styles>
+    <Style Selector="ProgressBar.parte">
+      <Setter Property="Height" Value="6" />
+      <Setter Property="MinHeight" Value="6" />
+      <Setter Property="MinWidth" Value="40" />
+      <Setter Property="CornerRadius" Value="3" />
+      <Setter Property="Foreground" Value="{DynamicResource MarcaGradiente}" />
+      <Setter Property="Background" Value="{DynamicResource SuperficieAlta}" />
+    </Style>
+    <Style Selector="TextBlock.quente">
+      <Setter Property="Foreground" Value="{DynamicResource Laranja}" />
+    </Style>
+    <Style Selector="c|Icone.quente">
+      <Setter Property="Foreground" Value="{DynamicResource Laranja}" />
+    </Style>
+  </UserControl.Styles>
+  <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+    <StackPanel MaxWidth="1100" Margin="40,30,40,36" Spacing="20">
+      <Grid ColumnDefinitions="*,Auto">
+        <StackPanel Spacing="4">
+          <TextBlock Text="{l:T 'Recursos'}" FontSize="26" FontWeight="SemiBold" />
+          <TextBlock Classes="suave" Text="{Binding Resumo}" TextWrapping="Wrap" />
+        </StackPanel>
+        <Button Grid.Column="1" Classes="contorno" Command="{Binding AtualizarCommand}" VerticalAlignment="Center">
+          <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="atualizar" Tamanho="14" /><TextBlock Text="{l:T 'Medir de novo'}" /></StackPanel>
+        </Button>
+      </Grid>
+      <c:Caixa Classes="aviso" IsVisible="{Binding Economia, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+        <TextBlock Text="{Binding Economia}" TextWrapping="Wrap" />
+      </c:Caixa>
+
+      <c:Caixa Classes="painel">
+        <StackPanel Spacing="18">
+          <Grid ColumnDefinitions="*,Auto">
+            <StackPanel Spacing="3">
+              <TextBlock Classes="titulo-painel" Text="{l:T 'Desempenho'}" HorizontalAlignment="Left" />
+              <TextBlock Classes="fraco" Text="{Binding Desempenho.Subtitulo}" TextWrapping="Wrap" />
+            </StackPanel>
+            <StackPanel Grid.Column="1" Spacing="4" Margin="16,0,0,0" VerticalAlignment="Top" IsVisible="{Binding Desempenho.PodeEnviar}">
+              <Button Classes="contorno" Command="{Binding Desempenho.EnviarResumoCommand}" HorizontalAlignment="Right">
+                <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="enviar" Tamanho="14" /><TextBlock Text="{l:T 'Enviar resumo agora'}" /></StackPanel>
+              </Button>
+              <TextBlock Classes="fraco" Text="{Binding Desempenho.AvisoEnvio}" TextWrapping="Wrap" MaxWidth="240" TextAlignment="Right" HorizontalAlignment="Right"
+                         IsVisible="{Binding Desempenho.AvisoEnvio, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+            </StackPanel>
+          </Grid>
+
+          <ItemsControl ItemsSource="{Binding Desempenho.Numeros}" IsVisible="{Binding Desempenho.TemDados}">
+            <ItemsControl.ItemsPanel>
+              <ItemsPanelTemplate><UniformGrid Columns="4" /></ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="vm:NumeroVM">
+                <StackPanel Spacing="3" Margin="0,0,20,0">
+                  <TextBlock Classes="suave" Text="{Binding Titulo}" />
+                  <TextBlock Classes.quente="{Binding Alerta}" Text="{Binding Valor}" FontSize="22" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+                  <TextBlock Classes="fraco" Text="{Binding Detalhe}" TextWrapping="Wrap" />
+                </StackPanel>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+
+          <Grid ColumnDefinitions="*,32,*" IsVisible="{Binding Desempenho.TemDados}">
+            <StackPanel Spacing="6">
+              <TextBlock Classes="titulo-painel" Text="{l:T 'Divisão da RAM agora'}" HorizontalAlignment="Left" />
+              <TextBlock Classes="fraco" TextWrapping="Wrap" Text="{l:T 'Memória privada em uso, a mesma da coluna Memória do Gerenciador de Tarefas. Passe o mouse para ver processos e CPU.'}" />
+              <TextBlock Classes="suave" Text="{l:T 'Aparece depois da primeira medição.'}" IsVisible="{Binding !Desempenho.Partes.Count}" Margin="0,4,0,0" />
+              <ItemsControl ItemsSource="{Binding Desempenho.Partes}" Margin="0,4,0,0">
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate x:DataType="vm:ParteDaRamVM">
+                    <Grid ColumnDefinitions="Auto,*,Auto" Margin="0,4" Background="Transparent" ToolTip.Tip="{Binding Dica}">
+                      <TextBlock Text="{Binding Nome}" Width="128" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+                      <ProgressBar Grid.Column="1" Classes="parte" Minimum="0" Maximum="1" Value="{Binding Fracao}" VerticalAlignment="Center" Margin="6,0,10,0" />
+                      <TextBlock Grid.Column="2" Classes="fraco mono" Text="{Binding Texto}" VerticalAlignment="Center" MinWidth="92" TextAlignment="Right" />
+                    </Grid>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </StackPanel>
+            <StackPanel Grid.Column="2" Spacing="6">
+              <TextBlock Classes="titulo-painel" Text="{l:T 'Momentos mais pesados'}" HorizontalAlignment="Left" />
+              <TextBlock Classes="fraco" TextWrapping="Wrap" Text="{l:T 'Dos últimos 7 dias, com o que estava aberto na hora.'}" />
+              <TextBlock Classes="suave" Text="{l:T 'Nada pesado registrado ainda.'}" IsVisible="{Binding Desempenho.SemMomentos}" Margin="0,4,0,0" />
+              <ItemsControl ItemsSource="{Binding Desempenho.Momentos}" Margin="0,4,0,0">
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate x:DataType="vm:MomentoVM">
+                    <Grid ColumnDefinitions="Auto,*" Margin="0,4">
+                      <c:Icone Nome="{Binding Icone}" Tamanho="14" Classes="suave" Classes.quente="{Binding Alerta}" VerticalAlignment="Top" Margin="0,2,10,0" />
+                      <StackPanel Grid.Column="1" Spacing="1">
+                        <Grid ColumnDefinitions="*,Auto">
+                          <TextBlock Text="{Binding Descricao}" FontWeight="Medium" TextTrimming="CharacterEllipsis" />
+                          <TextBlock Grid.Column="1" Classes="fraco" Text="{Binding Quando}" VerticalAlignment="Center" Margin="10,0,0,0" />
+                        </Grid>
+                        <TextBlock Classes="fraco" Text="{Binding Contexto}" TextTrimming="CharacterEllipsis" />
+                      </StackPanel>
+                    </Grid>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+              <StackPanel Spacing="6" Margin="0,14,0,0" IsVisible="{Binding Desempenho.TemCausas}">
+                <TextBlock Classes="titulo-painel" Text="{l:T 'Onde a interface parou'}" HorizontalAlignment="Left" />
+                <TextBlock Classes="fraco" TextWrapping="Wrap" Text="{l:T 'O que estava rodando quando ela travou, nos últimos 7 dias.'}" />
+                <ItemsControl ItemsSource="{Binding Desempenho.Causas}" Margin="0,4,0,0">
+                  <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="vm:CausaVM">
+                      <Grid ColumnDefinitions="Auto,*" Margin="0,4" ToolTip.Tip="{Binding Completo}">
+                        <c:Icone Nome="alerta" Tamanho="14" Classes="suave quente" VerticalAlignment="Top" Margin="0,2,10,0" />
+                        <StackPanel Grid.Column="1" Spacing="1">
+                          <TextBlock Classes="mono" Text="{Binding Nome}" FontWeight="Medium" TextTrimming="CharacterEllipsis" />
+                          <TextBlock Classes="fraco" Text="{Binding Detalhe}" TextTrimming="CharacterEllipsis" />
+                        </StackPanel>
+                      </Grid>
+                    </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+                </ItemsControl>
+              </StackPanel>
+            </StackPanel>
+          </Grid>
+
+          <StackPanel Spacing="10" IsVisible="{Binding Desempenho.TemDados}">
+            <TextBlock Classes="titulo-painel" Text="{l:T 'Últimos 14 dias'}" HorizontalAlignment="Left" />
+            <ItemsControl ItemsSource="{Binding Desempenho.Graficos}">
+              <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate><UniformGrid Columns="3" /></ItemsPanelTemplate>
+              </ItemsControl.ItemsPanel>
+              <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="vm:GraficoVM">
+                  <StackPanel Spacing="2" Margin="0,0,20,0">
+                    <TextBlock Classes="suave" Text="{Binding Titulo}" />
+                    <TextBlock Classes="fraco" Text="{Binding Resumo}" TextTrimming="CharacterEllipsis" />
+                    <StackPanel Spacing="4" HorizontalAlignment="Left" Margin="0,8,0,0">
+                      <ItemsControl Theme="{StaticResource GraficoDeDias}" ItemsSource="{Binding Barras}" />
+                      <Grid ColumnDefinitions="*,Auto">
+                        <TextBlock Classes="fraco" Text="{Binding Inicio}" FontSize="11" />
+                        <TextBlock Grid.Column="1" Classes="fraco" Text="{Binding Fim}" FontSize="11" />
+                      </Grid>
+                    </StackPanel>
+                  </StackPanel>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </StackPanel>
+        </StackPanel>
+      </c:Caixa>
+
+      <c:Caixa Classes="painel">
+        <Grid ColumnDefinitions="*,Auto">
+          <StackPanel Spacing="4">
+            <TextBlock Classes="titulo-painel" Text="{l:T 'Processos de build do .NET'}" />
+            <TextBlock Classes="suave" Text="{Binding TextoBuild}" TextWrapping="Wrap" />
+            <TextBlock Classes="fraco" TextWrapping="Wrap"
+                       Text="{l:T 'O dotnet deixa esses processos abertos depois de compilar para a próxima build ser mais rápida. Liberar desliga todos (dotnet build-server shutdown); a próxima build só demora um pouco mais. O Nexora também libera sozinho quando você fecha uma sessão e nenhuma outra está trabalhando.'}" />
+            <TextBlock Classes="suave" Text="{Binding AvisoLiberar}" IsVisible="{Binding AvisoLiberar, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+          </StackPanel>
+          <Button Grid.Column="1" Classes="contorno" Command="{Binding LiberarCommand}" IsEnabled="{Binding TemBuild}" VerticalAlignment="Top" Margin="16,0,0,0">
+            <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="lixeira" Tamanho="14" /><TextBlock Text="{l:T 'Liberar'}" /></StackPanel>
+          </Button>
+        </Grid>
+      </c:Caixa>
+
+      <Grid ColumnDefinitions="*,20,*">
+        <c:Caixa Classes="painel">
+          <StackPanel Spacing="8">
+            <TextBlock Classes="titulo-painel" Text="{l:T 'MCPs compartilhados'}" />
+            <TextBlock Classes="fraco" TextWrapping="Wrap" Text="{l:T 'Os servidores do .mcp.json rodam uma vez só no Nexora, divididos entre as sessões do mesmo projeto. O navegador fica um por sessão. Cada um sobe na primeira chamada e desliga depois de 10 minutos parado.'}" />
+            <TextBlock Classes="fraco" TextWrapping="Wrap" IsVisible="{Binding !HubLigado}"
+                       Text="{l:T 'O hub está desligado (HubMcp no config.json). Cada sessão sobe os próprios servidores.'}" />
+            <TextBlock Classes="suave" TextWrapping="Wrap" IsVisible="{Binding SemMcps}" Margin="0,6,0,0"
+                       Text="{l:T 'Nenhum servidor rodando agora.'}" />
+            <ItemsControl ItemsSource="{Binding Mcps}" Margin="0,6,0,0">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="vm:LinhaRecursoVM">
+                  <Grid ColumnDefinitions="Auto,*,Auto,Auto" Margin="0,6">
+                    <Ellipse Classes="estado" Classes.pronta="{Binding Ativo}" VerticalAlignment="Top" Margin="0,6,12,0" />
+                    <StackPanel Grid.Column="1" Spacing="1">
+                      <TextBlock Text="{Binding Nome}" FontWeight="Medium" TextTrimming="CharacterEllipsis" />
+                      <TextBlock Classes="fraco" Text="{Binding Detalhe}" TextWrapping="Wrap" />
+                    </StackPanel>
+                    <TextBlock Grid.Column="2" Classes="fraco mono" Text="{Binding TextoMemoria}" VerticalAlignment="Top" Margin="12,2,6,0" />
+                    <Button Grid.Column="3" Classes="icone pequeno" Command="{Binding PararCommand}" IsVisible="{Binding PodeParar}" VerticalAlignment="Top"
+                            ToolTip.Tip="{l:T 'Desligar agora (sobe de novo quando alguém usar)'}" AutomationProperties.Name="{l:T 'Desligar o servidor'}">
+                      <c:Icone Nome="parar" Tamanho="12" />
+                    </Button>
+                  </Grid>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </StackPanel>
+        </c:Caixa>
+
+        <c:Caixa Grid.Column="2" Classes="painel">
+          <StackPanel Spacing="8">
+            <TextBlock Classes="titulo-painel" Text="{l:T 'Sessões dos agentes'}" />
+            <TextBlock Classes="fraco" TextWrapping="Wrap" Text="{l:T 'Cada conversa aberta é um processo do agente dela. Encerrar a sessão libera a memória; a conversa continua no histórico.'}" />
+            <TextBlock Classes="suave" Text="{l:T 'Nenhuma sessão aberta no Nexora.'}" IsVisible="{Binding !Sessoes.Count}" Margin="0,6,0,0" />
+            <ItemsControl ItemsSource="{Binding Sessoes}" Margin="0,6,0,0">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="vm:LinhaRecursoVM">
+                  <Grid ColumnDefinitions="*,Auto" Margin="0,6">
+                    <StackPanel Spacing="1">
+                      <TextBlock Text="{Binding Nome}" TextTrimming="CharacterEllipsis" />
+                      <TextBlock Classes="fraco" Text="{Binding Detalhe}" TextTrimming="CharacterEllipsis" />
+                    </StackPanel>
+                    <TextBlock Grid.Column="1" Classes="fraco mono" Text="{Binding TextoMemoria}" VerticalAlignment="Top" Margin="12,2,0,0" />
+                  </Grid>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <TextBlock Classes="fraco" Text="{Binding FraseNexora}" Margin="0,8,0,0" />
+          </StackPanel>
+        </c:Caixa>
+      </Grid>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

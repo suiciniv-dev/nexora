@@ -1,0 +1,327 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:l="using:Nexora.Traducao"
+             xmlns:vm="using:Nexora.ViewModels"
+             xmlns:c="using:Nexora.Controles"
+             x:Class="Nexora.Views.AmbienteView"
+             x:DataType="vm:AmbienteVM">
+  <UserControl.Styles>
+    <Style Selector="TextBlock.titulo-cartao">
+      <Setter Property="FontWeight" Value="SemiBold" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+    <Style Selector="Button.recente">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="HorizontalAlignment" Value="Stretch" />
+      <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+      <Setter Property="Padding" Value="12,10" />
+      <Setter Property="Foreground" Value="{DynamicResource Texto}" />
+      <Setter Property="CornerRadius" Value="10" />
+    </Style>
+    <Style Selector="Button.recente:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource Superficie}" />
+      <Setter Property="Foreground" Value="{DynamicResource Texto}" />
+    </Style>
+  </UserControl.Styles>
+
+  <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+    <StackPanel MaxWidth="1180" Margin="40,30,40,36" Spacing="22">
+      <Grid ColumnDefinitions="Auto,*,Auto">
+        <Panel VerticalAlignment="Center" Margin="0,0,16,0">
+          <Border Width="52" Height="52" CornerRadius="14" Background="{DynamicResource MarcaGradiente}" IsVisible="{Binding !TemIconeRepo}">
+            <TextBlock Text="{Binding Iniciais}" Foreground="{DynamicResource SobreMarca}" FontWeight="SemiBold" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" />
+          </Border>
+          <Border Width="52" Height="52" CornerRadius="14" ClipToBounds="True" Background="{DynamicResource SuperficieAlta}" IsVisible="{Binding TemIconeRepo}">
+            <Border Background="{Binding IconeRepo, Converter={x:Static c:FundoDoIcone.Instancia}}">
+              <Image Source="{Binding IconeRepo}" Stretch="UniformToFill" />
+            </Border>
+          </Border>
+        </Panel>
+        <StackPanel Grid.Column="1" Spacing="4" VerticalAlignment="Center">
+          <TextBlock Text="{Binding Nome}" FontSize="26" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+          <WrapPanel>
+            <StackPanel Orientation="Horizontal" Spacing="6" Margin="0,0,14,0">
+              <c:Icone Nome="branch" Tamanho="13" Classes="fraco" />
+              <TextBlock Classes="fraco mono" Text="{Binding BranchCurta}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Spacing="6" Margin="0,0,14,0" IsVisible="{Binding TemVinculados}">
+              <c:Icone Nome="vinculo" Tamanho="13" Classes="fraco" />
+              <TextBlock Classes="fraco" Text="{Binding Resumo}" />
+            </StackPanel>
+            <TextBlock Classes="alerta" Text="{Binding TextoAlteracoes}" IsVisible="{Binding TemAlteracoes}" FontSize="12" />
+          </WrapPanel>
+        </StackPanel>
+        <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+          <Button Classes="icone" Command="{Binding ExcluirCommand}" ToolTip.Tip="{l:T 'Excluir o projeto: tirar da lista e, se quiser, mandar a pasta e as conversas para a Lixeira'}" AutomationProperties.Name="{l:T 'Excluir projeto'}">
+            <c:Icone Nome="lixeira" />
+          </Button>
+          <Button Classes="contorno" Command="{Binding AbrirPastaCommand}" ToolTip.Tip="{l:T 'Abrir a pasta no Explorer'}">
+            <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="pasta" Tamanho="14" /><TextBlock Text="{l:T 'Pasta'}" /></StackPanel>
+          </Button>
+          <Button Classes="contorno" Command="{Binding AbrirNoVsCodeCommand}" ToolTip.Tip="{l:T 'Abrir no VS Code (para depurar)'}">
+            <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="codigo" Tamanho="14" /><TextBlock Text="VS Code" /></StackPanel>
+          </Button>
+          <Button Classes="contorno" Command="{Binding ExecutarCommand}" ToolTip.Tip="{l:T 'Rodar o projeto com a porta do worktree'}">
+            <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="executar" Tamanho="13" /><TextBlock Text="{l:T 'Executar'}" /></StackPanel>
+          </Button>
+        </StackPanel>
+      </Grid>
+
+      <c:Caixa Classes="aviso" Classes.erro="{Binding MensagemDeErro}" IsVisible="{Binding TemMensagem}">
+        <SelectableTextBlock Text="{Binding Mensagem}" TextWrapping="Wrap" />
+      </c:Caixa>
+
+      <c:Caixa Classes="painel" IsVisible="{Binding TemPr}">
+        <Grid ColumnDefinitions="Auto,*,Auto">
+          <c:Icone Nome="diff" Classes="suave" VerticalAlignment="Center" Margin="0,0,12,0" />
+          <StackPanel Grid.Column="1" Spacing="2">
+            <StackPanel Orientation="Horizontal" Spacing="8">
+              <TextBlock Text="{Binding Pr.Numero, StringFormat='PR #{0}', FallbackValue=''}" FontWeight="SemiBold" />
+              <TextBlock Text="{Binding Pr.Titulo, FallbackValue=''}" TextTrimming="CharacterEllipsis" MaxWidth="560" />
+            </StackPanel>
+            <TextBlock Classes="fraco" Text="{Binding Pr.Resumo, FallbackValue=''}" />
+            <TextBlock Classes="fraco" Text="{l:T 'O PR foi mergeado: dá para encerrar a tarefa e liberar a pasta.'}" IsVisible="{Binding PrMergeado}" />
+          </StackPanel>
+          <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+            <Button Classes="primario pequeno" Content="{l:T 'Encerrar tarefa'}" Command="{Binding EncerrarTarefaCommand}" IsVisible="{Binding PrMergeado}" />
+            <Button Classes="contorno pequeno" Content="{l:T 'Abrir no GitHub'}" Command="{Binding AbrirPrCommand}" />
+          </StackPanel>
+        </Grid>
+      </c:Caixa>
+
+      <Grid ColumnDefinitions="*,24,330">
+        <StackPanel Spacing="22">
+          <c:Caixa Classes="cartao" Padding="16,12,12,12" BoxShadow="{DynamicResource BrilhoCaixa}">
+            <StackPanel Spacing="8">
+              <TextBox x:Name="Composer" Classes="composer" Text="{Binding Rascunho}" PlaceholderText="{Binding PlaceholderSessao}" AcceptsReturn="True" TextWrapping="Wrap" MaxHeight="200" MinHeight="54" />
+              <Grid ColumnDefinitions="Auto,Auto,*,Auto">
+                <ToggleButton Classes="opcao" IsChecked="{Binding MostraTarefa}" Padding="10,5" ToolTip.Tip="{l:T 'Criar uma branch e um worktree novos para esta tarefa'}">
+                  <StackPanel Orientation="Horizontal" Spacing="6">
+                    <c:Icone Nome="worktree" Tamanho="13" />
+                    <TextBlock Text="{l:T 'Nova tarefa em worktree'}" FontSize="12.5" />
+                  </StackPanel>
+                </ToggleButton>
+                <ToggleButton Grid.Column="1" Classes="opcao" IsChecked="{Binding MostraIssues, Mode=OneWay}" Command="{Binding AlternarIssuesCommand}" Padding="10,5" Margin="8,0,0,0"
+                              ToolTip.Tip="{l:T 'Escolher uma issue aberta do GitHub para começar'}">
+                  <StackPanel Orientation="Horizontal" Spacing="6">
+                    <c:Icone Nome="commit" Tamanho="13" />
+                    <TextBlock Text="{l:T 'Começar por uma issue'}" FontSize="12.5" />
+                  </StackPanel>
+                </ToggleButton>
+                <TextBlock Grid.Column="2" Classes="fraco" Text="{Binding TextoNaBranch}" VerticalAlignment="Center" Margin="12,0" TextTrimming="CharacterEllipsis"
+                           IsVisible="{Binding !MostraTarefa}" />
+                <Button Grid.Column="3" Classes="redondo primario" Command="{Binding ComecarCommand}" ToolTip.Tip="{l:T 'Começar a sessão (Enter)'}" AutomationProperties.Name="{l:T 'Começar a sessão'}">
+                  <c:Icone Nome="enviar" Tamanho="16" />
+                </Button>
+              </Grid>
+            </StackPanel>
+          </c:Caixa>
+
+          <c:Caixa Classes="painel" IsVisible="{Binding MostraIssues}">
+            <StackPanel Spacing="8">
+              <Grid ColumnDefinitions="*,Auto">
+                <TextBlock Classes="titulo-painel" Text="{l:T 'Issues abertas'}" />
+                <Button Grid.Column="1" Classes="icone pequeno" Command="{Binding RecarregarIssuesCommand}" ToolTip.Tip="{l:T 'Buscar de novo'}" AutomationProperties.Name="{l:T 'Buscar as issues de novo'}">
+                  <c:Icone Nome="atualizar" Tamanho="13" />
+                </Button>
+              </Grid>
+              <TextBlock Classes="fraco" Text="{Binding TextoIssues}" TextWrapping="Wrap" IsVisible="{Binding TextoIssues, Converter={x:Static ObjectConverters.IsNotNull}}" />
+              <ScrollViewer MaxHeight="320" HorizontalScrollBarVisibility="Disabled">
+                <ItemsControl ItemsSource="{Binding Issues}">
+                  <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="vm:IssueVM">
+                      <Button Classes="fantasma" Command="{Binding UsarCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Padding="8,6"
+                              ToolTip.Tip="{l:T 'Preencher o pedido com esta issue'}">
+                        <Grid ColumnDefinitions="Auto,*,Auto">
+                          <TextBlock Classes="fraco mono" Text="{Binding Numero}" Margin="0,0,10,0" VerticalAlignment="Top" />
+                          <StackPanel Grid.Column="1" Spacing="2">
+                            <TextBlock Text="{Binding Titulo}" TextTrimming="CharacterEllipsis" />
+                            <TextBlock Classes="fraco" Text="{Binding Etiquetas}" FontSize="12" IsVisible="{Binding TemEtiquetas}" />
+                          </StackPanel>
+                          <TextBlock Grid.Column="2" Classes="fraco" Text="{Binding Quando}" FontSize="12" Margin="10,0,0,0" VerticalAlignment="Top" />
+                        </Grid>
+                      </Button>
+                    </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+                </ItemsControl>
+              </ScrollViewer>
+            </StackPanel>
+          </c:Caixa>
+
+          <c:Caixa Classes="painel" IsVisible="{Binding MostraTarefa}">
+            <StackPanel Spacing="10">
+              <TextBox Classes="campo" Text="{Binding NomeTarefa}" PlaceholderText="{l:T 'Nome da tarefa (ex.: ajuste no login)'}" />
+              <Grid ColumnDefinitions="Auto,*">
+                <TextBlock Classes="fraco" Text="{l:T 'a partir de'}" VerticalAlignment="Center" Margin="0,0,10,0" />
+                <ComboBox Grid.Column="1" ItemsSource="{Binding Branches}" SelectedItem="{Binding BaseTarefa}" HorizontalAlignment="Stretch" />
+              </Grid>
+              <c:Caixa Classes="previa">
+                <StackPanel Spacing="4">
+                  <StackPanel Orientation="Horizontal" Spacing="8">
+                    <c:Icone Nome="branch" Tamanho="13" Classes="fraco" />
+                    <TextBlock Classes="mono" Text="{Binding PreviaBranch}" FontSize="12.5" TextTrimming="CharacterEllipsis" />
+                  </StackPanel>
+                  <StackPanel Orientation="Horizontal" Spacing="8">
+                    <c:Icone Nome="pasta" Tamanho="13" Classes="fraco" />
+                    <TextBlock Classes="mono fraco" Text="{Binding PreviaPasta}" TextTrimming="CharacterEllipsis" />
+                  </StackPanel>
+                </StackPanel>
+              </c:Caixa>
+              <TextBox Classes="campo" Text="{Binding Descricao}" AcceptsReturn="True" TextWrapping="Wrap" MinHeight="64" MaxHeight="160"
+                       PlaceholderText="{l:T 'O que o agente deve fazer? (opcional, vira a primeira mensagem)'}" />
+              <Button Classes="primario" Command="{Binding CriarTarefaCommand}" IsEnabled="{Binding PodeCriar}" HorizontalAlignment="Left">
+                <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="mais" Tamanho="14" /><TextBlock Text="{l:T 'Criar worktree e abrir sessão'}" /></StackPanel>
+              </Button>
+            </StackPanel>
+          </c:Caixa>
+
+          <StackPanel Spacing="6">
+            <TextBlock Classes="secao-geral" Text="{l:T 'RECENTES'}" />
+            <TextBlock Classes="fraco" Text="{l:T 'Nenhuma conversa neste projeto ainda.'}" IsVisible="{Binding !TemRecentes}" />
+            <ItemsControl ItemsSource="{Binding Recentes}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="vm:ConversaVM">
+                  <Button Classes="recente" Command="{Binding AbrirCommand}">
+                    <Grid ColumnDefinitions="*,Auto">
+                      <StackPanel Spacing="2">
+                        <TextBlock Text="{Binding Titulo}" FontWeight="Medium" TextTrimming="CharacterEllipsis" />
+                        <TextBlock Classes="fraco mono" Text="{Binding Local}" TextTrimming="CharacterEllipsis" />
+                      </StackPanel>
+                      <TextBlock Grid.Column="1" Classes="fraco" Text="{Binding Quando}" VerticalAlignment="Center" Margin="12,0,0,0" />
+                    </Grid>
+                  </Button>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </StackPanel>
+
+          <c:Caixa Classes="painel">
+            <StackPanel Spacing="10">
+              <StackPanel Orientation="Horizontal" Spacing="8">
+                <c:Icone Nome="worktree" Classes="suave" />
+                <TextBlock Classes="titulo-cartao" Text="{l:T 'Worktrees deste repositório'}" />
+              </StackPanel>
+              <StackPanel IsVisible="{Binding Carregando}" Spacing="10">
+                <c:Caixa Classes="esqueleto" Height="14" Width="420" />
+                <c:Caixa Classes="esqueleto" Height="14" Width="360" />
+              </StackPanel>
+              <ItemsControl ItemsSource="{Binding Worktrees}">
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate x:DataType="vm:WorktreeVM">
+                    <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,Auto" Classes="linha">
+                      <c:Icone Nome="pasta" Classes="suave" VerticalAlignment="Center" Margin="0,0,12,0" />
+                      <StackPanel Grid.Column="1" Spacing="2">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                          <TextBlock Text="{Binding Nome}" FontWeight="Medium" />
+                          <c:Caixa Classes="etiqueta" IsVisible="{Binding Atual}"><TextBlock Text="{l:T 'este'}" /></c:Caixa>
+                          <c:Caixa Classes="etiqueta" IsVisible="{Binding Principal}"><TextBlock Text="{l:T 'principal'}" /></c:Caixa>
+                        </StackPanel>
+                        <TextBlock Classes="mono fraco" Text="{Binding Branch}" TextTrimming="CharacterEllipsis" />
+                      </StackPanel>
+                      <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
+                        <Button Classes="contorno pequeno" Content="{l:T 'Nova sessão'}" Command="{Binding NovaSessaoCommand}" />
+                        <Button Classes="icone" Command="{Binding PedirRemocaoCommand}" IsVisible="{Binding Removivel}"
+                                ToolTip.Tip="{l:T 'Encerrar a tarefa: remover o worktree e, se já estiver mergeada, a branch'}" AutomationProperties.Name="{l:T 'Remover o worktree'}">
+                          <c:Icone Nome="lixeira" Tamanho="14" />
+                        </Button>
+                      </StackPanel>
+                      <c:Caixa Grid.Row="1" Grid.ColumnSpan="3" Classes="aviso erro" Margin="0,10,0,0" IsVisible="{Binding Confirmando}">
+                        <StackPanel Spacing="8">
+                          <TextBlock Text="{Binding TextoConfirmar}" TextWrapping="Wrap" />
+                          <CheckBox IsChecked="{Binding ApagarBranch}" Content="{Binding TextoApagarBranch}" />
+                          <StackPanel Orientation="Horizontal" Spacing="8">
+                            <Button Classes="primario pequeno" Content="{l:T 'Remover'}" Command="{Binding RemoverCommand}" IsEnabled="{Binding !Removendo}" />
+                            <Button Classes="fantasma pequeno" Content="{l:T 'Cancelar'}" Command="{Binding CancelarRemocaoCommand}" />
+                          </StackPanel>
+                        </StackPanel>
+                      </c:Caixa>
+                    </Grid>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </StackPanel>
+          </c:Caixa>
+        </StackPanel>
+
+        <StackPanel Grid.Column="2" Spacing="14">
+          <ContentControl Content="{Binding}" ContentTemplate="{StaticResource NuvemDoProjeto}" />
+          <c:Caixa Classes="painel">
+            <StackPanel Spacing="8">
+              <TextBlock Classes="titulo-cartao" Text="{l:T 'Instruções'}" />
+              <TextBlock Classes="fraco" TextWrapping="Wrap" Text="{l:T 'Sem CLAUDE.md neste projeto.'}" IsVisible="{Binding !TemInstrucoes}" />
+              <ItemsControl ItemsSource="{Binding Instrucoes}">
+                <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate x:DataType="vm:InstrucaoVM">
+                    <Button Classes="cartao-conversa" Width="138" Padding="12,10" Margin="0,0,8,8" Command="{Binding AbrirCommand}" ToolTip.Tip="{Binding Caminho}">
+                      <StackPanel Spacing="10">
+                        <TextBlock Text="{Binding Nome}" FontWeight="SemiBold" FontSize="12.5" TextTrimming="CharacterEllipsis" />
+                        <TextBlock Classes="fraco" Text="{Binding Detalhe}" FontSize="11" TextTrimming="CharacterEllipsis" />
+                      </StackPanel>
+                    </Button>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </StackPanel>
+          </c:Caixa>
+
+          <c:Caixa Classes="painel">
+            <StackPanel Spacing="10">
+              <StackPanel Orientation="Horizontal" Spacing="8">
+                <c:Icone Nome="branch" Classes="suave" />
+                <TextBlock Classes="titulo-cartao" Text="Branch" />
+              </StackPanel>
+              <TextBlock Classes="mono" Text="{Binding BranchCurta}" TextTrimming="CharacterEllipsis" />
+              <TextBlock Classes="fraco" Text="{l:T 'Sem alterações pendentes'}" IsVisible="{Binding !TemAlteracoes}" />
+              <Grid ColumnDefinitions="*,Auto">
+                <ComboBox ItemsSource="{Binding Branches}" SelectedItem="{Binding BranchEscolhida}" HorizontalAlignment="Stretch" PlaceholderText="{l:T 'Escolha a branch'}" />
+                <Button Grid.Column="1" Classes="contorno" Content="{l:T 'Trocar'}" Margin="8,0,0,0" Command="{Binding TrocarBranchCommand}" />
+              </Grid>
+              <TextBlock Classes="fraco" TextWrapping="Wrap" Text="{l:T 'A troca fica travada enquanto uma sessão estiver trabalhando nesta pasta.'}" />
+            </StackPanel>
+          </c:Caixa>
+
+          <c:Caixa Classes="painel">
+            <StackPanel Spacing="10">
+              <Grid ColumnDefinitions="*,Auto">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                  <c:Icone Nome="pasta" Classes="suave" />
+                  <TextBlock Classes="titulo-cartao" Text="{l:T 'Pastas'}" />
+                </StackPanel>
+                <Button Grid.Column="1" Classes="icone pequeno" Click="AdicionarPasta_Click" ToolTip.Tip="{l:T 'Vincular outra pasta'}" AutomationProperties.Name="{l:T 'Vincular outra pasta'}">
+                  <c:Icone Nome="mais" Tamanho="13" />
+                </Button>
+              </Grid>
+              <Grid ColumnDefinitions="Auto,*" Classes="linha">
+                <c:Icone Nome="pasta" Tamanho="14" Classes="suave" VerticalAlignment="Center" Margin="0,0,10,0" />
+                <StackPanel Grid.Column="1" Spacing="1">
+                  <TextBlock Text="{Binding Nome}" FontWeight="Medium" TextTrimming="CharacterEllipsis" />
+                  <TextBlock Classes="fraco" Text="{l:T 'principal · neste computador'}" />
+                </StackPanel>
+              </Grid>
+              <ItemsControl ItemsSource="{Binding Vinculados}">
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate x:DataType="vm:VinculadoVM">
+                    <Grid ColumnDefinitions="Auto,*,Auto" Classes="linha">
+                      <c:Icone Nome="vinculo" Tamanho="14" Classes="suave" VerticalAlignment="Center" Margin="0,0,10,0" />
+                      <StackPanel Grid.Column="1" Spacing="1">
+                        <TextBlock Text="{Binding Nome}" FontWeight="Medium" TextTrimming="CharacterEllipsis" ToolTip.Tip="{Binding Pasta}" />
+                        <TextBlock Classes="mono fraco" Text="{Binding Branch}" TextTrimming="CharacterEllipsis" />
+                      </StackPanel>
+                      <Button Grid.Column="2" Classes="icone pequeno" Command="{Binding RemoverCommand}" ToolTip.Tip="{l:T 'Tirar esta pasta do projeto'}"
+                              AutomationProperties.Name="{l:T 'Tirar esta pasta do projeto'}" VerticalAlignment="Center">
+                        <c:Icone Nome="fechar" Tamanho="12" />
+                      </Button>
+                    </Grid>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+              <TextBlock Classes="fraco" TextWrapping="Wrap"
+                         Text="{l:T 'Toda sessão deste projeto recebe as pastas vinculadas como diretórios extras do agente. O .code-workspace muda junto, então o VS Code vê a mesma lista.'}" />
+            </StackPanel>
+          </c:Caixa>
+        </StackPanel>
+      </Grid>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>
