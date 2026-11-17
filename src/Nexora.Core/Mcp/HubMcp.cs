@@ -14,7 +14,7 @@ public sealed record EstadoServidor(
     string Nome, string Pasta, bool PorSessao, bool Ativo, int? Pid, long Memoria, int Processos,
     int Sessoes, DateTime UltimoUso, int Subidas, string? Dono, string Instancia, string? SubiuPor = null);
 
-public sealed class HubMcp : IDisposable
+public sealed class HubMcp : IHubMcp
 {
     static readonly string[] Guardaveis = ["tools/list", "prompts/list", "resources/list", "resources/templates/list", "server/discover"];
     const int MetodoInexistente = -32601;

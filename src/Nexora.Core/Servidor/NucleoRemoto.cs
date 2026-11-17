@@ -33,6 +33,8 @@ public sealed class NucleoRemoto : INucleo, IDisposable
 
     public event Action? Caiu;
 
+    public event Action<JsonObject>? Aviso;
+
     public static async Task<NucleoRemoto?> ConectarAsync(string nome, TimeSpan espera, CancellationToken cancelar = default)
     {
         var cano = new NamedPipeClientStream(".", nome, PipeDirection.InOut, PipeOptions.Asynchronous | PipeOptions.CurrentUserOnly);
@@ -139,6 +141,11 @@ public sealed class NucleoRemoto : INucleo, IDisposable
             while (await leitor.ReadLineAsync(_fim.Token).ConfigureAwait(false) is { } linha)
             {
                 var resposta = JsonNode.Parse(linha)?.AsObject();
+                if (resposta?["aviso"] is not null)
+                {
+                    Aviso?.Invoke(resposta);
+                    continue;
+                }
                 if (resposta?["sessao"] is { } sessao && resposta["evento"] is { } evento)
                 {
                     if (_ouvintes.TryGetValue(sessao.GetValue<string>(), out var ouvinte) && evento.Deserialize<Claude.EventoClaude>(ServidorDoNucleo.Json) is { } lido)

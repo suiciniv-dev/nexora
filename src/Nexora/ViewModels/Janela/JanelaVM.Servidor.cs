@@ -10,6 +10,7 @@ public sealed partial class JanelaVM
     {
         if (Demo || Isolada) return;
         _ = ReabrirSessoesVivasAsync();
+        _ = App.HubPronto.ContinueWith(_ => Dispatcher.UIThread.Post(LigarHub), TaskScheduler.Default);
     }
 
     async Task ReabrirSessoesVivasAsync()

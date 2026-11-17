@@ -156,6 +156,13 @@ public static class ServidorDoNucleo
                 : new List<Claude.EventoClaude>(),
             MetodosDoNucleo.ListarSessoes => sessoes?.Listar() ?? [],
             MetodosDoNucleo.EsquecerSessao => Esquecer((string?)dados?["id"] ?? ""),
+            MetodosDoNucleo.LigarHub => Registro().LigarHub(dados!["pasta"]!.GetValue<string>(), TimeSpan.FromMinutes(Math.Max(1, dados["minutos"]?.GetValue<double>() ?? 10))),
+            MetodosDoNucleo.RegistrarNoHub => Registro().HubLigado().Registrar(dados!["pasta"]!.GetValue<string>(), (string?)dados["rotulo"] ?? "", (string?)dados["casa"]),
+            MetodosDoNucleo.RenomearNoHub => Feito(() => Registro().HubLigado().Renomear(dados!["chave"]!.GetValue<string>(), (string?)dados["rotulo"] ?? "")),
+            MetodosDoNucleo.EsquecerNoHub => await FeitoAsync(Registro().HubLigado().EsquecerAsync(dados!["chave"]!.GetValue<string>())).ConfigureAwait(false),
+            MetodosDoNucleo.PararNoHub => await FeitoAsync(Registro().HubLigado().PararAsync(dados!["instancia"]!.GetValue<string>())).ConfigureAwait(false),
+            MetodosDoNucleo.EstadoDoHub => Registro().Hub?.Estado() ?? [],
+            MetodosDoNucleo.PidsDoHub => Registro().Hub?.Pids() ?? [],
             var outro => throw new InvalidOperationException($"Método desconhecido: {outro}"),
         };
         RespostaDeAssinatura Assinar(SessaoNoServidor sessao, long? desde)
@@ -175,6 +182,22 @@ public static class ServidorDoNucleo
                 return new RespostaDeAssinatura(completo, ultimo, resumo.Trabalhando, resumo.Ativa, sessao.Pendentes());
             }
         }
+        static RespostaVazia Feito(Action acao)
+        {
+            acao();
+            return new RespostaVazia();
+        }
+        static async Task<RespostaVazia> FeitoAsync(Task tarefa)
+        {
+            await tarefa.ConfigureAwait(false);
+            return new RespostaVazia();
+        }
+        void AvisarHub() => saida.Writer.TryWrite(new JsonObject
+        {
+            ["aviso"] = AvisosDoNucleo.Hub,
+            ["contagem"] = JsonSerializer.SerializeToNode(sessoes?.ContagemDoHub(), Json),
+        }.ToJsonString());
+        if (sessoes is not null) sessoes.HubMudou += AvisarHub;
         RespostaVazia Soltar(string id)
         {
             lock (assinaturas)
@@ -239,6 +262,7 @@ public static class ServidorDoNucleo
         catch (Exception ex) when (ex is IOException or OperationCanceledException or ObjectDisposedException)
         {
         }
+        if (sessoes is not null) sessoes.HubMudou -= AvisarHub;
         lock (assinaturas)
         {
             foreach (var assinatura in assinaturas.Values) assinatura.Dispose();
