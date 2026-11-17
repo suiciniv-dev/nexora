@@ -84,7 +84,7 @@ public sealed partial class ChatVM
     public static Func<OpcoesSessao, string, ISessaoAgente>? SessaoDeTeste { get; set; }
 
     ISessaoAgente CriarSessao(OpcoesSessao opcoes) =>
-        SessaoDeTeste is { } deTeste ? deTeste(opcoes, Agente) : Aplicativo.FabricaDeSessoes.CriarNoNucleo(Agente, opcoes, Titulo);
+        SessaoDeTeste is { } deTeste ? deTeste(opcoes, Agente) : Aplicativo.FabricaDeSessoes.CriarNoNucleo(Agente, opcoes, Titulo, Core.Orquestra.ServidorMcp.DonoGlobal(Codigo));
 
     static void AvisarUsoDoCodex(UsoDoCodex uso) => UsoDoCodexChegou?.Invoke(uso);
 

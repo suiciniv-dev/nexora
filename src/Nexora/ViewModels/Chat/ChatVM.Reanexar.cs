@@ -23,6 +23,8 @@ public sealed partial class ChatVM
         if (conversa?.PrimeiraMensagem is { Length: > 0 } primeira) chat._pedidoInicial = Resumos.UmaLinha(primeira, 200);
         chat._sessao = sessao;
         chat.LigarSessao(sessao);
+        if (resumo.Dono is { } dono) Core.Orquestra.ServidorMcp.Apelidar(dono, chat.Codigo);
+        if (!JanelaVM.Isolada) chat.ConfiguracaoComSegredos(null);
         chat.Carregamento = chat.ReanexarAsync(sessao, conversa);
         return chat;
     }

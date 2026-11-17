@@ -10,16 +10,18 @@ public sealed class SessaoRemota : ISessaoAgente, IHistoricoDoAgente
     readonly NucleoRemoto _nucleo;
     readonly OpcoesSessao? _opcoes;
     readonly string? _titulo;
+    readonly string? _dono;
     readonly object _trava = new();
     long _ultimo;
     bool _ativa;
     bool _encerrou;
 
-    public SessaoRemota(NucleoRemoto nucleo, string agente, OpcoesSessao opcoes, string? titulo = null)
+    public SessaoRemota(NucleoRemoto nucleo, string agente, OpcoesSessao opcoes, string? titulo = null, string? dono = null)
     {
         _nucleo = nucleo;
         _opcoes = opcoes;
         _titulo = titulo;
+        _dono = dono;
         Id = Guid.NewGuid().ToString("N");
         Agente = agente;
         SessaoId = opcoes.Retomar;
@@ -87,6 +89,7 @@ public sealed class SessaoRemota : ISessaoAgente, IHistoricoDoAgente
             ["id"] = Id,
             ["agente"] = Agente,
             ["titulo"] = _titulo,
+            ["dono"] = _dono,
             ["opcoes"] = JsonSerializer.SerializeToNode(_opcoes with { Lancador = null }, ServidorDoNucleo.Json),
         };
         _ = AbrirAsync(dados);

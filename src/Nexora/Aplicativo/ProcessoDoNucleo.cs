@@ -87,9 +87,11 @@ public static class ProcessoDoNucleo
         {
             App.Nucleo = NucleoLocal.Instancia;
             Core.Git.ComandoGit.Nucleo = null;
+            Core.Orquestra.ServidorMcp.Ponte = null;
         };
         App.Nucleo = remoto;
         Core.Git.ComandoGit.Nucleo = remoto;
+        Core.Orquestra.ServidorMcp.Ponte = new PonteRemota(remoto);
     }
 
     static bool Abrir(IEnumerable<(string Programa, bool ComDll)> formas, string cano)

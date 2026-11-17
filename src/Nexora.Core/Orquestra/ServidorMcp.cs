@@ -23,6 +23,20 @@ public sealed class ServidorMcp : IDisposable
     readonly IReadOnlyList<FerramentaMcp> _ferramentas;
     readonly ExecutorMcp _executar;
     readonly CancellationTokenSource _fim = new();
+    readonly ConcurrentDictionary<string, string> _viaPonte = new();
+    readonly string _segredo = Convert.ToHexString(RandomNumberGenerator.GetBytes(24));
+    static readonly ConcurrentDictionary<string, string> Apelidos = new();
+    IPonteMcp? _apontada;
+
+    public static IPonteMcp? Ponte { get; set; }
+
+    public IPonteMcp? PonteFixa { get; init; }
+
+    public static string Execucao { get; } = Convert.ToHexString(RandomNumberGenerator.GetBytes(6)).ToLowerInvariant();
+
+    public static string DonoGlobal(string dono) => $"{Execucao}:{dono}";
+
+    public static void Apelidar(string donoGlobal, string dono) => Apelidos[donoGlobal] = dono;
 
     public ServidorMcp(IReadOnlyList<FerramentaMcp> ferramentas, ExecutorMcp executar, string nome = Nome)
     {
@@ -39,12 +53,38 @@ public sealed class ServidorMcp : IDisposable
 
     public string Registrar(string dono)
     {
+        if ((PonteFixa ?? Ponte) is { } ponte && RegistrarNaPonte(ponte, dono) is { } registro)
+        {
+            _viaPonte[registro.Chave] = registro.Endereco;
+            return registro.Chave;
+        }
         var chave = Convert.ToHexString(RandomNumberGenerator.GetBytes(24));
         _chaves[chave] = dono;
         return chave;
     }
 
-    public void Esquecer(string chave) => _chaves.TryRemove(chave, out _);
+    RegistroNaPonte? RegistrarNaPonte(IPonteMcp ponte, string dono)
+    {
+        try
+        {
+            if (!ReferenceEquals(_apontada, ponte))
+            {
+                ponte.Apontar(NomeDoServidor, Porta, _segredo);
+                _apontada = ponte;
+            }
+            return ponte.Registrar(NomeDoServidor, DonoGlobal(dono));
+        }
+        catch (Exception ex) when (ex is IOException or InvalidOperationException or ObjectDisposedException)
+        {
+            return null;
+        }
+    }
+
+    public void Esquecer(string chave)
+    {
+        _chaves.TryRemove(chave, out _);
+        if (_viaPonte.TryRemove(chave, out _)) (PonteFixa ?? Ponte)?.Esquecer(chave);
+    }
 
     public string Configuracao(string chave) => new JsonObject
     {
@@ -53,7 +93,7 @@ public sealed class ServidorMcp : IDisposable
             [NomeDoServidor] = new JsonObject
             {
                 ["type"] = "http",
-                ["url"] = Endereco,
+                ["url"] = _viaPonte.TryGetValue(chave, out var ponte) ? ponte : Endereco,
                 ["headers"] = new JsonObject { ["Authorization"] = $"Bearer {chave}" },
             },
         },
@@ -151,9 +191,15 @@ public sealed class ServidorMcp : IDisposable
         }
     }
 
-    string? Dono(HttpListenerRequest pedido) =>
-        pedido.Headers["Authorization"] is { } valor && valor.StartsWith("Bearer ", StringComparison.Ordinal)
-            && _chaves.TryGetValue(valor["Bearer ".Length..].Trim(), out var dono) ? dono : null;
+    string? Dono(HttpListenerRequest pedido)
+    {
+        if (pedido.Headers["Authorization"] is not { } valor || !valor.StartsWith("Bearer ", StringComparison.Ordinal)) return null;
+        var chave = valor["Bearer ".Length..].Trim();
+        if (_chaves.TryGetValue(chave, out var dono)) return dono;
+        if (chave != _segredo || pedido.Headers["X-Nexora-Dono"] is not { Length: > 0 } global) return null;
+        if (Apelidos.TryGetValue(global, out var apelido)) return apelido;
+        return global.StartsWith(Execucao + ":", StringComparison.Ordinal) ? global[(Execucao.Length + 1)..] : null;
+    }
 
     public async Task<string?> ResponderAsync(string dono, string corpo, CancellationToken cancelar)
     {

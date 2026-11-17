@@ -327,4 +327,58 @@ public sealed class SessoesNoServidorTestes
                 }
         }
     }
+
+    static readonly HttpClient Http = new() { Timeout = TimeSpan.FromSeconds(30) };
+
+    static async Task<JsonElement> ChamarFerramentaAsync(string configuracao, string servidor)
+    {
+        var no = JsonNode.Parse(configuracao)!["mcpServers"]![servidor]!;
+        using var pedido = new HttpRequestMessage(HttpMethod.Post, (string)no["url"]!)
+        {
+            Content = new StringContent("""{"jsonrpc":"2.0","id":7,"method":"tools/call","params":{"name":"eco","arguments":{}}}""", System.Text.Encoding.UTF8, "application/json"),
+        };
+        pedido.Headers.TryAddWithoutValidation("Authorization", (string)no["headers"]!["Authorization"]!);
+        pedido.Headers.Accept.ParseAdd("application/json");
+        using var resposta = await Http.SendAsync(pedido);
+        return JsonDocument.Parse(await resposta.Content.ReadAsStringAsync()).RootElement.Clone();
+    }
+
+    static Nexora.Core.Orquestra.ServidorMcp ServidorDoApp(NucleoRemoto remoto) =>
+        new([new Nexora.Core.Orquestra.FerramentaMcp("eco", "eco", [], [], true)],
+            (dono, _, _, _) => Task.FromResult(new Nexora.Core.Orquestra.ResultadoFerramenta("dono=" + dono)), "nexora-teste")
+        {
+            PonteFixa = new PonteRemota(remoto),
+        };
+
+    [Fact]
+    public async Task Ponte_mcp_guarda_o_endereco_enquanto_o_app_fecha_e_o_proximo_app_atende_pelo_apelido()
+    {
+        await using var ambiente = new Ambiente();
+        var primeiro = await ambiente.ConectarAsync();
+        using var antigo = ServidorDoApp(primeiro);
+        var chave = antigo.Registrar("s1");
+        var configuracao = antigo.Configuracao(chave);
+
+        Assert.Contains($"localhost:{ambiente.Sessoes.Ponte!.Porta}/mcp/nexora-teste", configuracao);
+        Assert.Equal("dono=s1", (await ChamarFerramentaAsync(configuracao, "nexora-teste")).GetProperty("result").GetProperty("content")[0].GetProperty("text").GetString());
+
+        primeiro.Dispose();
+        await Task.Delay(300);
+        var semApp = await ChamarFerramentaAsync(configuracao, "nexora-teste");
+        Assert.Equal(7, semApp.GetProperty("id").GetInt32());
+        Assert.Equal(PonteMcp.MensagemSemApp, semApp.GetProperty("error").GetProperty("message").GetString());
+
+        using var segundo = await ambiente.ConectarAsync();
+        using var novo = ServidorDoApp(segundo);
+        novo.Registrar("s1");
+        Nexora.Core.Orquestra.ServidorMcp.Apelidar(Nexora.Core.Orquestra.ServidorMcp.DonoGlobal("s1"), "s7");
+        try
+        {
+            Assert.Equal("dono=s7", (await ChamarFerramentaAsync(configuracao, "nexora-teste")).GetProperty("result").GetProperty("content")[0].GetProperty("text").GetString());
+        }
+        finally
+        {
+            Nexora.Core.Orquestra.ServidorMcp.Apelidar(Nexora.Core.Orquestra.ServidorMcp.DonoGlobal("s1"), "s1");
+        }
+    }
 }
