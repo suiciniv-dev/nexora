@@ -90,6 +90,12 @@ public sealed class UsoTestes : IDisposable
         loja = parcelas.Single(p => p.Pasta.EndsWith("Loja") && p.Semana == "2026-11-02");
         Assert.Equal(120, loja.Entrada);
         Assert.Equal(2, loja.Respostas);
+
+        var porDia = UsoLocal.Ler([new FonteDeUso(UsoLocal.Claude, Path.Combine(_pasta, "projetos"), "*.jsonl")], cache, desde, porDia: true)
+            .Where(p => p.Pasta.EndsWith("Loja")).ToDictionary(p => p.Dia);
+        Assert.Equal(100, porDia["2026-11-03"].Entrada);
+        Assert.Equal(20, porDia["2026-11-04"].Entrada);
+        Assert.Equal("2026-11-02", porDia["2026-11-04"].Semana);
     }
 
     [Fact]

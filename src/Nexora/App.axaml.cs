@@ -70,6 +70,7 @@ public partial class App : Application
             NavegadorDoApp.LigarServidor(vm, args);
             JanelaVM.Isolada = args.Contains("--isolada") || Argumento(args, "--pasta") is not null || Argumento(args, "--chefe") is not null;
             vm.IniciarAgenda();
+            vm.LigarRegistro();
             ControleDoApp.Ligar(vm, args);
             Core.Nuvem.TransporteSsh.ProgramaDeSenha = OperatingSystem.IsWindows() && File.Exists(Path.Combine(AppContext.BaseDirectory, "Nexora.exe")) ? Path.Combine(AppContext.BaseDirectory, "Nexora.exe") : Environment.ProcessPath;
             if (JanelaVM.Isolada) Core.Claude.SessaoClaude.Simulado = Argumento(args, "--claude-simulado");
@@ -122,13 +123,16 @@ public partial class App : Application
             else if (args.Contains("--boas-vindas") || primeiroUso) vm.AbrirBoasVindasCommand.Execute(null);
             if (args.Contains("--agentes")) vm.AbrirEscolhaDeAgenteCommand.Execute(null);
             if (int.TryParse(Argumento(args, "--passo"), out var passo)) vm.BoasVindas.Passo = passo;
-            if (vm.Principal.Selecionada is null && !args.Contains("--demo") || args.Contains("--quadro")) vm.MostrarVisaoGeralCommand.Execute(null);
+            if (args.Contains("--quadro")) vm.MostrarVisaoGeralCommand.Execute(null);
+            else if (vm.Principal.Selecionada is null && !args.Contains("--demo")) vm.MostrarDashboardCommand.Execute(null);
             if (Argumento(args, "--pagina") == "projetos") vm.MostrarProjetosCommand.Execute(null);
+            if (Argumento(args, "--pagina") == "dashboard") vm.MostrarDashboardCommand.Execute(null);
             if (Argumento(args, "--pagina") == "recursos") vm.MostrarRecursosCommand.Execute(null);
             if (Argumento(args, "--pagina") == "uso") vm.MostrarUsoCommand.Execute(null);
             if (Argumento(args, "--pagina") == "issues") vm.MostrarIssuesCommand.Execute(null);
             if (Argumento(args, "--pagina") == "agendados") vm.MostrarAgendadosCommand.Execute(null);
             if (Argumento(args, "--pagina") == "configuracoes") vm.MostrarConfiguracoesCommand.Execute(null);
+            if (args.Contains("--conversas")) vm.AlternarLateralCommand.Execute(null);
             if (Argumento(args, "--secao") is { } secao) vm.PaginaConfiguracoes.IrPara(secao);
             if (args.Contains("--menu-modelo"))
                 Avalonia.Threading.Dispatcher.UIThread.Post(() => (vm.Atual as ChatVM)?.AbrirMenuModeloCommand.Execute(null), Avalonia.Threading.DispatcherPriority.Background);

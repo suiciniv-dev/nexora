@@ -12,7 +12,7 @@ public sealed partial class JanelaVM
     public bool TemMemoria => TextoMemoria is not null;
 
     [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(DicaTelaCheia), nameof(MostraTrilho))]
+    [NotifyPropertyChangedFor(nameof(DicaTelaCheia), nameof(MostraTrilho), nameof(MostraTrilhoSolto))]
     public partial bool TelaCheia { get; set; }
 
     public string DicaTelaCheia => TelaCheia ? Idioma.T("Sair da tela grande (F11)") : Idioma.T("Tela grande: tela cheia, tudo maior e as sessões pelo teclado (F11)");

@@ -45,7 +45,7 @@
     </Style>
     <Style Selector="Button.trilho /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Transitions">
-        <Transitions><BrushTransition Property="Background" Duration="0:0:0.14" /></Transitions>
+        <Transitions><v:TransicaoDeCor Property="Background" Duration="0:0:0.14" /></Transitions>
       </Setter>
     </Style>
     <Style Selector="Border.capsula:not(.aberta) Button.trilho:pointerover">
@@ -107,10 +107,36 @@
       <Setter Property="HorizontalAlignment" Value="Center" />
       <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
+    <Style Selector="Border.capsula.embutida">
+      <Setter Property="Width" Value="NaN" />
+      <Setter Property="HorizontalAlignment" Value="Stretch" />
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="BoxShadow" Value="0 0 0 0 Transparent" />
+      <Setter Property="Padding" Value="0" />
+      <Setter Property="Transitions" Value="{x:Null}" />
+    </Style>
+    <Style Selector="Border.capsula.embutida TextBlock.rotulo-trilho">
+      <Setter Property="Transitions" Value="{x:Null}" />
+    </Style>
+    <Style Selector="Border.capsula.embutida Button.so-trilho">
+      <Setter Property="IsVisible" Value="False" />
+    </Style>
+    <Style Selector="Border.capsula.embutida Button.trilho">
+      <Setter Property="Height" Value="32" />
+      <Setter Property="CornerRadius" Value="10" />
+      <Setter Property="Margin" Value="0" />
+    </Style>
+    <Style Selector="Border.capsula.embutida StackPanel">
+      <Setter Property="Spacing" Value="1" />
+    </Style>
+    <Style Selector="Border.capsula.rodape.embutida">
+      <Setter Property="IsVisible" Value="False" />
+    </Style>
   </UserControl.Styles>
 
-  <DockPanel Width="64" ClipToBounds="False">
-    <Border DockPanel.Dock="Bottom" Classes="capsula" Margin="8,0,0,8">
+  <DockPanel x:Name="Raiz" Width="64" ClipToBounds="False">
+    <Border DockPanel.Dock="Bottom" Classes="capsula rodape" Margin="8,0,0,8">
       <StackPanel Spacing="4">
         <Button Classes="trilho" Command="{Binding AbrirBoasVindasCommand}" ToolTip.Tip="{l:T 'Guia de primeiros passos'}" AutomationProperties.Name="{l:T 'Guia de primeiros passos'}">
           <Grid ColumnDefinitions="38,*">
@@ -135,7 +161,13 @@
 
     <Border Classes="capsula" VerticalAlignment="Top" Margin="8,4,0,0">
       <StackPanel Spacing="4">
-        <v:BotaoLigado Classes="trilho" Classes.ativo="{Binding NaVisaoGeral}" IsChecked="{Binding NaVisaoGeral, Mode=OneWay}" Command="{Binding MostrarVisaoGeralCommand}" ToolTip.Tip="{l:T 'Ao vivo (Ctrl+0)'}" AutomationProperties.Name="{l:T 'Ao vivo'}">
+        <v:BotaoLigado Classes="trilho" Classes.ativo="{Binding NaDashboard}" IsChecked="{Binding NaDashboard, Mode=OneWay}" Command="{Binding MostrarDashboardCommand}" ToolTip.Tip="{l:T 'Dashboard (Ctrl+0)'}" AutomationProperties.Name="{l:T 'Dashboard'}">
+          <Grid ColumnDefinitions="38,*">
+            <v:Icone Nome="dashboard" Tamanho="17" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <TextBlock Grid.Column="1" Classes="rotulo-trilho" Text="{l:T 'Dashboard'}" />
+          </Grid>
+        </v:BotaoLigado>
+        <v:BotaoLigado Classes="trilho" Classes.ativo="{Binding NaVisaoGeral}" IsChecked="{Binding NaVisaoGeral, Mode=OneWay}" Command="{Binding MostrarVisaoGeralCommand}" ToolTip.Tip="{l:T 'Ao vivo (Ctrl+Shift+0)'}" AutomationProperties.Name="{l:T 'Ao vivo'}">
           <Grid ColumnDefinitions="38,*">
             <Panel HorizontalAlignment="Center" VerticalAlignment="Center">
               <v:Icone Nome="painel-geral" Tamanho="17" />
@@ -144,7 +176,7 @@
             <TextBlock Grid.Column="1" Classes="rotulo-trilho" Text="{l:T 'Ao vivo'}" />
           </Grid>
         </v:BotaoLigado>
-        <v:BotaoLigado Classes="trilho" Classes.ativo="{Binding LateralNaTela}" IsChecked="{Binding LateralNaTela, Mode=OneWay}" Command="{Binding AlternarLateralCommand}" ToolTip.Tip="{l:T 'Deixar a lateral aberta, com as conversas (Ctrl+B)'}" AutomationProperties.Name="{l:T 'Conversas'}">
+        <v:BotaoLigado Classes="trilho so-trilho" Classes.ativo="{Binding LateralNaTela}" IsChecked="{Binding LateralNaTela, Mode=OneWay}" Command="{Binding AlternarLateralCommand}" ToolTip.Tip="{l:T 'Conversas (Ctrl+B)'}" AutomationProperties.Name="{l:T 'Conversas'}">
           <Grid ColumnDefinitions="38,*">
             <v:Icone Nome="conversa" Tamanho="17" HorizontalAlignment="Center" VerticalAlignment="Center" />
             <TextBlock Grid.Column="1" Classes="rotulo-trilho" Text="{l:T 'Conversas'}" />

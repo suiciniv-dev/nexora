@@ -433,6 +433,69 @@
     </Style>
   </ControlTheme>
 
+  <ControlTheme x:Key="Widget" TargetType="Border">
+    <Setter Property="Background" Value="{DynamicResource Superficie}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource Borda}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="14" />
+    <Setter Property="Padding" Value="16,14" />
+  </ControlTheme>
+
+  <ControlTheme x:Key="CaixaDoPedido" TargetType="Border">
+    <Setter Property="Background" Value="{DynamicResource SuperficieAlta}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource Borda}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="16" />
+    <Setter Property="Padding" Value="16,12,12,10" />
+  </ControlTheme>
+
+  <ControlTheme x:Key="TituloDoWidget" TargetType="TextBlock">
+    <Setter Property="FontSize" Value="13" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+    <Setter Property="Foreground" Value="{DynamicResource Texto}" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+  </ControlTheme>
+
+  <ControlTheme x:Key="RotuloDoWidget" TargetType="TextBlock">
+    <Setter Property="FontSize" Value="10.5" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+    <Setter Property="LetterSpacing" Value="0.6" />
+    <Setter Property="Foreground" Value="{DynamicResource TextoFraco}" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+  </ControlTheme>
+
+  <ControlTheme x:Key="NumeroDoWidget" TargetType="TextBlock">
+    <Setter Property="FontSize" Value="24" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+    <Setter Property="Foreground" Value="{DynamicResource Texto}" />
+  </ControlTheme>
+
+  <ControlTheme x:Key="ItemDoWidget" TargetType="Button">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{DynamicResource Texto}" />
+    <Setter Property="Padding" Value="8,6" />
+    <Setter Property="Margin" Value="-8,0" />
+    <Setter Property="CornerRadius" Value="8" />
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    <Setter Property="Cursor" Value="Hand" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <ContentPresenter Name="PART_ContentPresenter" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}"
+                          Padding="{TemplateBinding Padding}" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"
+                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="Center"
+                          Foreground="{TemplateBinding Foreground}" />
+      </ControlTemplate>
+    </Setter>
+    <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource SuperficieAlta}" />
+    </Style>
+    <Style Selector="^:focus-visible /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="BorderBrush" Value="{DynamicResource Acento}" />
+      <Setter Property="BorderThickness" Value="1" />
+    </Style>
+  </ControlTheme>
+
   <ControlTheme x:Key="CabecalhoSubagente" TargetType="Button">
     <Setter Property="Background" Value="Transparent" />
     <Setter Property="Foreground" Value="{DynamicResource Texto}" />
@@ -1034,7 +1097,7 @@
     <Setter Property="Height" Value="18" />
     <Setter Property="Padding" Value="0" />
     <Setter Property="CornerRadius" Value="5" />
-    <Setter Property="Background" Value="{DynamicResource Acento}" />
+    <Setter Property="Background" Value="{DynamicResource AcentoCheio}" />
     <Setter Property="Foreground" Value="{DynamicResource SobreAcento}" />
     <Setter Property="Opacity" Value="0" />
     <Setter Property="Cursor" Value="Hand" />

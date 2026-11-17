@@ -38,7 +38,7 @@ public sealed partial class AreaVM : ObservableObject
     public bool NaPagina => Pagina is not null;
 
     public static bool EhPagina(object conteudo) =>
-        conteudo is VisaoGeralVM or ProjetosVM or IssuesVM or OrquestraVM or AgendadosVM or UsoVM or RecursosVM or ConfiguracoesVM or AmbienteVM or NovoAmbienteVM;
+        conteudo is DashboardVM or VisaoGeralVM or ProjetosVM or IssuesVM or OrquestraVM or AgendadosVM or UsoVM or RecursosVM or ConfiguracoesVM or AmbienteVM or NovoAmbienteVM;
 
     partial void OnPaginaChanged(object? value)
     {
@@ -280,6 +280,7 @@ public sealed partial class GuiaVM : ObservableObject
     public static string TituloDe(object conteudo) => conteudo switch
     {
         ChatVM c => c.Titulo,
+        DashboardVM => Idioma.T("Dashboard"),
         VisaoGeralVM => Idioma.T("Ao vivo"),
         OrquestraVM => Idioma.T("Orquestrador"),
         AmbienteVM a => a.Nome,
@@ -296,6 +297,7 @@ public sealed partial class GuiaVM : ObservableObject
 
     public string Icone => Conteudo switch
     {
+        DashboardVM => "dashboard",
         ChatVM { EhChefe: true } => "orquestra",
         ChatVM => "conversa",
         VisaoGeralVM => "painel-geral",

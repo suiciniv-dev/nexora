@@ -4,8 +4,8 @@ $gerador = Join-Path $env:USERPROFILE ".claude\skills\icone-estilo-toca\scripts\
 $saida = Join-Path $env:TEMP "nexora-icone"
 
 python $gerador --glifo "$raiz\docs\icone\glifo.svg" --glifo-pequeno "$raiz\docs\icone\glifo-16.svg" `
-    --topo "#4A4553" --base "#1D1B22" --nome Nexora --saida $saida `
-    --largura-glifo 0.36 --sombra-cor "#08070a" --glifo-claro "#EEEAF5"
+    --topo "#2C8EE8" --base "#2443C9" --nome Nexora --saida $saida `
+    --largura-glifo 0.46 --sombra-cor "#071A40" --glifo-claro "#E2F0FF"
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 $assets = "$raiz\src\Nexora\Assets"

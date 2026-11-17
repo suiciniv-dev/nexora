@@ -14,6 +14,8 @@ public sealed class Config
     public string Animacoes { get; set; } = Aparencia.AnimacoesDoSistema;
     public List<string> Raizes { get; set; } = [@"D:\Repositorios"];
     public string? UltimaPasta { get; set; }
+    public List<string>? FeedsDoDashboard { get; set; }
+    public string? ProjetoDoDashboard { get; set; }
     public List<string> Workspaces { get; set; } = [];
     public List<string> Ocultos { get; set; } = [];
     public bool LateralVisivel { get; set; } = true;

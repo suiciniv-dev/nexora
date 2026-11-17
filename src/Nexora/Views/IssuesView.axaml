@@ -470,7 +470,7 @@
     </Canvas>
 
     <Panel IsVisible="{Binding Espiando}">
-      <Border Background="#8C0A0908" PointerPressed="FundoEspiada_PointerPressed" />
+      <Border Background="{DynamicResource VeuMedio}" PointerPressed="FundoEspiada_PointerPressed" />
       <Border Margin="48,26,48,26" MaxWidth="980" Background="{DynamicResource FundoSolido}" BorderBrush="{DynamicResource Borda}"
               BorderThickness="1" CornerRadius="16" BoxShadow="0 24 70 0 #80000000" ClipToBounds="True">
         <DockPanel Margin="26,20,26,20">

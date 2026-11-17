@@ -360,6 +360,7 @@ sealed class Roteiro(string arquivo, string saida)
         var comando = nome switch
         {
             "visao" or "sessoes" => _vm.MostrarVisaoGeralCommand,
+            "dashboard" => _vm.MostrarDashboardCommand,
             "projetos" => _vm.MostrarProjetosCommand,
             "recursos" => _vm.MostrarRecursosCommand,
             "uso" => _vm.MostrarUsoCommand,

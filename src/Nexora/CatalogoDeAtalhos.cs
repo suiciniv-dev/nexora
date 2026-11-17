@@ -37,7 +37,8 @@ public static class CatalogoDeAtalhos
             new(geral, "Ctrl+-", Idioma.T("Diminuir o texto"), ["Ctrl+OemMinus", "Ctrl+Subtract"], vm => vm.DiminuirTextoCommand),
             new(geral, "Esc", Idioma.T("Fechar o menu, a busca ou o painel aberto"), []),
 
-            new(navegar, "Ctrl+0", Idioma.T("Ao vivo: todas as sessões"), ["Ctrl+D0"], vm => vm.MostrarVisaoGeralCommand, Icone: "quadro"),
+            new(navegar, "Ctrl+0", Idioma.T("Dashboard"), ["Ctrl+D0"], vm => vm.MostrarDashboardCommand, Icone: "dashboard"),
+            new(navegar, "Ctrl+Shift+0", Idioma.T("Ao vivo: todas as sessões"), ["Ctrl+Shift+D0"], vm => vm.MostrarVisaoGeralCommand, Icone: "quadro"),
             new(navegar, "Ctrl+Shift+O", Idioma.T("Orquestrador"), ["Ctrl+Shift+O"], vm => vm.MostrarOrquestraCommand, Icone: "orquestra"),
             new(navegar, "Ctrl+B", Idioma.T("Mostrar ou esconder a lateral de conversas"), ["Ctrl+B", "Ctrl+Shift+B"], vm => vm.AlternarLateralCommand, Icone: "lateral"),
             new(navegar, "Ctrl+Alt+B", Idioma.T("Painel da sessão: ambiente, contexto, arquivos e git"), ["Ctrl+Alt+B"], vm => vm.AlternarDetalhesCommand, Icone: "painel-direito"),
