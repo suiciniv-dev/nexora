@@ -23,7 +23,10 @@ public static class ProcessoDoNucleo
 
     public static int Servir(string cano, string[] resto)
     {
-        var ocioso = resto is [var segundos, ..] && double.TryParse(segundos, NumberStyles.Float, CultureInfo.InvariantCulture, out var s) ? TimeSpan.FromSeconds(s) : Ocioso;
+        string? Opcao(string nome) => Array.IndexOf(resto, nome) is var i and >= 0 && i + 1 < resto.Length ? resto[i + 1] : null;
+        var ocioso = double.TryParse(Opcao("--ocioso"), NumberStyles.Float, CultureInfo.InvariantCulture, out var s) ? TimeSpan.FromSeconds(s) : Ocioso;
+        Core.Texto.Idioma.Registrar(Traducao.Ingles.Pares);
+        Core.Texto.Idioma.Definir(Opcao("--idioma"));
         var sessoes = new SessoesDoServidor(FabricaDeSessoes.Criar);
         try
         {
@@ -56,16 +59,33 @@ public static class ProcessoDoNucleo
         });
     }
 
-    public static IEnumerable<(string Programa, bool ComDll)> Formas(string? processo, bool windows, bool dependeDoDotnet, string? dotnet)
+    public static IEnumerable<(string Programa, string? Dll)> Formas(string? processo, string pasta, bool windows, bool dependeDoDotnet, string? dotnet)
     {
         if (processo is null) yield break;
+        var dll = Path.Combine(pasta, "Nexora.dll");
         if (Path.GetFileNameWithoutExtension(processo).Equals("dotnet", StringComparison.OrdinalIgnoreCase))
         {
-            yield return (processo, true);
+            yield return (processo, dll);
             yield break;
         }
-        if (windows && dependeDoDotnet && dotnet is not null) yield return (dotnet, true);
-        yield return (processo, false);
+        if (windows && dependeDoDotnet && dotnet is not null) yield return (dotnet, dll);
+        yield return (Path.Combine(pasta, Path.GetFileName(processo)), null);
+    }
+
+    static string PastaDoServidor()
+    {
+        if (!OperatingSystem.IsWindows()) return AppContext.BaseDirectory;
+        try
+        {
+            var pasta = CopiaDoNucleo.Preparar(AppContext.BaseDirectory, CopiaDoNucleo.Raiz, Versao);
+            _ = Task.Run(() => CopiaDoNucleo.Limpar(CopiaDoNucleo.Raiz, pasta));
+            return pasta;
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            Erros.Registrar(ex, "núcleo");
+            return AppContext.BaseDirectory;
+        }
     }
 
     static async Task IniciarAsync()
@@ -74,8 +94,9 @@ public static class ProcessoDoNucleo
         var remoto = await NucleoRemoto.ConectarAsync(cano, JaAberto).ConfigureAwait(false);
         if (remoto is null)
         {
-            var formas = Formas(Environment.ProcessPath, OperatingSystem.IsWindows(), Trampolim.ExecutavelDependeDoDotnet, Trampolim.DotnetInstalado());
-            if (!Abrir(formas, cano)) return;
+            var pasta = PastaDoServidor();
+            var formas = Formas(Environment.ProcessPath, pasta, OperatingSystem.IsWindows(), Trampolim.ExecutavelDependeDoDotnet, Trampolim.DotnetInstalado());
+            if (!Abrir(formas, pasta, cano)) return;
             remoto = await NucleoRemoto.ConectarAsync(cano, EsperaPeloServidor).ConfigureAwait(false);
         }
         if (remoto is null)
@@ -94,15 +115,17 @@ public static class ProcessoDoNucleo
         Core.Orquestra.ServidorMcp.Ponte = new PonteRemota(remoto);
     }
 
-    static bool Abrir(IEnumerable<(string Programa, bool ComDll)> formas, string cano)
+    static bool Abrir(IEnumerable<(string Programa, string? Dll)> formas, string pasta, string cano)
     {
         Exception? falha = null;
-        foreach (var (programa, comDll) in formas)
+        foreach (var (programa, dll) in formas)
         {
-            var info = new ProcessStartInfo(programa) { UseShellExecute = false, CreateNoWindow = true, WorkingDirectory = AppContext.BaseDirectory };
-            if (comDll) info.ArgumentList.Add(typeof(ProcessoDoNucleo).Assembly.Location);
+            var info = new ProcessStartInfo(programa) { UseShellExecute = false, CreateNoWindow = true, WorkingDirectory = pasta };
+            if (dll is not null) info.ArgumentList.Add(dll);
             info.ArgumentList.Add(ServidorDoNucleo.Argumento);
             info.ArgumentList.Add(cano);
+            info.ArgumentList.Add("--idioma");
+            info.ArgumentList.Add(Core.Texto.Idioma.Codigo);
             try
             {
                 using var processo = Process.Start(info);
