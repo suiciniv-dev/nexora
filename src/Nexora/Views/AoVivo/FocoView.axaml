@@ -31,19 +31,19 @@
       <Setter Property="HorizontalAlignment" Value="Center" />
       <Setter Property="Foreground" Value="{DynamicResource TextoSuave}" />
     </Style>
-    <Style Selector="Button.primario c|Caixa.tecla-foco">
+    <Style Selector="c|Botao.primario c|Caixa.tecla-foco">
       <Setter Property="Background" Value="#22000000" />
       <Setter Property="BorderBrush" Value="#33000000" />
     </Style>
-    <Style Selector="Button.primario c|Caixa.tecla-foco > TextBlock">
+    <Style Selector="c|Botao.primario c|Caixa.tecla-foco > TextBlock">
       <Setter Property="Foreground" Value="{DynamicResource SobreAcento}" />
     </Style>
-    <Style Selector="Button.contorno.ligado /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="c|Botao.contorno.ligado /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Foreground" Value="{DynamicResource Acento}" />
       <Setter Property="Background" Value="{DynamicResource AcentoFundo}" />
       <Setter Property="BorderBrush" Value="{DynamicResource Acento}" />
     </Style>
-    <Style Selector="Button.proximo-foco">
+    <Style Selector="c|Botao.proximo-foco">
       <Setter Property="Background" Value="{DynamicResource Superficie}" />
       <Setter Property="BorderBrush" Value="{DynamicResource BordaVidro}" />
       <Setter Property="BorderThickness" Value="1" />
@@ -86,12 +86,12 @@
                       <c:Caixa Classes="etiqueta" IsVisible="{Binding Chat.TemIssue}"><TextBlock Text="{Binding Chat.TextoIssue}" /></c:Caixa>
                     </StackPanel>
                   </StackPanel>
-                  <Button Grid.Column="2" Classes="contorno pequeno" Command="{Binding $parent[v:FocoView].((vm:FocoVM)DataContext).AbrirConversaCommand}" VerticalAlignment="Top">
+                  <c:Botao Grid.Column="2" Classes="contorno pequeno" Command="{Binding $parent[v:FocoView].((vm:FocoVM)DataContext).AbrirConversaCommand}" VerticalAlignment="Top">
                     <StackPanel Orientation="Horizontal" Spacing="7">
                       <TextBlock Text="{l:T 'Abrir a conversa'}" />
                       <c:Caixa Classes="tecla-foco"><TextBlock Text="O" /></c:Caixa>
                     </StackPanel>
-                  </Button>
+                  </c:Botao>
                 </Grid>
 
                 <Border BorderBrush="{DynamicResource BordaVidro}" BorderThickness="2,0,0,0" Padding="12,0,0,0" IsVisible="{Binding TemUltimaAtividade}">
@@ -132,37 +132,37 @@
                 </StackPanel>
 
                 <WrapPanel>
-                  <Button Classes="primario" Command="{Binding $parent[v:FocoView].((vm:FocoVM)DataContext).PermitirCommand}" Margin="0,0,8,8" IsVisible="{Binding EhPermissao}">
+                  <c:Botao Classes="primario" Command="{Binding $parent[v:FocoView].((vm:FocoVM)DataContext).PermitirCommand}" Margin="0,0,8,8" IsVisible="{Binding EhPermissao}">
                     <StackPanel Orientation="Horizontal" Spacing="8">
                       <TextBlock Text="{Binding Item.RotuloPermitir}" />
                       <c:Caixa Classes="tecla-foco"><TextBlock Text="Enter" /></c:Caixa>
                     </StackPanel>
-                  </Button>
-                  <Button Classes="primario" Command="{Binding $parent[v:FocoView].((vm:FocoVM)DataContext).PermitirCommand}" Margin="0,0,8,8" IsVisible="{Binding EhPergunta}"
+                  </c:Botao>
+                  <c:Botao Classes="primario" Command="{Binding $parent[v:FocoView].((vm:FocoVM)DataContext).PermitirCommand}" Margin="0,0,8,8" IsVisible="{Binding EhPergunta}"
                           IsEnabled="{Binding Item.PodeResponder}">
                     <StackPanel Orientation="Horizontal" Spacing="8">
                       <TextBlock Text="{l:T 'Responder'}" />
                       <c:Caixa Classes="tecla-foco"><TextBlock Text="Enter" /></c:Caixa>
                     </StackPanel>
-                  </Button>
-                  <Button Classes="contorno" Command="{Binding $parent[v:FocoView].((vm:FocoVM)DataContext).EmTodasCommand}" Margin="0,0,8,8" IsVisible="{Binding PodeEmTodas}">
+                  </c:Botao>
+                  <c:Botao Classes="contorno" Command="{Binding $parent[v:FocoView].((vm:FocoVM)DataContext).EmTodasCommand}" Margin="0,0,8,8" IsVisible="{Binding PodeEmTodas}">
                     <StackPanel Orientation="Horizontal" Spacing="8">
                       <TextBlock Text="{l:T 'Em todas'}" />
                       <c:Caixa Classes="tecla-foco"><TextBlock Text="T" /></c:Caixa>
                     </StackPanel>
-                  </Button>
-                  <Button Classes="contorno" Command="{Binding $parent[v:FocoView].((vm:FocoVM)DataContext).SempreCommand}" Margin="0,0,8,8" IsVisible="{Binding PodeSempre}">
+                  </c:Botao>
+                  <c:Botao Classes="contorno" Command="{Binding $parent[v:FocoView].((vm:FocoVM)DataContext).SempreCommand}" Margin="0,0,8,8" IsVisible="{Binding PodeSempre}">
                     <StackPanel Orientation="Horizontal" Spacing="8">
                       <TextBlock Text="{l:T 'Não perguntar de novo'}" />
                       <c:Caixa Classes="tecla-foco"><TextBlock Text="S" /></c:Caixa>
                     </StackPanel>
-                  </Button>
-                  <Button Classes="contorno" Command="{Binding $parent[v:FocoView].((vm:FocoVM)DataContext).NegarCommand}" Margin="0,0,8,8" IsVisible="{Binding EhPermissao}">
+                  </c:Botao>
+                  <c:Botao Classes="contorno" Command="{Binding $parent[v:FocoView].((vm:FocoVM)DataContext).NegarCommand}" Margin="0,0,8,8" IsVisible="{Binding EhPermissao}">
                     <StackPanel Orientation="Horizontal" Spacing="8">
                       <TextBlock Text="{Binding Item.RotuloNegar}" />
                       <c:Caixa Classes="tecla-foco"><TextBlock Text="N" /></c:Caixa>
                     </StackPanel>
-                  </Button>
+                  </c:Botao>
                 </WrapPanel>
               </StackPanel>
             </DataTemplate>
@@ -184,13 +184,13 @@
         <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel HorizontalAlignment="Center" /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
         <ItemsControl.ItemTemplate>
           <DataTemplate x:DataType="vm:PedidoFocoVM">
-            <Button Classes="proximo-foco" Command="{Binding $parent[v:FocoView].((vm:FocoVM)DataContext).IrCommand}" CommandParameter="{Binding}"
+            <c:Botao Classes="proximo-foco" Command="{Binding $parent[v:FocoView].((vm:FocoVM)DataContext).IrCommand}" CommandParameter="{Binding}"
                     ToolTip.Tip="{Binding Item.Titulo}">
               <StackPanel Orientation="Horizontal" Spacing="8">
                 <c:Avatar Width="28" Height="28" Imagem="{Binding Chat.IconeRepo}" Iniciais="{Binding Chat.Iniciais}" Precisa="True" Fracao="{Binding Chat.ContextoFracao}" />
                 <TextBlock Text="{Binding Chat.Titulo}" MaxWidth="200" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" FontSize="12.5" />
               </StackPanel>
-            </Button>
+            </c:Botao>
           </DataTemplate>
         </ItemsControl.ItemTemplate>
       </ItemsControl>

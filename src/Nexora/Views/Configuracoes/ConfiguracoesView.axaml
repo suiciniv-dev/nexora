@@ -31,15 +31,15 @@
       </StackPanel>
 
       <WrapPanel ItemSpacing="6" LineSpacing="6">
-        <Button Classes="fantasma pequeno" Tag="SecaoAparencia" Click="IrPara_Click" Content="{l:T 'Aparência'}" />
-        <Button Classes="fantasma pequeno" Tag="SecaoGeral" Click="IrPara_Click" Content="{l:T 'Geral'}" />
-        <Button Classes="fantasma pequeno" Tag="SecaoAgente" Click="IrPara_Click" Content="{l:T 'Agente'}" />
-        <Button Classes="fantasma pequeno" Tag="SecaoProjetos" Click="IrPara_Click" Content="{l:T 'Pastas de projetos'}" />
-        <Button Classes="fantasma pequeno" Tag="SecaoSessoes" Click="IrPara_Click" Content="{l:T 'Sessões'}" />
-        <Button Classes="fantasma pequeno" Tag="SecaoPrs" Click="IrPara_Click" Content="{l:T 'PRs no GitHub'}" />
-        <Button Classes="fantasma pequeno" Tag="SecaoSegredos" Click="IrPara_Click" Content="{l:T 'Segredos'}" />
-        <Button Classes="fantasma pequeno" Tag="SecaoNuvem" Click="IrPara_Click" Content="{l:T 'Máquinas na nuvem'}" />
-        <Button Classes="fantasma pequeno" Tag="SecaoAvancado" Click="IrPara_Click" Content="{l:T 'Avançado'}" />
+        <c:Botao Classes="fantasma pequeno" Tag="SecaoAparencia" Click="IrPara_Click" Content="{l:T 'Aparência'}" />
+        <c:Botao Classes="fantasma pequeno" Tag="SecaoGeral" Click="IrPara_Click" Content="{l:T 'Geral'}" />
+        <c:Botao Classes="fantasma pequeno" Tag="SecaoAgente" Click="IrPara_Click" Content="{l:T 'Agente'}" />
+        <c:Botao Classes="fantasma pequeno" Tag="SecaoProjetos" Click="IrPara_Click" Content="{l:T 'Pastas de projetos'}" />
+        <c:Botao Classes="fantasma pequeno" Tag="SecaoSessoes" Click="IrPara_Click" Content="{l:T 'Sessões'}" />
+        <c:Botao Classes="fantasma pequeno" Tag="SecaoPrs" Click="IrPara_Click" Content="{l:T 'PRs no GitHub'}" />
+        <c:Botao Classes="fantasma pequeno" Tag="SecaoSegredos" Click="IrPara_Click" Content="{l:T 'Segredos'}" />
+        <c:Botao Classes="fantasma pequeno" Tag="SecaoNuvem" Click="IrPara_Click" Content="{l:T 'Máquinas na nuvem'}" />
+        <c:Botao Classes="fantasma pequeno" Tag="SecaoAvancado" Click="IrPara_Click" Content="{l:T 'Avançado'}" />
       </WrapPanel>
 
       <c:Caixa Classes="painel" IsVisible="{Binding TemAviso}" v:Animacoes.Entrada="True">
@@ -138,9 +138,9 @@
                 <Grid ColumnDefinitions="Auto,*,Auto" Margin="0,3">
                   <c:Icone Nome="pasta" Tamanho="14" Classes="suave" VerticalAlignment="Center" Margin="0,0,10,0" />
                   <TextBlock Grid.Column="1" Classes="mono" Text="{Binding Pasta}" FontSize="12.5" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
-                  <Button Grid.Column="2" Classes="icone pequeno" Command="{Binding RemoverCommand}" ToolTip.Tip="{l:T 'Tirar esta pasta'}" AutomationProperties.Name="{l:T 'Tirar esta pasta'}">
+                  <c:Botao Grid.Column="2" Classes="icone pequeno" Command="{Binding RemoverCommand}" ToolTip.Tip="{l:T 'Tirar esta pasta'}" AutomationProperties.Name="{l:T 'Tirar esta pasta'}">
                     <c:Icone Nome="fechar" Tamanho="12" />
-                  </Button>
+                  </c:Botao>
                 </Grid>
               </DataTemplate>
             </ItemsControl.ItemTemplate>

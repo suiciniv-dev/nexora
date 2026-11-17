@@ -21,9 +21,9 @@
             <TextBlock Classes="fraco" TextWrapping="Wrap" Text="{l:T 'É onde o agente roda e onde o .code-workspace é salvo, como você já faz nos seus projetos.'}" />
             <Grid ColumnDefinitions="*,Auto">
               <TextBlock Classes="mono" Text="{Binding Principal, TargetNullValue='nenhuma pasta escolhida'}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
-              <Button Grid.Column="1" Classes="contorno" Click="Principal_Click" Margin="10,0,0,0">
+              <c:Botao Grid.Column="1" Classes="contorno" Click="Principal_Click" Margin="10,0,0,0">
                 <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="pasta" Tamanho="14" /><TextBlock Text="{l:T 'Escolher'}" /></StackPanel>
-              </Button>
+              </c:Botao>
             </Grid>
             <TextBlock Classes="titulo-painel" Text="{l:T 'Nome'}" Margin="0,6,0,0" />
             <TextBox Classes="campo" Text="{Binding Nome}" PlaceholderText="{l:T 'Ex.: Acme.Shop'}" />
@@ -37,9 +37,9 @@
                 <c:Icone Nome="vinculo" Classes="suave" />
                 <TextBlock Classes="titulo-painel" Text="{l:T 'Projetos vinculados'}" />
               </StackPanel>
-              <Button Grid.Column="1" Classes="contorno" Click="Vinculado_Click">
+              <c:Botao Grid.Column="1" Classes="contorno" Click="Vinculado_Click">
                 <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="mais" Tamanho="14" /><TextBlock Text="{l:T 'Adicionar pasta'}" /></StackPanel>
-              </Button>
+              </c:Botao>
             </Grid>
             <TextBlock Classes="fraco" Text="{l:T 'Opcional. Entram em toda sessão como diretórios extras.'}" />
             <ItemsControl ItemsSource="{Binding Vinculados}">
@@ -51,9 +51,9 @@
                       <TextBlock Text="{Binding Nome}" FontWeight="Medium" />
                       <TextBlock Classes="fraco" Text="{Binding Pasta}" TextTrimming="CharacterEllipsis" />
                     </StackPanel>
-                    <Button Grid.Column="2" Classes="icone pequeno" Command="{Binding RemoverCommand}" VerticalAlignment="Center" ToolTip.Tip="{l:T 'Tirar'}">
+                    <c:Botao Grid.Column="2" Classes="icone pequeno" Command="{Binding RemoverCommand}" VerticalAlignment="Center" ToolTip.Tip="{l:T 'Tirar'}">
                       <c:Icone Nome="fechar" Tamanho="12" />
-                    </Button>
+                    </c:Botao>
                   </Grid>
                 </DataTemplate>
               </ItemsControl.ItemTemplate>
@@ -65,9 +65,9 @@
           <TextBlock Text="{Binding Erro}" TextWrapping="Wrap" />
         </c:Caixa>
         <StackPanel Orientation="Horizontal" Spacing="12">
-          <Button Classes="primario" Command="{Binding CriarCommand}" IsEnabled="{Binding PodeCriar}">
+          <c:Botao Classes="primario" Command="{Binding CriarCommand}" IsEnabled="{Binding PodeCriar}">
             <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="mais" Tamanho="14" /><TextBlock Text="{l:T 'Criar ambiente'}" /></StackPanel>
-          </Button>
+          </c:Botao>
           <TextBlock Classes="fraco mono" Text="{Binding Previa}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" MaxWidth="520" />
         </StackPanel>
 
@@ -85,7 +85,7 @@
                       <TextBlock Text="{Binding Nome}" FontWeight="Medium" />
                       <TextBlock Classes="fraco" Text="{Binding Pasta}" />
                     </StackPanel>
-                    <Button Grid.Column="1" Classes="contorno" Content="{l:T 'Mostrar de novo'}" Command="{Binding MostrarCommand}" VerticalAlignment="Center" />
+                    <c:Botao Grid.Column="1" Classes="contorno" Content="{l:T 'Mostrar de novo'}" Command="{Binding MostrarCommand}" VerticalAlignment="Center" />
                   </Grid>
                 </DataTemplate>
               </ItemsControl.ItemTemplate>

@@ -25,11 +25,11 @@
       <Setter Property="VerticalAlignment" Value="Center" />
       <Setter Property="Foreground" Value="{DynamicResource TextoSuave}" />
     </Style>
-    <Style Selector="Button.primario c|Caixa.tecla-g">
+    <Style Selector="c|Botao.primario c|Caixa.tecla-g">
       <Setter Property="Background" Value="#22000000" />
       <Setter Property="BorderBrush" Value="#33000000" />
     </Style>
-    <Style Selector="Button.primario c|Caixa.tecla-g > TextBlock">
+    <Style Selector="c|Botao.primario c|Caixa.tecla-g > TextBlock">
       <Setter Property="Foreground" Value="{DynamicResource SobreAcento}" />
     </Style>
     <Style Selector="TextBlock.legenda">
@@ -39,7 +39,7 @@
       <Setter Property="Margin" Value="0,0,14,0" />
     </Style>
 
-    <Style Selector="Button.acao">
+    <Style Selector="c|Botao.acao">
       <Setter Property="Background" Value="{DynamicResource Superficie}" />
       <Setter Property="BorderBrush" Value="{DynamicResource BordaVidro}" />
       <Setter Property="BorderThickness" Value="1" />
@@ -48,7 +48,7 @@
       <Setter Property="Margin" Value="0,0,8,0" />
       <Setter Property="Focusable" Value="False" />
     </Style>
-    <Style Selector="Button.acao.primario">
+    <Style Selector="c|Botao.acao.primario">
       <Setter Property="Background" Value="{DynamicResource AcentoCheio}" />
       <Setter Property="BorderThickness" Value="0" />
       <Setter Property="Padding" Value="13,8" />
@@ -188,35 +188,35 @@
             </ContentControl>
           </c:Caixa>
           <StackPanel Orientation="Horizontal">
-            <Button Classes="acao" Command="{Binding AbrirFocadoCommand}">
+            <c:Botao Classes="acao" Command="{Binding AbrirFocadoCommand}">
               <StackPanel Orientation="Horizontal" Spacing="8">
                 <c:Caixa Classes="tecla-g"><TextBlock Text="Enter" /></c:Caixa>
                 <TextBlock Text="{Binding TextoAbrir}" VerticalAlignment="Center" />
               </StackPanel>
-            </Button>
-            <Button Classes="acao primario" Command="{Binding PermitirCommand}" IsVisible="{Binding PodePermitir}">
+            </c:Botao>
+            <c:Botao Classes="acao primario" Command="{Binding PermitirCommand}" IsVisible="{Binding PodePermitir}">
               <StackPanel Orientation="Horizontal" Spacing="8">
                 <c:Caixa Classes="tecla-g"><TextBlock Text="P" /></c:Caixa>
                 <TextBlock Text="{Binding Pedido.Item.RotuloPermitir, FallbackValue=''}" VerticalAlignment="Center" />
               </StackPanel>
-            </Button>
-            <Button Classes="acao" Command="{Binding NegarCommand}" IsVisible="{Binding Pedido.EhPermissao, FallbackValue=False}">
+            </c:Botao>
+            <c:Botao Classes="acao" Command="{Binding NegarCommand}" IsVisible="{Binding Pedido.EhPermissao, FallbackValue=False}">
               <StackPanel Orientation="Horizontal" Spacing="8">
                 <c:Caixa Classes="tecla-g"><TextBlock Text="N" /></c:Caixa>
                 <TextBlock Text="{Binding Pedido.Item.RotuloNegar, FallbackValue=''}" VerticalAlignment="Center" />
               </StackPanel>
-            </Button>
+            </c:Botao>
             <ItemsControl ItemsSource="{Binding Pedido.Opcoes, FallbackValue={x:Null}}">
               <ItemsControl.ItemsPanel><ItemsPanelTemplate><StackPanel Orientation="Horizontal" /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
               <ItemsControl.ItemTemplate>
                 <DataTemplate x:DataType="vm:OpcaoNumeradaVM">
-                  <Button Classes="acao" Command="{Binding $parent[v:TelaGrandeView].((vm:TelaGrandeVM)DataContext).ResponderCommand}" CommandParameter="{Binding}"
+                  <c:Botao Classes="acao" Command="{Binding $parent[v:TelaGrandeView].((vm:TelaGrandeVM)DataContext).ResponderCommand}" CommandParameter="{Binding}"
                           ToolTip.Tip="{Binding Opcao.Descricao}" AutomationProperties.Name="{Binding Opcao.Rotulo}">
                     <StackPanel Orientation="Horizontal" Spacing="8">
                       <c:Caixa Classes="tecla-g"><TextBlock Text="{Binding Tecla}" /></c:Caixa>
                       <TextBlock Text="{Binding Opcao.Rotulo}" TextTrimming="CharacterEllipsis" MaxWidth="220" VerticalAlignment="Center" />
                     </StackPanel>
-                  </Button>
+                  </c:Botao>
                 </DataTemplate>
               </ItemsControl.ItemTemplate>
             </ItemsControl>
@@ -265,12 +265,12 @@
             <c:Caixa Classes="tecla-g"><TextBlock Text="Ctrl K" /></c:Caixa>
             <TextBlock Classes="legenda" Text="{l:T 'procurar'}" />
           </StackPanel>
-          <Button Grid.Column="1" Classes="fantasma" Command="{Binding SairCommand}" Focusable="False" Padding="8,3" AutomationProperties.Name="{l:T 'Sair da tela grande'}">
+          <c:Botao Grid.Column="1" Classes="fantasma" Command="{Binding SairCommand}" Focusable="False" Padding="8,3" AutomationProperties.Name="{l:T 'Sair da tela grande'}">
             <StackPanel Orientation="Horizontal" Spacing="6">
               <c:Caixa Classes="tecla-g"><TextBlock Text="F11" /></c:Caixa>
               <TextBlock Classes="legenda" Text="{l:T 'sair da tela grande'}" Margin="0" />
             </StackPanel>
-          </Button>
+          </c:Botao>
         </Grid>
       </Border>
     </Grid>

@@ -35,26 +35,26 @@
     <Style Selector="c|Caixa.guia.selecionada TextBlock.titulo-guia">
       <Setter Property="Foreground" Value="{DynamicResource Texto}" />
     </Style>
-    <Style Selector="c|Caixa.guia Button.fechar-guia">
+    <Style Selector="c|Caixa.guia c|Botao.fechar-guia">
       <Setter Property="Opacity" Value="0" />
     </Style>
-    <Style Selector="c|Caixa.guia:pointerover Button.fechar-guia, c|Caixa.guia.selecionada Button.fechar-guia, c|Caixa.guia:focus-within Button.fechar-guia, Button.fechar-guia:focus-visible">
+    <Style Selector="c|Caixa.guia:pointerover c|Botao.fechar-guia, c|Caixa.guia.selecionada c|Botao.fechar-guia, c|Caixa.guia:focus-within c|Botao.fechar-guia, c|Botao.fechar-guia:focus-visible">
       <Setter Property="Opacity" Value="1" />
     </Style>
     <Style Selector="ContentPresenter.estreita c|Caixa.guia:not(.selecionada) TextBlock.titulo-guia">
       <Setter Property="Opacity" Value="0" />
     </Style>
-    <Style Selector="ContentPresenter.estreita c|Caixa.guia:not(.selecionada):not(:focus-within) Button.fechar-guia, ContentPresenter.estreita c|Caixa.guia:not(.selecionada):not(:focus-within):pointerover Button.fechar-guia">
+    <Style Selector="ContentPresenter.estreita c|Caixa.guia:not(.selecionada):not(:focus-within) c|Botao.fechar-guia, ContentPresenter.estreita c|Caixa.guia:not(.selecionada):not(:focus-within):pointerover c|Botao.fechar-guia">
       <Setter Property="Opacity" Value="0" />
       <Setter Property="IsHitTestVisible" Value="False" />
     </Style>
   </UserControl.Styles>
 
   <DockPanel HorizontalAlignment="Left" VerticalAlignment="Center">
-    <Button DockPanel.Dock="Right" Classes="topo" Command="{Binding NovaSessaoCommand}" WindowDecorationProperties.ElementRole="User"
+    <c:Botao DockPanel.Dock="Right" Classes="topo" Command="{Binding NovaSessaoCommand}" WindowDecorationProperties.ElementRole="User"
             ToolTip.Tip="{l:T 'Nova sessão (Ctrl+N)'}" AutomationProperties.Name="{l:T 'Nova sessão'}" Margin="2,0,0,0" VerticalAlignment="Center">
       <c:Icone Nome="mais" Tamanho="16" />
-    </Button>
+    </c:Botao>
     <c:BotaoLigado DockPanel.Dock="Right" Classes="topo" Classes.ligado="{Binding Dividido}" IsChecked="{Binding Dividido, Mode=OneWay}" Command="{Binding AlternarSplitCommand}" WindowDecorationProperties.ElementRole="User"
             ToolTip.Tip="{l:T 'Split view: liga e desliga, sem perder o que estava nele (Ctrl+Shift+\)'}" AutomationProperties.Name="Split view" Margin="2,0,0,0" VerticalAlignment="Center">
       <c:Icone Nome="dividir" Tamanho="16" />
@@ -94,10 +94,10 @@
                   </Border>
                 </Panel>
                 <TextBlock Grid.Column="1" Classes="titulo-guia" Text="{Binding Titulo}" MaxWidth="170" Margin="7,0" TextTrimming="CharacterEllipsis" FontSize="12.5" VerticalAlignment="Center" />
-                <Button Grid.Column="2" Classes="icone pequeno fechar-guia" Command="{Binding FecharCommand}" Width="24" Height="24" Padding="0"
+                <c:Botao Grid.Column="2" Classes="icone pequeno fechar-guia" Command="{Binding FecharCommand}" Width="24" Height="24" Padding="0"
                         ToolTip.Tip="{l:T 'Fechar aba (Ctrl+W)'}" AutomationProperties.Name="{l:T 'Fechar aba'}">
                   <c:Icone Nome="fechar" Tamanho="10" />
-                </Button>
+                </c:Botao>
               </Grid>
             </c:Caixa>
           </DataTemplate>

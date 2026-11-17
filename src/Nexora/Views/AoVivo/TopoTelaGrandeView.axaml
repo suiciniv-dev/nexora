@@ -8,7 +8,7 @@
              x:DataType="vm:TelaGrandeVM"
              Focusable="True">
   <UserControl.Styles>
-    <Style Selector="Button.atalho">
+    <Style Selector="c|Botao.atalho">
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="Foreground" Value="{DynamicResource TextoSuave}" />
       <Setter Property="BorderBrush" Value="Transparent" />
@@ -23,47 +23,47 @@
         <Transitions><TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.14" Easing="CubicEaseOut" /></Transitions>
       </Setter>
     </Style>
-    <Style Selector="Button.atalho /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="c|Botao.atalho /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Transitions">
         <Transitions><c:TransicaoDeCor Property="Background" Duration="0:0:0.14" /></Transitions>
       </Setter>
     </Style>
-    <Style Selector="Button.atalho:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="c|Botao.atalho:pointerover /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{DynamicResource Superficie}" />
       <Setter Property="Foreground" Value="{DynamicResource Texto}" />
     </Style>
-    <Style Selector="Button.atalho.ativo /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="c|Botao.atalho.ativo /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{DynamicResource SuperficieAlta}" />
       <Setter Property="BorderBrush" Value="{DynamicResource BordaVidro}" />
       <Setter Property="Foreground" Value="{DynamicResource Texto}" />
     </Style>
-    <Style Selector="ContentPresenter.foco Button.atalho">
+    <Style Selector="ContentPresenter.foco c|Botao.atalho">
       <Setter Property="RenderTransform" Value="scale(1.06)" />
     </Style>
-    <Style Selector="ContentPresenter.foco Button.atalho /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="ContentPresenter.foco c|Botao.atalho /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{DynamicResource MarcaGradiente}" />
       <Setter Property="BorderBrush" Value="Transparent" />
       <Setter Property="Foreground" Value="{DynamicResource SobreMarca}" />
       <Setter Property="BoxShadow" Value="{DynamicResource BrilhoCaixa}" />
     </Style>
-    <Style Selector="Button.marca">
+    <Style Selector="c|Botao.marca">
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="Padding" Value="4,4,10,4" />
       <Setter Property="CornerRadius" Value="12" />
       <Setter Property="Focusable" Value="False" />
     </Style>
-    <Style Selector="Button.marca:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="c|Botao.marca:pointerover /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{DynamicResource Superficie}" />
     </Style>
   </UserControl.Styles>
 
   <Grid ColumnDefinitions="Auto,*,Auto" Margin="52,0,56,0" VerticalAlignment="Center">
-    <Button Classes="marca" Command="{Binding AbrirCommand}" ToolTip.Tip="{l:T 'Início'}" AutomationProperties.Name="{l:T 'Início'}" VerticalAlignment="Center">
+    <c:Botao Classes="marca" Command="{Binding AbrirCommand}" ToolTip.Tip="{l:T 'Início'}" AutomationProperties.Name="{l:T 'Início'}" VerticalAlignment="Center">
       <StackPanel Orientation="Horizontal" Spacing="12">
         <Image Source="/Assets/nexora.png" Width="34" Height="34" RenderOptions.BitmapInterpolationMode="HighQuality" />
         <TextBlock Text="{Binding Saudacao}" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center" />
       </StackPanel>
-    </Button>
+    </c:Botao>
     <ItemsControl Grid.Column="1" ItemsSource="{Binding Atalhos}" Margin="0,0,0,0" VerticalAlignment="Center">
       <ItemsControl.OpacityMask>
         <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,0%">

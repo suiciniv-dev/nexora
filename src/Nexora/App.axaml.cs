@@ -23,6 +23,7 @@ public partial class App : Application
         if (Core.Texto.Idioma.EmIngles)
             System.Globalization.CultureInfo.CurrentCulture = System.Globalization.CultureInfo.DefaultThreadCurrentCulture = Core.Texto.Idioma.Cultura;
         AvaloniaXamlLoader.Load(this);
+        Nexora.Controles.Botao.RegistrarTema(this);
         Nexora.Controles.NomesAcessiveis.Ligar();
     }
 

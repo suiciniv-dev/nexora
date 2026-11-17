@@ -11,20 +11,20 @@
       <Grid ColumnDefinitions="*,Auto">
         <TextBlock Classes="fraco mono" Text="{Binding Relativo}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
         <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="4">
-          <Button Classes="fantasma" Click="Citar_Click" ToolTip.Tip="{l:T 'Mandar a seleção para o chat (Ctrl+L)'}">
+          <c:Botao Classes="fantasma" Click="Citar_Click" ToolTip.Tip="{l:T 'Mandar a seleção para o chat (Ctrl+L)'}">
             <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="citar" Tamanho="14" /><TextBlock Text="{l:T 'Citar no chat'}" FontSize="12.5" /></StackPanel>
-          </Button>
-          <Button Classes="fantasma" Command="{Binding SalvarCommand}" IsEnabled="{Binding Modificada}" IsVisible="{Binding !EhImagem}" ToolTip.Tip="{l:T 'Salvar (Ctrl+S)'}">
+          </c:Botao>
+          <c:Botao Classes="fantasma" Command="{Binding SalvarCommand}" IsEnabled="{Binding Modificada}" IsVisible="{Binding !EhImagem}" ToolTip.Tip="{l:T 'Salvar (Ctrl+S)'}">
             <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="salvar" Tamanho="14" /><TextBlock Text="{l:T 'Salvar'}" FontSize="12.5" /></StackPanel>
-          </Button>
+          </c:Botao>
         </StackPanel>
       </Grid>
     </Border>
     <c:Caixa DockPanel.Dock="Top" Classes="aviso" IsVisible="{Binding MudouNoDisco}" Margin="12,8,12,0">
       <Grid ColumnDefinitions="*,Auto,Auto">
         <TextBlock Text="{l:T 'O arquivo mudou no disco (talvez pelo agente) e você tem alterações não salvas.'}" TextWrapping="Wrap" VerticalAlignment="Center" />
-        <Button Grid.Column="1" Classes="contorno" Content="{l:T 'Recarregar'}" Command="{Binding RecarregarCommand}" Margin="8,0,0,0" />
-        <Button Grid.Column="2" Classes="fantasma" Content="{l:T 'Manter o meu'}" Command="{Binding ManterMeuCommand}" Margin="4,0,0,0" />
+        <c:Botao Grid.Column="1" Classes="contorno" Content="{l:T 'Recarregar'}" Command="{Binding RecarregarCommand}" Margin="8,0,0,0" />
+        <c:Botao Grid.Column="2" Classes="fantasma" Content="{l:T 'Manter o meu'}" Command="{Binding ManterMeuCommand}" Margin="4,0,0,0" />
       </Grid>
     </c:Caixa>
     <Panel>

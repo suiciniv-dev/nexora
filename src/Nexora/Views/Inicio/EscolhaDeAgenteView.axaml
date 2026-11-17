@@ -6,7 +6,7 @@
              x:Class="Nexora.Views.EscolhaDeAgenteView"
              x:DataType="vm:EscolhaDeAgenteVM">
   <UserControl.Styles>
-    <Style Selector="Button.cartao-agente">
+    <Style Selector="c|Botao.cartao-agente">
       <Setter Property="Width" Value="300" />
       <Setter Property="Height" Value="210" />
       <Setter Property="Margin" Value="10" />
@@ -18,16 +18,16 @@
       <Setter Property="VerticalContentAlignment" Value="Center" />
       <Setter Property="Foreground" Value="#F2F0EC" />
     </Style>
-    <Style Selector="Button.cartao-agente:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="c|Botao.cartao-agente:pointerover /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="#F2242320" />
       <Setter Property="BorderBrush" Value="#66FFFFFF" />
       <Setter Property="Foreground" Value="#F2F0EC" />
     </Style>
-    <Style Selector="Button.cartao-agente.escolhido /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="c|Botao.cartao-agente.escolhido /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="BorderBrush" Value="{DynamicResource Acento}" />
       <Setter Property="BorderThickness" Value="2" />
     </Style>
-    <Style Selector="Button.cartao-agente.ausente">
+    <Style Selector="c|Botao.cartao-agente.ausente">
       <Setter Property="Opacity" Value="0.62" />
     </Style>
     <Style Selector="TextBlock.estado-agente">
@@ -56,7 +56,7 @@
           </ItemsControl.ItemsPanel>
           <ItemsControl.ItemTemplate>
             <DataTemplate x:DataType="vm:CartaoAgenteVM">
-              <Button Classes="cartao-agente" Classes.escolhido="{Binding Escolhido}" Classes.ausente="{Binding !Detectado}" Command="{Binding EscolherCommand}"
+              <c:Botao Classes="cartao-agente" Classes.escolhido="{Binding Escolhido}" Classes.ausente="{Binding !Detectado}" Command="{Binding EscolherCommand}"
                       AutomationProperties.Name="{Binding Nome}">
                 <StackPanel Spacing="10">
                   <c:AvatarVivo Agente="{Binding Id}" Comemorar="{Binding Escolhido}" Rotulo="" Width="64" Height="64" HorizontalAlignment="Center" />
@@ -65,7 +65,7 @@
                   <TextBlock Classes="estado-agente" Classes.ok="{Binding Detectado}" Text="{Binding TextoEstado}" />
                   <TextBlock Text="{Binding Descricao}" FontSize="12" Foreground="#9C978F" TextWrapping="Wrap" TextAlignment="Center" MaxWidth="240" />
                 </StackPanel>
-              </Button>
+              </c:Botao>
             </DataTemplate>
           </ItemsControl.ItemTemplate>
         </ItemsControl>
@@ -74,15 +74,15 @@
           <SelectableTextBlock Text="{Binding Aviso}" Foreground="#F2E6D2" TextWrapping="Wrap" FontSize="13" />
         </Border>
         <StackPanel Orientation="Horizontal" Spacing="14" HorizontalAlignment="Center" Margin="0,16,0,0">
-          <Button Classes="fantasma" Command="{Binding ProcurarCommand}" Foreground="#C9C6BF">
+          <c:Botao Classes="fantasma" Command="{Binding ProcurarCommand}" Foreground="#C9C6BF">
             <StackPanel Orientation="Horizontal" Spacing="7">
               <c:Icone Nome="atualizar" Tamanho="14" />
               <TextBlock Text="{l:T 'PROCURAR DE NOVO'}" FontFamily="{DynamicResource Mono}" LetterSpacing="1.6" FontSize="12.5" VerticalAlignment="Center" />
             </StackPanel>
-          </Button>
-          <Button Classes="primario" Command="{Binding ContinuarCommand}" Padding="22,9">
+          </c:Botao>
+          <c:Botao Classes="primario" Command="{Binding ContinuarCommand}" Padding="22,9">
             <TextBlock Text="{l:T 'Continuar'}" FontSize="14" />
-          </Button>
+          </c:Botao>
         </StackPanel>
       </StackPanel>
     </ScrollViewer>

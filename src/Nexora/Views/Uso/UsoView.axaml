@@ -44,9 +44,9 @@
           <TextBlock Classes="suave" TextWrapping="Wrap"
                      Text="{l:T 'O plano vem do /usage do Claude Code e a divisão por projeto, das conversas guardadas neste computador. Nada disso gasta tokens.'}" />
         </StackPanel>
-        <Button Grid.Column="1" Classes="contorno" Command="{Binding AtualizarCommand}" VerticalAlignment="Center">
+        <c:Botao Grid.Column="1" Classes="contorno" Command="{Binding AtualizarCommand}" VerticalAlignment="Center">
           <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="atualizar" Tamanho="14" /><TextBlock Text="{l:T 'Atualizar'}" /></StackPanel>
-        </Button>
+        </c:Botao>
       </Grid>
 
       <c:Caixa Classes="painel">
@@ -76,12 +76,12 @@
       <c:Caixa Classes="painel">
         <StackPanel Spacing="12">
           <Grid ColumnDefinitions="Auto,Auto,*,Auto">
-            <Button Classes="icone" Command="{Binding SemanaAnteriorCommand}" ToolTip.Tip="{l:T 'Semana anterior'}" AutomationProperties.Name="{l:T 'Semana anterior'}">
+            <c:Botao Classes="icone" Command="{Binding SemanaAnteriorCommand}" ToolTip.Tip="{l:T 'Semana anterior'}" AutomationProperties.Name="{l:T 'Semana anterior'}">
               <c:Icone Nome="esquerda" Tamanho="15" />
-            </Button>
-            <Button Grid.Column="1" Classes="icone" Command="{Binding ProximaSemanaCommand}" ToolTip.Tip="{l:T 'Semana seguinte'}" AutomationProperties.Name="{l:T 'Semana seguinte'}" Margin="2,0,12,0">
+            </c:Botao>
+            <c:Botao Grid.Column="1" Classes="icone" Command="{Binding ProximaSemanaCommand}" ToolTip.Tip="{l:T 'Semana seguinte'}" AutomationProperties.Name="{l:T 'Semana seguinte'}" Margin="2,0,12,0">
               <c:Icone Nome="direita" Tamanho="15" />
-            </Button>
+            </c:Botao>
             <StackPanel Grid.Column="2" Spacing="1" VerticalAlignment="Center">
               <TextBlock Classes="titulo-painel" Text="{Binding TituloSemana}" />
               <TextBlock Classes="fraco" Text="{Binding ResumoSemana}" />

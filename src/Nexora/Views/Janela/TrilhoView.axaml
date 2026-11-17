@@ -28,7 +28,7 @@
       <Setter Property="Background" Value="{DynamicResource FundoSolido}" />
       <Setter Property="BoxShadow" Value="0 14 40 0 #73000000" />
     </Style>
-    <Style Selector="Button.trilho">
+    <Style Selector="c|Botao.trilho">
       <Setter Property="Height" Value="38" />
       <Setter Property="Margin" Value="5,0" />
       <Setter Property="Padding" Value="0" />
@@ -43,26 +43,26 @@
         <Transitions><TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.12" Easing="CubicEaseOut" /></Transitions>
       </Setter>
     </Style>
-    <Style Selector="Button.trilho /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="c|Botao.trilho /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Transitions">
         <Transitions><c:TransicaoDeCor Property="Background" Duration="0:0:0.14" /></Transitions>
       </Setter>
     </Style>
-    <Style Selector="c|Caixa.capsula:not(.aberta) Button.trilho:pointerover">
+    <Style Selector="c|Caixa.capsula:not(.aberta) c|Botao.trilho:pointerover">
       <Setter Property="RenderTransform" Value="scale(1.1)" />
     </Style>
-    <Style Selector="Button.trilho:pressed">
+    <Style Selector="c|Botao.trilho:pressed">
       <Setter Property="RenderTransform" Value="scale(0.96)" />
     </Style>
-    <Style Selector="Button.trilho:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="c|Botao.trilho:pointerover /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{DynamicResource SuperficieAlta}" />
       <Setter Property="Foreground" Value="{DynamicResource Texto}" />
     </Style>
-    <Style Selector="Button.trilho.ativo /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="c|Botao.trilho.ativo /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{DynamicResource MarcaGradiente}" />
       <Setter Property="Foreground" Value="{DynamicResource SobreMarca}" />
     </Style>
-    <Style Selector="Button.trilho, Button.trilho /template/ ContentPresenter#PART_ContentPresenter">
+    <Style Selector="c|Botao.trilho, c|Botao.trilho /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="ClipToBounds" Value="False" />
     </Style>
     <Style Selector="TextBlock.rotulo-trilho">
@@ -119,10 +119,10 @@
     <Style Selector="c|Caixa.capsula.embutida TextBlock.rotulo-trilho">
       <Setter Property="Transitions" Value="{x:Null}" />
     </Style>
-    <Style Selector="c|Caixa.capsula.embutida Button.so-trilho">
+    <Style Selector="c|Caixa.capsula.embutida c|Botao.so-trilho">
       <Setter Property="IsVisible" Value="False" />
     </Style>
-    <Style Selector="c|Caixa.capsula.embutida Button.trilho">
+    <Style Selector="c|Caixa.capsula.embutida c|Botao.trilho">
       <Setter Property="Height" Value="32" />
       <Setter Property="CornerRadius" Value="10" />
       <Setter Property="Margin" Value="0" />
@@ -138,18 +138,18 @@
   <DockPanel x:Name="Raiz" Width="64" ClipToBounds="False">
     <c:Caixa DockPanel.Dock="Bottom" Classes="capsula rodape" Margin="8,0,0,8">
       <StackPanel Spacing="4">
-        <Button Classes="trilho" Command="{Binding AbrirBoasVindasCommand}" ToolTip.Tip="{l:T 'Guia de primeiros passos'}" AutomationProperties.Name="{l:T 'Guia de primeiros passos'}">
+        <c:Botao Classes="trilho" Command="{Binding AbrirBoasVindasCommand}" ToolTip.Tip="{l:T 'Guia de primeiros passos'}" AutomationProperties.Name="{l:T 'Guia de primeiros passos'}">
           <Grid ColumnDefinitions="38,*">
             <c:Icone Nome="ajuda" Tamanho="17" HorizontalAlignment="Center" VerticalAlignment="Center" />
             <TextBlock Grid.Column="1" Classes="rotulo-trilho" Text="{l:T 'Guia'}" />
           </Grid>
-        </Button>
-        <Button Classes="trilho" Command="{Binding MostrarAtalhosCommand}" ToolTip.Tip="{l:T 'Atalhos de teclado (F1)'}" AutomationProperties.Name="{l:T 'Atalhos de teclado'}">
+        </c:Botao>
+        <c:Botao Classes="trilho" Command="{Binding MostrarAtalhosCommand}" ToolTip.Tip="{l:T 'Atalhos de teclado (F1)'}" AutomationProperties.Name="{l:T 'Atalhos de teclado'}">
           <Grid ColumnDefinitions="38,*">
             <c:Icone Nome="teclado" Tamanho="17" HorizontalAlignment="Center" VerticalAlignment="Center" />
             <TextBlock Grid.Column="1" Classes="rotulo-trilho" Text="{l:T 'Atalhos'}" />
           </Grid>
-        </Button>
+        </c:Botao>
         <c:BotaoLigado Classes="trilho" Classes.ativo="{Binding NaConfiguracoes}" IsChecked="{Binding NaConfiguracoes, Mode=OneWay}" Command="{Binding MostrarConfiguracoesCommand}" ToolTip.Tip="{l:T 'Configurações (Ctrl+,)'}" AutomationProperties.Name="{l:T 'Configurações'}">
           <Grid ColumnDefinitions="38,*">
             <c:Icone Nome="ajustes" Tamanho="17" HorizontalAlignment="Center" VerticalAlignment="Center" />
