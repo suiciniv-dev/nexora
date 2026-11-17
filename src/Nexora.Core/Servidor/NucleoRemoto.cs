@@ -69,6 +69,15 @@ public sealed class NucleoRemoto : INucleo, IDisposable
         return new ResultadoGit(-1, "", Texto.Idioma.F("O servidor do Nexora parou no meio do {0}. Confira se o comando chegou a rodar antes de tentar de novo.", pedido.Programa));
     }
 
+    public async Task<TrechoBruto> LerTurnosAsync(string arquivo, int turnos, long ate, CancellationToken cancelar = default) =>
+        await PedirOuLocal<TrechoBruto>(MetodosDoNucleo.Turnos, new JsonObject { ["arquivo"] = arquivo, ["turnos"] = turnos, ["ate"] = ate }, cancelar).ConfigureAwait(false)
+        ?? await NucleoLocal.Instancia.LerTurnosAsync(arquivo, turnos, ate, cancelar).ConfigureAwait(false);
+
+    public async Task<string?> UltimoModoAsync(string arquivo, CancellationToken cancelar = default) =>
+        await PedirOuLocal<RespostaDeTexto>(MetodosDoNucleo.Modo, new JsonObject { ["arquivo"] = arquivo }, cancelar).ConfigureAwait(false) is { } resposta
+            ? resposta.Texto
+            : await NucleoLocal.Instancia.UltimoModoAsync(arquivo, cancelar).ConfigureAwait(false);
+
     async Task<T?> PedirOuLocal<T>(string metodo, JsonObject? dados, CancellationToken cancelar) where T : class =>
         (await Pedir<T>(metodo, dados, EsperaPelaResposta, cancelar).ConfigureAwait(false)).Resultado;
 

@@ -13,4 +13,8 @@ public interface INucleo
     Task<Andamento> LerAndamentoAsync(string arquivo, string? pasta, CancellationToken cancelar = default);
 
     Task<ResultadoGit> RodarComandoAsync(PedidoDeComando pedido, CancellationToken cancelar = default);
+
+    Task<TrechoBruto> LerTurnosAsync(string arquivo, int turnos, long ate, CancellationToken cancelar = default);
+
+    Task<string?> UltimoModoAsync(string arquivo, CancellationToken cancelar = default);
 }

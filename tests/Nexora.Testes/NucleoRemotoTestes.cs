@@ -29,6 +29,12 @@ public sealed class NucleoRemotoTestes
                 ? throw new IOException("arquivo sumiu")
                 : Task.FromResult(new Andamento("Cupom", "main", "Lendo " + arquivo, new DateTimeOffset(2026, 11, 17, 10, 0, 0, TimeSpan.Zero), new ContextoUsado(1234, true, "opus")));
 
+        public Task<TrechoBruto> LerTurnosAsync(string arquivo, int turnos, long ate, CancellationToken cancelar = default) =>
+            NucleoLocal.Instancia.LerTurnosAsync(arquivo, turnos, ate, cancelar);
+
+        public Task<string?> UltimoModoAsync(string arquivo, CancellationToken cancelar = default) =>
+            NucleoLocal.Instancia.UltimoModoAsync(arquivo, cancelar);
+
         public int Comandos;
         public TaskCompletionSource? SegurarComando { get; set; }
 
@@ -41,6 +47,28 @@ public sealed class NucleoRemotoTestes
     }
 
     static string Cano() => "nexora-teste-" + Guid.NewGuid().ToString("N");
+
+    [Fact]
+    public async Task Pagina_do_historico_lida_no_servidor_e_igual_a_lida_aqui()
+    {
+        var cano = Cano();
+        _ = Task.Run(() => ServidorDoNucleo.RodarAsync(cano, new NucleoFalso(), TimeSpan.FromSeconds(10)));
+        using var remoto = await NucleoRemoto.ConectarAsync(cano, TimeSpan.FromSeconds(10));
+        Assert.NotNull(remoto);
+        var arquivo = Path.Combine(Directory.CreateTempSubdirectory("nexora-hist-").FullName, "longa.jsonl");
+        TranscricaoDeExemplo.Escrever(arquivo, 40);
+
+        var aqui = Transcricao.LerTurnos(arquivo, 12);
+        var bruto = await remoto.LerTurnosAsync(arquivo, 12, long.MaxValue);
+        var la = Transcricao.DeBruto(bruto);
+        var anterior = Transcricao.DeBruto(await remoto.LerTurnosAsync(arquivo, 12, la.Inicio));
+
+        Assert.Equal((aqui.Inicio, aqui.Turnos, aqui.Eventos.Count), (la.Inicio, la.Turnos, la.Eventos.Count));
+        Assert.Equal(aqui.Eventos.Select(e => e.GetType().Name), la.Eventos.Select(e => e.GetType().Name));
+        Assert.Equal(12, anterior.Turnos);
+        Assert.True(anterior.Inicio < la.Inicio);
+        Assert.Equal(await NucleoLocal.Instancia.UltimoModoAsync(arquivo), await remoto.UltimoModoAsync(arquivo));
+    }
 
     [Fact]
     public async Task Comando_git_roda_no_servidor_e_volta_com_saida_e_codigo()
