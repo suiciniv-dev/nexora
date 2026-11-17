@@ -146,7 +146,7 @@ public sealed partial class MedicaoTestes(ITestOutputHelper saida)
     {
         for (var i = 0; i < 60; i++)
         {
-            var r = await s.PedirAsync(id => Protocolo.Controle(id, new JsonObject { ["subtype"] = "mcp_status" }), TimeSpan.FromSeconds(20));
+            var r = await s.PedirAsync(new JsonObject { ["subtype"] = "mcp_status" }, TimeSpan.FromSeconds(20));
             if (r.Dados is { } d && d.TryGetProperty("mcpServers", out var lista))
             {
                 var nossos = lista.EnumerateArray().Where(x => x.GetProperty("name").GetString() is "banco-local" or "navegador").ToList();

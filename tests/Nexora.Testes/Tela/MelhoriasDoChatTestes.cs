@@ -41,8 +41,8 @@ sealed class SessaoFalsa(OpcoesSessao opcoes, string agente) : ISessaoAgente
     public void MudarModo(string modo) { }
     public void MudarModelo(string? modelo) { }
     public void AplicarConfiguracoes(JsonObject configuracoes) { }
-    public Task<ControleRespondido> PedirAsync(Func<string, string> montar, TimeSpan? limite = null) => Task.FromResult(new ControleRespondido("", false, null, null));
-    public Task<ControleRespondido> LigarRemotoAsync(bool ligado) => PedirAsync(_ => "");
+    public Task<ControleRespondido> PedirAsync(System.Text.Json.Nodes.JsonObject pedido, TimeSpan? limite = null) => Task.FromResult(new ControleRespondido("", false, null, null));
+    public Task<ControleRespondido> LigarRemotoAsync(bool ligado) => PedirAsync([]);
 
     public void Encerrar()
     {

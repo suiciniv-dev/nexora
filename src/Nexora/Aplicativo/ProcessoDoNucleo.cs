@@ -13,18 +13,44 @@ public static class ProcessoDoNucleo
     static readonly TimeSpan JaAberto = TimeSpan.FromMilliseconds(400);
     static readonly TimeSpan EsperaPeloServidor = TimeSpan.FromSeconds(15);
 
+    static readonly TaskCompletionSource<NucleoRemoto?> _pronto = new(TaskCreationOptions.RunContinuationsAsynchronously);
+
     public static Guid Versao => typeof(ProcessoDoNucleo).Assembly.ManifestModule.ModuleVersionId;
+
+    public static Task<NucleoRemoto?> Pronto => _pronto.Task;
 
     public static int Servir(string cano, string[] resto)
     {
         var ocioso = resto is [var segundos, ..] && double.TryParse(segundos, NumberStyles.Float, CultureInfo.InvariantCulture, out var s) ? TimeSpan.FromSeconds(s) : Ocioso;
-        return ServidorDoNucleo.RodarAsync(cano, NucleoLocal.Instancia, ocioso).GetAwaiter().GetResult();
+        var sessoes = new SessoesDoServidor(FabricaDeSessoes.Criar);
+        try
+        {
+            return ServidorDoNucleo.RodarAsync(cano, NucleoLocal.Instancia, ocioso, sessoes: sessoes).GetAwaiter().GetResult();
+        }
+        finally
+        {
+            sessoes.EncerrarTodasAsync().GetAwaiter().GetResult();
+        }
     }
 
     public static void Iniciar(string[] args)
     {
-        if (args.Contains("--demo") || args.Contains("--isolada") || App.Config.NucleoNoProprioProcesso) return;
-        _ = Task.Run(IniciarAsync);
+        if (args.Contains("--demo") || args.Contains("--isolada") || App.Config.NucleoNoProprioProcesso)
+        {
+            _pronto.TrySetResult(null);
+            return;
+        }
+        _ = Task.Run(async () =>
+        {
+            try
+            {
+                await IniciarAsync().ConfigureAwait(false);
+            }
+            finally
+            {
+                _pronto.TrySetResult(App.Nucleo as NucleoRemoto);
+            }
+        });
     }
 
     public static IEnumerable<(string Programa, bool ComDll)> Formas(string? processo, bool windows, bool dependeDoDotnet, string? dotnet)

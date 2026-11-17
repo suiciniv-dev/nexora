@@ -388,7 +388,7 @@ public sealed class AcpTestes : IDisposable
         sessao.Enviar("rodar testes");
         Assert.Equal("falso", sessao.Agente);
         Assert.False(sessao.TemRemoto);
-        Assert.False((await sessao.PedirAsync(_ => "")).Sucesso);
+        Assert.False((await sessao.PedirAsync(new System.Text.Json.Nodes.JsonObject())).Sucesso);
         Assert.False((await sessao.LigarRemotoAsync(true)).Sucesso);
 
         var iniciada = Esperar<SessaoIniciada>(eventos);

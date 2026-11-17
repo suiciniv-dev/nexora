@@ -194,7 +194,7 @@ public sealed class HubMcpTestes : IDisposable
                 Core.Claude.ControleRespondido status = default!;
                 for (var tentativa = 0; tentativa < 20; tentativa++)
                 {
-                    status = await sessao.PedirAsync(id => Core.Claude.Protocolo.Controle(id, new JsonObject { ["subtype"] = "mcp_status" }));
+                    status = await sessao.PedirAsync(new JsonObject { ["subtype"] = "mcp_status" });
                     if (status.Dados is { } d && d.GetProperty("mcpServers").EnumerateArray().Any(s => s.GetProperty("name").GetString() == "banco" && s.GetProperty("status").GetString() == "connected")) break;
                     await Task.Delay(500);
                 }

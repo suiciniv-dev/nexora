@@ -106,10 +106,12 @@ public sealed class SessaoClaude(OpcoesSessao opcoes, string? executavel = null)
 
     async Task AnunciarComandosAsync()
     {
-        if (await PedirAsync(Protocolo.Inicializar) is { Sucesso: true, Dados: { } dados }) Evento?.Invoke(Protocolo.LerInicio(dados));
+        if (await PedirAsync(Protocolo.Inicializar, null) is { Sucesso: true, Dados: { } dados }) Evento?.Invoke(Protocolo.LerInicio(dados));
     }
 
-    public async Task<ControleRespondido> PedirAsync(Func<string, string> montar, TimeSpan? limite = null)
+    public Task<ControleRespondido> PedirAsync(JsonObject pedido, TimeSpan? limite = null) => PedirAsync(id => Protocolo.Controle(id, pedido), limite);
+
+    async Task<ControleRespondido> PedirAsync(Func<string, string> montar, TimeSpan? limite)
     {
         var id = NovoId();
         var espera = new TaskCompletionSource<ControleRespondido>(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -126,7 +128,7 @@ public sealed class SessaoClaude(OpcoesSessao opcoes, string? executavel = null)
         }
     }
 
-    public Task<ControleRespondido> LigarRemotoAsync(bool ligado) => PedirAsync(id => Protocolo.ControleRemoto(id, ligado));
+    public Task<ControleRespondido> LigarRemotoAsync(bool ligado) => PedirAsync(id => Protocolo.ControleRemoto(id, ligado), null);
 
     public void Enviar(string texto, IReadOnlyList<Anexo>? imagens = null) => Escrever(Protocolo.Mensagem(texto, imagens));
 

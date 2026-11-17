@@ -103,6 +103,7 @@ public partial class App : Application
             {
                 _ = vm.CarregarAsync();
                 vm.ReabrirDaNuvem();
+                vm.ReabrirSessoesVivas();
                 vm.ProcurarAtualizacoes();
                 if (!JanelaVM.Isolada) _ = Task.Run(IdentidadeJanela.GarantirAtalhos);
             }
