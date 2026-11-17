@@ -4,14 +4,6 @@ using Nexora.ViewModels;
 
 namespace Nexora.Aplicativo;
 
-public sealed record AtalhoDoApp(string Grupo, string Tecla, string Descricao, string[] Gestos, Func<JanelaVM, ICommand?>? Comando = null, object? Parametro = null, string Icone = "")
-{
-    public string TeclaExibida => CatalogoDeAtalhos.Exibir(Tecla);
-    public bool NaBusca => Comando is not null && Icone.Length > 0;
-}
-
-public sealed record GrupoDeAtalhos(string Nome, IReadOnlyList<AtalhoDoApp> Itens);
-
 public static class CatalogoDeAtalhos
 {
     public const string TeclaDosAtalhos = "F1";
@@ -100,21 +92,5 @@ public static class CatalogoDeAtalhos
         var ctrl = mods.Contains("Ctrl");
         var comando = ctrl && final is not ("Tab" or "Space");
         return (ctrl && !comando ? "⌃" : "") + (mods.Contains("Alt") ? "⌥" : "") + (mods.Contains("Shift") ? "⇧" : "") + (comando ? "⌘" : "") + final;
-    }
-}
-
-public sealed class ComandoAdiado(Func<ICommand?> alvo) : ICommand
-{
-    public event EventHandler? CanExecuteChanged
-    {
-        add { }
-        remove { }
-    }
-
-    public bool CanExecute(object? parametro) => alvo()?.CanExecute(parametro) == true;
-
-    public void Execute(object? parametro)
-    {
-        if (alvo() is { } comando && comando.CanExecute(parametro)) comando.Execute(parametro);
     }
 }

@@ -8,30 +8,6 @@ using Idioma = Nexora.Core.Texto.Idioma;
 
 namespace Nexora.ViewModels;
 
-public sealed record JanelaDoPlanoVM(string Nome, double Percentual, string Reinicia)
-{
-    public double Fracao => Math.Clamp(Percentual / 100, 0, 1);
-    public string TextoPercentual => $"{Percentual.ToString("0.#", Idioma.Cultura)}%";
-    public bool Alto => Percentual >= 80;
-}
-
-public sealed record BarraVM(double Altura, string Dica, bool Atual);
-
-public sealed record LinhaUsoVM(string Nome, string Iniciais, double Fracao, string TextoParte, string? TextoPlano, string TextoDetalhe, string TextoModelos, IReadOnlyList<BarraVM> Historico)
-{
-    public bool TemPlano => TextoPlano is not null;
-}
-
-public sealed partial class FiltroUsoVM(string rotulo, string? valor, bool marcado, Action<string?> escolher) : ObservableObject
-{
-    public string Rotulo { get; } = rotulo;
-    public string? Valor { get; } = valor;
-    public bool Marcado { get; } = marcado;
-
-    [RelayCommand]
-    void Escolher() => escolher(Valor);
-}
-
 public sealed partial class UsoVM(JanelaVM janela) : ObservableObject
 {
     const int Semanas = 8;

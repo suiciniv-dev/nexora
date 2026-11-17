@@ -14,38 +14,6 @@ using Nexora.Views;
 
 namespace Nexora.ViewModels;
 
-public sealed partial class LinkDoPainelVM(string titulo, string detalhe, string? link, string? selo = null, string? estado = null) : ObservableObject
-{
-    public string Titulo { get; } = titulo;
-    public string Detalhe { get; } = detalhe;
-    public string? Link { get; } = link;
-    public string? Selo { get; } = selo;
-    public string? Estado { get; } = estado;
-    public bool TemSelo => !string.IsNullOrEmpty(Selo);
-    public bool Mergeado => Estado == "merged";
-    public bool Aberto => Estado == "open";
-    public bool Fechado => Estado == "closed";
-
-    [RelayCommand]
-    void Abrir()
-    {
-        if (string.IsNullOrWhiteSpace(Link)) return;
-        try
-        {
-            Sistema.Abrir(new ProcessStartInfo(Link) { UseShellExecute = true })?.Dispose();
-        }
-        catch (Exception ex) when (ex is System.ComponentModel.Win32Exception or InvalidOperationException)
-        {
-        }
-    }
-}
-
-public sealed record DiaDaSemanaVM(string Nome, bool Hoje);
-
-public sealed record LegendaVM(string Texto, IBrush Cor);
-
-public sealed record CartaoDePlanoVM(string Nome, string Icone, string Numero, string Detalhe, string Renova, IReadOnlyList<double> Linha, IBrush Cor, string RotuloDaLinha);
-
 public sealed partial class DashboardVM : ObservableObject
 {
     const int DiasDeUso = 30;

@@ -3,8 +3,6 @@ using Nexora.Core.Git;
 
 namespace Nexora.Servicos;
 
-public sealed record IconeDoProjeto(Bitmap? Imagem, bool Repositorio);
-
 public static class IconesDeRepositorio
 {
     static readonly Dictionary<string, Task<IconeDoProjeto>> Lidos = new(StringComparer.OrdinalIgnoreCase);

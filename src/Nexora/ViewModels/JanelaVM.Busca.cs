@@ -5,17 +5,6 @@ using Nexora.Core.Texto;
 
 namespace Nexora.ViewModels;
 
-public sealed partial class ResultadoBuscaVM(string icone, string titulo, string detalhe, Action abrir)
-{
-    public string Icone { get; } = icone;
-    public string Titulo { get; } = titulo;
-    public string Detalhe { get; } = detalhe;
-    public bool TemDetalhe => Detalhe.Length > 0;
-
-    [RelayCommand]
-    public void Abrir() => abrir();
-}
-
 public sealed partial class JanelaVM
 {
     public ObservableCollection<ResultadoBuscaVM> Resultados { get; } = [];

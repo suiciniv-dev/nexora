@@ -11,16 +11,6 @@ using Nexora.ViewModels;
 
 namespace Nexora.Views;
 
-public interface IAoMostrar
-{
-    void AoMostrar();
-}
-
-public interface IAoEsconder
-{
-    void AoEsconder();
-}
-
 public sealed class AbasVivas : Panel
 {
     public static readonly StyledProperty<object?> ConteudoProperty = AvaloniaProperty.Register<AbasVivas, object?>(nameof(Conteudo));

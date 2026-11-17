@@ -10,32 +10,6 @@ using Nexora.Temas;
 
 namespace Nexora.ViewModels;
 
-public sealed partial class RequisitoVM(string nome, string uso, string comoInstalar, Receita receita) : ObservableObject
-{
-    public string Nome { get; } = nome;
-    public string Uso { get; } = uso;
-    public string ComoInstalar { get; } = comoInstalar;
-    public Receita Receita { get; } = receita;
-
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(Falta))]
-    public partial bool Ok { get; set; }
-
-    [ObservableProperty]
-    public partial string Detalhe { get; set; } = "";
-
-    public bool Falta => !Ok;
-}
-
-public sealed partial class RaizVM(string pasta, Action<RaizVM> remover)
-{
-    public string Pasta { get; } = pasta;
-    public bool Existe => Directory.Exists(Pasta);
-
-    [RelayCommand]
-    void Remover() => remover(this);
-}
-
 public sealed partial class BoasVindasVM : ObservableObject
 {
     public const int Passos = 6;

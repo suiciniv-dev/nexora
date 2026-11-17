@@ -5,8 +5,6 @@ using Nexora.Core.Avatares;
 
 namespace Nexora.Servicos;
 
-public sealed record EscolhaDeAvatar(DefinicaoAvatar Definicao, string Cor);
-
 public static class CatalogoDeAvatares
 {
     const string Pasta = "avares://Nexora/Assets/Avatares/";

@@ -7,16 +7,6 @@ using Idioma = Nexora.Core.Texto.Idioma;
 
 namespace Nexora.ViewModels;
 
-public sealed record NumeroVM(string Titulo, string Valor, string Detalhe, bool Alerta = false);
-
-public sealed record ParteDaRamVM(string Nome, string Texto, double Fracao, string Dica);
-
-public sealed record GraficoVM(string Titulo, string Resumo, IReadOnlyList<BarraVM> Barras, string Inicio, string Fim);
-
-public sealed record MomentoVM(string Quando, string Descricao, string Contexto, string Icone, bool Alerta);
-
-public sealed record CausaVM(string Nome, string Detalhe, string Completo);
-
 public sealed partial class DesempenhoVM : ObservableObject
 {
     public const int Dias = 14;
