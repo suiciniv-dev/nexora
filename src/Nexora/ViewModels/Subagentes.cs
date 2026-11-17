@@ -33,6 +33,7 @@ public sealed partial class ItemSubagente : ObservableObject
     }
 
     public string Id { get; }
+    public string? AgenteId { get; set; }
     public string Tipo { get; }
     public string Descricao { get; }
     public string? Pedido { get; }

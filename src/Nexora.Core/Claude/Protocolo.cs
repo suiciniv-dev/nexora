@@ -250,15 +250,24 @@ public static class Protocolo
         foreach (System.Text.RegularExpressions.Match aviso in Aviso.Matches(texto))
         {
             var corpo = aviso.Groups[1].Value;
-            if (Etiqueta(corpo, "tool-use-id") is not { Length: > 0 } id) continue;
+            var estado = Etiqueta(corpo, "status");
+            if (Etiqueta(corpo, "tool-use-id") is not { Length: > 0 } id)
+            {
+                foreach (System.Text.RegularExpressions.Match tarefa in IdDeTarefa.Matches(corpo))
+                    lista.Add(new TarefaAtualizada(FaseTarefa.Terminou, "", estado, TarefaId: tarefa.Groups[1].Value.Trim()));
+                continue;
+            }
             lista.Add(new TarefaAtualizada(
-                FaseTarefa.Terminou, id, Etiqueta(corpo, "status"),
+                FaseTarefa.Terminou, id, estado,
                 Ferramentas: int.TryParse(Etiqueta(corpo, "tool_uses"), out var usos) ? usos : null,
                 DuracaoMs: long.TryParse(Etiqueta(corpo, "duration_ms"), out var ms) ? ms : null,
-                Resultado: Etiqueta(corpo, "result")));
+                Resultado: Etiqueta(corpo, "result"),
+                TarefaId: Etiqueta(corpo, "task-id")));
         }
         return [.. lista];
     }
+
+    static readonly System.Text.RegularExpressions.Regex IdDeTarefa = new("<task-id>(.*?)</task-id>", System.Text.RegularExpressions.RegexOptions.Singleline);
 
     static string? Etiqueta(string texto, string nome)
     {

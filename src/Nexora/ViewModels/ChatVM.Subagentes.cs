@@ -228,12 +228,16 @@ public sealed partial class ChatVM
         return agente;
     }
 
+    static string? IdDoAgenteLancado(string conteudo) =>
+        System.Text.RegularExpressions.Regex.Match(conteudo, @"agentId:\s*([A-Za-z0-9_-]+)") is { Success: true } achado ? achado.Groups[1].Value : null;
+
     static void ConcluirSubagente(ItemSubagente agente, FerramentaRespondeu resposta)
     {
         var resumo = resposta.Subagente;
         if (resumo?.EmSegundoPlano == true || resumo is null && resposta.Conteudo.StartsWith("Async agent launched", StringComparison.OrdinalIgnoreCase))
         {
             if (agente.Estado == EstadoSubagente.Rodando) agente.Estado = EstadoSubagente.SegundoPlano;
+            agente.AgenteId ??= resumo?.AgenteId ?? IdDoAgenteLancado(resposta.Conteudo);
             return;
         }
         var estado = !resposta.Erro ? EstadoSubagente.Terminou
@@ -280,9 +284,13 @@ public sealed partial class ChatVM
         return Idioma.F("Subagent {0}: {1}", agente.Tipo, agente.Descricao);
     }
 
+    ItemSubagente? SubagenteDaTarefa(string? tarefaId) =>
+        tarefaId is { Length: > 0 } ? _subagentes.Values.FirstOrDefault(a => a.AgenteId == tarefaId) : null;
+
     void AplicarTarefa(TarefaAtualizada tarefa)
     {
-        if (!_subagentes.TryGetValue(tarefa.FerramentaId, out var agente)) return;
+        if (!_subagentes.TryGetValue(tarefa.FerramentaId, out var agente)) agente = SubagenteDaTarefa(tarefa.TarefaId);
+        if (agente is null) return;
         if (tarefa.Fase == FaseTarefa.Andou)
         {
             if (!agente.Rodando) return;

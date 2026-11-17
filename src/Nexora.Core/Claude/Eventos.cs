@@ -47,7 +47,8 @@ public sealed record TarefaAtualizada(
     long? DuracaoMs = null,
     string? UltimaFerramenta = null,
     string? Resumo = null,
-    string? Resultado = null) : EventoClaude;
+    string? Resultado = null,
+    string? TarefaId = null) : EventoClaude;
 
 public sealed record PermissaoPedida(
     string PedidoId,
