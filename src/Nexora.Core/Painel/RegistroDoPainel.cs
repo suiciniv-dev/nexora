@@ -30,11 +30,7 @@ public sealed class RegistroDoPainel
     public static RegistroDoPainel Ler(string arquivo) =>
         ArquivoSeguro.LerJson(arquivo, () => new RegistroDoPainel(), Json).Valor;
 
-    public void Gravar(string arquivo)
-    {
-        Directory.CreateDirectory(Path.GetDirectoryName(arquivo)!);
-        ArquivoSeguro.Gravar(arquivo, JsonSerializer.Serialize(this, Json));
-    }
+    public void Gravar(string arquivo) => ArquivoSeguro.GravarDepois(arquivo, JsonSerializer.Serialize(this, Json));
 
     DiaDeUso Dia(DateTime quando)
     {

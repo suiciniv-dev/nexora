@@ -19,6 +19,7 @@ static class Program
         Instalacao.PathDoMac();
         Sistema.PrepararMac();
         Rodando = true;
+        Core.Arquivos.ArquivoSeguro.SegundoPlano = true;
         PeloProcessador = DesenhoPeloProcessador(args);
         return BuildAvaloniaApp(PeloProcessador).StartWithClassicDesktopLifetime(args);
     }
@@ -27,13 +28,9 @@ static class Program
 
     public static bool PeloProcessador { get; private set; }
 
-    public static bool MudaODesenho(string modo) => OperatingSystem.IsWindows() && (modo == "solido") != PeloProcessador;
+    public static bool MudaODesenho(string modo) => false;
 
-    static bool DesenhoPeloProcessador(string[] args)
-    {
-        var i = Array.IndexOf(args, "--fundo");
-        return (i >= 0 && i + 1 < args.Length ? args[i + 1] : App.Config.ModoFundo) == "solido";
-    }
+    static bool DesenhoPeloProcessador(string[] args) => args.Contains("--software") || App.Config.DesenhoPeloProcessador;
 
     public static AppBuilder BuildAvaloniaApp(bool peloProcessador = false) =>
         AppBuilder.Configure<App>()

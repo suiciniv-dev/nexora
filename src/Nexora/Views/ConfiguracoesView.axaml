@@ -78,7 +78,7 @@
           <Grid Classes="opcao-config" ColumnDefinitions="*,320">
             <StackPanel>
               <TextBlock Classes="nome-opcao" Text="{l:T 'Fundo'}" />
-              <TextBlock Classes="fraco dica-opcao" Text="{l:T 'O sólido é o mais leve e o mais fácil de ler. O vidro deixa ver, desfocado, o que está atrás da janela. No Windows, trocar entre sólido e vidro reinicia o app; as abas voltam sozinhas.'}" />
+              <TextBlock Classes="fraco dica-opcao" Text="{l:T 'O sólido é o mais leve e o mais fácil de ler. O vidro deixa ver, desfocado, o que está atrás da janela.'}" />
             </StackPanel>
             <ComboBox Grid.Column="1" ItemsSource="{Binding NomesDosModos}" SelectedIndex="{Binding ModoIndice}" HorizontalAlignment="Stretch" VerticalAlignment="Center"
                       AutomationProperties.Name="{l:T 'Fundo'}" />
