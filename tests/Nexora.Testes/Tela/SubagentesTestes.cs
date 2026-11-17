@@ -371,6 +371,28 @@ public sealed class SubagentesTestes : IDisposable
     });
 
     [Fact]
+    public Task AvisoDeParadaSoComIdsDaTarefaParaOsSubagentsEmSegundoPlano() => Sessao.Rodar(() =>
+    {
+        var arquivo = Path.Combine(_pasta, "s-parados.jsonl");
+        File.WriteAllLines(arquivo,
+        [
+            """{"type":"user","message":{"role":"user","content":"Analise o repo"},"timestamp":"2026-11-17T10:00:00Z","sessionId":"s-parados"}""",
+            """{"type":"assistant","message":{"content":[{"type":"tool_use","id":"ag1","name":"Agent","input":{"description":"Eventos","subagent_type":"Explore","prompt":"Ache","run_in_background":true}},{"type":"tool_use","id":"ag2","name":"Agent","input":{"description":"Processos","subagent_type":"Explore","prompt":"Ache","run_in_background":true}}]},"sessionId":"s-parados"}""",
+            """{"type":"user","message":{"content":[{"type":"tool_result","tool_use_id":"ag1","content":"Async agent launched successfully."}]},"toolUseResult":{"isAsync":true,"status":"async_launched","agentId":"a9e2"},"sessionId":"s-parados"}""",
+            """{"type":"user","message":{"content":[{"type":"tool_result","tool_use_id":"ag2","content":[{"type":"text","text":"Async agent launched successfully.\nagentId: a7fd (internal ID)"}]}]},"sessionId":"s-parados"}""",
+            """{"type":"user","message":{"role":"user","content":"<task-notification>\n<task-id>a9e2</task-id>\n<task-id>a7fd</task-id>\n<status>stopped</status>\n<summary>2 background agents didn't finish before the previous session ended</summary>\n</task-notification>"},"sessionId":"s-parados"}""",
+        ]);
+
+        var chat = ChatVM.DeConversa(new ConversaSalva("s-parados", arquivo, "Repo", _pasta, null, DateTime.Now), new Local("Loja", _pasta, []),
+            new AnfitriaoFalso(), _ => { }, _ => { });
+        Esperar(() => chat.Carregamento.IsCompleted);
+
+        var grupo = Assert.Single(chat.Itens.OfType<ItemSubagentes>());
+        Assert.All(grupo.Agentes, a => Assert.Equal(EstadoSubagente.Parado, a.Estado));
+        Assert.False(chat.TemSubagentesRodando);
+    });
+
+    [Fact]
     public Task DemoMostraSubagentsEmParaleloEOQuadroContaOsQueRodam() => Sessao.Rodar(() =>
     {
         var demoAntes = JanelaVM.Demo;
