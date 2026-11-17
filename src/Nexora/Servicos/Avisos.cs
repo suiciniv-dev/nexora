@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using System.Security;
 using Microsoft.Win32;
 
-namespace Nexora;
+namespace Nexora.Servicos;
 
 static class Avisos
 {

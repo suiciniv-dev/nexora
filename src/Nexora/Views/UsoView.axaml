@@ -1,6 +1,6 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:l="using:Nexora"
+             xmlns:l="using:Nexora.Traducao"
              xmlns:vm="using:Nexora.ViewModels"
              xmlns:c="using:Nexora.Controles"
              x:Class="Nexora.Views.UsoView"

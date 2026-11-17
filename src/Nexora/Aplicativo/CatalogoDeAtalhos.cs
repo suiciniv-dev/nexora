@@ -2,7 +2,7 @@ using System.Windows.Input;
 using Nexora.Core.Texto;
 using Nexora.ViewModels;
 
-namespace Nexora;
+namespace Nexora.Aplicativo;
 
 public sealed record AtalhoDoApp(string Grupo, string Tecla, string Descricao, string[] Gestos, Func<JanelaVM, ICommand?>? Comando = null, object? Parametro = null, string Icone = "")
 {

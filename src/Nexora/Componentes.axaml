@@ -1,6 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:l="using:Nexora"
+                    xmlns:l="using:Nexora.Traducao"
              xmlns:v="using:Nexora.Views"
              xmlns:c="using:Nexora.Controles"
                     xmlns:vm="using:Nexora.ViewModels"

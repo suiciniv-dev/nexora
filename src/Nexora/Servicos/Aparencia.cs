@@ -7,7 +7,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data;
 using Avalonia.VisualTree;
 
-namespace Nexora;
+namespace Nexora.Servicos;
 
 public static partial class Aparencia
 {

@@ -3,7 +3,7 @@
         xmlns:vm="using:Nexora.ViewModels"
         xmlns:v="using:Nexora.Views"
              xmlns:c="using:Nexora.Controles"
-        x:Class="Nexora.JanelaExtra"
+        x:Class="Nexora.Views.JanelaExtra"
         RenderOptions.TextRenderingMode="SubpixelAntialias"
         x:DataType="vm:AreaVM"
         Title="{Binding Titulo}"

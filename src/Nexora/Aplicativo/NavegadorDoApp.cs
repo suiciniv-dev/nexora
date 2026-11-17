@@ -6,7 +6,7 @@ using Nexora.Core.Orquestra;
 using Nexora.ViewModels;
 using Nexora.Views;
 
-namespace Nexora;
+namespace Nexora.Aplicativo;
 
 static class NavegadorDoApp
 {

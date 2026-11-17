@@ -6,7 +6,7 @@ using Avalonia.VisualTree;
 using Nexora.ViewModels;
 using Nexora.Views;
 
-namespace Nexora;
+namespace Nexora.Views;
 
 public partial class Janela : Window
 {

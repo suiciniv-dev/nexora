@@ -3,7 +3,7 @@ using System.IO.Compression;
 using System.Runtime.InteropServices;
 using System.Text.Json;
 
-namespace Nexora;
+namespace Nexora.Servicos;
 
 public sealed record VersaoNova(Version Versao, string Tag, string Notas, IReadOnlyDictionary<string, string> Arquivos)
 {

@@ -1,7 +1,7 @@
 using System.Text;
 using Nexora.Core.Cli;
 
-namespace Nexora;
+namespace Nexora.Aplicativo;
 
 static class Cli
 {

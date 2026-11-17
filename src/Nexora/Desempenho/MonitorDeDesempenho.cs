@@ -7,7 +7,7 @@ using Nexora.Core.Desempenho;
 using Nexora.ViewModels;
 using Idioma = Nexora.Core.Texto.Idioma;
 
-namespace Nexora;
+namespace Nexora.Desempenho;
 
 public sealed record DadosDeDesempenho(Amostra? Agora, ResumoDoDia Hoje, IReadOnlyList<ResumoDoDia> Anteriores, DateTime Desde, bool Grava);
 

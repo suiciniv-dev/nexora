@@ -2,7 +2,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 
-namespace Nexora;
+namespace Nexora.Servicos;
 
 static class IdentidadeJanela
 {

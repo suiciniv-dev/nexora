@@ -1,7 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Nexora;
+namespace Nexora.Servicos;
 
 public sealed class Config
 {

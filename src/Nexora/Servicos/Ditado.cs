@@ -1,6 +1,6 @@
 using System.Runtime.InteropServices;
 
-namespace Nexora;
+namespace Nexora.Servicos;
 
 public static class Ditado
 {

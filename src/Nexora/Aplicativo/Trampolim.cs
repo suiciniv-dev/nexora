@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using System.Diagnostics;
 
-namespace Nexora;
+namespace Nexora.Aplicativo;
 
 static class Trampolim
 {

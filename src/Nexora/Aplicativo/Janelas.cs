@@ -3,7 +3,7 @@ using Avalonia.Controls;
 using Nexora.ViewModels;
 using Nexora.Views;
 
-namespace Nexora;
+namespace Nexora.Aplicativo;
 
 public sealed class JanelaSalva
 {

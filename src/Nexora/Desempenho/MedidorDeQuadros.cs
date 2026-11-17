@@ -7,7 +7,7 @@ using Avalonia.VisualTree;
 using Nexora.ViewModels;
 using Nexora.Views;
 
-namespace Nexora;
+namespace Nexora.Desempenho;
 
 static class MedidorDeQuadros
 {

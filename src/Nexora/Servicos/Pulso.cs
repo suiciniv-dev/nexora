@@ -5,7 +5,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Threading;
 
-namespace Nexora;
+namespace Nexora.Servicos;
 
 public sealed class Pulso : INotifyPropertyChanged
 {

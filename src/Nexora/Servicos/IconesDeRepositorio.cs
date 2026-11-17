@@ -1,7 +1,7 @@
 using Avalonia.Media.Imaging;
 using Nexora.Core.Git;
 
-namespace Nexora;
+namespace Nexora.Servicos;
 
 public sealed record IconeDoProjeto(Bitmap? Imagem, bool Repositorio);
 

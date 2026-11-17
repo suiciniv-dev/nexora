@@ -4,7 +4,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Media.Imaging;
 using Avalonia.VisualTree;
 
-namespace Nexora;
+namespace Nexora.Aplicativo;
 
 static class Foto
 {
