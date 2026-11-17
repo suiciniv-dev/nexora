@@ -38,7 +38,7 @@ public sealed class Config
     public bool AgenteEscolhido { get; set; }
     public string? ModeloChefe { get; set; } = "opus";
     public string? EsforcoChefe { get; set; } = "high";
-    public Dictionary<string, ViewModels.OrquestraSalva> Orquestradores { get; set; } = [];
+    public Dictionary<string, Nexora.Modelos.OrquestraSalva> Orquestradores { get; set; } = [];
     public JanelaSalva? Principal { get; set; }
     public List<JanelaSalva> Janelas { get; set; } = [];
     public Dictionary<string, string> BasesDasTarefas { get; set; } = [];
@@ -60,7 +60,7 @@ public sealed class Config
     public Dictionary<string, DateTime> SessoesEscondidas { get; set; } = [];
     public List<string> SessoesDoNexora { get; set; } = [];
     public bool HibernarSessoes { get; set; } = true;
-    public string ModeloDosSubagentes { get; set; } = ViewModels.VagasDeSubagentes.Sonnet;
+    public string ModeloDosSubagentes { get; set; } = Nexora.Servicos.VagasDeSubagentes.Sonnet;
     public int SubagentesAoMesmoTempo { get; set; } = 2;
     public string VigiaChecks { get; set; } = Core.Git.VigiaDePr.Avisar;
     public string VigiaConflitos { get; set; } = Core.Git.VigiaDePr.Avisar;

@@ -5,8 +5,6 @@ using Idioma = Nexora.Core.Texto.Idioma;
 
 namespace Nexora.ViewModels;
 
-public sealed record Recuperacao(OrigemDaLeitura Origem, string Texto, string? Guardado);
-
 public sealed partial class JanelaVM
 {
     [ObservableProperty]

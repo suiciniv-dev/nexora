@@ -525,25 +525,6 @@ public sealed partial class OrquestraVM : ObservableObject, IDisposable
     public void Dispose() => _servidor?.Dispose();
 }
 
-public sealed class OrquestraSalva
-{
-    public string Pasta { get; set; } = "";
-    public string Titulo { get; set; } = "";
-    public DateTime Atualizado { get; set; }
-    public double ChefeX { get; set; }
-    public double ChefeY { get; set; }
-    public List<AgenteSalvo> Agentes { get; set; } = [];
-}
-
-public sealed class AgenteSalvo
-{
-    public string SessaoId { get; set; } = "";
-    public string Pasta { get; set; } = "";
-    public string? Grupo { get; set; }
-    public double X { get; set; }
-    public double Y { get; set; }
-}
-
 public sealed partial class OrquestraAnteriorVM(string sessaoId, OrquestraSalva dados, Action<OrquestraAnteriorVM> retomar) : ObservableObject
 {
     public string SessaoId { get; } = sessaoId;

@@ -5,8 +5,6 @@ using Nexora.Core.Texto;
 
 namespace Nexora.ViewModels;
 
-public enum FaseTurno { Pensando, Escrevendo, Preparando, Ferramenta }
-
 public sealed partial class ChatVM
 {
     DispatcherTimer? _relogioTurno;

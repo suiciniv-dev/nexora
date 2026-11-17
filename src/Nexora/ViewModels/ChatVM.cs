@@ -12,8 +12,6 @@ using Nexora.Core.Texto;
 
 namespace Nexora.ViewModels;
 
-public enum EstadoChat { Nova, Pronta, Trabalhando, PrecisaDeVoce, Erro }
-
 public sealed partial class ChatVM : CartaoVM
 {
     public static string TituloNovo => Idioma.T("Nova conversa");
@@ -103,7 +101,6 @@ public sealed partial class ChatVM : CartaoVM
         Anexos.Add(new AnexoVM(par.Item1, par.Item2, a => Anexos.Remove(a)));
         return true;
     }
-
 
     public void AnexarArquivo(string caminho)
     {

@@ -1,7 +1,7 @@
 using Nexora.Core.Git;
 using Idioma = Nexora.Core.Texto.Idioma;
 
-namespace Nexora.ViewModels;
+namespace Nexora.Servicos;
 
 public static class PrsDemo
 {

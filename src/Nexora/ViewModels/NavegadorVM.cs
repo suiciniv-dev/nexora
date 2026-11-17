@@ -7,25 +7,6 @@ using Idioma = Nexora.Core.Texto.Idioma;
 
 namespace Nexora.ViewModels;
 
-public interface INavegadorNativo
-{
-    void Navegar(string url);
-    void Voltar();
-    void Avancar();
-    void Recarregar();
-    Task DesignAsync(bool ligado);
-    Task RestaurarAsync(IReadOnlyList<Anotacao> anotacoes);
-    Task RemoverAsync(int id);
-    Task LimparAsync();
-    Task<byte[]?> CapturarAsync();
-}
-
-public sealed record ServidorNoAr(string Nome, string Url, string Projeto, bool NoAr)
-{
-    public string Endereco => Enderecos.Curto(Url);
-    public string Detalhe => NoAr ? Idioma.F("{0} · no ar", Projeto) : Idioma.F("{0} · parado", Projeto);
-}
-
 public sealed partial class AnotacaoVM(Anotacao dados, Action<AnotacaoVM> remover) : ObservableObject
 {
     [ObservableProperty]
