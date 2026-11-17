@@ -345,7 +345,7 @@ public sealed partial class DashboardVM : ObservableObject
         {
             var desde = DateTime.Today.AddDays(-DiasDeUso);
             _porDia = JanelaVM.Demo ? UsoDemo(DateTime.Today)
-                : await Task.Run(() => UsoLocal.Ler(UsoLocal.FontesPadrao, CacheDoUso, desde, porDia: true));
+                : await App.Nucleo.LerUsoAsync(CacheDoUso, desde, porDia: true);
             _usoLidoEm = DateTime.Now;
             MontarUso();
             MontarPlanos();

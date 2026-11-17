@@ -1,0 +1,129 @@
+using Nexora.Core.Claude;
+using Nexora.Core.Historico;
+using Nexora.Core.Servidor;
+using Nexora.Core.Uso;
+
+namespace Nexora.Testes;
+
+public sealed class NucleoRemotoTestes
+{
+    sealed class NucleoFalso : INucleo
+    {
+        public bool FalharAndamento { get; set; }
+
+        public Task<IReadOnlyList<ConversaSalva>> ListarConversasAsync(CancellationToken cancelar = default) =>
+            Task.FromResult<IReadOnlyList<ConversaSalva>>(
+            [
+                new ConversaSalva("s1", @"C:\c\s1.jsonl", "Cupom", @"D:\Projetos\Loja", "cupom", new DateTime(2026, 11, 17, 10, 0, 0, DateTimeKind.Local), "u1", "u9"),
+                new ConversaSalva("s2", @"C:\c\s2.jsonl", "Testes", null, null, new DateTime(2026, 11, 16, 9, 30, 0, DateTimeKind.Local)),
+            ]);
+
+        public Task<IReadOnlyList<Parcela>> LerUsoAsync(string? cache, DateTime desde, bool porDia, CancellationToken cancelar = default) =>
+            Task.FromResult<IReadOnlyList<Parcela>>(
+            [
+                new Parcela { Modelo = porDia ? "opus" : "sonnet", Pasta = cache ?? "", Dia = desde.ToString("yyyy-MM-dd"), Entrada = 10, Saida = 20, Peso = 1.5, Respostas = 2, Sessoes = ["a", "b"], Modelos = { ["opus"] = 1.5 } },
+            ]);
+
+        public Task<Andamento> LerAndamentoAsync(string arquivo, string? pasta, CancellationToken cancelar = default) =>
+            FalharAndamento
+                ? throw new IOException("arquivo sumiu")
+                : Task.FromResult(new Andamento("Cupom", "main", "Lendo " + arquivo, new DateTimeOffset(2026, 11, 17, 10, 0, 0, TimeSpan.Zero), new ContextoUsado(1234, true, "opus")));
+    }
+
+    static string Cano() => "nexora-teste-" + Guid.NewGuid().ToString("N");
+
+    [Fact]
+    public async Task Os_tres_pedidos_vao_e_voltam_pelo_cano_sem_perder_nada()
+    {
+        var falso = new NucleoFalso();
+        var cano = Cano();
+        var servidor = Task.Run(() => ServidorDoNucleo.RodarAsync(cano, falso, TimeSpan.FromSeconds(10)));
+        using var remoto = await NucleoRemoto.ConectarAsync(cano, TimeSpan.FromSeconds(10));
+        Assert.NotNull(remoto);
+
+        Assert.Equal(await falso.ListarConversasAsync(), await remoto.ListarConversasAsync());
+        var parcela = Assert.Single(await remoto.LerUsoAsync("cache.json", new DateTime(2026, 11, 1), porDia: true));
+        Assert.Equal(("opus", "cache.json", "2026-11-01", 10L, 20L, 1.5, 2), (parcela.Modelo, parcela.Pasta, parcela.Dia, parcela.Entrada, parcela.Saida, parcela.Peso, parcela.Respostas));
+        Assert.Equal(["a", "b"], parcela.Sessoes.Order());
+        Assert.Equal(1.5, parcela.Modelos["opus"]);
+        Assert.Equal(await falso.LerAndamentoAsync("x.jsonl", null), await remoto.LerAndamentoAsync("x.jsonl", null));
+
+        var juntos = await Task.WhenAll(Enumerable.Range(0, 20).Select(i => remoto.LerAndamentoAsync($"a{i}.jsonl", null)));
+        Assert.Equal(Enumerable.Range(0, 20).Select(i => $"Lendo a{i}.jsonl"), juntos.Select(a => a.Atividade));
+        Assert.True(remoto.Conectado);
+
+        remoto.Dispose();
+        Assert.Equal(0, await servidor.WaitAsync(TimeSpan.FromSeconds(10)));
+    }
+
+    [Fact]
+    public async Task Erro_no_servidor_cai_para_o_local_sem_derrubar_a_conexao()
+    {
+        var falso = new NucleoFalso { FalharAndamento = true };
+        var cano = Cano();
+        _ = Task.Run(() => ServidorDoNucleo.RodarAsync(cano, falso, TimeSpan.FromSeconds(10)));
+        using var remoto = await NucleoRemoto.ConectarAsync(cano, TimeSpan.FromSeconds(10));
+        Assert.NotNull(remoto);
+
+        var arquivo = Path.Combine(Path.GetTempPath(), "nexora-nao-existe-" + Guid.NewGuid().ToString("N") + ".jsonl");
+        var andamento = await remoto.LerAndamentoAsync(arquivo, null);
+
+        Assert.Null(andamento.Titulo);
+        Assert.True(remoto.Conectado);
+        Assert.Equal(2, (await remoto.ListarConversasAsync()).Count);
+    }
+
+    [Fact]
+    public async Task Servidor_que_cai_avisa_e_os_pedidos_seguem_pelo_local()
+    {
+        var cano = Cano();
+        using var fim = new CancellationTokenSource();
+        var servidor = Task.Run(() => ServidorDoNucleo.RodarAsync(cano, new NucleoFalso(), TimeSpan.FromSeconds(10), fim.Token));
+        using var remoto = await NucleoRemoto.ConectarAsync(cano, TimeSpan.FromSeconds(10));
+        Assert.NotNull(remoto);
+        var caiu = new TaskCompletionSource();
+        remoto.Caiu += () => caiu.TrySetResult();
+        Assert.Equal(2, (await remoto.ListarConversasAsync()).Count);
+
+        fim.Cancel();
+        await servidor.WaitAsync(TimeSpan.FromSeconds(10));
+        await caiu.Task.WaitAsync(TimeSpan.FromSeconds(10));
+
+        Assert.False(remoto.Conectado);
+        Assert.NotNull(await remoto.ListarConversasAsync());
+    }
+
+    [Fact]
+    public async Task O_proprio_Nexora_sobe_como_servidor_e_sai_quando_o_app_desconecta()
+    {
+        var cano = Cano();
+        var info = new System.Diagnostics.ProcessStartInfo("dotnet") { UseShellExecute = false, CreateNoWindow = true };
+        info.ArgumentList.Add(typeof(App).Assembly.Location);
+        info.ArgumentList.Add(ServidorDoNucleo.Argumento);
+        info.ArgumentList.Add(cano);
+        using var processo = System.Diagnostics.Process.Start(info)!;
+        try
+        {
+            using (var remoto = await NucleoRemoto.ConectarAsync(cano, TimeSpan.FromSeconds(20)))
+            {
+                Assert.NotNull(remoto);
+                Assert.NotNull(await remoto.ListarConversasAsync());
+                Assert.True(remoto.Conectado);
+            }
+            await processo.WaitForExitAsync().WaitAsync(TimeSpan.FromSeconds(10));
+            Assert.Equal(0, processo.ExitCode);
+        }
+        finally
+        {
+            if (!processo.HasExited) processo.Kill();
+        }
+    }
+
+    [Fact]
+    public async Task Sem_app_o_servidor_desiste_e_sai()
+    {
+        var codigo = await ServidorDoNucleo.RodarAsync(Cano(), new NucleoFalso(), TimeSpan.FromMilliseconds(300));
+        Assert.Equal(1, codigo);
+        Assert.Null(await NucleoRemoto.ConectarAsync(Cano(), TimeSpan.FromMilliseconds(200)));
+    }
+}

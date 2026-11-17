@@ -129,7 +129,7 @@ public sealed partial class UsoVM(JanelaVM janela) : ObservableObject
         try
         {
             var desde = DateTime.Now.Date.AddDays(-7 * Semanas);
-            _parcelas = await Task.Run(() => UsoLocal.Ler(UsoLocal.FontesPadrao, Cache, desde));
+            _parcelas = await App.Nucleo.LerUsoAsync(Cache, desde, porDia: false);
             Montar();
             if (forcar || _plano is null || DateTime.Now - _plano.LidoEm > TimeSpan.FromMinutes(2))
             {
