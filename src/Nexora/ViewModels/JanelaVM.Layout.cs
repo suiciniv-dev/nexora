@@ -254,11 +254,13 @@ public sealed partial class JanelaVM
         OnPropertyChanged(nameof(NaProjetos));
         OnPropertyChanged(nameof(NaRecursos));
         OnPropertyChanged(nameof(NaUso));
+        OnPropertyChanged(nameof(NaDashboard));
         OnPropertyChanged(nameof(NaIssues));
         OnPropertyChanged(nameof(NaAgendados));
         OnPropertyChanged(nameof(NaConfiguracoes));
         _recursos?.Ativar(Areas.Any(a => a.Conteudo == _recursos));
         if (Ativo is UsoVM uso) uso.Ativar(true);
+        _paginaDashboard?.Ativar(Ativo is DashboardVM);
         if (Ativo is AgendadosVM agendados) agendados.Recarregar();
         if (Ativo is IssuesVM issues) issues.Ativar(true);
         if (Ativo is ProjetosVM projetos) projetos.Atualizar();

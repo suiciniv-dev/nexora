@@ -18,7 +18,7 @@
     </Style>
   </UserControl.Styles>
   <Panel>
-    <Border Background="#66000000" IsHitTestVisible="False" />
+    <Border Background="{DynamicResource VeuLeve}" IsHitTestVisible="False" />
     <Button Theme="{StaticResource VeuSobreposto}" Command="{Binding FecharBuscaCommand}" AutomationProperties.Name="{l:T 'Fechar a busca'}" />
     <Border Theme="{StaticResource Dialogo}" Width="640" Padding="8" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,90,0,0">
       <StackPanel Spacing="6">

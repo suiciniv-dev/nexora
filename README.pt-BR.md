@@ -11,12 +11,15 @@ O Nexora envolve os agentes de linha de comando que você já usa (Claude Code, 
 ## Por que o Nexora
 
 - **Uma janela para todos os agentes.** Conversas, histórico herdado do CLI, worktrees por tarefa, editor com diff e terminal.
+- **Dashboard.** Comece uma sessão em qualquer projeto numa caixa só e veja o uso do plano de cada agente, a atividade no GitHub, os PRs recentes e os que esperam sua review, os commits e quanto tempo seus agentes trabalharam na semana.
 - **Quadro ao vivo.** Veja quais sessões estão trabalhando, esperando por você, prontas ou paradas. Responda permissões e perguntas sem abrir aba por aba.
 - **Orquestrador.** Peça um objetivo e deixe ele dividir o trabalho entre sessões e subagents, com modelo por subagent e fila quando você bate num limite.
 - **Revisão e PR.** Comente linhas do diff e mande os comentários para o agente. Quadro de issues, painel de PR, commit e PR direto do app.
 - **Máquinas na nuvem.** Rode o agente no seu servidor por SSH, ou no InstaBox ou na Freestyle. Pause a máquina quando terminar.
 - **Um comando `nexora`** para o terminal e para scripts ou outros agentes (saída `--json` e códigos de saída que avisam quando algo precisa de você).
 - **Suas credenciais ficam com o agente.** Cada sessão é um processo do CLI oficial, com o login dele. Segredos que um agente pede passam por um formulário protegido, não pelo chat, e ficam guardados no DPAPI do Windows ou no Keychain do macOS.
+
+![Dashboard](docs/img/dashboard.png)
 
 ![Quadro ao vivo](docs/img/ao-vivo.png)
 

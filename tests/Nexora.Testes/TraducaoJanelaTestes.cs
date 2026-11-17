@@ -142,10 +142,11 @@ public sealed partial class TraducaoTestes
         Assert.True(faltando.Count == 0, "Sem tradução:\n" + string.Join("\n", faltando));
         Em("en", () =>
         {
-            Assert.Equal("Default", Catalogo.Embutidos[0].NomeExibido);
+            Assert.Equal("Nexora Midnight", Catalogo.Embutidos[0].NomeExibido);
+            Assert.Equal("Default light", Catalogo.Embutidos[1].NomeExibido);
             Assert.Equal("Light graph", Catalogo.Embutidos.First(t => t.Id == "grafo-claro").NomeExibido);
         });
-        Assert.Equal("Padrão", Catalogo.Embutidos[0].NomeExibido);
+        Assert.Equal("Nexora Midnight", Catalogo.Embutidos[0].NomeExibido);
     }
 
     [Fact]

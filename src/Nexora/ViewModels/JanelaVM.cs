@@ -39,6 +39,7 @@ public sealed partial class JanelaVM : ObservableObject, IAnfitriao
             foreach (var grupo in EmAndamento) grupo.Arrumar();
             AtualizarRodape();
             Hibernar();
+            AnotarNoRegistro();
         });
         LigarVigia();
     }
@@ -100,7 +101,8 @@ public sealed partial class JanelaVM : ObservableObject, IAnfitriao
     public bool LateralNaTela => LateralFixa || LateralSobreposta;
     public bool VeuDaLateral => !LateralFixa && LateralAberta;
     public bool MostraTrilho => !TelaCheia;
-    public string DicaBotaoLateral => LateralFixa ? Idioma.T("Recolher a lateral (Ctrl+B)") : Idioma.T("Deixar a lateral aberta (Ctrl+B)");
+    public bool MostraTrilhoSolto => MostraTrilho && !LateralNaTela;
+    public string DicaBotaoLateral => LateralFixa ? Idioma.T("Soltar a lateral: ela volta a fechar ao clicar fora") : Idioma.T("Fixar a lateral aberta ao lado do conteúdo");
 
 
     partial void OnLateralVisivelChanged(bool value)
@@ -121,6 +123,7 @@ public sealed partial class JanelaVM : ObservableObject, IAnfitriao
         OnPropertyChanged(nameof(LateralNaTela));
         OnPropertyChanged(nameof(VeuDaLateral));
         OnPropertyChanged(nameof(MostraTrilho));
+        OnPropertyChanged(nameof(MostraTrilhoSolto));
         OnPropertyChanged(nameof(DicaBotaoLateral));
         if (LateralNaTela) TelaGrande?.Fechar();
     }
@@ -134,12 +137,25 @@ public sealed partial class JanelaVM : ObservableObject, IAnfitriao
     [RelayCommand]
     void AlternarLateral()
     {
-        if (Vertical) LateralAberta = !LateralAberta;
-        else
+        if (LateralFixa)
         {
-            LateralAberta = false;
-            LateralVisivel = !LateralVisivel;
+            LateralVisivel = false;
+            return;
         }
+        LateralAberta = !LateralAberta;
+    }
+
+    [RelayCommand]
+    void FixarLateral()
+    {
+        if (Vertical)
+        {
+            LateralAberta = !LateralAberta;
+            return;
+        }
+        var fixar = !LateralVisivel;
+        LateralAberta = false;
+        LateralVisivel = fixar;
     }
 
     [RelayCommand]
@@ -340,6 +356,7 @@ public sealed partial class JanelaVM : ObservableObject, IAnfitriao
         "projetos" => PaginaProjetos,
         "recursos" => Recursos,
         "uso" => PaginaUso,
+        "dashboard" => PaginaDashboard,
         "issues" => PaginaIssues,
         "agendados" => PaginaAgendados,
         "configuracoes" => PaginaConfiguracoes,
@@ -612,6 +629,7 @@ public sealed partial class JanelaVM : ObservableObject, IAnfitriao
 
     public void EncerrarTudo()
     {
+        GravarRegistro();
         foreach (var chat in Abertas) chat.Encerrar(esperar: true);
         ChatVM.EsperarParadasNaSaida(TimeSpan.FromSeconds(4));
         foreach (var painel in _execucoes.Values) painel.PararTudo();

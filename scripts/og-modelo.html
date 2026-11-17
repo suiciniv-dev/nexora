@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="/estilo.css?v=midnight1">
+<style>
+  html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; }
+  body { font-family: var(--ui); }
+  .og { position: relative; width: 1200px; height: 630px; padding: 52px 64px 0; box-sizing: border-box; }
+  .topo { display: flex; align-items: center; justify-content: space-between; }
+  .nome { display: flex; align-items: center; gap: 16px; font: 600 34px var(--ui); color: var(--txt); }
+  .nome img { width: 52px; height: 52px; }
+  .pilula { display: flex; align-items: center; gap: 12px; padding: 6px 18px 6px 6px; border-radius: 999px; border: 1px solid var(--linha2); background: rgba(16, 27, 53, .6); color: var(--txt2); font: 500 19px var(--ui); }
+  .pilula b { padding: 4px 12px; border-radius: 999px; background: rgba(44, 142, 232, .22); color: var(--marca-clara); font: 700 15px var(--ui); letter-spacing: .04em; }
+  h1 { margin: 34px 0 0; font: 650 62px/1.12 var(--ui); letter-spacing: -.02em; text-align: left; color: var(--txt); }
+  h1 em { font-style: normal; color: var(--marca-clara); }
+  .sub { margin: 18px 0 0; font: 400 24px var(--ui); color: var(--txt2); }
+  .tela { position: absolute; left: 64px; right: 64px; top: 360px; height: 320px; border-radius: 14px; overflow: hidden; border: 1px solid var(--linha2); box-shadow: 0 -10px 60px rgba(42, 79, 208, .25); }
+  .tela img { width: 100%; display: block; }
+</style>
+</head>
+<body>
+  <div class="og">
+    <div class="topo">
+      <div class="nome"><img src="/img/nexora.svg" alt="">Nexora</div>
+      <div class="pilula"><b>ADE</b>Agent Development Environment</div>
+    </div>
+    <h1 id="titulo"></h1>
+    <p class="sub" id="sub"></p>
+    <div class="tela"><img id="tela" alt=""></div>
+  </div>
+  <script>
+    const en = location.hash === '#en';
+    document.getElementById('titulo').innerHTML = en ? 'Run multiple coding agents.<br><em>Stay in control.</em>' : 'Rode vários agentes de código.<br><em>Sem perder o controle.</em>';
+    document.getElementById('sub').textContent = en ? 'Free · Open source · Claude Code, Codex and more' : 'Grátis · Código aberto · Claude Code, Codex e outros';
+    document.getElementById('tela').src = en ? '/img/app/ao-vivo-en.webp' : '/img/app/ao-vivo-pt.webp';
+  </script>
+</body>
+</html>

@@ -13,10 +13,14 @@ public sealed class TemasTestes : IDisposable
     [Fact]
     public void TemasProntosTemTodasAsCoresValidas()
     {
-        Assert.Equal(4 + Papeis.Todos.Count, Catalogo.Embutidos.Count);
-        Assert.Equal("padrao", Catalogo.Embutidos[0].Id);
-        Assert.Equal("Padrão", Catalogo.Embutidos[0].Nome);
+        Assert.Equal(5 + Papeis.Todos.Count, Catalogo.Embutidos.Count);
+        Assert.Equal("midnight", Catalogo.Embutidos[0].Id);
+        Assert.Equal("Nexora Midnight", Catalogo.Embutidos[0].Nome);
         Assert.Equal(Papeis.Nenhum, Catalogo.Embutidos[0].FundoAnimado);
+        Assert.NotNull(Catalogo.Embutidos[0].Luz);
+        Assert.Equal("padrao-claro", Catalogo.Embutidos[1].Id);
+        Assert.Equal("Classic Dark", Catalogo.Encontrar("padrao").Nome);
+        Assert.Null(Catalogo.Encontrar("padrao").Luz);
         Assert.Equal(Catalogo.Embutidos.Count, Catalogo.Embutidos.Select(t => t.Id).Distinct().Count());
         foreach (var tema in Catalogo.Embutidos)
         {
@@ -88,7 +92,7 @@ public sealed class TemasTestes : IDisposable
         Assert.Equal("alucard", Catalogo.Encontrar("claro").Id);
         Assert.Equal("padrao", Catalogo.Encontrar("suiciniv").Id);
         Assert.Equal("padrao-claro", Catalogo.Encontrar("suiciniv-papel").Id);
-        Assert.Equal("padrao", Catalogo.Encontrar("oceano").Id);
+        Assert.Equal("midnight", Catalogo.Encontrar("oceano").Id);
         Assert.Equal("pulso", Catalogo.Encontrar("arcade").Id);
         Assert.Equal("aurora", Catalogo.Encontrar("koi").Id);
         Assert.Equal("aurora", Catalogo.Encontrar("aurora").Id);
@@ -103,9 +107,9 @@ public sealed class TemasTestes : IDisposable
         try
         {
             Catalogo.SistemaEscuroDeTeste = () => true;
-            Assert.Equal("padrao", Catalogo.Encontrar("sistema").Id);
-            Assert.Equal("padrao", Catalogo.Encontrar(null).Id);
-            Assert.Equal("padrao", Catalogo.Encontrar("").Id);
+            Assert.Equal("midnight", Catalogo.Encontrar("sistema").Id);
+            Assert.Equal("midnight", Catalogo.Encontrar(null).Id);
+            Assert.Equal("midnight", Catalogo.Encontrar("").Id);
             Catalogo.SistemaEscuroDeTeste = () => false;
             Assert.Equal("padrao-claro", Catalogo.Encontrar("sistema").Id);
             Assert.Equal("padrao-claro", Catalogo.Encontrar(null).Id);
@@ -202,6 +206,8 @@ public sealed class TemasTestes : IDisposable
         Assert.True(Catalogo.EmVidro(Catalogo.Encontrar("padrao"), "animado"));
         Assert.True(Catalogo.EmVidro(Catalogo.Encontrar("dracula"), "vidro"));
         Assert.False(Catalogo.EmVidro(Catalogo.Encontrar("padrao"), "solido"));
+        Assert.False(Catalogo.EmVidro(Catalogo.Encontrar("midnight"), "vidro"));
+        Assert.Equal("#2A4FD0", Catalogo.Encontrar("midnight").Copiar("x", "x").Luz);
         Assert.Contains("\"cores\"", File.ReadAllText(arquivo));
     }
 
@@ -217,5 +223,20 @@ public sealed class TemasTestes : IDisposable
         Assert.Null(Catalogo.Ler(ruim));
         File.WriteAllText(ruim, """{"nome":""}""");
         Assert.Null(Catalogo.Ler(ruim));
+    }
+
+    [Fact]
+    public void MidnightTemTextoLegivelEmTodasAsSuperficies()
+    {
+        var tema = Catalogo.Encontrar(Catalogo.IdMidnight);
+        var ruins = new List<string>();
+        foreach (var fundo in new[] { "Fundo", "Lateral", "Superficie", "SuperficieAlta", "BolhaUsuario", "CodigoFundo" })
+            foreach (var texto in new[] { "Texto", "TextoSuave", "TextoFraco", "Acento", "Verde", "Laranja", "Vermelho", "Rosa", "Ciano", "CodigoTexto" })
+                if (Catalogo.Contraste(tema.Cor(texto), tema.Cor(fundo)) is var c && c < 4.5)
+                    ruins.Add($"{texto} em {fundo}: {c:0.00}");
+        foreach (var chave in new[] { "AcentoCheio", "AcentoCheioFim" })
+            if (Catalogo.Contraste(Color.Parse(tema.Cores[chave]), tema.Cor("SobreAcento")) is var c && c < 4.5)
+                ruins.Add($"SobreAcento em {chave}: {c:0.00}");
+        Assert.True(ruins.Count == 0, string.Join(Environment.NewLine, ruins));
     }
 }
