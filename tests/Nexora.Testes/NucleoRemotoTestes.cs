@@ -180,6 +180,7 @@ public sealed class NucleoRemotoTestes
         info.ArgumentList.Add(typeof(App).Assembly.Location);
         info.ArgumentList.Add(ServidorDoNucleo.Argumento);
         info.ArgumentList.Add(cano);
+        info.ArgumentList.Add("--ocioso");
         info.ArgumentList.Add("1");
         using var processo = System.Diagnostics.Process.Start(info)!;
         try
