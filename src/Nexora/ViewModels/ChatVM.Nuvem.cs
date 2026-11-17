@@ -43,7 +43,18 @@ public sealed partial class ChatVM
     public override string NomeDaMaquina => Maquina?.Nome ?? "";
     public string? ExecucaoNaNuvem => _execucao?.Execucao;
 
-    public string ProjetoDaNuvem => Repositorio.PrincipalDoWorktree(Pasta) ?? Pasta;
+    (string Pasta, string Projeto)? _projetoDaNuvem;
+
+    public string ProjetoDaNuvem
+    {
+        get
+        {
+            if (_projetoDaNuvem is { } guardado && guardado.Pasta == Pasta) return guardado.Projeto;
+            var projeto = Repositorio.PrincipalDoWorktree(Pasta) ?? Pasta;
+            _projetoDaNuvem = (Pasta, projeto);
+            return projeto;
+        }
+    }
 
     public bool ProjetoPodeIrParaNuvem => PodeIrParaNuvem(ProjetoDaNuvem);
 
@@ -52,7 +63,7 @@ public sealed partial class ChatVM
 
     public static IReadOnlyList<MaquinaNaNuvem> MaquinasProntas => [.. App.Nuvem.Maquinas.Where(m => m.Testada)];
 
-    public bool MostraOndeRoda => NaNuvem || (ProjetoPodeIrParaNuvem && MaquinasProntas.Count > 0 && !EhLateral);
+    public bool MostraOndeRoda => NaNuvem || (!EhLateral && MaquinasProntas.Count > 0 && ProjetoPodeIrParaNuvem);
 
     public string OndeRodaRotulo => NaNuvem ? Idioma.F("Nuvem · {0}", NomeDaMaquina) : Idioma.T("Neste PC");
 

@@ -158,4 +158,42 @@ public sealed class DashboardTestes
             App.Config.ProjetoDoDashboard = antes;
         }
     });
+
+    [Fact]
+    public Task ProjetoFixoQueCarregaDepoisAindaVenceEEscolhaAMaoFica() => EmDemo(() =>
+    {
+        var antes = App.Config.ProjetoDoDashboard;
+        try
+        {
+            var (janela, vm) = Abrir();
+            var fixo = vm.Ambientes[^1];
+            App.Config.ProjetoDoDashboard = fixo.Principal;
+            vm.Ambientes.Remove(fixo);
+            vm.MostrarDashboardCommand.Execute(null);
+            Assentar(janela);
+            var painel = vm.PaginaDashboard;
+            Assert.NotSame(fixo, painel.Projeto);
+
+            vm.Ambientes.Add(fixo);
+            Assentar(janela);
+            Assert.Same(fixo, painel.Projeto);
+            Assert.True(painel.ProjetoFixo);
+
+            var outro = vm.Ambientes.First(a => a != fixo);
+            painel.Projeto = outro;
+            vm.Ambientes.Move(0, vm.Ambientes.Count - 1);
+            Assentar(janela);
+            Assert.Same(outro, painel.Projeto);
+
+            vm.MostrarVisaoGeralCommand.Execute(null);
+            vm.MostrarDashboardCommand.Execute(null);
+            Assentar(janela);
+            Assert.Same(fixo, painel.Projeto);
+            janela.Close();
+        }
+        finally
+        {
+            App.Config.ProjetoDoDashboard = antes;
+        }
+    });
 }
