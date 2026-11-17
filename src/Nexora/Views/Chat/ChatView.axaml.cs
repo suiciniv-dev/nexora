@@ -201,6 +201,7 @@ public partial class ChatView : UserControl, IAoMostrar, IAoEsconder
         var empilhado = comEditor && Disposicao.GetVertical(this);
         var colunas = Divisao.ColumnDefinitions;
         var linhas = Divisao.RowDefinitions;
+        Alca.IsVisible = comEditor;
         if (empilhado)
         {
             colunas[0].Width = GridLength.Star;

@@ -1155,7 +1155,7 @@
       </StackPanel>
     </ScrollViewer>
   </DockPanel>
-  <GridSplitter x:Name="Alca" Grid.Column="1" Background="{DynamicResource Borda}" ResizeDirection="Columns" />
+  <GridSplitter x:Name="Alca" Grid.Column="1" Background="{DynamicResource Borda}" ResizeDirection="Columns" IsVisible="False" />
   <v:EditorView x:Name="PainelEditor" Grid.Column="2" DataContext="{Binding Editor}" IsVisible="{Binding TemAbas}" />
   <Border Grid.Column="3" Width="{Binding LarguraDetalhes}" IsVisible="{Binding DetalhesLateral}" IsHitTestVisible="False" />
   <Panel x:Name="Camada" Grid.ColumnSpan="4">
