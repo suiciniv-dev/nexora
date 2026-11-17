@@ -72,7 +72,7 @@ Garbage collection pauses the whole process, so heavy reads in the app process p
 - The app starts the same executable as `Nexora --servidor <pipe>` (`Aplicativo/ProcessoDoNucleo.cs`), adds it to its job object, and talks to it over a named pipe restricted to the current user, one JSON message per line with request ids, so requests run in parallel.
 - `App.Nucleo` starts as `NucleoLocal` (in process) and switches to `NucleoRemoto` once the pipe connects. Every remote call falls back to the local implementation when the server is missing, answers with an error or does not answer within 60 seconds; if the pipe breaks, the app stays local for the rest of the session. The server exits when the app disconnects.
 - Demo and isolated windows, tests, and `"NucleoNoProprioProcesso": true` in the settings keep everything in process.
-- Moved so far: the saved chat list, usage reading and the session tails read by the Live board. Next: git and `gh`, history loading, then agent sessions, which need server-to-app events.
+- Moved so far: the saved chat list, usage reading, the session tails read by the Live board, and every `git` and `gh` command (`ComandoGit.Nucleo`). A command that reached the server is never run again locally if its answer is lost, since commands have side effects; the app reports the loss instead. Next: history loading, then agent sessions, which need server-to-app events.
 
 ## Agent sessions
 

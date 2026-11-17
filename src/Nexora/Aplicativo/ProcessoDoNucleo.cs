@@ -36,8 +36,13 @@ public static class ProcessoDoNucleo
             GrupoDeProcessos.Adicionar(processo);
             Pid = processo.Id;
             if (await NucleoRemoto.ConectarAsync(cano, EsperaPeloServidor).ConfigureAwait(false) is not { } remoto) return;
-            remoto.Caiu += () => App.Nucleo = NucleoLocal.Instancia;
+            remoto.Caiu += () =>
+            {
+                App.Nucleo = NucleoLocal.Instancia;
+                Core.Git.ComandoGit.Nucleo = null;
+            };
             App.Nucleo = remoto;
+            Core.Git.ComandoGit.Nucleo = remoto;
         }
         catch (Exception ex) when (ex is System.ComponentModel.Win32Exception or IOException or InvalidOperationException)
         {

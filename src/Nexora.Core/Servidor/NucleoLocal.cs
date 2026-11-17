@@ -1,3 +1,4 @@
+using Nexora.Core.Git;
 using Nexora.Core.Historico;
 using Nexora.Core.Uso;
 
@@ -15,4 +16,7 @@ public sealed class NucleoLocal : INucleo
 
     public Task<Andamento> LerAndamentoAsync(string arquivo, string? pasta, CancellationToken cancelar = default) =>
         Task.Run(() => Andamento.Ler(arquivo, pasta), cancelar);
+
+    public Task<ResultadoGit> RodarComandoAsync(PedidoDeComando pedido, CancellationToken cancelar = default) =>
+        ComandoGit.RodarAquiAsync(pedido);
 }

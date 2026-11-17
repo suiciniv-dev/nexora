@@ -1,3 +1,4 @@
+using Nexora.Core.Git;
 using Nexora.Core.Historico;
 using Nexora.Core.Uso;
 
@@ -10,4 +11,6 @@ public interface INucleo
     Task<IReadOnlyList<Parcela>> LerUsoAsync(string? cache, DateTime desde, bool porDia, CancellationToken cancelar = default);
 
     Task<Andamento> LerAndamentoAsync(string arquivo, string? pasta, CancellationToken cancelar = default);
+
+    Task<ResultadoGit> RodarComandoAsync(PedidoDeComando pedido, CancellationToken cancelar = default);
 }

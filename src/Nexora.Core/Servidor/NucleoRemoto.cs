@@ -3,6 +3,7 @@ using System.IO.Pipes;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using Nexora.Core.Git;
 using Nexora.Core.Historico;
 using Nexora.Core.Uso;
 
@@ -58,9 +59,23 @@ public sealed class NucleoRemoto : INucleo, IDisposable
         await PedirOuLocal<Andamento>(MetodosDoNucleo.Andamento, new JsonObject { ["arquivo"] = arquivo, ["pasta"] = pasta }, cancelar).ConfigureAwait(false)
         ?? await NucleoLocal.Instancia.LerAndamentoAsync(arquivo, pasta, cancelar).ConfigureAwait(false);
 
-    async Task<T?> PedirOuLocal<T>(string metodo, JsonObject? dados, CancellationToken cancelar) where T : class
+    public async Task<ResultadoGit> RodarComandoAsync(PedidoDeComando pedido, CancellationToken cancelar = default)
     {
-        if (_caiu) return null;
+        var dados = JsonSerializer.SerializeToNode(pedido, ServidorDoNucleo.Json)!.AsObject();
+        var espera = (pedido.Limite ?? TimeSpan.FromSeconds(30)) + TimeSpan.FromSeconds(30);
+        var (enviado, resultado) = await Pedir<ResultadoGit>(MetodosDoNucleo.Comando, dados, espera, cancelar).ConfigureAwait(false);
+        if (resultado is not null) return resultado;
+        if (!enviado) return await NucleoLocal.Instancia.RodarComandoAsync(pedido, cancelar).ConfigureAwait(false);
+        return new ResultadoGit(-1, "", Texto.Idioma.F("O servidor do Nexora parou no meio do {0}. Confira se o comando chegou a rodar antes de tentar de novo.", pedido.Programa));
+    }
+
+    async Task<T?> PedirOuLocal<T>(string metodo, JsonObject? dados, CancellationToken cancelar) where T : class =>
+        (await Pedir<T>(metodo, dados, EsperaPelaResposta, cancelar).ConfigureAwait(false)).Resultado;
+
+    async Task<(bool Enviado, T? Resultado)> Pedir<T>(string metodo, JsonObject? dados, TimeSpan espera, CancellationToken cancelar) where T : class
+    {
+        if (_caiu) return (false, null);
+        var enviado = false;
         var id = Interlocked.Increment(ref _proximo);
         var resposta = new TaskCompletionSource<JsonNode?>(TaskCreationOptions.RunContinuationsAsynchronously);
         _pendentes[id] = resposta;
@@ -72,22 +87,23 @@ public sealed class NucleoRemoto : INucleo, IDisposable
                 var pedido = new JsonObject { ["id"] = id, ["metodo"] = metodo, ["dados"] = dados };
                 await _escritor.WriteLineAsync(pedido.ToJsonString().AsMemory(), cancelar).ConfigureAwait(false);
                 await _escritor.FlushAsync(cancelar).ConfigureAwait(false);
+                enviado = true;
             }
             finally
             {
                 _trava.Release();
             }
-            var no = await resposta.Task.WaitAsync(EsperaPelaResposta, cancelar).ConfigureAwait(false);
-            return no?.Deserialize<T>(ServidorDoNucleo.Json);
+            var no = await resposta.Task.WaitAsync(espera, cancelar).ConfigureAwait(false);
+            return (true, no?.Deserialize<T>(ServidorDoNucleo.Json));
         }
         catch (Exception ex) when (ex is IOException or ObjectDisposedException or TimeoutException or InvalidOperationException)
         {
             Derrubar();
-            return null;
+            return (enviado, null);
         }
         catch (Exception ex) when (ex is JsonException or ErroNoServidor)
         {
-            return null;
+            return (enviado, null);
         }
         finally
         {
