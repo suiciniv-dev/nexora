@@ -60,6 +60,9 @@ public sealed partial class DashboardVM : ObservableObject
     DateTime _gitHubLidoEm = DateTime.MinValue;
     string? _gitDe;
     bool _lendoUso, _lendoGit, _lendoNoticias, _lendoGitHub;
+    AmbienteVM? _escolhaManual;
+    bool _escolhendo;
+    bool _ativa;
 
     public DashboardVM(JanelaVM janela)
     {
@@ -153,10 +156,13 @@ public sealed partial class DashboardVM : ObservableObject
         if (!ligada)
         {
             _relogio.Stop();
+            _ativa = false;
             return;
         }
         Fila.CollectionChanged -= AoMudarFila;
         Fila.CollectionChanged += AoMudarFila;
+        if (!_ativa) _escolhaManual = null;
+        _ativa = true;
         EscolherProjeto();
         Atualizar(false);
         if (!JanelaVM.Demo) _relogio.Start();
@@ -189,13 +195,25 @@ public sealed partial class DashboardVM : ObservableObject
 
     void EscolherProjeto()
     {
-        if (Projeto is not null && Projetos.Contains(Projeto)) return;
+        AmbienteVM? Presente(AmbienteVM? projeto) => projeto is not null && Projetos.Contains(projeto) ? projeto : null;
         AmbienteVM? Achar(string? pasta) => pasta is null ? null : Projetos.FirstOrDefault(p => Core.Ambientes.Workspaces.MesmaPasta(p.Principal, pasta));
-        Projeto = Achar(App.Config.ProjetoDoDashboard) ?? Achar(App.Config.UltimaPasta) ?? Projetos.FirstOrDefault();
+        var melhor = Presente(_escolhaManual) ?? Achar(App.Config.ProjetoDoDashboard) ?? Achar(App.Config.UltimaPasta) ?? Presente(Projeto) ?? Projetos.FirstOrDefault();
+        if (ReferenceEquals(melhor, Projeto)) return;
+        _escolhendo = true;
+        try
+        {
+            Projeto = melhor;
+        }
+        finally
+        {
+            _escolhendo = false;
+        }
     }
 
     partial void OnProjetoChanged(AmbienteVM? value)
     {
+        if (!_escolhendo && value is not null) _escolhaManual = value;
+        if (!_escolhendo && value is null) Dispatcher.UIThread.Post(EscolherProjeto);
         _gitLidoEm = DateTime.MinValue;
         _ = CarregarGitAsync(true);
     }
