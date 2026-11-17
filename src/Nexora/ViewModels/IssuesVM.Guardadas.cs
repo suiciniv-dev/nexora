@@ -4,10 +4,6 @@ using Idioma = Nexora.Core.Texto.Idioma;
 
 namespace Nexora.ViewModels;
 
-public sealed record RepoGuardado(string Pasta, string? Repo, IReadOnlyList<IssueGh>? Issues);
-
-public sealed record IssuesGuardadas(bool SoMinhas, IReadOnlyList<RepoGuardado> Repos, IReadOnlyList<QuadroGh> Quadros, string Fonte, string? Visao, IReadOnlyList<ItemDoQuadro>? Itens);
-
 public sealed partial class IssuesVM
 {
     public static string ArquivoGuardadas { get; set; } =

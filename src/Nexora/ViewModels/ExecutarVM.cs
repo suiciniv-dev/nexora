@@ -12,8 +12,6 @@ using Idioma = Nexora.Core.Texto.Idioma;
 
 namespace Nexora.ViewModels;
 
-public enum EstadoAlvo { Parado, Rodando, Pronto, Erro }
-
 public sealed partial class ExecutarVM : ObservableObject
 {
     public ExecutarVM(Local local, Action<string>? abrirNoNexora = null)

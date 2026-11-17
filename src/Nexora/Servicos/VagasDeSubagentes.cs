@@ -1,4 +1,4 @@
-namespace Nexora.ViewModels;
+namespace Nexora.Servicos;
 
 public static class VagasDeSubagentes
 {
