@@ -9,10 +9,10 @@ namespace Nexora.ViewModels;
 
 public sealed partial class ChatVM
 {
-    public const int MensagensNaTela = 80;
+    public const int MensagensNaTela = 40;
     public const int TurnosPorVez = 12;
     public const int LoteInicial = 12;
-    const int FolgaDaTela = 40;
+    public const int FolgaDaTela = 20;
 
     int _alvo = MensagensNaTela;
     bool _telaSuspensa;

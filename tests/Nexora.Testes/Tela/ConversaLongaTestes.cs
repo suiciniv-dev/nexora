@@ -34,7 +34,7 @@ public sealed class ConversaLongaTestes : IDisposable
         Dispatcher.UIThread.RunJobs();
 
         Assert.Equal(300, chat.Itens.Count);
-        Assert.InRange(chat.ItensNaTela.Count, ChatVM.MensagensNaTela, ChatVM.MensagensNaTela + 40);
+        Assert.InRange(chat.ItensNaTela.Count, ChatVM.MensagensNaTela, ChatVM.MensagensNaTela + ChatVM.FolgaDaTela);
         Assert.Same(chat.Itens[^1], chat.ItensNaTela[^1]);
         Assert.True(chat.TemEscondidas);
         Assert.Equal(chat.Itens.Skip(chat.Escondidas), chat.ItensNaTela);
@@ -94,8 +94,11 @@ public sealed class ConversaLongaTestes : IDisposable
         Assert.Equal(ChatVM.LoteInicial, chat.ItensNaTela.Count);
         Assert.StartsWith("Pedido número 1:", chat.PedidoInicial);
         while (chat.MontarMais(10)) { }
-        if (chat.Escondidas > 0) await chat.MostrarAnterioresCommand.ExecuteAsync(null);
-        while (chat.MontarMais(10)) { }
+        while (chat.Escondidas > 0)
+        {
+            await chat.MostrarAnterioresCommand.ExecuteAsync(null);
+            while (chat.MontarMais(10)) { }
+        }
         Assert.Equal("Carregar turnos anteriores", chat.TextoEscondidas);
 
         while (chat.TemEscondidas)

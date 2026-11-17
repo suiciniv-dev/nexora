@@ -40,7 +40,7 @@ public sealed class AbasVivas : Panel
     public static bool GetEmPainel(Control alvo) => alvo.GetValue(EmPainelProperty);
     public static void SetEmPainel(Control alvo, bool valor) => alvo.SetValue(EmPainelProperty, valor);
 
-    public int Limite { get; set; } = 6;
+    public int Limite { get; set; } = 3;
 
     public event Action<object>? FocoPedido;
 
