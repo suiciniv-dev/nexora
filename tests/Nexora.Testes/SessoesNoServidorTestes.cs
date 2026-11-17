@@ -95,6 +95,7 @@ public sealed class SessoesNoServidorTestes
         {
             _fim.Cancel();
             await Servidor.WaitAsync(TimeSpan.FromSeconds(10));
+            await Sessoes.EncerrarTodasAsync();
         }
     }
 
@@ -283,5 +284,47 @@ public sealed class SessoesNoServidorTestes
 
         Assert.Equal(0, await ambiente.Servidor.WaitAsync(TimeSpan.FromSeconds(10)));
         Assert.False(ambiente.Unica().Ativa);
+    }
+
+    [Fact]
+    public async Task Hub_de_mcp_vive_no_servidor_e_o_app_registra_e_recebe_os_avisos()
+    {
+        var pasta = Directory.CreateTempSubdirectory("nexora-hub-remoto-").FullName;
+        var casa = Directory.CreateTempSubdirectory("nexora-hub-remoto-casa-").FullName;
+        File.WriteAllText(Path.Combine(pasta, ".mcp.json"), """{ "mcpServers": { "banco": { "command": "node", "args": ["servidor.js"] } } }""");
+        try
+        {
+            await using var ambiente = new Ambiente();
+            using var remoto = await ambiente.ConectarAsync();
+            var hub = await HubRemoto.LigarAsync(remoto, Path.Combine(pasta, "cache"), TimeSpan.FromMinutes(5));
+            Assert.NotNull(hub);
+            var mudou = 0;
+            hub.Mudou += () => Interlocked.Increment(ref mudou);
+
+            var registro = hub.Registrar(pasta, "Loja", casa);
+
+            Assert.Equal(["banco"], registro.Nomes);
+            var url = (string)System.Text.Json.Nodes.JsonNode.Parse(registro.Configuracao!)!["mcpServers"]!["banco"]!["url"]!;
+            Assert.Equal($"http://localhost:{ambiente.Sessoes.Hub!.Porta}/mcp/", url[..url.LastIndexOf('/')] + "/");
+            await Ate(() => Volatile.Read(ref mudou) > 0 && hub.SessoesRegistradas == 1, "aviso do hub");
+            Assert.Equal(0, hub.Ativos);
+            Assert.Empty(hub.Pids());
+            Assert.Empty(hub.Estado());
+            hub.Renomear(registro.Chave, "Loja nova");
+            await hub.EsquecerAsync(registro.Chave);
+            await Ate(() => hub.SessoesRegistradas == 0, "hub esqueceu");
+            Assert.Equal(0, ambiente.Sessoes.Hub.SessoesRegistradas);
+        }
+        finally
+        {
+            foreach (var p in new[] { pasta, casa })
+                try
+                {
+                    Directory.Delete(p, true);
+                }
+                catch (IOException)
+                {
+                }
+        }
     }
 }

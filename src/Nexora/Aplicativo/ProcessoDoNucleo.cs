@@ -19,6 +19,8 @@ public static class ProcessoDoNucleo
 
     public static Task<NucleoRemoto?> Pronto => _pronto.Task;
 
+    public static bool Iniciado { get; private set; }
+
     public static int Servir(string cano, string[] resto)
     {
         var ocioso = resto is [var segundos, ..] && double.TryParse(segundos, NumberStyles.Float, CultureInfo.InvariantCulture, out var s) ? TimeSpan.FromSeconds(s) : Ocioso;
@@ -35,6 +37,7 @@ public static class ProcessoDoNucleo
 
     public static void Iniciar(string[] args)
     {
+        Iniciado = true;
         if (args.Contains("--demo") || args.Contains("--isolada") || App.Config.NucleoNoProprioProcesso)
         {
             _pronto.TrySetResult(null);

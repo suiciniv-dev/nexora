@@ -12,7 +12,11 @@ namespace Nexora;
 public partial class App : Application
 {
     public static Config Config { get; } = Config.Carregar();
-    public static Core.Mcp.HubMcp? Hub { get; private set; }
+    static readonly TaskCompletionSource HubLigado = new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+    public static Core.Mcp.IHubMcp? Hub { get; private set; }
+
+    public static Task HubPronto => HubLigado.Task;
     public static Core.Servidor.INucleo Nucleo { get; set; } = Core.Servidor.NucleoLocal.Instancia;
     public static Core.Nuvem.ServicoDaNuvem Nuvem { get; set; } = new(null, new Core.Segredos.ArmazemNaMemoria());
     public static Core.Segredos.ServicoDeSegredos Segredos { get; set; } = new(new Core.Segredos.CofreDeSegredos(null, new Core.Segredos.ArmazemNaMemoria()));
@@ -30,11 +34,33 @@ public partial class App : Application
 
     static void LigarHub(string[] args)
     {
-        if (!Config.HubMcp || args.Contains("--sem-hub") || args.Contains("--demo")) return;
-        Hub = new Core.Mcp.HubMcp(Path.Combine(global::Nexora.Core.DadosDoNexora.Pasta, "mcp"))
+        if (!Config.HubMcp || args.Contains("--sem-hub") || args.Contains("--demo"))
         {
-            Ocioso = TimeSpan.FromMinutes(Math.Max(1, Config.McpOciosoMinutos)),
-        };
+            HubLigado.TrySetResult();
+            return;
+        }
+        var pasta = Path.Combine(global::Nexora.Core.DadosDoNexora.Pasta, "mcp");
+        var ocioso = TimeSpan.FromMinutes(Math.Max(1, Config.McpOciosoMinutos));
+        if (!Aplicativo.ProcessoDoNucleo.Iniciado)
+        {
+            Hub = new Core.Mcp.HubMcp(pasta) { Ocioso = ocioso };
+            HubLigado.TrySetResult();
+            return;
+        }
+        _ = Task.Run(async () =>
+        {
+            try
+            {
+                Hub = await Aplicativo.ProcessoDoNucleo.Pronto.ConfigureAwait(false) is { Conectado: true } remoto
+                    && await Core.Servidor.HubRemoto.LigarAsync(remoto, pasta, ocioso).ConfigureAwait(false) is { } doNucleo
+                        ? doNucleo
+                        : new Core.Mcp.HubMcp(pasta) { Ocioso = ocioso };
+            }
+            finally
+            {
+                HubLigado.TrySetResult();
+            }
+        });
     }
 
     static void LigarSegredos(string[] args)

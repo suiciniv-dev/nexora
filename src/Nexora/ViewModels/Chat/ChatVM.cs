@@ -661,7 +661,7 @@ public sealed partial class ChatVM : CartaoVM
         }
         _sessao = null;
         EncerrarNuvem(esperar, trabalhando);
-        if (_hub is { } hub && App.Hub is { } central) _ = central.EsquecerAsync(hub.Chave);
+        if (_hub is { } hub && App.Hub is { } central && !segueNoServidor) _ = central.EsquecerAsync(hub.Chave);
         _hub = null;
         EsquecerSegredos();
     }

@@ -6,6 +6,29 @@ namespace Nexora.Core.Servidor;
 public sealed class SessoesDoServidor(Func<string, OpcoesSessao, ISessaoAgente> criar)
 {
     readonly ConcurrentDictionary<string, SessaoNoServidor> _sessoes = new();
+    readonly object _travaDoHub = new();
+
+    public Mcp.HubMcp? Hub { get; private set; }
+
+    public event Action? HubMudou;
+
+    public ContagemDoHub LigarHub(string pastaCache, TimeSpan ocioso)
+    {
+        lock (_travaDoHub)
+        {
+            if (Hub is null)
+            {
+                Hub = new Mcp.HubMcp(pastaCache);
+                Hub.Mudou += () => HubMudou?.Invoke();
+            }
+            Hub.Ocioso = ocioso;
+            return ContagemDoHub();
+        }
+    }
+
+    public ContagemDoHub ContagemDoHub() => Hub is { } hub ? new ContagemDoHub(hub.Ativos, hub.SessoesRegistradas) : new ContagemDoHub(0, 0);
+
+    public Mcp.HubMcp HubLigado() => Hub ?? throw new InvalidOperationException("O hub de MCP não está ligado.");
 
     public TimeSpan EsperaSolta { get; init; } = TimeSpan.FromMinutes(3);
 
@@ -52,5 +75,6 @@ public sealed class SessoesDoServidor(Func<string, OpcoesSessao, ISessaoAgente> 
             catch (Exception ex) when (ex is InvalidOperationException or IOException)
             {
             }
+        Hub?.Dispose();
     }
 }
