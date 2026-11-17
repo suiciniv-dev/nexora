@@ -952,10 +952,14 @@ public sealed partial class ChatVM : CartaoVM
 
     async Task CarregarHistoricoAsync(string arquivo)
     {
-        var (trecho, modoDaConversa, internos) = await Task.Run(() =>
+        var brutoPedido = App.Nucleo.LerTurnosAsync(arquivo, TurnosPorVez, long.MaxValue);
+        var modoPedido = App.Nucleo.UltimoModoAsync(arquivo);
+        var bruto = await brutoPedido;
+        var modoDaConversa = await modoPedido;
+        var (trecho, internos) = await Task.Run(() =>
         {
-            var lido = Transcricao.LerTurnos(arquivo, TurnosPorVez);
-            return (lido, ConversasSalvas.UltimoModo(arquivo), InternosDoHistorico(arquivo, lido.Eventos));
+            var lido = Transcricao.DeBruto(bruto);
+            return (lido, InternosDoHistorico(arquivo, lido.Eventos));
         });
         ComecarHistorico(arquivo, trecho);
         MontarHistorico(trecho.Eventos, internos, modoDaConversa);

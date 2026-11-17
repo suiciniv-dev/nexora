@@ -6,4 +6,6 @@ public static class MetodosDoNucleo
     public const string Uso = "uso";
     public const string Andamento = "andamento";
     public const string Comando = "comando";
+    public const string Turnos = "turnos";
+    public const string Modo = "modo";
 }
