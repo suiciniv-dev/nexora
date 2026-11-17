@@ -1,0 +1,124 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:l="using:Nexora.Traducao"
+             xmlns:vm="using:Nexora.ViewModels"
+             xmlns:v="using:Nexora.Views"
+             xmlns:c="using:Nexora.Controles"
+             x:Class="Nexora.Views.AreaView"
+             x:DataType="vm:AreaVM">
+  <UserControl.DataTemplates>
+    <DataTemplate DataType="vm:ChatVM">
+      <v:ChatView />
+    </DataTemplate>
+    <DataTemplate DataType="vm:DashboardVM">
+      <v:DashboardView />
+    </DataTemplate>
+    <DataTemplate DataType="vm:AmbienteVM">
+      <v:AmbienteView />
+    </DataTemplate>
+    <DataTemplate DataType="vm:VisaoGeralVM">
+      <v:VisaoGeralView />
+    </DataTemplate>
+    <DataTemplate DataType="vm:NovoAmbienteVM">
+      <v:NovoAmbienteView />
+    </DataTemplate>
+    <DataTemplate DataType="vm:OrquestraVM">
+      <v:OrquestraView />
+    </DataTemplate>
+    <DataTemplate DataType="vm:ExecutarVM">
+      <v:ExecutarView />
+    </DataTemplate>
+    <DataTemplate DataType="vm:ProjetosVM">
+      <v:ProjetosView />
+    </DataTemplate>
+    <DataTemplate DataType="vm:RecursosVM">
+      <v:RecursosView />
+    </DataTemplate>
+    <DataTemplate DataType="vm:UsoVM">
+      <v:UsoView />
+    </DataTemplate>
+    <DataTemplate DataType="vm:AgendadosVM">
+      <v:AgendadosView />
+    </DataTemplate>
+    <DataTemplate DataType="vm:ConfiguracoesVM">
+      <v:ConfiguracoesView />
+    </DataTemplate>
+    <DataTemplate DataType="vm:IssuesVM">
+      <v:IssuesView />
+    </DataTemplate>
+  </UserControl.DataTemplates>
+  <UserControl.Styles>
+    <Style Selector=":is(Border).painel">
+      <Setter Property="BorderThickness" Value="0,2,0,0" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+    <Style Selector=":is(Border).painel.focado">
+      <Setter Property="BorderBrush" Value="{DynamicResource Acento}" />
+    </Style>
+    <Style Selector="Button.titulo-painel">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="Padding" Value="6,4" />
+      <Setter Property="CornerRadius" Value="8" />
+    </Style>
+  </UserControl.Styles>
+  <UserControl.Resources>
+    <DataTemplate x:Key="CabecalhoPainel" x:DataType="vm:GuiaVM">
+      <Border Padding="8,5,6,5" BorderBrush="{DynamicResource Borda}" BorderThickness="0,0,0,1">
+        <Grid ColumnDefinitions="*,Auto">
+          <Button Classes="titulo-painel" HorizontalAlignment="Left" ToolTip.Tip="{Binding Titulo}" AutomationProperties.Name="{l:T 'Opções do painel'}">
+            <Button.Flyout>
+              <MenuFlyout>
+                <MenuItem Header="{l:T 'Abrir só esta'}" Command="{Binding SoEstaCommand}" />
+                <MenuItem Header="{l:T 'Abrir em nova janela'}" Command="{Binding NovaJanelaCommand}" />
+                <Separator />
+                <MenuItem Header="{l:T 'Fechar painel (mantém a aba)'}" Command="{Binding FecharPainelCommand}" />
+                <MenuItem Header="{l:T 'Fechar aba'}" Command="{Binding FecharCommand}" />
+              </MenuFlyout>
+            </Button.Flyout>
+            <Grid ColumnDefinitions="Auto,*,Auto">
+              <Ellipse Classes="estado" Classes.trabalhando="{Binding Chat.Trabalhando, FallbackValue=False}" Classes.precisa="{Binding Chat.Precisa, FallbackValue=False}"
+                       Classes.pronta="{Binding Chat.EstaPronta, FallbackValue=False}" Classes.erro="{Binding Chat.TemErro, FallbackValue=False}"
+                       IsVisible="{Binding Chat, Converter={x:Static ObjectConverters.IsNotNull}}" VerticalAlignment="Center" Margin="0,0,8,0" />
+              <c:Icone Nome="{Binding Icone}" Tamanho="13" Classes="suave" VerticalAlignment="Center" Margin="0,0,8,0"
+                       IsVisible="{Binding Chat, Converter={x:Static ObjectConverters.IsNull}}" />
+              <TextBlock Grid.Column="1" Text="{Binding Titulo}" FontSize="13" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+              <c:Icone Grid.Column="2" Nome="abaixo" Tamanho="12" Classes="fraco" VerticalAlignment="Center" Margin="6,0,0,0" />
+            </Grid>
+          </Button>
+          <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="2" VerticalAlignment="Center">
+            <c:BotaoLigado Classes="icone pequeno" Classes.ligado="{Binding Chat.TerminalAberto, FallbackValue=False}" IsChecked="{Binding Chat.TerminalAberto, FallbackValue=False, Mode=OneWay}" Command="{Binding Chat.AlternarTerminalCommand, FallbackValue={x:Null}}"
+                    IsVisible="{Binding Chat, Converter={x:Static ObjectConverters.IsNotNull}}" ToolTip.Tip="{l:T 'Terminal nesta pasta (Ctrl+`)'}" AutomationProperties.Name="Terminal">
+              <c:Icone Nome="terminal" Tamanho="14" />
+            </c:BotaoLigado>
+            <c:BotaoLigado Classes="icone pequeno" Classes.ligado="{Binding Chat.DetalhesLigados, FallbackValue=False}" IsChecked="{Binding Chat.DetalhesLigados, FallbackValue=False, Mode=OneWay}" Command="{Binding Chat.AlternarDetalhesAquiCommand, FallbackValue={x:Null}}"
+                    IsVisible="{Binding Chat.DetalhesDisponiveis, FallbackValue=False}" ToolTip.Tip="{l:T 'Detalhes da sessão: ambiente, contexto e arquivos alterados (Ctrl+Alt+B)'}" AutomationProperties.Name="{l:T 'Detalhes da sessão'}">
+              <c:Icone Nome="painel-direito" Tamanho="14" />
+            </c:BotaoLigado>
+            <Button Classes="icone pequeno" Command="{Binding FecharPainelCommand}" ToolTip.Tip="{l:T 'Fechar painel (mantém a aba)'}" AutomationProperties.Name="{l:T 'Fechar painel'}">
+              <c:Icone Nome="fechar" Tamanho="13" />
+            </Button>
+          </StackPanel>
+        </Grid>
+      </Border>
+    </DataTemplate>
+  </UserControl.Resources>
+  <Panel>
+    <v:AbasVivas x:Name="Abas" Conteudo="{Binding Conteudo}" Conteudos="{Binding Conteudos}" CabecalhoTemplate="{StaticResource CabecalhoPainel}" />
+    <StackPanel IsVisible="{Binding SemConteudo}" VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="12">
+      <c:Caixa Classes="selo" HorizontalAlignment="Center">
+        <c:Icone Nome="brilho" Tamanho="28" Foreground="{DynamicResource Acento}" />
+      </c:Caixa>
+      <TextBlock Text="Nexora" FontSize="28" FontWeight="SemiBold" HorizontalAlignment="Center" />
+      <TextBlock Classes="suave" Text="{l:T 'Escolha um ambiente, abra uma conversa ou comece uma sessão nova.'}" HorizontalAlignment="Center" />
+      <TextBlock Classes="fraco" Text="{l:T 'Arraste uma aba para fora da barra para abrir em outra janela.'}" HorizontalAlignment="Center" />
+      <Button Classes="primario" HorizontalAlignment="Center" Margin="0,8,0,0" Command="{Binding NovaSessaoCommand}">
+        <StackPanel Orientation="Horizontal" Spacing="8">
+          <c:Icone Nome="mais" />
+          <TextBlock Text="{l:T 'Nova sessão'}" />
+          <TextBlock Text="Ctrl+N" Opacity="0.6" />
+        </StackPanel>
+      </Button>
+    </StackPanel>
+  </Panel>
+</UserControl>

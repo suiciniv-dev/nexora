@@ -1,0 +1,100 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:l="using:Nexora.Traducao"
+             xmlns:vm="using:Nexora.ViewModels"
+             xmlns:v="using:Nexora.Views"
+             xmlns:c="using:Nexora.Controles"
+             x:Class="Nexora.Views.TopoTelaGrandeView"
+             x:DataType="vm:TelaGrandeVM"
+             Focusable="True">
+  <UserControl.Styles>
+    <Style Selector="Button.atalho">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="Foreground" Value="{DynamicResource TextoSuave}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="CornerRadius" Value="19" />
+      <Setter Property="Height" Value="38" />
+      <Setter Property="Padding" Value="13,0" />
+      <Setter Property="Margin" Value="2,4" />
+      <Setter Property="Focusable" Value="False" />
+      <Setter Property="RenderTransform" Value="scale(1)" />
+      <Setter Property="Transitions">
+        <Transitions><TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.14" Easing="CubicEaseOut" /></Transitions>
+      </Setter>
+    </Style>
+    <Style Selector="Button.atalho /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Transitions">
+        <Transitions><c:TransicaoDeCor Property="Background" Duration="0:0:0.14" /></Transitions>
+      </Setter>
+    </Style>
+    <Style Selector="Button.atalho:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource Superficie}" />
+      <Setter Property="Foreground" Value="{DynamicResource Texto}" />
+    </Style>
+    <Style Selector="Button.atalho.ativo /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource SuperficieAlta}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource BordaVidro}" />
+      <Setter Property="Foreground" Value="{DynamicResource Texto}" />
+    </Style>
+    <Style Selector="ContentPresenter.foco Button.atalho">
+      <Setter Property="RenderTransform" Value="scale(1.06)" />
+    </Style>
+    <Style Selector="ContentPresenter.foco Button.atalho /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource MarcaGradiente}" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="Foreground" Value="{DynamicResource SobreMarca}" />
+      <Setter Property="BoxShadow" Value="{DynamicResource BrilhoCaixa}" />
+    </Style>
+    <Style Selector="Button.marca">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="Padding" Value="4,4,10,4" />
+      <Setter Property="CornerRadius" Value="12" />
+      <Setter Property="Focusable" Value="False" />
+    </Style>
+    <Style Selector="Button.marca:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource Superficie}" />
+    </Style>
+  </UserControl.Styles>
+
+  <Grid ColumnDefinitions="Auto,*,Auto" Margin="52,0,56,0" VerticalAlignment="Center">
+    <Button Classes="marca" Command="{Binding AbrirCommand}" ToolTip.Tip="{l:T 'Início'}" AutomationProperties.Name="{l:T 'Início'}" VerticalAlignment="Center">
+      <StackPanel Orientation="Horizontal" Spacing="12">
+        <Image Source="/Assets/nexora.png" Width="34" Height="34" RenderOptions.BitmapInterpolationMode="HighQuality" />
+        <TextBlock Text="{Binding Saudacao}" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center" />
+      </StackPanel>
+    </Button>
+    <ItemsControl Grid.Column="1" ItemsSource="{Binding Atalhos}" Margin="0,0,0,0" VerticalAlignment="Center">
+      <ItemsControl.OpacityMask>
+        <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,0%">
+          <GradientStop Offset="0" Color="Transparent" />
+          <GradientStop Offset="0.03" Color="Black" />
+          <GradientStop Offset="0.96" Color="Black" />
+          <GradientStop Offset="1" Color="Transparent" />
+        </LinearGradientBrush>
+      </ItemsControl.OpacityMask>
+      <ItemsControl.ItemsPanel>
+        <ItemsPanelTemplate><c:Prateleira x:DataType="vm:TelaGrandeVM" Foco="{Binding Atalho}" Ativa="{Binding NoMenu}" Espia="40" Folga="28" /></ItemsPanelTemplate>
+      </ItemsControl.ItemsPanel>
+      <ItemsControl.ItemTemplate>
+        <DataTemplate x:DataType="vm:AtalhoVM">
+          <c:BotaoLigado Classes="atalho" Classes.ativo="{Binding Ativo}" IsChecked="{Binding Ativo, Mode=OneWay}" Command="{Binding $parent[v:TopoTelaGrandeView].((vm:TelaGrandeVM)DataContext).EscolherCommand}" CommandParameter="{Binding}"
+                  AutomationProperties.Name="{Binding Nome}">
+            <StackPanel Orientation="Horizontal" Spacing="8">
+              <c:Icone Nome="{Binding Icone}" Tamanho="15" VerticalAlignment="Center" />
+              <TextBlock Text="{Binding Nome}" FontSize="13" FontWeight="Medium" VerticalAlignment="Center" />
+            </StackPanel>
+          </c:BotaoLigado>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
+    <StackPanel Grid.Column="2" VerticalAlignment="Center">
+      <TextBlock Text="{Binding Hora}" FontSize="24" FontWeight="Light" HorizontalAlignment="Right" LetterSpacing="-0.4" />
+      <TextBlock Classes="fraco" Text="{Binding Janela.TextoLimites}" IsVisible="{Binding Janela.TemPlano}" FontSize="11" HorizontalAlignment="Right" />
+      <StackPanel Orientation="Horizontal" Spacing="6" HorizontalAlignment="Right" IsVisible="{Binding MostraDicaMenu}" Margin="0,3,0,0">
+        <c:Caixa Classes="tecla" Margin="0" Padding="5,0"><TextBlock Text="Esc" FontSize="10.5" /></c:Caixa>
+        <TextBlock Classes="fraco" Text="{l:T 'menu'}" FontSize="11" VerticalAlignment="Center" />
+      </StackPanel>
+    </StackPanel>
+  </Grid>
+</UserControl>

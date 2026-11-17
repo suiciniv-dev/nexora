@@ -1,0 +1,77 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:l="using:Nexora.Traducao"
+             xmlns:vm="using:Nexora.ViewModels"
+             xmlns:c="using:Nexora.Controles"
+             x:Class="Nexora.Views.TemplatesView"
+             x:DataType="vm:TemplatesVM">
+  <UserControl.Styles>
+    <Style Selector="ListBox.templates ListBoxItem">
+      <Setter Property="Padding" Value="10,8" />
+      <Setter Property="CornerRadius" Value="10" />
+      <Setter Property="Margin" Value="0,0,0,2" />
+    </Style>
+  </UserControl.Styles>
+  <Panel>
+    <Button Classes="veu-exclusao" Command="{Binding CancelarCommand}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" AutomationProperties.Name="{l:T 'Cancelar'}" />
+    <Border Theme="{StaticResource Dialogo}" Width="900" Height="600" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0">
+      <Grid RowDefinitions="Auto,*,Auto">
+        <Grid ColumnDefinitions="Auto,*" Margin="24,20,24,14">
+          <Border Width="36" Height="36" CornerRadius="10" Background="{DynamicResource AcentoFundo}" Margin="0,0,12,0">
+            <c:Icone Nome="modelo" Tamanho="17" Foreground="{DynamicResource Acento}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+          </Border>
+          <StackPanel Grid.Column="1" Spacing="2">
+            <TextBlock Text="{l:T 'Templates de tarefa'}" FontSize="18" FontWeight="SemiBold" />
+            <TextBlock Classes="fraco" Text="{l:T 'Um pedido pronto para começar uma sessão. As variáveis são trocadas pelos dados da issue e da branch; o que faltar vira o lugar do cursor.'}" FontSize="12.5" TextWrapping="Wrap" />
+          </StackPanel>
+        </Grid>
+        <Grid Grid.Row="1" ColumnDefinitions="250,*" Margin="24,0,24,0">
+          <DockPanel Margin="0,0,16,0">
+            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Spacing="6" Margin="0,10,0,0">
+              <Button Classes="contorno pequeno" Command="{Binding NovoCommand}">
+                <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="mais" Tamanho="12" /><TextBlock Text="{l:T 'Novo'}" /></StackPanel>
+              </Button>
+              <Button Classes="contorno pequeno" Command="{Binding DuplicarCommand}" Content="{l:T 'Duplicar'}" />
+              <Button Classes="icone pequeno" Command="{Binding ExcluirCommand}" ToolTip.Tip="{l:T 'Excluir o template'}" AutomationProperties.Name="{l:T 'Excluir o template'}">
+                <c:Icone Nome="lixeira" Tamanho="13" />
+              </Button>
+            </StackPanel>
+            <ListBox Classes="lista templates" ItemsSource="{Binding Itens}" SelectedItem="{Binding Selecionado}" Background="Transparent">
+              <ListBox.ItemTemplate>
+                <DataTemplate x:DataType="vm:TemplateItemVM">
+                  <StackPanel Spacing="1">
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                      <TextBlock Text="{Binding Nome}" FontWeight="Medium" TextTrimming="CharacterEllipsis" MaxWidth="170" />
+                      <c:Caixa Classes="etiqueta" IsVisible="{Binding DaIssue}" ToolTip.Tip="{l:T 'Usado no botão Nova sessão da página de Issues'}">
+                        <TextBlock Text="{l:T 'issues'}" />
+                      </c:Caixa>
+                    </StackPanel>
+                    <TextBlock Classes="fraco" Text="{Binding Previa}" FontSize="11.5" TextTrimming="CharacterEllipsis" />
+                  </StackPanel>
+                </DataTemplate>
+              </ListBox.ItemTemplate>
+            </ListBox>
+          </DockPanel>
+          <Grid Grid.Column="1" RowDefinitions="Auto,Auto,*,Auto" IsVisible="{Binding TemSelecionado}">
+            <TextBlock Classes="fraco" Text="{l:T 'Nome'}" FontSize="12" Margin="0,0,0,4" />
+            <TextBox Grid.Row="1" Text="{Binding Selecionado.Nome, FallbackValue=''}" Margin="0,0,0,12" />
+            <TextBox Grid.Row="2" Classes="mono" Text="{Binding Selecionado.Texto, FallbackValue=''}" AcceptsReturn="True" TextWrapping="Wrap" FontSize="13"
+                     VerticalContentAlignment="Top" />
+            <StackPanel Grid.Row="3" Spacing="8" Margin="0,10,0,0">
+              <SelectableTextBlock Classes="fraco mono" Text="{Binding Variaveis}" FontSize="11.5" TextWrapping="Wrap" />
+              <Button Classes="contorno pequeno" Command="{Binding UsarNasIssuesCommand}" HorizontalAlignment="Left"
+                      IsVisible="{Binding !Selecionado.DaIssue, FallbackValue=False}" Content="{l:T 'Usar no Nova sessão das issues'}" />
+            </StackPanel>
+          </Grid>
+        </Grid>
+        <Grid Grid.Row="2" ColumnDefinitions="Auto,*,Auto" Margin="24,16,24,20">
+          <Button Classes="fantasma pequeno" Command="{Binding RestaurarPadroesCommand}" Content="{l:T 'Restaurar os padrões'}" />
+          <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8">
+            <Button Classes="contorno" Command="{Binding CancelarCommand}" Content="{l:T 'Cancelar'}" />
+            <Button Classes="primario" Command="{Binding SalvarCommand}" Content="{l:T 'Salvar'}" />
+          </StackPanel>
+        </Grid>
+      </Grid>
+    </Border>
+  </Panel>
+</UserControl>

@@ -31,6 +31,39 @@ Nexora is a .NET 10 desktop app built with [Avalonia 12](https://avaloniaui.net/
 
 The code is written in Portuguese (identifiers, UI source strings). English UI text comes from `src/Nexora/Traducao`. See [CONTRIBUTING.md](../CONTRIBUTING.md).
 
+## Code layout in `src/Nexora`
+
+Each first-level folder is a layer, and its namespace is `Nexora.<Folder>`. Subfolders only group files of one feature and keep the layer's namespace. `ViewModels` and `Views` use the same feature folders (`Chat`, `Janela`, `Conversas`, `Ambientes`, `Issues`, `PullRequests`, `Painel`, `Editor`, `Dashboard`, `AoVivo`, `Orquestra`, `Navegador`, `Nuvem`, `Executar`, `Agenda`, `Uso`, `Desempenho`, `Temas`, `Configuracoes`, `Inicio`), so a view and its view model sit in folders of the same name. Chat row view models live in `ViewModels/Chat/Itens`.
+
+| Folder | Holds | May depend on |
+|---|---|---|
+| root | `Program` and `App` only | everything |
+| `Aplicativo` | Startup, the `nexora` command entry, window coordination and anything that wires views to view models | everything |
+| `Views` | Windows and views (`.axaml` with code-behind), and controls or helpers tied to a view model | view models, controls, services, models |
+| `Controles` | Controls drawn in code that know no view model (`MarkdownTexto`, `Icone`, charts, backgrounds) | services, models |
+| `ViewModels` | View models only: `*VM` classes, chat row view models (`Chat/Itens/Item*`) and the contracts between view models (`IAnfitriao`) | services, models, `Nexora.Core` |
+| `Modelos` | Plain enums and records the view models share. No Avalonia, no view models | `Nexora.Core` |
+| `Servicos` | App services that know no view model or view (config, system, images, updates) | models, `Nexora.Core` |
+| `Desempenho` | Responsiveness monitor and frame measurement | everything (diagnostics) |
+| `Temas`, `Fundos`, `Traducao` | Themes, animated backgrounds, translations | services |
+
+Rules:
+
+- One top-level type per file, named after the type.
+- A control that needs a view model type is part of a view: it goes to `Views`, not `Controles`.
+- `Modelos`, `Servicos` and `Controles` never reference `Nexora.ViewModels` or `Nexora.Views`.
+- `Nexora.Modelos`, `Nexora.Servicos`, `Nexora.Controles`, `Nexora.Aplicativo` and `Nexora.Desempenho` are global usings (`Nexora.csproj`). XAML uses the prefixes `vm`, `v`, `c` (controls), `m` (models) and `l` (translation).
+
+## Performance rules
+
+The UI thread only lays out and draws. These rules come from measured stalls:
+
+- No disk, network or process work on the UI thread: no `Process.Start`, `File.*`, fsync or git reads in property getters, bindings or event handlers. Use `Task.Run` and post the result back. File writes from UI code go through `ArquivoSeguro.GravarDepois`.
+- Streaming updates are incremental: change only what changed. `MarkdownTexto` keeps finished blocks and updates the last one in place; never rebuild a whole control tree per delta.
+- Hidden views do no work for content nobody sees; they catch up when shown.
+- Memory is bounded: caches have a size limit and history loads in pages. A chat view keeps the last 40 rows mounted (up to 60), three tab views stay mounted, and the Live board keeps two peeks.
+- Global styles cost every control of the targeted type, even controls without the class: each one gets a style instance and an activator per matching style. Style classed boxes with `c|Caixa.classe` and use `<c:Caixa Classes="…">`; never add `Border.classe` styles, since `Border` is in every template.
+
 ## Agent sessions
 
 All agents implement `ISessaoAgente` (`src/Nexora.Core/Claude/ISessaoAgente.cs`): start, send a message (with images), allow or deny a permission request, interrupt, change mode or model, and raise `Evento` for everything the agent emits. The UI only sees these events, so it does not care which CLI is behind a tab.

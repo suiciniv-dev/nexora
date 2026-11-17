@@ -1,7 +1,8 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:v="using:Nexora.Views"
-             xmlns:n="using:Nexora"
+             xmlns:c="using:Nexora.Controles"
+             xmlns:n="using:Nexora.Servicos"
              x:Class="Nexora.App"
              Name="Nexora"
              RequestedThemeVariant="Default">
@@ -110,7 +111,7 @@
     <StyleInclude Source="avares://AvaloniaEdit/Themes/Fluent/AvaloniaEdit.xaml" />
     <StyleInclude Source="avares://Avalonia.Controls.ColorPicker/Themes/Fluent/Fluent.xaml" />
 
-    <Style Selector="Border.tecla">
+    <Style Selector="c|Caixa.tecla">
       <Setter Property="Background" Value="{DynamicResource Superficie}" />
       <Setter Property="BorderBrush" Value="{DynamicResource SuperficieAlta}" />
       <Setter Property="BorderThickness" Value="1,1,1,2" />
@@ -119,7 +120,7 @@
       <Setter Property="Margin" Value="0,0,0,6" />
       <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
-    <Style Selector="Border.tecla > TextBlock">
+    <Style Selector="c|Caixa.tecla > TextBlock">
       <Setter Property="FontSize" Value="11.5" />
       <Setter Property="Foreground" Value="{DynamicResource TextoSuave}" />
     </Style>
@@ -146,7 +147,7 @@
       <Setter Property="Foreground" Value="{DynamicResource Texto}" />
     </Style>
 
-    <Style Selector="Border.tema">
+    <Style Selector="c|Caixa.tema">
       <Setter Property="Width" Value="264" />
       <Setter Property="Margin" Value="0,0,14,14" />
       <Setter Property="Padding" Value="12" />
@@ -155,7 +156,7 @@
       <Setter Property="BorderThickness" Value="1" />
       <Setter Property="CornerRadius" Value="14" />
     </Style>
-    <Style Selector="Border.tema.em-uso">
+    <Style Selector="c|Caixa.tema.em-uso">
       <Setter Property="BorderBrush" Value="{DynamicResource Acento}" />
       <Setter Property="BorderThickness" Value="2" />
     </Style>
@@ -172,12 +173,12 @@
       <Setter Property="FontSize" Value="12.5" />
     </Style>
 
-    <Style Selector="Border.aba">
+    <Style Selector="c|Caixa.aba">
       <Setter Property="BorderBrush" Value="{DynamicResource Borda}" />
       <Setter Property="BorderThickness" Value="0,0,1,0" />
       <Setter Property="Padding" Value="2,0" />
     </Style>
-    <Style Selector="Border.aba.ativa">
+    <Style Selector="c|Caixa.aba.ativa">
       <Setter Property="Background" Value="{DynamicResource Fundo}" />
       <Setter Property="BoxShadow" Value="{DynamicResource SombraAba}" />
     </Style>
@@ -187,7 +188,7 @@
       <Setter Property="CornerRadius" Value="0" />
       <Setter Property="Foreground" Value="{DynamicResource TextoSuave}" />
     </Style>
-    <Style Selector="Border.aba.ativa Button.aba-titulo">
+    <Style Selector="c|Caixa.aba.ativa Button.aba-titulo">
       <Setter Property="Foreground" Value="{DynamicResource Texto}" />
     </Style>
     <Style Selector="Button.aba-titulo:pointerover /template/ ContentPresenter#PART_ContentPresenter">
@@ -228,16 +229,16 @@
       <Setter Property="BorderBrush" Value="{DynamicResource Acento}" />
       <Setter Property="Foreground" Value="{DynamicResource Texto}" />
     </Style>
-    <Style Selector="Border.etiqueta.nova">
+    <Style Selector="c|Caixa.etiqueta.nova">
       <Setter Property="Background" Value="{DynamicResource DiffMais}" />
     </Style>
-    <Style Selector="Border.etiqueta.nova > TextBlock">
+    <Style Selector="c|Caixa.etiqueta.nova > TextBlock">
       <Setter Property="Foreground" Value="{DynamicResource Verde}" />
     </Style>
-    <Style Selector="Border.etiqueta.apagada">
+    <Style Selector="c|Caixa.etiqueta.apagada">
       <Setter Property="Background" Value="{DynamicResource DiffMenos}" />
     </Style>
-    <Style Selector="Border.etiqueta.apagada > TextBlock">
+    <Style Selector="c|Caixa.etiqueta.apagada > TextBlock">
       <Setter Property="Foreground" Value="{DynamicResource Vermelho}" />
     </Style>
 
@@ -261,20 +262,20 @@
     <Style Selector="ListBox.diff ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter, ListBox.diff ListBoxItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="Transparent" />
     </Style>
-    <Style Selector="Border.linha-diff">
+    <Style Selector="c|Caixa.linha-diff">
       <Setter Property="Padding" Value="0,1" />
     </Style>
-    <Style Selector="Border.linha-diff.adicionada">
+    <Style Selector="c|Caixa.linha-diff.adicionada">
       <Setter Property="Background" Value="{DynamicResource DiffMais}" />
     </Style>
-    <Style Selector="Border.linha-diff.removida">
+    <Style Selector="c|Caixa.linha-diff.removida">
       <Setter Property="Background" Value="{DynamicResource DiffMenos}" />
     </Style>
-    <Style Selector="Border.linha-diff.cabecalho">
+    <Style Selector="c|Caixa.linha-diff.cabecalho">
       <Setter Property="Background" Value="{DynamicResource AcentoFundo}" />
       <Setter Property="Margin" Value="0,6,0,2" />
     </Style>
-    <Style Selector="Border.linha-diff TextBlock">
+    <Style Selector="c|Caixa.linha-diff TextBlock">
       <Setter Property="FontFamily" Value="{DynamicResource Mono}" />
       <Setter Property="FontSize" Value="12.5" />
     </Style>
@@ -312,30 +313,30 @@
     <Style Selector="Button.item-lateral.ativo">
       <Setter Property="Background" Value="{DynamicResource SuperficieAlta}" />
     </Style>
-    <Style Selector="Border.contador">
+    <Style Selector="c|Caixa.contador">
       <Setter Property="CornerRadius" Value="9" />
       <Setter Property="MinWidth" Value="18" />
       <Setter Property="Height" Value="18" />
       <Setter Property="Padding" Value="5,0" />
       <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
-    <Style Selector="Border.contador > TextBlock">
+    <Style Selector="c|Caixa.contador > TextBlock">
       <Setter Property="FontSize" Value="11" />
       <Setter Property="FontWeight" Value="Bold" />
       <Setter Property="HorizontalAlignment" Value="Center" />
       <Setter Property="VerticalAlignment" Value="Center" />
       <Setter Property="Foreground" Value="{DynamicResource SobreAcento}" />
     </Style>
-    <Style Selector="Border.contador.trabalhando">
+    <Style Selector="c|Caixa.contador.trabalhando">
       <Setter Property="Background" Value="{DynamicResource AcentoCheio}" />
     </Style>
-    <Style Selector="Border.contador.precisa">
+    <Style Selector="c|Caixa.contador.precisa">
       <Setter Property="Background" Value="{DynamicResource Laranja}" />
     </Style>
-    <Style Selector="Border.contador.precisa > TextBlock">
+    <Style Selector="c|Caixa.contador.precisa > TextBlock">
       <Setter Property="Foreground" Value="{DynamicResource SobreLaranja}" />
     </Style>
-    <Style Selector="Border.contador.precisa > TextBlock">
+    <Style Selector="c|Caixa.contador.precisa > TextBlock">
       <Setter Property="Foreground" Value="{DynamicResource SobreLaranja}" />
     </Style>
     <Style Selector="TextBlock.secao-geral">
@@ -363,7 +364,7 @@
       <Setter Property="Foreground" Value="{DynamicResource Texto}" />
     </Style>
 
-    <Style Selector="Border.widget">
+    <Style Selector="c|Caixa.widget">
       <Setter Property="Width" Value="360" />
       <Setter Property="Margin" Value="0,0,14,14" />
       <Setter Property="Padding" Value="16,14" />
@@ -373,13 +374,13 @@
       <Setter Property="CornerRadius" Value="18" />
       <Setter Property="BoxShadow" Value="{DynamicResource SombraCartao}" />
     </Style>
-    <Style Selector="Border.widget.trabalhando">
+    <Style Selector="c|Caixa.widget.trabalhando">
       <Setter Property="BorderBrush" Value="{DynamicResource Acento}" />
     </Style>
-    <Style Selector="Border.widget.precisa">
+    <Style Selector="c|Caixa.widget.precisa">
       <Setter Property="BorderBrush" Value="{DynamicResource Laranja}" />
     </Style>
-    <Style Selector="Border.agora">
+    <Style Selector="c|Caixa.agora">
       <Setter Property="Background" Value="{DynamicResource Fundo}" />
       <Setter Property="CornerRadius" Value="8" />
       <Setter Property="Padding" Value="10,8" />
@@ -447,7 +448,7 @@
       <Setter Property="Foreground" Value="{DynamicResource TextoFraco}" />
       <Setter Property="FontSize" Value="12" />
     </Style>
-    <Style Selector="Border.resumo">
+    <Style Selector="c|Caixa.resumo">
       <Setter Property="Background" Value="{DynamicResource Superficie}" />
       <Setter Property="BorderBrush" Value="{DynamicResource BordaVidro}" />
       <Setter Property="BorderThickness" Value="1" />
@@ -455,19 +456,19 @@
       <Setter Property="Padding" Value="12,4" />
       <Setter Property="Margin" Value="0,0,8,8" />
     </Style>
-    <Style Selector="Border.resumo > TextBlock">
+    <Style Selector="c|Caixa.resumo > TextBlock">
       <Setter Property="FontSize" Value="12.5" />
     </Style>
-    <Style Selector="Border.resumo.precisa">
+    <Style Selector="c|Caixa.resumo.precisa">
       <Setter Property="BorderBrush" Value="{DynamicResource Laranja}" />
     </Style>
-    <Style Selector="Border.resumo.precisa > TextBlock">
+    <Style Selector="c|Caixa.resumo.precisa > TextBlock">
       <Setter Property="Foreground" Value="{DynamicResource Laranja}" />
     </Style>
-    <Style Selector="Border.resumo.trabalhando">
+    <Style Selector="c|Caixa.resumo.trabalhando">
       <Setter Property="BorderBrush" Value="{DynamicResource Acento}" />
     </Style>
-    <Style Selector="Border.resumo.trabalhando > TextBlock">
+    <Style Selector="c|Caixa.resumo.trabalhando > TextBlock">
       <Setter Property="Foreground" Value="{DynamicResource Acento}" />
     </Style>
     <Style Selector="TextBlock.cache.acabando">
@@ -492,13 +493,13 @@
     <Style Selector="TextBlock.suave, SelectableTextBlock.suave">
       <Setter Property="Foreground" Value="{DynamicResource TextoSuave}" />
     </Style>
-    <Style Selector="v|Icone.suave">
+    <Style Selector="c|Icone.suave">
       <Setter Property="Foreground" Value="{DynamicResource TextoSuave}" />
     </Style>
     <Style Selector="TextBlock.fraco">
       <Setter Property="Foreground" Value="{DynamicResource TextoFraco}" />
     </Style>
-    <Style Selector="v|Icone.fraco">
+    <Style Selector="c|Icone.fraco">
       <Setter Property="Foreground" Value="{DynamicResource TextoFraco}" />
     </Style>
     <Style Selector="TextBlock.fraco">
@@ -531,8 +532,8 @@
     <Style Selector="Button /template/ ContentPresenter#PART_ContentPresenter, ToggleButton /template/ ContentPresenter#PART_ContentPresenter, ListBoxItem /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Transitions">
         <Transitions>
-          <v:TransicaoDeCor Property="Background" Duration="0:0:0.16" />
-          <v:TransicaoDeCor Property="BorderBrush" Duration="0:0:0.16" />
+          <c:TransicaoDeCor Property="Background" Duration="0:0:0.16" />
+          <c:TransicaoDeCor Property="BorderBrush" Duration="0:0:0.16" />
         </Transitions>
       </Setter>
     </Style>
@@ -600,20 +601,20 @@
       <Setter Property="VerticalContentAlignment" Value="Center" />
     </Style>
 
-    <Style Selector="Border.selo">
+    <Style Selector="c|Caixa.selo">
       <Setter Property="Width" Value="56" />
       <Setter Property="Height" Value="56" />
       <Setter Property="CornerRadius" Value="16" />
       <Setter Property="Background" Value="{DynamicResource AcentoFundo}" />
     </Style>
-    <Style Selector="Border.pilula">
+    <Style Selector="c|Caixa.pilula">
       <Setter Property="Background" Value="{DynamicResource Superficie}" />
       <Setter Property="BorderBrush" Value="{DynamicResource BordaVidro}" />
       <Setter Property="BorderThickness" Value="1" />
       <Setter Property="CornerRadius" Value="14" />
       <Setter Property="Padding" Value="12,5" />
     </Style>
-    <Style Selector="Border.painel">
+    <Style Selector="c|Caixa.painel">
       <Setter Property="Background" Value="{DynamicResource Superficie}" />
       <Setter Property="BorderBrush" Value="{DynamicResource BordaVidro}" />
       <Setter Property="BorderThickness" Value="1" />
@@ -621,37 +622,37 @@
       <Setter Property="Padding" Value="18,16" />
       <Setter Property="BoxShadow" Value="{DynamicResource SombraCartao}" />
     </Style>
-    <Style Selector="Border.previa">
+    <Style Selector="c|Caixa.previa">
       <Setter Property="Background" Value="{DynamicResource Fundo}" />
       <Setter Property="CornerRadius" Value="8" />
       <Setter Property="Padding" Value="12,8" />
     </Style>
-    <Style Selector="Border.etiqueta">
+    <Style Selector="c|Caixa.etiqueta">
       <Setter Property="Background" Value="{DynamicResource AcentoFundo}" />
       <Setter Property="CornerRadius" Value="6" />
       <Setter Property="Padding" Value="6,1" />
       <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
-    <Style Selector="Border.etiqueta > TextBlock">
+    <Style Selector="c|Caixa.etiqueta > TextBlock">
       <Setter Property="FontSize" Value="11" />
       <Setter Property="Foreground" Value="{DynamicResource Acento}" />
     </Style>
     <Style Selector="Grid.linha">
       <Setter Property="Margin" Value="0,6" />
     </Style>
-    <Style Selector="Border.aviso">
+    <Style Selector="c|Caixa.aviso">
       <Setter Property="Background" Value="{DynamicResource AcentoFundo}" />
       <Setter Property="BorderBrush" Value="{DynamicResource Acento}" />
       <Setter Property="BorderThickness" Value="1" />
       <Setter Property="CornerRadius" Value="10" />
       <Setter Property="Padding" Value="14,10" />
     </Style>
-    <Style Selector="Border.aviso.erro">
+    <Style Selector="c|Caixa.aviso.erro">
       <Setter Property="Background" Value="{DynamicResource ErroFundo}" />
       <Setter Property="BorderBrush" Value="{DynamicResource Vermelho}" />
     </Style>
 
-    <Style Selector="Border.painel-lateral">
+    <Style Selector="c|Caixa.painel-lateral">
       <Setter Property="BorderThickness" Value="0,1,1,1" />
       <Setter Property="CornerRadius" Value="0,16,16,0" />
     </Style>
@@ -661,7 +662,7 @@
     <Style Selector="Button.fixar-lateral.ligado">
       <Setter Property="Foreground" Value="{DynamicResource Acento}" />
     </Style>
-    <Style Selector="Border.painel-lateral.fixa">
+    <Style Selector="c|Caixa.painel-lateral.fixa">
       <Setter Property="BorderThickness" Value="1" />
       <Setter Property="CornerRadius" Value="18" />
       <Setter Property="Margin" Value="8,4,8,0" />
@@ -676,7 +677,7 @@
       <Setter Property="Fill" Value="{DynamicResource Acento}" />
       <Setter Property="v:Animacoes.Pulsar" Value="True" />
     </Style>
-    <Style Selector="Border.aviso-compactar">
+    <Style Selector="c|Caixa.aviso-compactar">
       <Setter Property="Background" Value="{DynamicResource PedidoFundo}" />
       <Setter Property="BorderBrush" Value="{DynamicResource Laranja}" />
       <Setter Property="BorderThickness" Value="1" />
@@ -686,29 +687,29 @@
     <Style Selector="FlyoutPresenter.largo">
       <Setter Property="MaxWidth" Value="720" />
     </Style>
-    <Style Selector="Border.selo-revisao">
+    <Style Selector="c|Caixa.selo-revisao">
       <Setter Property="Background" Value="{DynamicResource SuperficieAlta}" />
       <Setter Property="BorderBrush" Value="{DynamicResource Borda}" />
       <Setter Property="BorderThickness" Value="1" />
       <Setter Property="CornerRadius" Value="8" />
       <Setter Property="Padding" Value="8,3" />
     </Style>
-    <Style Selector="Border.selo-revisao.ok v|Icone.selo">
+    <Style Selector="c|Caixa.selo-revisao.ok c|Icone.selo">
       <Setter Property="Foreground" Value="{DynamicResource Verde}" />
     </Style>
-    <Style Selector="Border.selo-revisao.erro">
+    <Style Selector="c|Caixa.selo-revisao.erro">
       <Setter Property="BorderBrush" Value="{DynamicResource Vermelho}" />
     </Style>
-    <Style Selector="Border.selo-revisao.erro v|Icone.selo">
+    <Style Selector="c|Caixa.selo-revisao.erro c|Icone.selo">
       <Setter Property="Foreground" Value="{DynamicResource Vermelho}" />
     </Style>
-    <Style Selector="Border.selo-revisao.alerta">
+    <Style Selector="c|Caixa.selo-revisao.alerta">
       <Setter Property="BorderBrush" Value="{DynamicResource Laranja}" />
     </Style>
-    <Style Selector="Border.selo-revisao.alerta v|Icone.selo">
+    <Style Selector="c|Caixa.selo-revisao.alerta c|Icone.selo">
       <Setter Property="Foreground" Value="{DynamicResource Laranja}" />
     </Style>
-    <Style Selector="Border.faixa-subagentes">
+    <Style Selector="c|Caixa.faixa-subagentes">
       <Setter Property="Background" Value="{DynamicResource SuperficieAlta}" />
       <Setter Property="BorderBrush" Value="{DynamicResource Borda}" />
       <Setter Property="BorderThickness" Value="1" />
@@ -725,13 +726,13 @@
     <Style Selector="Button.linha-subagente:pointerover /template/ ContentPresenter">
       <Setter Property="Background" Value="{DynamicResource SelecaoTexto}" />
     </Style>
-    <Style Selector="Border.etiqueta-pilula">
+    <Style Selector="c|Caixa.etiqueta-pilula">
       <Setter Property="Background" Value="{DynamicResource SelecaoTexto}" />
       <Setter Property="CornerRadius" Value="6" />
       <Setter Property="Padding" Value="5,1" />
       <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
-    <Style Selector="Border.na-fila">
+    <Style Selector="c|Caixa.na-fila">
       <Setter Property="Background" Value="{DynamicResource SuperficieAlta}" />
       <Setter Property="BorderBrush" Value="{DynamicResource Borda}" />
       <Setter Property="BorderThickness" Value="1" />
@@ -869,7 +870,7 @@
       <Setter Property="MinHeight" Value="30" />
     </Style>
 
-    <Style Selector="Border.bolha-claude">
+    <Style Selector="c|Caixa.bolha-claude">
       <Setter Property="Background" Value="{DynamicResource Superficie}" />
       <Setter Property="BorderBrush" Value="{DynamicResource Borda}" />
       <Setter Property="BorderThickness" Value="1" />
@@ -915,18 +916,18 @@
       <Setter Property="Foreground" Value="{DynamicResource Texto}" />
     </Style>
 
-    <Style Selector="Border.pedido">
+    <Style Selector="c|Caixa.pedido">
       <Setter Property="Background" Value="{DynamicResource PedidoFundo}" />
       <Setter Property="BorderBrush" Value="{DynamicResource Laranja}" />
       <Setter Property="BorderThickness" Value="1" />
       <Setter Property="CornerRadius" Value="12" />
       <Setter Property="Padding" Value="16,12" />
     </Style>
-    <Style Selector="Border.pedido.respondida">
+    <Style Selector="c|Caixa.pedido.respondida">
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="BorderBrush" Value="{DynamicResource Borda}" />
     </Style>
-    <Style Selector="Border.erro">
+    <Style Selector="c|Caixa.erro">
       <Setter Property="Background" Value="{DynamicResource ErroFundo}" />
       <Setter Property="BorderBrush" Value="{DynamicResource Vermelho}" />
       <Setter Property="BorderThickness" Value="1" />
@@ -934,14 +935,14 @@
       <Setter Property="Padding" Value="12,8" />
     </Style>
 
-    <Style Selector="Border.esqueleto">
+    <Style Selector="c|Caixa.esqueleto">
       <Setter Property="Background" Value="{DynamicResource SuperficieAlta}" />
       <Setter Property="CornerRadius" Value="6" />
       <Setter Property="HorizontalAlignment" Value="Left" />
       <Setter Property="Opacity" Value="{Binding Esqueleto, Source={x:Static n:Pulso.Instancia}}" />
     </Style>
 
-    <Style Selector="Border.citado">
+    <Style Selector="c|Caixa.citado">
       <Setter Property="Background" Value="{DynamicResource AcentoFundo}" />
       <Setter Property="BorderBrush" Value="{DynamicResource SelecaoBorda}" />
       <Setter Property="BorderThickness" Value="1" />
@@ -949,46 +950,46 @@
       <Setter Property="Padding" Value="8,3,6,3" />
       <Setter Property="Margin" Value="0,0,6,4" />
     </Style>
-    <Style Selector="Border.cartao">
+    <Style Selector="c|Caixa.cartao">
       <Setter Property="Background" Value="{DynamicResource Superficie}" />
       <Setter Property="BorderBrush" Value="{DynamicResource BordaVidro}" />
       <Setter Property="BorderThickness" Value="1" />
       <Setter Property="CornerRadius" Value="18" />
       <Setter Property="BoxShadow" Value="{DynamicResource SombraCartao}" />
     </Style>
-    <Style Selector="Border.cartao.solido">
+    <Style Selector="c|Caixa.cartao.solido">
       <Setter Property="Background" Value="{DynamicResource FundoSolido}" />
     </Style>
-    <Style Selector="Border.mdCodigo">
+    <Style Selector="c|Caixa.mdCodigo">
       <Setter Property="Background" Value="{DynamicResource CodigoFundo}" />
       <Setter Property="CornerRadius" Value="8" />
       <Setter Property="Padding" Value="12,10" />
     </Style>
-    <Style Selector="Border.mdCitacao">
+    <Style Selector="c|Caixa.mdCitacao">
       <Setter Property="BorderBrush" Value="{DynamicResource Acento}" />
       <Setter Property="BorderThickness" Value="3,0,0,0" />
       <Setter Property="Padding" Value="12,2" />
     </Style>
-    <Style Selector="Border.mdTabela">
+    <Style Selector="c|Caixa.mdTabela">
       <Setter Property="BorderBrush" Value="{DynamicResource Borda}" />
       <Setter Property="BorderThickness" Value="1" />
       <Setter Property="CornerRadius" Value="8" />
       <Setter Property="ClipToBounds" Value="True" />
     </Style>
-    <Style Selector="Border.mdCelula">
+    <Style Selector="c|Caixa.mdCelula">
       <Setter Property="BorderBrush" Value="{DynamicResource Borda}" />
       <Setter Property="Padding" Value="10,6" />
     </Style>
-    <Style Selector="Border.mdCabecalho">
+    <Style Selector="c|Caixa.mdCabecalho">
       <Setter Property="Background" Value="{DynamicResource Superficie}" />
     </Style>
-    <Style Selector="Border.mdRegua">
+    <Style Selector="c|Caixa.mdRegua">
       <Setter Property="Background" Value="{DynamicResource Borda}" />
       <Setter Property="Height" Value="1" />
       <Setter Property="Margin" Value="0,4" />
     </Style>
 
-    <Style Selector="Border.grupo-topo">
+    <Style Selector="c|Caixa.grupo-topo">
       <Setter Property="Background" Value="{DynamicResource Superficie}" />
       <Setter Property="BorderBrush" Value="{DynamicResource BordaVidro}" />
       <Setter Property="BorderThickness" Value="1" />

@@ -1,0 +1,148 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:l="using:Nexora.Traducao"
+             xmlns:vm="using:Nexora.ViewModels"
+             xmlns:c="using:Nexora.Controles"
+             x:Class="Nexora.Views.PainelArquivosView"
+             x:DataType="vm:PainelVM">
+  <Border Background="Transparent">
+    <DockPanel>
+      <Panel>
+        <DockPanel IsVisible="{Binding MostraArquivos}">
+        <c:Caixa DockPanel.Dock="Top" Classes="aviso erro" Margin="8,0,8,6" IsVisible="{Binding TemAvisoArvore}">
+          <TextBlock Text="{Binding AvisoArvore}" TextWrapping="Wrap" FontSize="12" />
+        </c:Caixa>
+        <TreeView Classes="arvore" ItemsSource="{Binding Raizes}" SelectedItem="{Binding Selecionado}">
+          <TreeView.KeyBindings>
+            <KeyBinding Gesture="F2" Command="{Binding Selecionado.RenomearCommand, FallbackValue={x:Null}}" />
+            <KeyBinding Gesture="Delete" Command="{Binding Selecionado.ApagarCommand, FallbackValue={x:Null}}" />
+          </TreeView.KeyBindings>
+          <TreeView.Styles>
+            <Style Selector="TreeViewItem" x:DataType="vm:NoArquivoVM">
+              <Setter Property="IsExpanded" Value="{Binding Expandido, Mode=TwoWay}" />
+            </Style>
+          </TreeView.Styles>
+          <TreeView.ItemTemplate>
+            <TreeDataTemplate x:DataType="vm:NoArquivoVM" ItemsSource="{Binding Filhos}">
+              <StackPanel Spacing="4" Background="Transparent">
+                <StackPanel.ContextMenu>
+                  <ContextMenu IsVisible="{Binding Real}">
+                    <MenuItem Header="{l:T 'Novo arquivo'}" Command="{Binding NovoArquivoCommand}" />
+                    <MenuItem Header="{l:T 'Nova pasta'}" Command="{Binding NovaPastaCommand}" />
+                    <Separator IsVisible="{Binding Mexivel}" />
+                    <MenuItem Header="{l:T 'Renomear'}" Command="{Binding RenomearCommand}" IsVisible="{Binding Mexivel}" InputGesture="F2" />
+                    <MenuItem Header="{l:T 'Apagar (vai para a Lixeira)'}" Command="{Binding ApagarCommand}" IsVisible="{Binding Mexivel}" InputGesture="Delete" />
+                    <Separator />
+                    <MenuItem Header="{l:T 'Copiar caminho'}" Click="CopiarCaminho_Click" />
+                    <MenuItem Header="{l:T 'Mostrar no Explorer'}" Command="{Binding MostrarNoExplorerCommand}" />
+                  </ContextMenu>
+                </StackPanel.ContextMenu>
+                <StackPanel Orientation="Horizontal" Spacing="7">
+                  <c:Icone Nome="{Binding Icone}" Tamanho="14" Classes="suave" VerticalAlignment="Center" />
+                  <TextBlock Text="{Binding Nome}" FontSize="13" VerticalAlignment="Center" IsVisible="{Binding MostraNome}" />
+                  <TextBox Classes="campo renomear" Text="{Binding NomeEditado}" FontSize="12.5" MinWidth="150" Padding="4,1" IsVisible="{Binding Editando}"
+                           PlaceholderText="{Binding Dica}">
+                    <TextBox.KeyBindings>
+                      <KeyBinding Gesture="Enter" Command="{Binding ConfirmarCommand}" />
+                      <KeyBinding Gesture="Escape" Command="{Binding CancelarCommand}" />
+                    </TextBox.KeyBindings>
+                  </TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Spacing="6" IsVisible="{Binding Confirmando}" Margin="21,0,0,2">
+                  <TextBlock Text="{Binding TextoApagar}" FontSize="12" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" MaxWidth="150" />
+                  <Button Classes="primario pequeno" Content="{l:T 'Apagar'}" Command="{Binding ConfirmarApagarCommand}" />
+                  <Button Classes="fantasma pequeno" Content="{l:T 'Não'}" Command="{Binding NaoApagarCommand}" />
+                </StackPanel>
+              </StackPanel>
+            </TreeDataTemplate>
+          </TreeView.ItemTemplate>
+        </TreeView>
+        </DockPanel>
+        <DockPanel IsVisible="{Binding MostraBusca}">
+          <StackPanel DockPanel.Dock="Top" Margin="8,0,8,6" Spacing="6">
+            <Grid ColumnDefinitions="*,Auto,Auto">
+              <TextBox x:Name="CampoBusca" Classes="campo" Text="{Binding TermoBusca}" PlaceholderText="{l:T 'Procurar em todos os arquivos'}" FontSize="12.5">
+                <TextBox.KeyBindings><KeyBinding Gesture="Enter" Command="{Binding BuscarCommand}" /></TextBox.KeyBindings>
+              </TextBox>
+              <c:BotaoLigado Grid.Column="1" Classes="icone pequeno" Classes.ligado="{Binding Maiusculas}" IsChecked="{Binding Maiusculas, Mode=OneWay}" Command="{Binding AlternarMaiusculasCommand}" Margin="4,0,0,0"
+                      ToolTip.Tip="{l:T 'Diferenciar maiúsculas'}" AutomationProperties.Name="{l:T 'Diferenciar maiúsculas'}">
+                <TextBlock Text="Aa" FontSize="12" FontWeight="SemiBold" />
+              </c:BotaoLigado>
+              <c:BotaoLigado Grid.Column="2" Classes="icone pequeno" Classes.ligado="{Binding Regex}" IsChecked="{Binding Regex, Mode=OneWay}" Command="{Binding AlternarRegexCommand}" Margin="2,0,0,0"
+                      ToolTip.Tip="{l:T 'Expressão regular'}" AutomationProperties.Name="{l:T 'Expressão regular'}">
+                <TextBlock Classes="mono" Text=".*" FontSize="12" FontWeight="SemiBold" />
+              </c:BotaoLigado>
+            </Grid>
+            <TextBlock Classes="fraco" Text="{Binding ResumoBusca}" FontSize="12" IsVisible="{Binding ResumoBusca, Converter={x:Static ObjectConverters.IsNotNull}}" />
+          </StackPanel>
+          <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+            <ItemsControl ItemsSource="{Binding ResultadosBusca}" Margin="0,0,0,8">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="vm:GrupoBuscaVM">
+                  <StackPanel Margin="0,4,0,2">
+                    <Grid ColumnDefinitions="Auto,*,Auto" Margin="12,2,10,2">
+                      <c:Icone Nome="arquivo" Tamanho="12" Classes="suave" VerticalAlignment="Center" Margin="0,0,6,0" />
+                      <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="6">
+                        <TextBlock Text="{Binding Nome}" FontWeight="SemiBold" FontSize="12.5" VerticalAlignment="Center" />
+                        <TextBlock Classes="fraco" Text="{Binding Diretorio}" FontSize="11.5" TextTrimming="CharacterEllipsis" MaxWidth="150" VerticalAlignment="Center" />
+                      </StackPanel>
+                      <TextBlock Grid.Column="2" Classes="fraco" Text="{Binding Total}" FontSize="11.5" VerticalAlignment="Center" />
+                    </Grid>
+                    <ItemsControl ItemsSource="{Binding Linhas}">
+                      <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="vm:LinhaBuscaVM">
+                          <Button Classes="conversa" Command="{Binding AbrirCommand}" Padding="28,3,10,3" ToolTip.Tip="{Binding Texto}">
+                            <Grid ColumnDefinitions="Auto,*">
+                              <TextBlock Classes="fraco mono" Text="{Binding Linha}" FontSize="11.5" MinWidth="32" VerticalAlignment="Center" />
+                              <TextBlock Grid.Column="1" Classes="mono" Text="{Binding Texto}" FontSize="12" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+                            </Grid>
+                          </Button>
+                        </DataTemplate>
+                      </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                  </StackPanel>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </ScrollViewer>
+        </DockPanel>
+        <DockPanel IsVisible="{Binding MostraAlteracoes}">
+        <ComboBox DockPanel.Dock="Top" ItemsSource="{Binding OpcoesDiff}" SelectedItem="{Binding OpcaoDiff}" IsVisible="{Binding TemOpcoesDiff}"
+                  HorizontalAlignment="Stretch" Margin="8,0,8,6" ToolTip.Tip="{l:T 'Ver o que mudou em um turno da conversa ou tudo que está alterado agora'}">
+          <ComboBox.ItemTemplate>
+            <DataTemplate x:DataType="vm:OpcaoDiffVM">
+              <TextBlock Text="{Binding Rotulo}" TextTrimming="CharacterEllipsis" FontSize="12.5" />
+            </DataTemplate>
+          </ComboBox.ItemTemplate>
+        </ComboBox>
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+          <StackPanel>
+            <TextBlock Classes="fraco" Text="{Binding TextoSemAlteracoes}" IsVisible="{Binding SemAlteracoes}" Margin="16,10" TextWrapping="Wrap" />
+            <ItemsControl ItemsSource="{Binding Alteracoes}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="vm:AlteracaoVM">
+                  <Button Classes="conversa" Command="{Binding AbrirCommand}" ToolTip.Tip="{Binding Dados.Caminho}">
+                    <Grid ColumnDefinitions="*,Auto,Auto">
+                      <StackPanel Spacing="1">
+                        <TextBlock Text="{Binding Nome}" TextTrimming="CharacterEllipsis" />
+                        <TextBlock Classes="fraco" Text="{Binding Diretorio}" TextTrimming="CharacterEllipsis" />
+                      </StackPanel>
+                      <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="5" Margin="8,0,0,0" VerticalAlignment="Center" IsVisible="{Binding TemLinhas}">
+                        <TextBlock Classes="mais" Text="{Binding TextoMais}" FontSize="11.5" />
+                        <TextBlock Classes="menos" Text="{Binding TextoMenos}" FontSize="11.5" />
+                      </StackPanel>
+                      <c:Caixa Grid.Column="2" Classes="etiqueta" Classes.nova="{Binding Nova}" Classes.apagada="{Binding Apagada}" Margin="8,0,0,0">
+                        <TextBlock Text="{Binding Rotulo}" />
+                      </c:Caixa>
+                    </Grid>
+                  </Button>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </StackPanel>
+        </ScrollViewer>
+        </DockPanel>
+      </Panel>
+    </DockPanel>
+  </Border>
+</UserControl>

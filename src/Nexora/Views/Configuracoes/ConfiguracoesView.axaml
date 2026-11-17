@@ -1,0 +1,281 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:l="using:Nexora.Traducao"
+             xmlns:vm="using:Nexora.ViewModels"
+             xmlns:v="using:Nexora.Views"
+             xmlns:c="using:Nexora.Controles"
+             x:Class="Nexora.Views.ConfiguracoesView"
+             x:DataType="vm:ConfiguracoesVM">
+  <UserControl.Styles>
+    <Style Selector="Grid.opcao-config">
+      <Setter Property="Margin" Value="0,4" />
+    </Style>
+    <Style Selector="TextBlock.nome-opcao">
+      <Setter Property="FontSize" Value="13.5" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+    <Style Selector="Grid.opcao-config > StackPanel">
+      <Setter Property="Margin" Value="0,0,20,0" />
+    </Style>
+    <Style Selector="TextBlock.dica-opcao">
+      <Setter Property="FontSize" Value="12" />
+      <Setter Property="TextWrapping" Value="Wrap" />
+      <Setter Property="Margin" Value="0,2,0,0" />
+    </Style>
+  </UserControl.Styles>
+  <ScrollViewer x:Name="Rolagem" HorizontalScrollBarVisibility="Disabled">
+    <StackPanel MaxWidth="860" Margin="40,30,40,36" Spacing="18">
+      <StackPanel Spacing="4">
+        <TextBlock Text="{l:T 'Configurações'}" FontSize="26" FontWeight="SemiBold" />
+        <TextBlock Classes="suave" TextWrapping="Wrap" Text="{l:T 'Tudo o que muda o jeito do Nexora funcionar, num lugar só. As mudanças salvam na hora.'}" />
+      </StackPanel>
+
+      <WrapPanel ItemSpacing="6" LineSpacing="6">
+        <Button Classes="fantasma pequeno" Tag="SecaoAparencia" Click="IrPara_Click" Content="{l:T 'Aparência'}" />
+        <Button Classes="fantasma pequeno" Tag="SecaoGeral" Click="IrPara_Click" Content="{l:T 'Geral'}" />
+        <Button Classes="fantasma pequeno" Tag="SecaoAgente" Click="IrPara_Click" Content="{l:T 'Agente'}" />
+        <Button Classes="fantasma pequeno" Tag="SecaoProjetos" Click="IrPara_Click" Content="{l:T 'Pastas de projetos'}" />
+        <Button Classes="fantasma pequeno" Tag="SecaoSessoes" Click="IrPara_Click" Content="{l:T 'Sessões'}" />
+        <Button Classes="fantasma pequeno" Tag="SecaoPrs" Click="IrPara_Click" Content="{l:T 'PRs no GitHub'}" />
+        <Button Classes="fantasma pequeno" Tag="SecaoSegredos" Click="IrPara_Click" Content="{l:T 'Segredos'}" />
+        <Button Classes="fantasma pequeno" Tag="SecaoNuvem" Click="IrPara_Click" Content="{l:T 'Máquinas na nuvem'}" />
+        <Button Classes="fantasma pequeno" Tag="SecaoAvancado" Click="IrPara_Click" Content="{l:T 'Avançado'}" />
+      </WrapPanel>
+
+      <c:Caixa Classes="painel" IsVisible="{Binding TemAviso}" v:Animacoes.Entrada="True">
+        <StackPanel Orientation="Horizontal" Spacing="8">
+          <c:Icone Nome="alerta" Tamanho="14" Foreground="{DynamicResource Laranja}" VerticalAlignment="Center" />
+          <TextBlock Text="{Binding Aviso}" TextWrapping="Wrap" VerticalAlignment="Center" />
+        </StackPanel>
+      </c:Caixa>
+
+      <c:Caixa x:Name="SecaoAparencia" Classes="painel">
+        <StackPanel Spacing="12">
+          <TextBlock Classes="titulo-painel" Text="{l:T 'Aparência'}" />
+          <Grid Classes="opcao-config" ColumnDefinitions="*,240">
+            <StackPanel>
+              <TextBlock Classes="nome-opcao" Text="{l:T 'Tamanho do texto'}" />
+              <TextBlock Classes="fraco dica-opcao" Text="{Binding DicaZoom}" />
+            </StackPanel>
+            <ComboBox Grid.Column="1" ItemsSource="{Binding NomesDosZooms}" SelectedIndex="{Binding ZoomIndice}" HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                      AutomationProperties.Name="{l:T 'Tamanho do texto'}" />
+          </Grid>
+          <Grid Classes="opcao-config" ColumnDefinitions="*,240">
+            <StackPanel>
+              <TextBlock Classes="nome-opcao" Text="{l:T 'Fonte'}" />
+              <TextBlock Classes="fraco dica-opcao" Text="{l:T 'A do sistema é a mesma das janelas do computador. A Inter é a que o Nexora usava antes.'}" />
+            </StackPanel>
+            <ComboBox Grid.Column="1" ItemsSource="{Binding NomesDasFontes}" SelectedIndex="{Binding FonteIndice}" HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                      MaxDropDownHeight="360" AutomationProperties.Name="{l:T 'Fonte'}" />
+          </Grid>
+          <Grid Classes="opcao-config" ColumnDefinitions="*,240">
+            <StackPanel>
+              <TextBlock Classes="nome-opcao" Text="{l:T 'Animações'}" />
+              <TextBlock Classes="fraco dica-opcao" Text="{Binding DicaAnimacoes}" />
+            </StackPanel>
+            <ComboBox Grid.Column="1" ItemsSource="{Binding NomesDasAnimacoes}" SelectedIndex="{Binding AnimacoesIndice}" HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                      AutomationProperties.Name="{l:T 'Animações'}" />
+          </Grid>
+          <Grid Classes="opcao-config" ColumnDefinitions="*,320">
+            <StackPanel>
+              <TextBlock Classes="nome-opcao" Text="{l:T 'Fundo'}" />
+              <TextBlock Classes="fraco dica-opcao" Text="{l:T 'O sólido é o mais leve e o mais fácil de ler. O vidro deixa ver, desfocado, o que está atrás da janela.'}" />
+            </StackPanel>
+            <ComboBox Grid.Column="1" ItemsSource="{Binding NomesDosModos}" SelectedIndex="{Binding ModoIndice}" HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                      AutomationProperties.Name="{l:T 'Fundo'}" />
+          </Grid>
+          <Separator Margin="0,4" />
+          <TextBlock Classes="nome-opcao" Text="{l:T 'Tema'}" />
+          <v:TemasView DataContext="{Binding Temas}" />
+        </StackPanel>
+      </c:Caixa>
+
+      <c:Caixa x:Name="SecaoGeral" Classes="painel">
+        <StackPanel Spacing="10">
+          <TextBlock Classes="titulo-painel" Text="{l:T 'Geral'}" />
+          <Grid Classes="opcao-config" ColumnDefinitions="*,240">
+            <StackPanel>
+              <TextBlock Classes="nome-opcao" Text="{l:T 'Idioma'}" />
+              <TextBlock Classes="fraco dica-opcao" Text="{l:T 'Automático segue o idioma do Windows ou do Mac.'}" />
+            </StackPanel>
+            <ComboBox Grid.Column="1" ItemsSource="{Binding NomesDosIdiomas}" SelectedIndex="{Binding IdiomaIndice}" AutomationProperties.Name="{l:T 'Idioma'}" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+          </Grid>
+          <Grid Classes="opcao-config" ColumnDefinitions="*,Auto" IsVisible="{Binding NoWindows}">
+            <StackPanel>
+              <TextBlock Classes="nome-opcao" Text="{l:T 'Abrir pelo Nexora.exe'}" />
+              <TextBlock Classes="fraco dica-opcao" Text="{l:T 'O atalho passa a abertura para o executável. Desligue se um antivírus ou firewall barrar o exe.'}" />
+            </StackPanel>
+            <ToggleSwitch Grid.Column="1" IsChecked="{Binding AbrirPeloExe}" AutomationProperties.Name="{l:T 'Abrir pelo Nexora.exe'}" OnContent="" OffContent="" VerticalAlignment="Center" />
+          </Grid>
+        </StackPanel>
+      </c:Caixa>
+
+      <c:Caixa x:Name="SecaoAgente" Classes="painel">
+        <StackPanel Spacing="10">
+          <TextBlock Classes="titulo-painel" Text="{l:T 'Agente'}" />
+          <Grid Classes="opcao-config" ColumnDefinitions="*,200">
+            <StackPanel>
+              <TextBlock Classes="nome-opcao" Text="{l:T 'Agente das sessões novas'}" />
+              <TextBlock Classes="fraco dica-opcao" Text="{Binding EstadoDosAgentes}" />
+            </StackPanel>
+            <ComboBox Grid.Column="1" ItemsSource="{Binding NomesDosAgentes}" AutomationProperties.Name="{l:T 'Agente das sessões novas'}" SelectedIndex="{Binding AgenteIndice}" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+          </Grid>
+          <TextBlock Classes="fraco" TextWrapping="Wrap" FontSize="12"
+                     Text="{l:T 'Cada conversa nova pode trocar de agente no botão ao lado do modelo, antes da primeira mensagem. Remote Control, Ultracode, modo rápido e os detalhes de contexto são só do Claude Code.'}" />
+          <Button Command="{Binding VerAgentesCommand}" HorizontalAlignment="Left">
+            <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="terminal" Tamanho="13" /><TextBlock Text="{l:T 'Ver os agentes deste computador'}" /></StackPanel>
+          </Button>
+        </StackPanel>
+      </c:Caixa>
+
+      <c:Caixa x:Name="SecaoProjetos" Classes="painel">
+        <StackPanel Spacing="10">
+          <TextBlock Classes="titulo-painel" Text="{l:T 'Pastas de projetos'}" />
+          <TextBlock Classes="fraco" TextWrapping="Wrap" Text="{l:T 'O Nexora procura os .code-workspace nestas pastas e no primeiro nível delas.'}" />
+          <ItemsControl ItemsSource="{Binding Pastas}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="vm:RaizVM">
+                <Grid ColumnDefinitions="Auto,*,Auto" Margin="0,3">
+                  <c:Icone Nome="pasta" Tamanho="14" Classes="suave" VerticalAlignment="Center" Margin="0,0,10,0" />
+                  <TextBlock Grid.Column="1" Classes="mono" Text="{Binding Pasta}" FontSize="12.5" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                  <Button Grid.Column="2" Classes="icone pequeno" Command="{Binding RemoverCommand}" ToolTip.Tip="{l:T 'Tirar esta pasta'}" AutomationProperties.Name="{l:T 'Tirar esta pasta'}">
+                    <c:Icone Nome="fechar" Tamanho="12" />
+                  </Button>
+                </Grid>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+          <Button Click="AdicionarPasta_Click" HorizontalAlignment="Left">
+            <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="mais" Tamanho="13" /><TextBlock Text="{l:T 'Adicionar pasta…'}" /></StackPanel>
+          </Button>
+        </StackPanel>
+      </c:Caixa>
+
+      <c:Caixa x:Name="SecaoSessoes" Classes="painel">
+        <StackPanel Spacing="10">
+          <TextBlock Classes="titulo-painel" Text="{l:T 'Sessões'}" />
+          <Grid Classes="opcao-config" ColumnDefinitions="*,Auto">
+            <StackPanel>
+              <TextBlock Classes="nome-opcao" Text="{l:T 'Hibernar sessões paradas'}" />
+              <TextBlock Classes="fraco dica-opcao" Text="{l:T 'Fecha o processo do agente de uma sessão parada há muito tempo para liberar memória. A conversa volta inteira quando você mandar a próxima mensagem.'}" />
+            </StackPanel>
+            <ToggleSwitch Grid.Column="1" IsChecked="{Binding Hibernar}" AutomationProperties.Name="{l:T 'Hibernar sessões paradas'}" OnContent="" OffContent="" VerticalAlignment="Center" />
+          </Grid>
+          <Grid Classes="opcao-config" ColumnDefinitions="*,240">
+            <StackPanel>
+              <TextBlock Classes="nome-opcao" Text="{l:T 'Modelo dos subagents'}" />
+              <TextBlock Classes="fraco dica-opcao" Text="{l:T 'Vale para os subagents que o Claude Code abre. Opus gasta bem mais do limite do plano; Sonnet e Haiku dão conta da maioria das buscas e revisões.'}" />
+            </StackPanel>
+            <ComboBox Grid.Column="1" ItemsSource="{Binding NomesDosModelosDeSubagente}" SelectedIndex="{Binding ModeloDeSubagenteIndice}" HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                      AutomationProperties.Name="{l:T 'Modelo dos subagents'}" />
+          </Grid>
+          <Grid Classes="opcao-config" ColumnDefinitions="*,240">
+            <StackPanel>
+              <TextBlock Classes="nome-opcao" Text="{l:T 'Subagents ao mesmo tempo'}" />
+              <TextBlock Classes="fraco dica-opcao" Text="{l:T 'Somando todas as conversas abertas. Os outros ficam na fila e começam quando um terminar.'}" />
+            </StackPanel>
+            <ComboBox Grid.Column="1" ItemsSource="{Binding NomesDosLimitesDeSubagentes}" SelectedIndex="{Binding LimiteDeSubagentesIndice}" HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                      AutomationProperties.Name="{l:T 'Subagents ao mesmo tempo'}" />
+          </Grid>
+          <Grid Classes="opcao-config" ColumnDefinitions="*,Auto">
+            <StackPanel>
+              <TextBlock Classes="nome-opcao" Text="{l:T 'Templates de tarefa'}" />
+              <TextBlock Classes="fraco dica-opcao" Text="{l:T 'Os pedidos prontos que aparecem no campo de mensagem e no quadro.'}" />
+            </StackPanel>
+            <Button Grid.Column="1" Command="{Binding EditarTemplatesCommand}" Content="{l:T 'Editar templates'}" VerticalAlignment="Center" />
+          </Grid>
+        </StackPanel>
+      </c:Caixa>
+
+      <c:Caixa x:Name="SecaoPrs" Classes="painel">
+        <StackPanel Spacing="10">
+          <TextBlock Classes="titulo-painel" Text="{l:T 'PRs no GitHub'}" />
+          <TextBlock Classes="fraco" TextWrapping="Wrap" Text="{l:T 'A cada 2 minutos o Nexora olha o PR de cada sessão aberta. Comentários seus e de robôs não contam, e o agente recebe no máximo 3 pedidos automáticos por PR a cada hora.'}" />
+          <Grid Classes="opcao-config" ColumnDefinitions="*,Auto">
+            <TextBlock Classes="nome-opcao" Text="{l:T 'Quando um check falhar'}" VerticalAlignment="Center" />
+            <ComboBox Grid.Column="1" ItemsSource="{Binding OpcoesDeChecks}" SelectedIndex="{Binding VigiaChecksIndice}" MinWidth="280" AutomationProperties.Name="{l:T 'Quando um check falhar'}" />
+          </Grid>
+          <Grid Classes="opcao-config" ColumnDefinitions="*,Auto">
+            <TextBlock Classes="nome-opcao" Text="{l:T 'Quando o PR tiver conflito'}" VerticalAlignment="Center" />
+            <ComboBox Grid.Column="1" ItemsSource="{Binding OpcoesDeConflitos}" SelectedIndex="{Binding VigiaConflitosIndice}" MinWidth="280" AutomationProperties.Name="{l:T 'Quando o PR tiver conflito'}" />
+          </Grid>
+          <Grid Classes="opcao-config" ColumnDefinitions="*,Auto">
+            <StackPanel>
+              <TextBlock Classes="nome-opcao" Text="{l:T 'Quando chegar comentário de revisão'}" />
+              <TextBlock Classes="fraco dica-opcao" Text="{l:T 'Dá para pausar a vigia de uma sessão pelo menu do cartão no Ao vivo.'}" />
+            </StackPanel>
+            <ComboBox Grid.Column="1" ItemsSource="{Binding OpcoesDeRevisoes}" SelectedIndex="{Binding VigiaRevisoesIndice}" MinWidth="280" VerticalAlignment="Center" AutomationProperties.Name="{l:T 'Quando chegar comentário de revisão'}" />
+          </Grid>
+        </StackPanel>
+      </c:Caixa>
+
+      <c:Caixa x:Name="SecaoSegredos" Classes="painel">
+        <StackPanel Spacing="10">
+          <TextBlock Classes="titulo-painel" Text="{l:T 'Segredos'}" />
+          <TextBlock Classes="fraco" TextWrapping="Wrap" Text="{Binding TextoSegredos}" />
+          <ItemsControl ItemsSource="{Binding Segredos}" ItemTemplate="{StaticResource LinhaDeSegredo}" IsVisible="{Binding TemSegredos}" />
+          <TextBlock Classes="suave" FontSize="12.5" Text="{l:T 'Nenhum segredo guardado ainda. Quando um agente usar pedir_segredo e você salvar, ele aparece aqui.'}"
+                     TextWrapping="Wrap" IsVisible="{Binding !TemSegredos}" />
+        </StackPanel>
+      </c:Caixa>
+
+      <c:Caixa x:Name="SecaoNuvem" Classes="painel">
+        <ContentControl Content="{Binding Nuvem}" ContentTemplate="{StaticResource MaquinasNaNuvem}" />
+      </c:Caixa>
+
+      <c:Caixa x:Name="SecaoAvancado" Classes="painel">
+        <StackPanel Spacing="10">
+          <TextBlock Classes="titulo-painel" Text="{l:T 'Avançado'}" />
+          <Grid Classes="opcao-config" ColumnDefinitions="*,Auto">
+            <StackPanel>
+              <TextBlock Classes="nome-opcao" Text="{l:T 'MCPs compartilhados'}" />
+              <TextBlock Classes="fraco dica-opcao" Text="{l:T 'Roda cada servidor MCP do projeto uma vez só para todas as sessões.'}" />
+            </StackPanel>
+            <ToggleSwitch Grid.Column="1" IsChecked="{Binding HubMcp}" AutomationProperties.Name="{l:T 'MCPs compartilhados'}" OnContent="" OffContent="" VerticalAlignment="Center" />
+          </Grid>
+          <Grid Classes="opcao-config" ColumnDefinitions="*,140" IsEnabled="{Binding HubMcp}">
+            <StackPanel>
+              <TextBlock Classes="nome-opcao" Text="{l:T 'Desligar o MCP parado depois de (minutos)'}" />
+            </StackPanel>
+            <NumericUpDown Grid.Column="1" Value="{Binding McpOcioso}" AutomationProperties.Name="{l:T 'Desligar o MCP parado depois de (minutos)'}" Minimum="1" Maximum="240" Increment="1" FormatString="0" VerticalAlignment="Center" />
+          </Grid>
+          <Grid Classes="opcao-config" ColumnDefinitions="*,Auto">
+            <StackPanel>
+              <TextBlock Classes="nome-opcao" Text="{l:T 'Mandar o resumo semanal de desempenho por e-mail'}" />
+              <TextBlock Classes="fraco dica-opcao" Text="{l:T 'Só números de memória, processador e travadas, para ajudar a melhorar o Nexora. Nada das conversas.'}" />
+            </StackPanel>
+            <ToggleSwitch Grid.Column="1" IsChecked="{Binding RelatorioPorEmail}" AutomationProperties.Name="{l:T 'Mandar o resumo semanal de desempenho por e-mail'}" OnContent="" OffContent="" VerticalAlignment="Center" />
+          </Grid>
+          <Grid Classes="opcao-config" ColumnDefinitions="*,Auto">
+            <StackPanel>
+              <TextBlock Classes="nome-opcao" Text="{l:T 'Comando nexora no terminal'}" />
+              <TextBlock Classes="fraco dica-opcao" Text="{Binding TextoComando}" TextWrapping="Wrap" />
+            </StackPanel>
+            <Button Grid.Column="1" Command="{Binding AlternarComandoCommand}" Content="{Binding BotaoComando}" VerticalAlignment="Center" Margin="12,0,0,0"
+                    AutomationProperties.Name="{l:T 'Comando nexora no terminal'}" />
+          </Grid>
+          <StackPanel Orientation="Horizontal" Spacing="8">
+            <Button Command="{Binding AbrirUsoCommand}">
+              <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="grafico" Tamanho="13" /><TextBlock Text="{l:T 'Ver o uso do plano'}" /></StackPanel>
+            </Button>
+            <Button Command="{Binding AbrirRecursosCommand}">
+              <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="memoria" Tamanho="13" /><TextBlock Text="{l:T 'Ver os recursos'}" /></StackPanel>
+            </Button>
+          </StackPanel>
+        </StackPanel>
+      </c:Caixa>
+
+      <c:Caixa Classes="painel">
+        <Grid ColumnDefinitions="*,Auto">
+          <StackPanel>
+            <TextBlock Classes="titulo-painel" Text="{l:T 'Ajuda'}" />
+            <TextBlock Classes="fraco" Text="{Binding Versao}" Margin="0,4,0,0" />
+          </StackPanel>
+          <Button Grid.Column="1" Command="{Binding AbrirGuiaCommand}" VerticalAlignment="Center">
+            <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="ajuda" Tamanho="13" /><TextBlock Text="{l:T 'Guia de primeiros passos'}" /></StackPanel>
+          </Button>
+        </Grid>
+      </c:Caixa>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

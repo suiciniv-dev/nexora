@@ -1,0 +1,278 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:l="using:Nexora.Traducao"
+             xmlns:vm="using:Nexora.ViewModels"
+             xmlns:v="using:Nexora.Views"
+             xmlns:c="using:Nexora.Controles"
+             x:Class="Nexora.Views.TelaGrandeView"
+             x:DataType="vm:TelaGrandeVM"
+             Focusable="True">
+  <UserControl.Styles>
+    <Style Selector="c|Caixa.tecla-g">
+      <Setter Property="Background" Value="{DynamicResource SuperficieAlta}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource BordaVidro}" />
+      <Setter Property="BorderThickness" Value="1,1,1,2" />
+      <Setter Property="CornerRadius" Value="6" />
+      <Setter Property="Padding" Value="6,0" />
+      <Setter Property="MinWidth" Value="22" />
+      <Setter Property="Height" Value="20" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+    <Style Selector="c|Caixa.tecla-g > TextBlock">
+      <Setter Property="FontFamily" Value="{DynamicResource Mono}" />
+      <Setter Property="FontSize" Value="11" />
+      <Setter Property="HorizontalAlignment" Value="Center" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="Foreground" Value="{DynamicResource TextoSuave}" />
+    </Style>
+    <Style Selector="Button.primario c|Caixa.tecla-g">
+      <Setter Property="Background" Value="#22000000" />
+      <Setter Property="BorderBrush" Value="#33000000" />
+    </Style>
+    <Style Selector="Button.primario c|Caixa.tecla-g > TextBlock">
+      <Setter Property="Foreground" Value="{DynamicResource SobreAcento}" />
+    </Style>
+    <Style Selector="TextBlock.legenda">
+      <Setter Property="Foreground" Value="{DynamicResource TextoFraco}" />
+      <Setter Property="FontSize" Value="12" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="Margin" Value="0,0,14,0" />
+    </Style>
+
+    <Style Selector="Button.acao">
+      <Setter Property="Background" Value="{DynamicResource Superficie}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource BordaVidro}" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="CornerRadius" Value="12" />
+      <Setter Property="Padding" Value="12,7" />
+      <Setter Property="Margin" Value="0,0,8,0" />
+      <Setter Property="Focusable" Value="False" />
+    </Style>
+    <Style Selector="Button.acao.primario">
+      <Setter Property="Background" Value="{DynamicResource AcentoCheio}" />
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="Padding" Value="13,8" />
+    </Style>
+
+    <Style Selector="StackPanel.fileira">
+      <Setter Property="Opacity" Value="0.5" />
+      <Setter Property="Transitions">
+        <Transitions><DoubleTransition Property="Opacity" Duration="0:0:0.2" /></Transitions>
+      </Setter>
+    </Style>
+    <Style Selector="StackPanel.fileira.ativa">
+      <Setter Property="Opacity" Value="1" />
+    </Style>
+
+    <Style Selector="ContentPresenter.foco">
+      <Setter Property="ZIndex" Value="1" />
+    </Style>
+    <Style Selector="c|Caixa.cartao-g">
+      <Setter Property="Width" Value="272" />
+      <Setter Property="Height" Value="128" />
+      <Setter Property="Margin" Value="10,12" />
+      <Setter Property="Padding" Value="16,14" />
+      <Setter Property="CornerRadius" Value="18" />
+      <Setter Property="Background" Value="{DynamicResource Superficie}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource BordaVidro}" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="BoxShadow" Value="{DynamicResource SombraCartao}" />
+      <Setter Property="Cursor" Value="Hand" />
+      <Setter Property="RenderTransform" Value="scale(1)" />
+      <Setter Property="Transitions">
+        <Transitions>
+          <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.18" Easing="CubicEaseOut" />
+          <c:TransicaoDeCor Property="Background" Duration="0:0:0.16" />
+        </Transitions>
+      </Setter>
+    </Style>
+    <Style Selector="c|Caixa.cartao-g.precisa">
+      <Setter Property="Background" Value="{DynamicResource PedidoFundo}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource Laranja}" />
+    </Style>
+    <Style Selector="c|Caixa.cartao-g:pointerover">
+      <Setter Property="Background" Value="{DynamicResource SuperficieAlta}" />
+    </Style>
+    <Style Selector="ContentPresenter.foco c|Caixa.cartao-g">
+      <Setter Property="RenderTransform" Value="scale(1.07)" />
+      <Setter Property="Background" Value="{DynamicResource SuperficieAlta}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource SelecaoBorda}" />
+      <Setter Property="BorderThickness" Value="2" />
+      <Setter Property="Padding" Value="15,13" />
+      <Setter Property="BoxShadow" Value="{DynamicResource BrilhoCaixa}" />
+    </Style>
+    <Style Selector="ContentPresenter.foco c|Caixa.cartao-g.precisa">
+      <Setter Property="Background" Value="{DynamicResource PedidoFundo}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource Laranja}" />
+      <Setter Property="BoxShadow" Value="{DynamicResource BrilhoPrecisa}" />
+    </Style>
+
+    <Style Selector="TextBlock.chamando">
+      <Setter Property="Foreground" Value="{DynamicResource Laranja}" />
+    </Style>
+    <Style Selector="c|Caixa.pedido-g">
+      <Setter Property="BorderBrush" Value="{DynamicResource Laranja}" />
+      <Setter Property="BorderThickness" Value="2,0,0,0" />
+      <Setter Property="Padding" Value="14,2,0,2" />
+      <Setter Property="HorizontalAlignment" Value="Left" />
+    </Style>
+  </UserControl.Styles>
+
+  <UserControl.Resources>
+    <DataTemplate x:Key="CartaoGrande" x:DataType="vm:CartaoVM">
+      <c:Caixa Classes="cartao-g" Classes.precisa="{Binding Precisa}" PointerPressed="Cartao_PointerPressed">
+        <Grid RowDefinitions="Auto,*,Auto">
+          <Grid ColumnDefinitions="Auto,*">
+            <c:Avatar Width="44" Height="44" Margin="0,0,12,0" Imagem="{Binding IconeRepo}" Iniciais="{Binding Iniciais}" Trabalhando="{Binding Trabalhando}"
+                      Precisa="{Binding Precisa}" Pronta="{Binding Pronta}" Fracao="{Binding ContextoFracao}" VerticalAlignment="Top" />
+            <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center">
+              <TextBlock Text="{ReflectionBinding Titulo}" FontSize="14.5" FontWeight="SemiBold" TextWrapping="Wrap" MaxLines="2" TextTrimming="CharacterEllipsis" />
+              <TextBlock Classes="fraco mono" Text="{ReflectionBinding Onde}" FontSize="11" TextTrimming="CharacterEllipsis" />
+            </StackPanel>
+          </Grid>
+          <Grid Grid.Row="2" ColumnDefinitions="*,Auto">
+            <TextBlock Classes="fraco" Text="{Binding TempoTexto}" FontSize="11.5" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+            <TextBlock Grid.Column="1" Classes="fraco mono" Text="{Binding ContextoFracao, StringFormat='{}{0:P0}'}" FontSize="11" IsVisible="{Binding TemJanela}" VerticalAlignment="Center" Margin="8,0,0,0" />
+          </Grid>
+        </Grid>
+      </c:Caixa>
+    </DataTemplate>
+  </UserControl.Resources>
+
+  <Panel>
+    <Grid RowDefinitions="304,*,Auto">
+      <StackPanel Margin="56,14,56,0">
+        <TransitioningContentControl Content="{Binding Focado}" IsVisible="{Binding TemFocado}">
+          <TransitioningContentControl.PageTransition>
+            <CrossFade Duration="0:0:0.14" />
+          </TransitioningContentControl.PageTransition>
+          <TransitioningContentControl.ContentTemplate>
+            <DataTemplate x:DataType="vm:CartaoVM">
+              <Grid ColumnDefinitions="Auto,*">
+                <c:Avatar Width="116" Height="116" Imagem="{Binding IconeRepo}" Iniciais="{Binding Iniciais}" Trabalhando="{Binding Trabalhando}"
+                          Precisa="{Binding Precisa}" Pronta="{Binding Pronta}" Fracao="{Binding ContextoFracao}" VerticalAlignment="Top" />
+                <StackPanel Grid.Column="1" Margin="28,2,0,0" Spacing="6">
+                  <StackPanel Orientation="Horizontal" Spacing="10">
+                    <TextBlock Classes="suave" Classes.chamando="{Binding Precisa}" Text="{Binding TempoTexto}" FontSize="13" FontWeight="Medium" VerticalAlignment="Center" />
+                    <c:Caixa Classes="etiqueta" IsVisible="{Binding TemModelo}" VerticalAlignment="Center"><TextBlock Text="{Binding Modelo}" /></c:Caixa>
+                    <TextBlock Classes="fraco" Text="{Binding ContextoTexto}" IsVisible="{Binding TemContexto}" FontSize="12" VerticalAlignment="Center" />
+                    <TextBlock Classes="fraco" Text="{Binding TextoPr}" IsVisible="{Binding TemPr}" FontSize="12" VerticalAlignment="Center" />
+                  </StackPanel>
+                  <TextBlock Text="{ReflectionBinding Titulo}" FontSize="34" FontWeight="SemiBold" LetterSpacing="-0.6" TextWrapping="Wrap" MaxLines="2" TextTrimming="CharacterEllipsis" />
+                  <TextBlock Classes="fraco mono" Text="{ReflectionBinding Onde}" FontSize="13" TextTrimming="CharacterEllipsis" />
+                  <TextBlock Classes="suave" Text="{Binding UltimaAtividade}" FontSize="15" TextWrapping="Wrap" MaxLines="2" TextTrimming="CharacterEllipsis" MaxWidth="860" HorizontalAlignment="Left"
+                             IsVisible="{Binding $parent[v:TelaGrandeView].((vm:TelaGrandeVM)DataContext).MostraAtividade}" Margin="0,4,0,0" />
+                </StackPanel>
+              </Grid>
+            </DataTemplate>
+          </TransitioningContentControl.ContentTemplate>
+        </TransitioningContentControl>
+
+        <StackPanel IsVisible="{Binding Vazia}" Spacing="8" Margin="0,40,0,0">
+          <TextBlock Text="{Binding Saudacao}" FontSize="44" FontWeight="SemiBold" LetterSpacing="-0.8" />
+          <TextBlock Classes="suave" Text="{l:T 'Nenhuma sessão aberta. Escolha Nova sessão no menu e aperte Enter.'}" FontSize="16" />
+        </StackPanel>
+
+        <StackPanel Margin="144,18,0,0" Spacing="12" IsVisible="{Binding MostraAcoes}">
+          <c:Caixa Classes="pedido-g" IsVisible="{Binding MostraPedido}">
+            <ContentControl Content="{Binding Pedido}">
+              <ContentControl.ContentTemplate>
+                <DataTemplate x:DataType="vm:PedidoFocoVM">
+                  <StackPanel Spacing="3">
+                    <TextBlock Text="{Binding Item.Titulo}" FontSize="15" FontWeight="SemiBold" TextWrapping="Wrap" MaxLines="2" TextTrimming="CharacterEllipsis" MaxWidth="860" HorizontalAlignment="Left" IsVisible="{Binding EhPermissao}" />
+                    <TextBlock Classes="suave mono" Text="{Binding Item.Detalhe}" FontSize="12" TextTrimming="CharacterEllipsis" MaxLines="1" MaxWidth="860" HorizontalAlignment="Left" IsVisible="{Binding Item.TemDetalhe}" />
+                    <TextBlock Text="{Binding Pergunta.Texto, FallbackValue=''}" FontSize="15" FontWeight="SemiBold" TextWrapping="Wrap" MaxLines="2" TextTrimming="CharacterEllipsis" MaxWidth="860" HorizontalAlignment="Left" IsVisible="{Binding EhPergunta}" />
+                  </StackPanel>
+                </DataTemplate>
+              </ContentControl.ContentTemplate>
+            </ContentControl>
+          </c:Caixa>
+          <StackPanel Orientation="Horizontal">
+            <Button Classes="acao" Command="{Binding AbrirFocadoCommand}">
+              <StackPanel Orientation="Horizontal" Spacing="8">
+                <c:Caixa Classes="tecla-g"><TextBlock Text="Enter" /></c:Caixa>
+                <TextBlock Text="{Binding TextoAbrir}" VerticalAlignment="Center" />
+              </StackPanel>
+            </Button>
+            <Button Classes="acao primario" Command="{Binding PermitirCommand}" IsVisible="{Binding PodePermitir}">
+              <StackPanel Orientation="Horizontal" Spacing="8">
+                <c:Caixa Classes="tecla-g"><TextBlock Text="P" /></c:Caixa>
+                <TextBlock Text="{Binding Pedido.Item.RotuloPermitir, FallbackValue=''}" VerticalAlignment="Center" />
+              </StackPanel>
+            </Button>
+            <Button Classes="acao" Command="{Binding NegarCommand}" IsVisible="{Binding Pedido.EhPermissao, FallbackValue=False}">
+              <StackPanel Orientation="Horizontal" Spacing="8">
+                <c:Caixa Classes="tecla-g"><TextBlock Text="N" /></c:Caixa>
+                <TextBlock Text="{Binding Pedido.Item.RotuloNegar, FallbackValue=''}" VerticalAlignment="Center" />
+              </StackPanel>
+            </Button>
+            <ItemsControl ItemsSource="{Binding Pedido.Opcoes, FallbackValue={x:Null}}">
+              <ItemsControl.ItemsPanel><ItemsPanelTemplate><StackPanel Orientation="Horizontal" /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+              <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="vm:OpcaoNumeradaVM">
+                  <Button Classes="acao" Command="{Binding $parent[v:TelaGrandeView].((vm:TelaGrandeVM)DataContext).ResponderCommand}" CommandParameter="{Binding}"
+                          ToolTip.Tip="{Binding Opcao.Descricao}" AutomationProperties.Name="{Binding Opcao.Rotulo}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                      <c:Caixa Classes="tecla-g"><TextBlock Text="{Binding Tecla}" /></c:Caixa>
+                      <TextBlock Text="{Binding Opcao.Rotulo}" TextTrimming="CharacterEllipsis" MaxWidth="220" VerticalAlignment="Center" />
+                    </StackPanel>
+                  </Button>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </StackPanel>
+        </StackPanel>
+      </StackPanel>
+
+      <ItemsControl Grid.Row="1" ItemsSource="{Binding Fileiras}" Margin="46,18,0,0">
+        <ItemsControl.ItemsPanel>
+          <ItemsPanelTemplate><c:Prateleira x:DataType="vm:TelaGrandeVM" Orientacao="Vertical" Foco="{Binding Linha}" Ativa="False" Ancorada="True" /></ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemTemplate>
+          <DataTemplate x:DataType="vm:FileiraVM">
+            <StackPanel Classes="fileira" Classes.ativa="{Binding Ativa}" Margin="0,0,0,4">
+              <StackPanel Orientation="Horizontal" Spacing="9" Margin="12,0,0,0">
+                <Ellipse Classes="estado" Classes.precisa="{Binding Precisa}" Classes.trabalhando="{Binding Trabalhando}" Classes.pronta="{Binding Pronta}" VerticalAlignment="Center" />
+                <TextBlock Text="{Binding Titulo}" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" />
+                <TextBlock Classes="fraco" Text="{Binding Cartoes.Count}" FontSize="13" VerticalAlignment="Center" />
+              </StackPanel>
+              <ItemsControl ItemsSource="{Binding Cartoes}" ItemTemplate="{StaticResource CartaoGrande}">
+                <ItemsControl.ItemsPanel>
+                  <ItemsPanelTemplate><c:Prateleira x:DataType="vm:FileiraVM" Foco="{Binding Foco}" Ativa="{Binding Ativa}" Espia="64" /></ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+              </ItemsControl>
+            </StackPanel>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+
+      <Border Grid.Row="2" Background="{DynamicResource Fundo}" BorderBrush="{DynamicResource BordaVidro}" BorderThickness="0,1,0,0" Padding="56,10,48,12">
+        <Grid ColumnDefinitions="*,Auto">
+          <StackPanel Orientation="Horizontal" Spacing="6">
+            <c:Caixa Classes="tecla-g"><TextBlock Text="←" /></c:Caixa>
+            <c:Caixa Classes="tecla-g"><TextBlock Text="→" /></c:Caixa>
+            <c:Caixa Classes="tecla-g"><TextBlock Text="↑" /></c:Caixa>
+            <c:Caixa Classes="tecla-g"><TextBlock Text="↓" /></c:Caixa>
+            <TextBlock Classes="legenda" Text="{l:T 'navegar'}" />
+            <c:Caixa Classes="tecla-g"><TextBlock Text="Enter" /></c:Caixa>
+            <TextBlock Classes="legenda" Text="{l:T 'abrir'}" />
+            <c:Caixa Classes="tecla-g"><TextBlock Text="Tab" /></c:Caixa>
+            <TextBlock Classes="legenda" Text="{l:T 'próxima fileira'}" />
+            <c:Caixa Classes="tecla-g"><TextBlock Text="Esc" /></c:Caixa>
+            <TextBlock Classes="legenda" Text="{l:T 'menu'}" />
+            <c:Caixa Classes="tecla-g" IsVisible="{Binding Chamando}"><TextBlock Text="F" /></c:Caixa>
+            <TextBlock Classes="legenda" Text="{l:T 'modo foco'}" IsVisible="{Binding Chamando}" />
+            <c:Caixa Classes="tecla-g"><TextBlock Text="Ctrl K" /></c:Caixa>
+            <TextBlock Classes="legenda" Text="{l:T 'procurar'}" />
+          </StackPanel>
+          <Button Grid.Column="1" Classes="fantasma" Command="{Binding SairCommand}" Focusable="False" Padding="8,3" AutomationProperties.Name="{l:T 'Sair da tela grande'}">
+            <StackPanel Orientation="Horizontal" Spacing="6">
+              <c:Caixa Classes="tecla-g"><TextBlock Text="F11" /></c:Caixa>
+              <TextBlock Classes="legenda" Text="{l:T 'sair da tela grande'}" Margin="0" />
+            </StackPanel>
+          </Button>
+        </Grid>
+      </Border>
+    </Grid>
+  </Panel>
+</UserControl>

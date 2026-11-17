@@ -1,0 +1,59 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:l="using:Nexora.Traducao"
+             xmlns:n="using:Nexora.Aplicativo"
+             xmlns:vm="using:Nexora.ViewModels"
+             xmlns:c="using:Nexora.Controles"
+             x:Class="Nexora.Views.AtalhosView"
+             x:DataType="vm:AtalhosVM"
+             Focusable="True">
+  <UserControl.KeyBindings>
+    <KeyBinding Gesture="Escape" Command="{Binding FecharCommand}" />
+  </UserControl.KeyBindings>
+  <Panel>
+    <Border Background="{DynamicResource VeuLeve}" IsHitTestVisible="False" />
+    <Button Theme="{StaticResource VeuSobreposto}" Command="{Binding FecharCommand}" AutomationProperties.Name="{l:T 'Fechar os atalhos'}" />
+    <Border Theme="{StaticResource Dialogo}" Width="840" Margin="40,60" Padding="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+      <Grid RowDefinitions="Auto,*">
+        <Grid ColumnDefinitions="Auto,*,Auto" Margin="24,20,18,12">
+          <Border Width="36" Height="36" CornerRadius="10" Background="{DynamicResource AcentoFundo}" Margin="0,0,12,0">
+            <c:Icone Nome="teclado" Tamanho="18" Foreground="{DynamicResource Acento}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+          </Border>
+          <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center">
+            <TextBlock Text="{l:T 'Atalhos de teclado'}" FontSize="18" FontWeight="SemiBold" />
+            <TextBlock Classes="fraco" Text="{l:T 'Tudo isso também aparece no Ctrl+K, digitando o que você quer fazer.'}" TextWrapping="Wrap" />
+          </StackPanel>
+          <Button Grid.Column="2" Classes="icone" Command="{Binding FecharCommand}" VerticalAlignment="Top" ToolTip.Tip="{l:T 'Fechar (Esc)'}" AutomationProperties.Name="{l:T 'Fechar os atalhos'}">
+            <c:Icone Nome="fechar" Tamanho="14" />
+          </Button>
+        </Grid>
+        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" Padding="24,0,24,20">
+          <ItemsControl ItemsSource="{Binding Grupos}">
+            <ItemsControl.ItemsPanel>
+              <ItemsPanelTemplate>
+                <WrapPanel />
+              </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="n:GrupoDeAtalhos">
+                <StackPanel Width="372" Margin="0,0,16,18" Spacing="4">
+                  <TextBlock Classes="secao" Text="{Binding Nome}" Margin="0,0,0,4" />
+                  <ItemsControl ItemsSource="{Binding Itens}">
+                    <ItemsControl.ItemTemplate>
+                      <DataTemplate x:DataType="n:AtalhoDoApp">
+                        <Grid ColumnDefinitions="118,*" Margin="0,0,0,6">
+                          <c:Caixa Classes="tecla" HorizontalAlignment="Left" Margin="0"><TextBlock Text="{Binding TeclaExibida}" /></c:Caixa>
+                          <TextBlock Grid.Column="1" Text="{Binding Descricao}" TextWrapping="Wrap" VerticalAlignment="Center" />
+                        </Grid>
+                      </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                  </ItemsControl>
+                </StackPanel>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </ScrollViewer>
+      </Grid>
+    </Border>
+  </Panel>
+</UserControl>

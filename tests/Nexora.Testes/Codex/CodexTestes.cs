@@ -261,7 +261,7 @@ public sealed class CodexTestes : IDisposable
     public void Conversa_nova_troca_de_agente_so_antes_da_primeira_mensagem()
     {
         var janela = new Nexora.ViewModels.JanelaVM();
-        janela.AbrirSessao(new Nexora.ViewModels.Local("Loja", _pasta, []));
+        janela.AbrirSessao(new Nexora.Modelos.Local("Loja", _pasta, []));
         var chat = janela.Abertas[0];
         Assert.True(chat.PodeTrocarAgente);
         chat.TrocarAgenteCommand.Execute(null);

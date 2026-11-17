@@ -1,0 +1,86 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:l="using:Nexora.Traducao"
+             xmlns:vm="using:Nexora.ViewModels"
+             xmlns:v="using:Nexora.Views"
+             xmlns:c="using:Nexora.Controles"
+             x:Class="Nexora.Views.TrechoView"
+             x:DataType="vm:CartaoVM">
+  <Border Background="{DynamicResource Fundo}" CornerRadius="10" Padding="12,8,4,8">
+    <Panel>
+      <TextBlock Classes="fraco" Text="{l:T 'Ainda não há conversa para mostrar.'}" FontSize="12.5" Margin="0,4"
+                 IsVisible="{Binding !TemTrecho}" />
+      <c:RolagemFim MaxHeight="{Binding $parent[v:TrechoView].Altura}" HorizontalScrollBarVisibility="Disabled">
+        <ItemsControl ItemsSource="{Binding Trecho}" Margin="0,0,10,0">
+          <ItemsControl.DataTemplates>
+            <DataTemplate DataType="vm:ItemUsuario">
+              <Border HorizontalAlignment="Right" MaxWidth="560" Background="{DynamicResource BolhaUsuario}"
+                      CornerRadius="12,12,4,12" Padding="10,6" Margin="60,4,0,4">
+                <SelectableTextBlock Text="{Binding Texto}" TextWrapping="Wrap" FontSize="13" />
+              </Border>
+            </DataTemplate>
+
+            <DataTemplate DataType="vm:ItemTexto">
+              <Grid ColumnDefinitions="Auto,*" Margin="0,4">
+                <TextBlock Classes="marca-claude" Text="✻" />
+                <c:MarkdownTexto Grid.Column="1" Texto="{Binding Texto}" />
+              </Grid>
+            </DataTemplate>
+
+            <DataTemplate DataType="vm:ItemFerramenta">
+              <Grid ColumnDefinitions="Auto,Auto,*" Margin="0,2">
+                <Ellipse Classes="estado" Width="6" Height="6" Margin="0,0,8,0" VerticalAlignment="Center"
+                         Classes.pronta="{Binding Ok}" Classes.erro="{Binding Erro}" Classes.trabalhando="{Binding Rodando}" />
+                <TextBlock Grid.Column="1" Text="{Binding Rotulo}" FontWeight="SemiBold" FontSize="12" Margin="0,0,8,0" VerticalAlignment="Center" />
+                <TextBlock Grid.Column="2" Classes="suave mono" Text="{Binding Resumo}" FontSize="12" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+              </Grid>
+            </DataTemplate>
+
+            <DataTemplate DataType="vm:ItemExploracao">
+              <Grid ColumnDefinitions="Auto,Auto,*" Margin="0,2">
+                <Ellipse Classes="estado" Width="6" Height="6" Margin="0,0,8,0" VerticalAlignment="Center"
+                         Classes.pronta="{Binding Ok}" Classes.erro="{Binding Erro}" Classes.trabalhando="{Binding Rodando}" />
+                <TextBlock Grid.Column="1" Text="{Binding Rotulo}" FontWeight="SemiBold" FontSize="12" Margin="0,0,8,0" VerticalAlignment="Center" />
+                <TextBlock Grid.Column="2" Classes="suave" Text="{Binding Resumo}" FontSize="12" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+              </Grid>
+            </DataTemplate>
+
+            <DataTemplate DataType="vm:ItemSubagentes">
+              <ContentControl Content="{Binding}" ContentTemplate="{StaticResource SubagentesNoTrecho}" />
+            </DataTemplate>
+
+            <DataTemplate DataType="vm:ItemSegredo">
+              <ContentControl Content="{Binding}" ContentTemplate="{StaticResource SegredoNoTrecho}" />
+            </DataTemplate>
+
+            <DataTemplate DataType="vm:ItemPermissao">
+              <c:Caixa Classes="pedido" Classes.respondida="{Binding Respondida}" Padding="10,8" Margin="0,6">
+                <StackPanel Spacing="6">
+                  <ContentControl Content="{Binding}" ContentTemplate="{StaticResource OrigemDoPedido}" IsVisible="{Binding TemSubagente}" />
+                  <TextBlock Text="{Binding Titulo}" FontWeight="SemiBold" FontSize="12.5" TextWrapping="Wrap" />
+                  <TextBlock Classes="mono" Text="{Binding Detalhe}" FontSize="12" TextWrapping="Wrap" MaxLines="4" TextTrimming="CharacterEllipsis"
+                             IsVisible="{Binding TemDetalhe}" />
+                  <StackPanel Orientation="Horizontal" Spacing="6" IsVisible="{Binding MostraBotoes}">
+                    <Button Classes="primario pequeno" Content="{Binding RotuloPermitir}" Command="{Binding PermitirCommand}" />
+                    <Button Classes="contorno pequeno" Content="{Binding RotuloNegar}" Command="{Binding NegarCommand}" />
+                  </StackPanel>
+                  <TextBlock Classes="fraco" Text="{l:T 'É uma pergunta: responda pela conversa completa.'}" FontSize="12" IsVisible="{Binding MostraResponder}" />
+                  <TextBlock Classes="fraco" Text="{Binding Resposta}" FontSize="12" IsVisible="{Binding Respondida}" />
+                </StackPanel>
+              </c:Caixa>
+            </DataTemplate>
+
+            <DataTemplate DataType="vm:ItemAviso">
+              <Panel Margin="0,3">
+                <TextBlock Classes="fraco" Text="{Binding Texto}" FontSize="12" TextWrapping="Wrap" IsVisible="{Binding !EhErro}" />
+                <c:Caixa Classes="erro" IsVisible="{Binding EhErro}" Padding="8,6">
+                  <TextBlock Text="{Binding Texto}" TextWrapping="Wrap" FontSize="12" MaxLines="4" TextTrimming="CharacterEllipsis" />
+                </c:Caixa>
+              </Panel>
+            </DataTemplate>
+          </ItemsControl.DataTemplates>
+        </ItemsControl>
+      </c:RolagemFim>
+    </Panel>
+  </Border>
+</UserControl>
