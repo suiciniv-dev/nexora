@@ -21,8 +21,17 @@ public static class ComandoGit
     public static Task<ResultadoGit> ExecutarGhAsync(string pasta, IEnumerable<string> args, TimeSpan? limite = null, IReadOnlyDictionary<string, string>? ambiente = null) =>
         RodarAsync("gh", pasta, args, limite, ambiente);
 
-    static async Task<ResultadoGit> RodarAsync(string programa, string pasta, IEnumerable<string> args, TimeSpan? limite, IReadOnlyDictionary<string, string>? ambiente = null, string? entrada = null)
+    public static Servidor.INucleo? Nucleo { get; set; }
+
+    static Task<ResultadoGit> RodarAsync(string programa, string pasta, IEnumerable<string> args, TimeSpan? limite, IReadOnlyDictionary<string, string>? ambiente = null, string? entrada = null)
     {
+        var pedido = new PedidoDeComando(programa, pasta, [.. args], limite, ambiente, entrada);
+        return Nucleo is { } nucleo ? nucleo.RodarComandoAsync(pedido) : RodarAquiAsync(pedido);
+    }
+
+    public static async Task<ResultadoGit> RodarAquiAsync(PedidoDeComando pedido)
+    {
+        var (programa, pasta, args, limite, ambiente, entrada) = pedido;
         if (pasta.Length > 0 && !Directory.Exists(pasta)) return new ResultadoGit(-1, "", Idioma.F("A pasta {0} não existe neste computador.", pasta));
         var info = new ProcessStartInfo(programa)
         {
