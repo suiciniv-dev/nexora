@@ -211,17 +211,40 @@ public static class ConversasSalvas
         try
         {
             string? modo = null;
-            foreach (var linha in UltimasLinhas(arquivo, Cauda))
+            UltimasLinhasEmBytes(arquivo, Cauda, linha =>
             {
-                if (linha.Length > MaiorLinha || !linha.Contains("\"permissionMode\"")) continue;
+                if (linha.Length > MaiorLinha || linha.Span.IndexOf("\"permissionMode\""u8) < 0) return;
                 using var doc = JsonDocument.Parse(linha);
                 if (Protocolo.Texto(doc.RootElement, "type") == "user" && Protocolo.Texto(doc.RootElement, "permissionMode") is { Length: > 0 } valor) modo = valor;
-            }
+            });
             return modo;
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or JsonException)
         {
             return null;
+        }
+    }
+
+    internal static void UltimasLinhasEmBytes(string arquivo, int bytes, Action<ReadOnlyMemory<byte>> linha)
+    {
+        var buffer = ArrayPool<byte>.Shared.Rent(bytes);
+        try
+        {
+            int lidos;
+            bool cortarInicio;
+            using (var fluxo = new FileStream(arquivo, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete, 1))
+            {
+                var inicio = Math.Max(0, fluxo.Length - bytes);
+                fluxo.Seek(inicio, SeekOrigin.Begin);
+                var tamanho = (int)(fluxo.Length - inicio);
+                lidos = fluxo.ReadAtLeast(buffer.AsSpan(0, tamanho), tamanho, throwOnEndOfStream: false);
+                cortarInicio = inicio > 0;
+            }
+            foreach (var (i, n) in Quebrar(buffer, 0, lidos, cortarInicio, cortarFim: false)) linha(buffer.AsMemory(i, n));
+        }
+        finally
+        {
+            ArrayPool<byte>.Shared.Return(buffer);
         }
     }
 
