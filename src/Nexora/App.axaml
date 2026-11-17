@@ -15,6 +15,15 @@
       <SolidColorBrush x:Key="VeuConteudo" Color="#30000000" />
       <SolidColorBrush x:Key="FundoDoConteudo" Color="#12FFFFFF" />
       <SolidColorBrush x:Key="BrilhoFundo" Color="Transparent" />
+      <SolidColorBrush x:Key="LuzDoFundo" Color="Transparent" />
+      <SolidColorBrush x:Key="LuzDoCanto" Color="Transparent" />
+      <SolidColorBrush x:Key="PontosDoFundo" Color="Transparent" />
+      <SolidColorBrush x:Key="AcentoCheio" Color="#BD93F9" />
+      <SolidColorBrush x:Key="AcentoCheioHover" Color="#CBA6FB" />
+      <SolidColorBrush x:Key="VeuLeve" Color="#66000000" />
+      <SolidColorBrush x:Key="VeuMedio" Color="#8C0A0908" />
+      <SolidColorBrush x:Key="VeuForte" Color="#B3000000" />
+      <SolidColorBrush x:Key="VeuDenso" Color="#D90A0908" />
       <x:Double x:Key="TamanhoDaDica">12</x:Double>
       <x:Double x:Key="LarguraDaDica">380</x:Double>
       <ResourceDictionary.MergedDictionaries>
@@ -318,10 +327,13 @@
       <Setter Property="Foreground" Value="{DynamicResource SobreAcento}" />
     </Style>
     <Style Selector="Border.contador.trabalhando">
-      <Setter Property="Background" Value="{DynamicResource Acento}" />
+      <Setter Property="Background" Value="{DynamicResource AcentoCheio}" />
     </Style>
     <Style Selector="Border.contador.precisa">
       <Setter Property="Background" Value="{DynamicResource Laranja}" />
+    </Style>
+    <Style Selector="Border.contador.precisa > TextBlock">
+      <Setter Property="Foreground" Value="{DynamicResource SobreLaranja}" />
     </Style>
     <Style Selector="Border.contador.precisa > TextBlock">
       <Setter Property="Foreground" Value="{DynamicResource SobreLaranja}" />
@@ -519,20 +531,20 @@
     <Style Selector="Button /template/ ContentPresenter#PART_ContentPresenter, ToggleButton /template/ ContentPresenter#PART_ContentPresenter, ListBoxItem /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Transitions">
         <Transitions>
-          <BrushTransition Property="Background" Duration="0:0:0.12" />
-          <BrushTransition Property="BorderBrush" Duration="0:0:0.12" />
+          <v:TransicaoDeCor Property="Background" Duration="0:0:0.16" />
+          <v:TransicaoDeCor Property="BorderBrush" Duration="0:0:0.16" />
         </Transitions>
       </Setter>
     </Style>
     <Style Selector="Button.primario">
-      <Setter Property="Background" Value="{DynamicResource Acento}" />
+      <Setter Property="Background" Value="{DynamicResource AcentoCheio}" />
       <Setter Property="Foreground" Value="{DynamicResource SobreAcento}" />
       <Setter Property="FontWeight" Value="SemiBold" />
       <Setter Property="Padding" Value="14,8" />
       <Setter Property="CornerRadius" Value="10" />
     </Style>
     <Style Selector="Button.primario:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource AcentoHover}" />
+      <Setter Property="Background" Value="{DynamicResource AcentoCheioHover}" />
       <Setter Property="Foreground" Value="{DynamicResource SobreAcento}" />
     </Style>
     <Style Selector="Button.primario:disabled /template/ ContentPresenter#PART_ContentPresenter">
@@ -643,10 +655,16 @@
       <Setter Property="BorderThickness" Value="0,1,1,1" />
       <Setter Property="CornerRadius" Value="0,16,16,0" />
     </Style>
+    <Style Selector="Button.fixar-lateral">
+      <Setter Property="Foreground" Value="{DynamicResource TextoFraco}" />
+    </Style>
+    <Style Selector="Button.fixar-lateral.ligado">
+      <Setter Property="Foreground" Value="{DynamicResource Acento}" />
+    </Style>
     <Style Selector="Border.painel-lateral.fixa">
       <Setter Property="BorderThickness" Value="1" />
       <Setter Property="CornerRadius" Value="18" />
-      <Setter Property="Margin" Value="0,4,8,0" />
+      <Setter Property="Margin" Value="8,4,8,0" />
       <Setter Property="BoxShadow" Value="0 10 28 0 #40000000" />
     </Style>
     <Style Selector="Ellipse.estado">

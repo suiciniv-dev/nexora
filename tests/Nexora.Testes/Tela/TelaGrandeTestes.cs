@@ -299,7 +299,7 @@ public sealed class TelaGrandeTestes
         Assert.False(inicio.IsEffectivelyVisible);
         var topo = janela.GetVisualDescendants().OfType<TopoTelaGrandeView>().Single();
         Assert.True(topo.IsEffectivelyVisible);
-        Assert.False(janela.GetVisualDescendants().OfType<TrilhoView>().Single().IsEffectivelyVisible);
+        Assert.All(janela.GetVisualDescendants().OfType<TrilhoView>(), t => Assert.False(t.IsEffectivelyVisible));
         Assert.False(janela.GetVisualDescendants().OfType<AbasView>().First().IsEffectivelyVisible);
         Assert.True(vm.TelaGrande.Atalhos[projetos].Ativo);
         Assert.Single(vm.TelaGrande.Atalhos, a => a.Ativo);
@@ -355,7 +355,7 @@ public sealed class TelaGrandeTestes
 
         Tecla(janela, PhysicalKey.F11);
         Assert.False(vm.TelaGrande.Ligada);
-        Assert.True(vm.LateralFixa || janela.GetVisualDescendants().OfType<TrilhoView>().Single().IsEffectivelyVisible);
+        Assert.True(vm.LateralFixa || janela.GetVisualDescendants().OfType<TrilhoView>().Any(t => t.IsEffectivelyVisible));
         Assert.False(janela.GetVisualDescendants().OfType<TopoTelaGrandeView>().Single().IsEffectivelyVisible);
         janela.Close();
     });

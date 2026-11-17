@@ -44,7 +44,7 @@
     </Style>
   </UserControl.Styles>
 
-  <Panel Background="#B3000000">
+  <Panel Background="{DynamicResource VeuForte}">
     <Border Width="760" MinHeight="500" MaxHeight="680" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="20"
             Background="{DynamicResource FundoSolido}" BorderBrush="{DynamicResource Borda}" BorderThickness="1" BoxShadow="0 30 80 0 #66000000" ClipToBounds="True">
       <DockPanel>

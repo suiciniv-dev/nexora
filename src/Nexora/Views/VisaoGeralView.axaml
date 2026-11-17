@@ -6,6 +6,14 @@
              x:Class="Nexora.Views.VisaoGeralView"
              x:DataType="vm:VisaoGeralVM">
   <UserControl.Styles>
+    <Style Selector="Panel.espiada">
+      <Setter Property="Opacity" Value="0" />
+      <Setter Property="IsHitTestVisible" Value="False" />
+    </Style>
+    <Style Selector="Panel.espiada.aberta">
+      <Setter Property="Opacity" Value="1" />
+      <Setter Property="IsHitTestVisible" Value="True" />
+    </Style>
     <Style Selector="Border.widget.expandido">
       <Setter Property="Width" Value="734" />
     </Style>
@@ -814,8 +822,8 @@
     </Button>
   </Border>
 
-  <Panel IsVisible="{Binding Espiando}">
-    <Border Background="#8C0A0908" PointerPressed="FundoEspiada_PointerPressed" />
+  <Panel x:Name="CamadaEspiada" Classes="espiada" Classes.aberta="{Binding Espiando}">
+    <Border Background="{DynamicResource VeuMedio}" PointerPressed="FundoEspiada_PointerPressed" />
     <Border Margin="40,18,40,18" MaxWidth="1180" Background="{DynamicResource FundoSolido}" BorderBrush="{DynamicResource Borda}"
             BorderThickness="1" CornerRadius="16" BoxShadow="0 24 70 0 #80000000" ClipToBounds="True">
       <DockPanel>
@@ -840,21 +848,20 @@
                 </DataTemplate>
               </ContentControl.DataTemplates>
             </ContentControl>
-            <Button Grid.Column="1" Classes="contorno pequeno" Command="{Binding MaximizarEspiadaCommand}" Margin="12,0,6,0" VerticalAlignment="Center"
+            <Button Grid.Column="1" Classes="contorno pequeno" Command="{Binding MaximizarEspiadaCommand}" Margin="12,0,6,0" VerticalAlignment="Center" IsVisible="{Binding Espiando}"
                     ToolTip.Tip="{l:T 'Abrir a conversa inteira numa aba'}" AutomationProperties.Name="{l:T 'Abrir a conversa inteira'}">
               <StackPanel Orientation="Horizontal" Spacing="6"><v:Icone Nome="maximizar" Tamanho="13" /><TextBlock Text="{l:T 'Abrir a conversa'}" /></StackPanel>
             </Button>
-            <Button Grid.Column="2" Classes="icone" Command="{Binding FecharEspiadaCommand}" VerticalAlignment="Center"
+            <Button Grid.Column="2" Classes="icone" Command="{Binding FecharEspiadaCommand}" VerticalAlignment="Center" IsVisible="{Binding Espiando}"
                     ToolTip.Tip="{l:T 'Fechar (Esc)'}" AutomationProperties.Name="{l:T 'Fechar'}">
               <v:Icone Nome="fechar" Tamanho="15" />
             </Button>
           </Grid>
         </Border>
-        <ContentControl Content="{Binding Espiado}">
+        <Panel>
+        <Panel x:Name="CorpoEspiada" />
+        <ContentControl Content="{Binding EspiadoFora}">
           <ContentControl.DataTemplates>
-            <DataTemplate DataType="vm:ChatVM">
-              <v:ChatView Compacto="True" />
-            </DataTemplate>
             <DataTemplate DataType="vm:SessaoForaVM">
               <DockPanel Margin="20,14,20,16">
                 <StackPanel DockPanel.Dock="Bottom" Spacing="8" Margin="0,12,0,0">
@@ -875,6 +882,7 @@
             </DataTemplate>
           </ContentControl.DataTemplates>
         </ContentControl>
+        </Panel>
       </DockPanel>
     </Border>
   </Panel>

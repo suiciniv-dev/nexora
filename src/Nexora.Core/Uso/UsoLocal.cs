@@ -13,6 +13,7 @@ public sealed class Parcela
     public string Modelo { get; set; } = "";
     public string Pasta { get; set; } = "";
     public string Semana { get; set; } = "";
+    public string Dia { get; set; } = "";
     public long Entrada { get; set; }
     public long Saida { get; set; }
     public long Escrita { get; set; }
@@ -43,7 +44,7 @@ public static class UsoLocal
     public const string Claude = "Claude";
     public const string Codex = "Codex";
     public const string Gemini = "Gemini";
-    const int Versao = 2;
+    const int Versao = 3;
     const int IdsGuardados = 64;
     static readonly JsonSerializerOptions Json = new() { WriteIndented = false };
 
@@ -88,7 +89,7 @@ public static class UsoLocal
     public static IReadOnlyList<Parcela> Ler(string raiz, string? arquivoCache, DateTime desde, CancellationToken cancelar = default) =>
         Ler([new FonteDeUso(Claude, raiz, "*.jsonl")], arquivoCache, desde, cancelar);
 
-    public static IReadOnlyList<Parcela> Ler(IEnumerable<FonteDeUso> fontes, string? arquivoCache, DateTime desde, CancellationToken cancelar = default)
+    public static IReadOnlyList<Parcela> Ler(IEnumerable<FonteDeUso> fontes, string? arquivoCache, DateTime desde, CancellationToken cancelar = default, bool porDia = false)
     {
         var cache = Carregar(arquivoCache);
         var vistos = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -140,23 +141,25 @@ public static class UsoLocal
         var juntas = new Dictionary<(string, string, string, string), Parcela>();
         foreach (var p in cache.Arquivos.Values.SelectMany(a => a.Parcelas).Where(p => string.CompareOrdinal(p.Semana, limite) >= 0))
         {
-            var chave = ChaveDa(p);
-            if (!juntas.TryGetValue(chave, out var soma)) juntas[chave] = soma = Nova(p.Agente, p.Modelo, p.Pasta, p.Semana);
+            var chave = ChaveDa(p, porDia);
+            if (!juntas.TryGetValue(chave, out var soma)) juntas[chave] = soma = Nova(p.Agente, p.Modelo, p.Pasta, p.Semana, porDia ? p.Dia : "");
             soma.Somar(p);
         }
         return [.. juntas.Values];
     }
 
-    static (string, string, string, string) ChaveDa(Parcela p) => (p.Agente, p.Modelo, p.Pasta.ToLowerInvariant(), p.Semana);
+    static (string, string, string, string) ChaveDa(Parcela p, bool porDia) => (p.Agente, p.Modelo, p.Pasta.ToLowerInvariant(), porDia ? p.Dia : p.Semana);
 
-    static Parcela Nova(string agente, string modelo, string pasta, string semana) =>
-        new() { Agente = agente, Modelo = modelo, Pasta = pasta, Semana = semana };
+    static Parcela Nova(string agente, string modelo, string pasta, string semana, string dia) =>
+        new() { Agente = agente, Modelo = modelo, Pasta = pasta, Semana = semana, Dia = dia };
+
+    public static string Dia(DateTime local) => DateOnly.FromDateTime(local).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
 
     static void Acrescentar(Dictionary<(string, string, string, string), Parcela> parcelas, string agente, RespostaLida r)
     {
         var familia = PesoDoModelo.Familia(r.Modelo);
-        var chave = (agente, familia, r.Pasta.ToLowerInvariant(), r.Semana);
-        if (!parcelas.TryGetValue(chave, out var p)) parcelas[chave] = p = Nova(agente, familia, r.Pasta, r.Semana);
+        var chave = (agente, familia, r.Pasta.ToLowerInvariant(), r.Dia);
+        if (!parcelas.TryGetValue(chave, out var p)) parcelas[chave] = p = Nova(agente, familia, r.Pasta, r.Semana, r.Dia);
         p.Entrada += r.Tokens.Entrada;
         p.Saida += r.Tokens.Saida;
         p.Escrita += r.Tokens.Escrita5m + r.Tokens.Escrita1h;
@@ -186,7 +189,7 @@ public static class UsoLocal
         }
         var ultimaQuebra = Array.LastIndexOf(bytes, (byte)'\n');
         if (ultimaQuebra < 0) return;
-        var parcelas = registro.Parcelas.ToDictionary(ChaveDa);
+        var parcelas = registro.Parcelas.ToDictionary(p => ChaveDa(p, porDia: true));
         var ids = new HashSet<string>(registro.Ultimos);
         var recentes = new Queue<string>(registro.Ultimos);
         var texto = Encoding.UTF8.GetString(bytes, 0, ultimaQuebra + 1);
@@ -215,7 +218,11 @@ public static class UsoLocal
         registro.Parcelas = [.. parcelas.Values];
     }
 
-    sealed record RespostaLida(string? Id, string? Modelo, string Pasta, string Semana, string? Sessao, TokensDaResposta Tokens);
+    sealed record RespostaLida(string? Id, string? Modelo, string Pasta, DateTime Quando, string? Sessao, TokensDaResposta Tokens)
+    {
+        public string Semana => Chave(SemanaDe(Quando));
+        public string Dia => UsoLocal.Dia(Quando);
+    }
 
     static RespostaLida? Resposta(string linha)
     {
@@ -241,7 +248,7 @@ public static class UsoLocal
             var id = m.TryGetProperty("id", out var i) && i.ValueKind == JsonValueKind.String ? i.GetString() : null;
             var pasta = Texto(o, "cwd") is { Length: > 0 } c ? c.TrimEnd('\\', '/') : "?";
             var sessao = Texto(o, "sessionId") is { Length: > 0 } s ? s : null;
-            return new RespostaLida(id, modelo, pasta, Chave(SemanaDe(quando.ToLocalTime())), sessao, tokens);
+            return new RespostaLida(id, modelo, pasta, quando.ToLocalTime(), sessao, tokens);
         }
         catch (JsonException)
         {
@@ -279,7 +286,7 @@ public static class UsoLocal
                     var lida = Math.Min(entrada, Numero(u, "cached_input_tokens"));
                     var tokens = new TokensDaResposta(entrada - lida, Numero(u, "output_tokens"), 0, 0, lida);
                     if (tokens.Total == 0) return null;
-                    return new RespostaLida(null, registro.Modelo ?? "gpt", registro.Pasta ?? "?", Chave(SemanaDe(quando.ToLocalTime())), registro.Sessao, tokens);
+                    return new RespostaLida(null, registro.Modelo ?? "gpt", registro.Pasta ?? "?", quando.ToLocalTime(), registro.Sessao, tokens);
                 default:
                     return null;
             }
@@ -330,7 +337,7 @@ public static class UsoLocal
                 var tokens = new TokensDaResposta(entrada - lida, Numero(t, "output") + Numero(t, "thoughts"), 0, 0, lida);
                 if (tokens.Total == 0) continue;
                 var modelo = Texto(m, "model") is { Length: > 0 } mo ? mo : "gemini";
-                Acrescentar(parcelas, Gemini, new RespostaLida(null, modelo, pasta, Chave(SemanaDe(quando.ToLocalTime())), sessao, tokens));
+                Acrescentar(parcelas, Gemini, new RespostaLida(null, modelo, pasta, quando.ToLocalTime(), sessao, tokens));
             }
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or JsonException)

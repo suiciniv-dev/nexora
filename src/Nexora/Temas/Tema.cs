@@ -20,6 +20,8 @@ public sealed class Tema
     public string? Imagem { get; set; }
     public double Escurecer { get; set; } = 0.75;
     public string? Editor { get; set; }
+    public string? Luz { get; set; }
+    public string? Pontos { get; set; }
 
     [JsonIgnore]
     public bool Embutido { get; set; }
@@ -47,6 +49,8 @@ public sealed class Tema
         Imagem = Imagem,
         Escurecer = Escurecer,
         Editor = Editor,
+        Luz = Luz,
+        Pontos = Pontos,
     };
 }
 
@@ -78,16 +82,34 @@ public static class Catalogo
 
     const string RosaClaro = "#A14679", VerdeClaro = "#2B7349", LaranjaClaro = "#965600", VermelhoClaro = "#B23E2E", CianoClaro = "#1E6C99";
 
+    public const string IdMidnight = "midnight";
+    public const string IdClassico = "padrao";
+    public const string IdClaro = "padrao-claro";
+
+    static Tema Midnight()
+    {
+        var tema = Novo(IdMidnight, "Nexora Midnight", true, "DarkPlus", Papeis.Nenhum,
+            "#080D1C", "#0C1428", "#101B35", "#142342", "#2F4470", "#F1F5FF", "#9BAAC6", "#8D9CBB",
+            "#7AAEFF", "#A5C8FF", "#FFFFFF", "#E58FC4", "#4FD08A", "#F5A748", "#FF7F7A", "#7FC4FF", "#060A17", "#9DC1FF", "#16264A",
+            "#2C8EE8", "#2443C9");
+        tema.Cores["AcentoCheio"] = "#1F6FD1";
+        tema.Cores["AcentoCheioFim"] = "#2443C9";
+        tema.Luz = "#2A4FD0";
+        tema.Pontos = "#5B7FFF";
+        return tema;
+    }
+
     public static IReadOnlyList<Tema> Embutidos { get; } =
     [
-        Novo("padrao", "Padrão", true, "DarkPlus", Papeis.Nenhum,
-            "#181716", "#121110", "#24221F", "#2E2B28", "#24FFFFFF", "#F2F0EC", "#C4C0B9", "#9C978F",
-            "#F2F0EC", "#FFFFFF", "#161514", "#E59AC4", "#7BCB9F", "#F0A860", "#E8806C", "#86C5E6", "#0F0E0D", "#E6C38F", "#332F2C",
-            "#948BAE", "#5B5470"),
-        Novo("padrao-claro", "Padrão claro", false, "LightPlus", Papeis.Nenhum,
+        Midnight(),
+        Novo(IdClaro, "Padrão claro", false, "LightPlus", Papeis.Nenhum,
             "#F7F6F4", "#EFEDEA", "#FFFFFF", "#E9E6E2", "#26000000", "#1C1B1A", "#45423E", "#615D58",
             "#1C1B1A", "#000000", "#FFFFFF", RosaClaro, VerdeClaro, LaranjaClaro, VermelhoClaro, CianoClaro, "#EFEDE9", "#8A4B12", "#ECE9E4",
             "#5B5470", "#3A3548"),
+        Novo(IdClassico, "Classic Dark", true, "DarkPlus", Papeis.Nenhum,
+            "#181716", "#121110", "#24221F", "#2E2B28", "#24FFFFFF", "#F2F0EC", "#C4C0B9", "#9C978F",
+            "#F2F0EC", "#FFFFFF", "#161514", "#E59AC4", "#7BCB9F", "#F0A860", "#E8806C", "#86C5E6", "#0F0E0D", "#E6C38F", "#332F2C",
+            "#948BAE", "#5B5470"),
         Dracula,
         Alucard,
         .. Papeis.Todos.Select(DoPapel),
@@ -106,7 +128,7 @@ public static class Catalogo
     public static string Modo { get; set; } = "animado";
 
     public static bool EmVidro(Tema tema, string modo) =>
-        modo != "solido" && tema.Imagem is null && (Papeis.Encontrar(tema.FundoAnimado) is null || modo == "vidro");
+        modo != "solido" && tema.Imagem is null && tema.Luz is null && (Papeis.Encontrar(tema.FundoAnimado) is null || modo == "vidro");
 
     static Color NoModo(Tema tema, string chave, bool vidro)
     {
@@ -228,12 +250,14 @@ public static class Catalogo
 
     public static Tema DoSistema() => SistemaEscuro() ? Embutidos[0] : Embutidos[1];
 
+    static Tema Classico => Embutidos.First(t => t.Id == IdClassico);
+
     public static Tema Encontrar(string? id) => id switch
     {
         "escuro" => Dracula,
         "claro" => Alucard,
         "suiciniv-papel" => Embutidos[1],
-        "suiciniv" => Embutidos[0],
+        "suiciniv" => Classico,
         null or "" or IdSistema => DoSistema(),
         _ => Todos().FirstOrDefault(t => t.Id == id)
             ?? Embutidos.FirstOrDefault(t => Papeis.TemaAntigo(id) is { } novo && t.Id == novo)
@@ -293,8 +317,18 @@ public static class Catalogo
         app.Resources["SobreVermelho"] = new SolidColorBrush(MelhorTexto(tema.Cor("Vermelho")));
         app.Resources["SobreLaranja"] = new SolidColorBrush(MelhorTexto(tema.Cor("Laranja")));
         app.Resources["SobreMarca"] = new SolidColorBrush(MelhorTexto(Misturar(marca, marcaFim, 0.5)));
-        app.Resources["VeuConteudo"] = tema.Escuro ? Transparente(Colors.Black, 0.19) : (IBrush)Brushes.Transparent;
-        app.Resources["FundoDoConteudo"] = tema.Escuro ? Transparente(Colors.White, 0.07) : Transparente(Colors.White, 0.35);
+        var iluminado = tema.Luz is not null;
+        app.Resources["VeuConteudo"] = tema.Escuro && !iluminado ? Transparente(Colors.Black, 0.19) : (IBrush)Brushes.Transparent;
+        app.Resources["FundoDoConteudo"] = iluminado ? Transparente(tema.Cor("Lateral"), 0.5)
+            : tema.Escuro ? Transparente(Colors.White, 0.07) : Transparente(Colors.White, 0.35);
+        AplicarIluminacao(app, tema);
+        app.Resources["AcentoCheio"] = Cheio(tema, "AcentoCheio", "Acento", 1);
+        app.Resources["AcentoCheioHover"] = Cheio(tema, "AcentoCheio", "AcentoHover", 0.88);
+        var sombra = Misturar(Color.FromRgb(fundoCheio.R, fundoCheio.G, fundoCheio.B), Colors.Black, 0.45);
+        app.Resources["VeuLeve"] = Transparente(sombra, 0.40);
+        app.Resources["VeuMedio"] = Transparente(sombra, 0.55);
+        app.Resources["VeuForte"] = Transparente(sombra, 0.70);
+        app.Resources["VeuDenso"] = Transparente(sombra, 0.85);
         var animado = Modo == "animado" && Papeis.Encontrar(tema.FundoAnimado) is not null;
         app.Resources["BrilhoFundo"] = vidro || animado || tema.Imagem is not null
             ? (IBrush)Brushes.Transparent
@@ -341,7 +375,7 @@ public static class Catalogo
             },
         };
         app.Resources["SelecaoSombra"] = BoxShadows.Parse($"0 2 10 0 {Hex(Colors.Black, tema.Escuro ? 0.28 : 0.08)}");
-        app.Resources["SelecaoBrilho"] = BoxShadows.Parse($"0 0 10 1 {Hex(marca, tema.Escuro ? 0.75 : 0.5)}");
+        app.Resources["SelecaoBrilho"] = BoxShadows.Parse($"0 0 10 1 {Hex(marca, tema.Luz is not null ? 0.4 : tema.Escuro ? 0.75 : 0.5)}");
         app.Resources["SombraAba"] = BoxShadows.Parse($"inset 0 2 0 0 {Hex(marca)}");
         app.Resources["BrilhoCaixa"] = BoxShadows.Parse($"0 0 0 1 {Hex(marca, 0.45)}, 0 0 18 0 {Hex(marcaFim, tema.Escuro ? 0.22 : 0.14)}");
         var claroOuEscuro = tema.Escuro ? Colors.White : Colors.Black;
@@ -361,6 +395,77 @@ public static class Catalogo
         Atual = tema;
         Mudou?.Invoke();
     }
+
+    static IBrush Cheio(Tema tema, string chave, string reserva, double brilho)
+    {
+        if (!tema.Cores.TryGetValue(chave, out var inicioHex) || !Color.TryParse(inicioHex, out var inicio))
+            return new SolidColorBrush(tema.Cor(reserva));
+        var fim = tema.Cores.TryGetValue(chave + "Fim", out var fimHex) && Color.TryParse(fimHex, out var f) ? f : inicio;
+        if (brilho < 1)
+        {
+            inicio = Misturar(inicio, Colors.Black, 1 - brilho);
+            fim = Misturar(fim, Colors.Black, 1 - brilho);
+        }
+        return new LinearGradientBrush
+        {
+            StartPoint = new RelativePoint(0, 0.5, RelativeUnit.Relative),
+            EndPoint = new RelativePoint(1, 0.5, RelativeUnit.Relative),
+            GradientStops = { new GradientStop(inicio, 0), new GradientStop(fim, 1) },
+        };
+    }
+
+    public const double PassoDosPontos = 4;
+
+    static void AplicarIluminacao(Application app, Tema tema)
+    {
+        if (tema.Luz is not { } luzHex || !Color.TryParse(luzHex, out var luz))
+        {
+            app.Resources["LuzDoFundo"] = Brushes.Transparent;
+            app.Resources["LuzDoCanto"] = Brushes.Transparent;
+            app.Resources["PontosDoFundo"] = Brushes.Transparent;
+            app.Resources["MascaraDosPontos"] = null;
+            return;
+        }
+        app.Resources["LuzDoFundo"] = Radial(0.5, 0.40, 0.46, 0.34, luz, 0.45);
+        app.Resources["LuzDoCanto"] = Radial(0.0, 0.18, 0.26, 0.42, Misturar(luz, Colors.Black, 0.35), 0.55);
+        var ponto = tema.Pontos is { } p && Color.TryParse(p, out var corDoPonto) ? corDoPonto : luz;
+        var desenho = new DrawingGroup();
+        desenho.Children.Add(new GeometryDrawing { Brush = Brushes.Transparent, Geometry = new RectangleGeometry(new Rect(0, 0, PassoDosPontos, PassoDosPontos)) });
+        desenho.Children.Add(new GeometryDrawing { Brush = new SolidColorBrush(ponto), Geometry = new RectangleGeometry(new Rect(1, 1, 1.5, 1.5)) });
+        app.Resources["PontosDoFundo"] = new DrawingBrush(desenho)
+        {
+            TileMode = TileMode.Tile,
+            Stretch = Stretch.None,
+            DestinationRect = new RelativeRect(0, 0, PassoDosPontos, PassoDosPontos, RelativeUnit.Absolute),
+        };
+        app.Resources["MascaraDosPontos"] = new RadialGradientBrush
+        {
+            Center = new RelativePoint(0.5, 0.42, RelativeUnit.Relative),
+            GradientOrigin = new RelativePoint(0.5, 0.42, RelativeUnit.Relative),
+            RadiusX = new RelativeScalar(0.55, RelativeUnit.Relative),
+            RadiusY = new RelativeScalar(0.55, RelativeUnit.Relative),
+            GradientStops =
+            {
+                new GradientStop(Color.FromArgb(150, 255, 255, 255), 0),
+                new GradientStop(Color.FromArgb(70, 255, 255, 255), 0.55),
+                new GradientStop(Color.FromArgb(22, 255, 255, 255), 1),
+            },
+        };
+    }
+
+    static RadialGradientBrush Radial(double x, double y, double raioX, double raioY, Color cor, double forca) => new()
+    {
+        Center = new RelativePoint(x, y, RelativeUnit.Relative),
+        GradientOrigin = new RelativePoint(x, y, RelativeUnit.Relative),
+        RadiusX = new RelativeScalar(raioX, RelativeUnit.Relative),
+        RadiusY = new RelativeScalar(raioY, RelativeUnit.Relative),
+        GradientStops =
+        {
+            new GradientStop(Color.FromArgb((byte)Math.Round(forca * 255), cor.R, cor.G, cor.B), 0),
+            new GradientStop(Color.FromArgb((byte)Math.Round(forca * 110), cor.R, cor.G, cor.B), 0.45),
+            new GradientStop(Color.FromArgb(0, cor.R, cor.G, cor.B), 1),
+        },
+    };
 
     public static string EditorDe(Tema tema) => tema.Editor ?? (tema.Escuro ? "Dracula" : "QuietLight");
 

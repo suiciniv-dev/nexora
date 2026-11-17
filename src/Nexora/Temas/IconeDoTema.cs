@@ -13,7 +13,9 @@ public static class IconeDoTema
 
     static readonly Dictionary<string, WindowIcon> Feitos = [];
 
-    public static (Color Topo, Color Base) Cores(Tema tema) =>
+    public static readonly (Color Topo, Color Base) Oficial = (Color.Parse("#2C8EE8"), Color.Parse("#2443C9"));
+
+    public static (Color Topo, Color Base) Cores(Tema tema) => tema.Id == Catalogo.IdMidnight ? Oficial :
         (Misturar(tema.Cor("Marca"), Color.Parse("#121014"), 0.62), Misturar(tema.Cor("MarcaFim"), Color.Parse("#0B0A0D"), 0.68));
 
     public static WindowIcon Icone(Tema tema)
@@ -44,7 +46,7 @@ public static class IconeDoTema
             }, null, ladrilho);
             ctx.DrawGeometry(null, new Pen(new SolidColorBrush(Color.FromArgb(36, 255, 255, 255)), 4), Squircle(512, 512, 478));
             var glifo = Geometry.Parse(Glifo);
-            var escala = 0.36 * 1024 / 184;
+            var escala = 0.46 * 1024 / 184;
             var dx = 512 - (36 + 92) * escala;
             var dy = 492 - (22 + 106) * escala;
             glifo.Transform = new MatrixTransform(Matrix.CreateScale(escala, escala) * Matrix.CreateTranslation(dx, dy));

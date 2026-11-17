@@ -98,10 +98,10 @@ public sealed class GravarDemo
         SessaoClaude.Simulado = AgenteDeTeste.Dll;
         App.Config.Raizes = [raiz];
         App.Config.LateralVisivel = false;
-        App.Config.Tema = "padrao";
+        App.Config.Tema = Catalogo.IdMidnight;
         App.Config.ModoFundo = "solido";
         Catalogo.Modo = "solido";
-        Catalogo.Escolher("padrao");
+        Catalogo.Escolher(Catalogo.IdMidnight);
         JanelaVM? vm = null;
         var brutos = Path.Combine(saida, "quadros.bgra");
         var tempos = new List<long>();
@@ -122,7 +122,7 @@ public sealed class GravarDemo
             vm.MostrarVisaoGeralCommand.Execute(null);
             vm.VisaoGeral.ModoMesa = false;
             vm.VisaoGeral.ModoQuadro = true;
-            Catalogo.Escolher("padrao");
+            Catalogo.Escolher(Catalogo.IdMidnight);
             cores.Add(Cor("abriu"));
 
             var chats = roteiros.Select(r =>

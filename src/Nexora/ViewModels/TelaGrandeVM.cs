@@ -80,6 +80,7 @@ public sealed partial class TelaGrandeVM : ObservableObject
             new AtalhoVM("grafico", Idioma.T("Uso"), () => janela.MostrarUsoCommand.Execute(null), c => c is UsoVM),
             new AtalhoVM("memoria", Idioma.T("Recursos"), () => janela.MostrarRecursosCommand.Execute(null), c => c is RecursosVM),
             new AtalhoVM("ajustes", Idioma.T("Configurações"), () => janela.MostrarConfiguracoesCommand.Execute(null), c => c is ConfiguracoesVM),
+            new AtalhoVM("dashboard", Idioma.T("Dashboard"), () => janela.MostrarDashboardCommand.Execute(null), c => c is DashboardVM),
         ];
         _relogio = new DispatcherTimer(TimeSpan.FromSeconds(5), DispatcherPriority.Background, (_, _) => Tique());
         janela.VisaoGeral.Reagrupou += Montar;

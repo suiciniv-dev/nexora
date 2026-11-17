@@ -9,6 +9,9 @@
     <DataTemplate DataType="vm:ChatVM">
       <v:ChatView />
     </DataTemplate>
+    <DataTemplate DataType="vm:DashboardVM">
+      <v:DashboardView />
+    </DataTemplate>
     <DataTemplate DataType="vm:AmbienteVM">
       <v:AmbienteView />
     </DataTemplate>

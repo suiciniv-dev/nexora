@@ -51,6 +51,7 @@ public sealed partial class JanelaVM
 
     (string Icone, string Nome, Action Abrir)[] Telas() =>
     [
+        ("dashboard", Idioma.T("Dashboard"), () => MostrarDashboardCommand.Execute(null)),
         ("quadro", Idioma.T("Ao vivo"), () => MostrarVisaoGeralCommand.Execute(null)),
         ("camadas", Idioma.T("Projetos"), () => MostrarProjetosCommand.Execute(null)),
         ("issue", Idioma.T("Issues"), () => MostrarIssuesCommand.Execute(null)),
