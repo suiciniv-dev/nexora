@@ -30,6 +30,7 @@
   <ItemGroup>
     <Using Include="Nexora.Modelos" />
     <Using Include="Nexora.Servicos" />
+    <Using Include="Nexora.Controles" />
   </ItemGroup>
   <Target Name="SoOCoreDoWebView2" BeforeTargets="ResolveAssemblyReferences">
     <ItemGroup>

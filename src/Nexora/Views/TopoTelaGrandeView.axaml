@@ -3,6 +3,7 @@
              xmlns:l="using:Nexora"
              xmlns:vm="using:Nexora.ViewModels"
              xmlns:v="using:Nexora.Views"
+             xmlns:c="using:Nexora.Controles"
              x:Class="Nexora.Views.TopoTelaGrandeView"
              x:DataType="vm:TelaGrandeVM"
              Focusable="True">
@@ -24,7 +25,7 @@
     </Style>
     <Style Selector="Button.atalho /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Transitions">
-        <Transitions><v:TransicaoDeCor Property="Background" Duration="0:0:0.14" /></Transitions>
+        <Transitions><c:TransicaoDeCor Property="Background" Duration="0:0:0.14" /></Transitions>
       </Setter>
     </Style>
     <Style Selector="Button.atalho:pointerover /template/ ContentPresenter#PART_ContentPresenter">
@@ -73,17 +74,17 @@
         </LinearGradientBrush>
       </ItemsControl.OpacityMask>
       <ItemsControl.ItemsPanel>
-        <ItemsPanelTemplate><v:Prateleira x:DataType="vm:TelaGrandeVM" Foco="{Binding Atalho}" Ativa="{Binding NoMenu}" Espia="40" Folga="28" /></ItemsPanelTemplate>
+        <ItemsPanelTemplate><c:Prateleira x:DataType="vm:TelaGrandeVM" Foco="{Binding Atalho}" Ativa="{Binding NoMenu}" Espia="40" Folga="28" /></ItemsPanelTemplate>
       </ItemsControl.ItemsPanel>
       <ItemsControl.ItemTemplate>
         <DataTemplate x:DataType="vm:AtalhoVM">
-          <v:BotaoLigado Classes="atalho" Classes.ativo="{Binding Ativo}" IsChecked="{Binding Ativo, Mode=OneWay}" Command="{Binding $parent[v:TopoTelaGrandeView].((vm:TelaGrandeVM)DataContext).EscolherCommand}" CommandParameter="{Binding}"
+          <c:BotaoLigado Classes="atalho" Classes.ativo="{Binding Ativo}" IsChecked="{Binding Ativo, Mode=OneWay}" Command="{Binding $parent[v:TopoTelaGrandeView].((vm:TelaGrandeVM)DataContext).EscolherCommand}" CommandParameter="{Binding}"
                   AutomationProperties.Name="{Binding Nome}">
             <StackPanel Orientation="Horizontal" Spacing="8">
-              <v:Icone Nome="{Binding Icone}" Tamanho="15" VerticalAlignment="Center" />
+              <c:Icone Nome="{Binding Icone}" Tamanho="15" VerticalAlignment="Center" />
               <TextBlock Text="{Binding Nome}" FontSize="13" FontWeight="Medium" VerticalAlignment="Center" />
             </StackPanel>
-          </v:BotaoLigado>
+          </c:BotaoLigado>
         </DataTemplate>
       </ItemsControl.ItemTemplate>
     </ItemsControl>

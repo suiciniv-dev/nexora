@@ -3,6 +3,7 @@
              xmlns:l="using:Nexora"
              xmlns:vm="using:Nexora.ViewModels"
              xmlns:v="using:Nexora.Views"
+             xmlns:c="using:Nexora.Controles"
              x:Class="Nexora.Views.EditorView"
              x:DataType="vm:EditorVM">
   <DockPanel Background="{DynamicResource Fundo}">
@@ -21,14 +22,14 @@
                   <StackPanel Orientation="Horizontal">
                     <Button Classes="aba-titulo" Command="{Binding SelecionarCommand}" ToolTip.Tip="{Binding Dica}">
                       <StackPanel Orientation="Horizontal" Spacing="6">
-                        <v:Icone Nome="arquivo" Tamanho="13" Classes="fraco" VerticalAlignment="Center" />
+                        <c:Icone Nome="arquivo" Tamanho="13" Classes="fraco" VerticalAlignment="Center" />
                         <TextBlock Text="{Binding Titulo}" FontSize="12.5" VerticalAlignment="Center" />
                         <Ellipse Width="7" Height="7" Fill="{DynamicResource Acento}" IsVisible="{Binding Modificada}" VerticalAlignment="Center" />
                       </StackPanel>
                     </Button>
                     <Button Classes="icone pequeno" Command="{Binding FecharCommand}" Margin="0,0,4,0" VerticalAlignment="Center"
                             ToolTip.Tip="{l:T 'Fechar'}" AutomationProperties.Name="{l:T 'Fechar a aba'}">
-                      <v:Icone Nome="fechar" Tamanho="11" />
+                      <c:Icone Nome="fechar" Tamanho="11" />
                     </Button>
                   </StackPanel>
                 </Border>
@@ -38,7 +39,7 @@
         </ScrollViewer>
         <Button Grid.Column="1" Classes="icone" Command="{Binding FecharTodasCommand}" Margin="4,0" ToolTip.Tip="{l:T 'Fechar o editor'}"
                 AutomationProperties.Name="{l:T 'Fechar o editor'}">
-          <v:Icone Nome="fechar" Tamanho="14" />
+          <c:Icone Nome="fechar" Tamanho="14" />
         </Button>
       </Grid>
     </Border>

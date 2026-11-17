@@ -7,6 +7,7 @@ using Avalonia.Rendering.Composition;
 using Avalonia.Rendering.Composition.Animations;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
+
 using Nexora.ViewModels;
 
 namespace Nexora.Views;

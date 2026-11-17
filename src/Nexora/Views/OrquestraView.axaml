@@ -4,6 +4,7 @@
              xmlns:vm="using:Nexora.ViewModels"
              xmlns:m="using:Nexora.Modelos"
              xmlns:v="using:Nexora.Views"
+             xmlns:c="using:Nexora.Controles"
              x:Class="Nexora.Views.OrquestraView"
              x:DataType="vm:OrquestraVM">
   <UserControl.Styles>
@@ -66,12 +67,12 @@
                      Classes.erro="{Binding Chat.TemErro}"
                      VerticalAlignment="Center" Margin="0,0,10,0" />
             <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8">
-              <v:AvatarVivo x:Name="AvatarDoNo" Agente="orquestrador" Parado="{Binding !Chat.Trabalhando}" SegueMouse="False" Rotulo=""
+              <c:AvatarVivo x:Name="AvatarDoNo" Agente="orquestrador" Parado="{Binding !Chat.Trabalhando}" SegueMouse="False" Rotulo=""
                             Width="22" Height="22" Margin="-2,-3,0,-3" IsVisible="{Binding EhChefe}" VerticalAlignment="Center" />
               <TextBlock Text="{Binding Chat.Titulo}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" MaxWidth="200" VerticalAlignment="Center" />
             </StackPanel>
             <Button Grid.Column="2" Classes="icone pequeno" ToolTip.Tip="{l:T 'Mais ações'}" AutomationProperties.Name="{l:T 'Mais ações do agente'}" IsVisible="{Binding !EhChefe}">
-              <v:Icone Nome="mais-acoes" Tamanho="14" />
+              <c:Icone Nome="mais-acoes" Tamanho="14" />
               <Button.Flyout>
                 <MenuFlyout>
                   <MenuItem Header="{l:T 'Abrir conversa'}" Command="{Binding AbrirCommand}" />
@@ -84,7 +85,7 @@
             </Button>
           </Grid>
           <WrapPanel DockPanel.Dock="Top" Margin="0,6,0,8">
-            <v:Icone Nome="camadas" Tamanho="12" Classes="fraco" VerticalAlignment="Center" Margin="0,0,6,0" />
+            <c:Icone Nome="camadas" Tamanho="12" Classes="fraco" VerticalAlignment="Center" Margin="0,0,6,0" />
             <TextBlock Classes="fraco" Text="{Binding Chat.Onde}" TextTrimming="CharacterEllipsis" MaxWidth="250" FontSize="12" VerticalAlignment="Center" />
           </WrapPanel>
 
@@ -98,7 +99,7 @@
               <TextBox.KeyBindings><KeyBinding Gesture="Enter" Command="{Binding DelegarCommand}" /></TextBox.KeyBindings>
             </TextBox>
             <Button Grid.Column="1" Classes="icone pequeno" Command="{Binding DelegarCommand}" Margin="6,0,0,0" ToolTip.Tip="{l:T 'Enviar'}" AutomationProperties.Name="{l:T 'Enviar a mensagem ao agente'}" IsVisible="{Binding !EhChefe}">
-              <v:Icone Nome="enviar" Tamanho="13" />
+              <c:Icone Nome="enviar" Tamanho="13" />
             </Button>
             <TextBlock Classes="fraco" Text="{l:T 'Fale com ele na conversa ao lado.'}" FontSize="12" IsVisible="{Binding EhChefe}" VerticalAlignment="Center" />
           </Grid>
@@ -120,7 +121,7 @@
     <Border DockPanel.Dock="Top" BorderBrush="{DynamicResource Borda}" BorderThickness="0,0,0,1" Padding="28,14">
       <Grid ColumnDefinitions="*,Auto">
         <StackPanel Orientation="Horizontal" Spacing="10">
-          <v:AvatarVivo x:Name="AvatarDoTopo" Agente="orquestrador" Parado="{Binding !Chefe.Trabalhando, FallbackValue=True}" SegueMouse="False"
+          <c:AvatarVivo x:Name="AvatarDoTopo" Agente="orquestrador" Parado="{Binding !Chefe.Trabalhando, FallbackValue=True}" SegueMouse="False"
                         Rotulo="" Width="30" Height="30" Margin="-4,-6,0,-6" VerticalAlignment="Center" />
           <TextBlock Text="{l:T 'Orquestrador'}" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center" />
           <TextBlock Classes="fraco subtitulo-orquestra" Text="{l:T 'um Claude que divide o trabalho entre agentes'}" VerticalAlignment="Center" Margin="6,0,0,0" />
@@ -131,12 +132,12 @@
             <TextBlock Classes="fraco" Text="{Binding ZoomTexto}" MinWidth="40" TextAlignment="Center" VerticalAlignment="Center" />
             <Button Classes="icone pequeno" Command="{Binding AproximarCommand}" AutomationProperties.Name="{l:T 'Aproximar'}"><TextBlock Text="+" /></Button>
           </StackPanel>
-          <v:BotaoLigado Classes="icone" Classes.ligado="{Binding ConversaVisivel}" IsChecked="{Binding ConversaVisivel, Mode=OneWay}" Command="{Binding AlternarConversaCommand}"
+          <c:BotaoLigado Classes="icone" Classes.ligado="{Binding ConversaVisivel}" IsChecked="{Binding ConversaVisivel, Mode=OneWay}" Command="{Binding AlternarConversaCommand}"
                   ToolTip.Tip="{l:T 'Mostrar ou esconder a conversa do orquestrador'}" AutomationProperties.Name="{l:T 'Mostrar ou esconder a conversa'}">
-            <v:Icone Nome="painel" Tamanho="15" />
-          </v:BotaoLigado>
+            <c:Icone Nome="painel" Tamanho="15" />
+          </c:BotaoLigado>
           <Button Classes="contorno pequeno" Command="{Binding EncerrarCommand}" ToolTip.Tip="{l:T 'Fecha a sessão do orquestrador. Os agentes continuam abertos.'}">
-            <StackPanel Orientation="Horizontal" Spacing="6"><v:Icone Nome="fechar" Tamanho="12" /><TextBlock Text="{l:T 'Encerrar orquestrador'}" /></StackPanel>
+            <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="fechar" Tamanho="12" /><TextBlock Text="{l:T 'Encerrar orquestrador'}" /></StackPanel>
           </Button>
         </StackPanel>
       </Grid>
@@ -146,7 +147,7 @@
       <ScrollViewer IsVisible="{Binding SemChefe}">
         <StackPanel Margin="28,32,28,28" Spacing="14" MaxWidth="640" HorizontalAlignment="Left">
           <Grid ColumnDefinitions="Auto,*">
-            <v:AvatarVivo x:Name="AvatarDeEspera" Agente="orquestrador" Parado="True" Width="96" Height="96" Margin="-8,-8,14,-8"
+            <c:AvatarVivo x:Name="AvatarDeEspera" Agente="orquestrador" Parado="True" Width="96" Height="96" Margin="-8,-8,14,-8"
                           Rotulo="{l:T 'Polvo, o avatar do orquestrador'}" VerticalAlignment="Center" />
             <StackPanel Grid.Column="1" Spacing="4" VerticalAlignment="Center">
               <TextBlock Text="{l:T 'Um chefe para os seus agentes'}" FontSize="20" FontWeight="SemiBold" TextWrapping="Wrap" />
@@ -161,7 +162,7 @@
               <ComboBox.ItemTemplate>
                 <DataTemplate x:DataType="m:Local">
                   <StackPanel Orientation="Horizontal" Spacing="8">
-                    <v:Icone Nome="camadas" Tamanho="14" Classes="suave" VerticalAlignment="Center" />
+                    <c:Icone Nome="camadas" Tamanho="14" Classes="suave" VerticalAlignment="Center" />
                     <TextBlock Text="{Binding Nome}" VerticalAlignment="Center" />
                     <TextBlock Classes="fraco mono" Text="{Binding Branch}" VerticalAlignment="Center" />
                   </StackPanel>
@@ -182,12 +183,12 @@
                      Text="{l:T 'Ler sessões e esperar por elas é liberado. Criar agente, mandar mensagem, parar e responder permissão pedem a sua confirmação, a menos que você permita para a sessão toda.'}" />
           <Border Classes="aviso-compactar" IsVisible="{Binding $parent[Window].((vm:JanelaVM)DataContext).TemAvisoDoPlano, FallbackValue=False}">
             <Grid ColumnDefinitions="Auto,*">
-              <v:Icone Nome="alerta" Tamanho="15" Foreground="{DynamicResource Laranja}" VerticalAlignment="Center" Margin="0,0,10,0" />
+              <c:Icone Nome="alerta" Tamanho="15" Foreground="{DynamicResource Laranja}" VerticalAlignment="Center" Margin="0,0,10,0" />
               <TextBlock Grid.Column="1" Text="{Binding $parent[Window].((vm:JanelaVM)DataContext).AvisoDoPlano, FallbackValue=''}" TextWrapping="Wrap" FontSize="12.5" VerticalAlignment="Center" />
             </Grid>
           </Border>
           <Button Classes="primario" Command="{Binding IniciarCommand}" HorizontalAlignment="Left">
-            <StackPanel Orientation="Horizontal" Spacing="8"><v:Icone Nome="orquestra" /><TextBlock Text="{l:T 'Iniciar orquestrador'}" /></StackPanel>
+            <StackPanel Orientation="Horizontal" Spacing="8"><c:Icone Nome="orquestra" /><TextBlock Text="{l:T 'Iniciar orquestrador'}" /></StackPanel>
           </Button>
           <StackPanel Spacing="8" IsVisible="{Binding TemAnteriores}" Margin="0,18,0,0">
             <TextBlock Classes="fraco" Text="{l:T 'Retomar um orquestrador anterior, com os agentes e o canvas'}" />
@@ -227,7 +228,7 @@
                     <Border Classes="grupo" Width="{Binding Largura}" Height="{Binding Altura}">
                       <Grid VerticalAlignment="Top" Margin="12,6,12,0" ColumnDefinitions="Auto,*" Background="Transparent" Cursor="SizeAll"
                             PointerPressed="AoPegar" PointerMoved="AoArrastar" PointerReleased="AoSoltar" ToolTip.Tip="{l:T 'Arraste para mover o grupo'}">
-                        <v:Icone Nome="camadas" Tamanho="13" Classes="fraco" VerticalAlignment="Center" Margin="0,0,6,0" />
+                        <c:Icone Nome="camadas" Tamanho="13" Classes="fraco" VerticalAlignment="Center" Margin="0,0,6,0" />
                         <TextBox Grid.Column="1" Classes="nome-grupo" Text="{Binding Nome}" HorizontalAlignment="Left" MinWidth="80" />
                       </Grid>
                     </Border>

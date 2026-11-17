@@ -1,7 +1,7 @@
 using Avalonia;
 using Avalonia.Controls;
 
-namespace Nexora.Views;
+namespace Nexora.Controles;
 
 public sealed class GradeAdaptativa : Panel
 {

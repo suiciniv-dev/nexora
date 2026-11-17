@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:l="using:Nexora"
              xmlns:vm="using:Nexora.ViewModels"
-             xmlns:v="using:Nexora.Views"
+             xmlns:c="using:Nexora.Controles"
              x:Class="Nexora.Views.TrilhoView"
              x:DataType="vm:JanelaVM"
              ClipToBounds="False">
@@ -45,7 +45,7 @@
     </Style>
     <Style Selector="Button.trilho /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Transitions">
-        <Transitions><v:TransicaoDeCor Property="Background" Duration="0:0:0.14" /></Transitions>
+        <Transitions><c:TransicaoDeCor Property="Background" Duration="0:0:0.14" /></Transitions>
       </Setter>
     </Style>
     <Style Selector="Border.capsula:not(.aberta) Button.trilho:pointerover">
@@ -140,84 +140,84 @@
       <StackPanel Spacing="4">
         <Button Classes="trilho" Command="{Binding AbrirBoasVindasCommand}" ToolTip.Tip="{l:T 'Guia de primeiros passos'}" AutomationProperties.Name="{l:T 'Guia de primeiros passos'}">
           <Grid ColumnDefinitions="38,*">
-            <v:Icone Nome="ajuda" Tamanho="17" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <c:Icone Nome="ajuda" Tamanho="17" HorizontalAlignment="Center" VerticalAlignment="Center" />
             <TextBlock Grid.Column="1" Classes="rotulo-trilho" Text="{l:T 'Guia'}" />
           </Grid>
         </Button>
         <Button Classes="trilho" Command="{Binding MostrarAtalhosCommand}" ToolTip.Tip="{l:T 'Atalhos de teclado (F1)'}" AutomationProperties.Name="{l:T 'Atalhos de teclado'}">
           <Grid ColumnDefinitions="38,*">
-            <v:Icone Nome="teclado" Tamanho="17" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <c:Icone Nome="teclado" Tamanho="17" HorizontalAlignment="Center" VerticalAlignment="Center" />
             <TextBlock Grid.Column="1" Classes="rotulo-trilho" Text="{l:T 'Atalhos'}" />
           </Grid>
         </Button>
-        <v:BotaoLigado Classes="trilho" Classes.ativo="{Binding NaConfiguracoes}" IsChecked="{Binding NaConfiguracoes, Mode=OneWay}" Command="{Binding MostrarConfiguracoesCommand}" ToolTip.Tip="{l:T 'Configurações (Ctrl+,)'}" AutomationProperties.Name="{l:T 'Configurações'}">
+        <c:BotaoLigado Classes="trilho" Classes.ativo="{Binding NaConfiguracoes}" IsChecked="{Binding NaConfiguracoes, Mode=OneWay}" Command="{Binding MostrarConfiguracoesCommand}" ToolTip.Tip="{l:T 'Configurações (Ctrl+,)'}" AutomationProperties.Name="{l:T 'Configurações'}">
           <Grid ColumnDefinitions="38,*">
-            <v:Icone Nome="ajustes" Tamanho="17" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <c:Icone Nome="ajustes" Tamanho="17" HorizontalAlignment="Center" VerticalAlignment="Center" />
             <TextBlock Grid.Column="1" Classes="rotulo-trilho" Text="{l:T 'Configurações'}" />
           </Grid>
-        </v:BotaoLigado>
+        </c:BotaoLigado>
       </StackPanel>
     </Border>
 
     <Border Classes="capsula" VerticalAlignment="Top" Margin="8,4,0,0">
       <StackPanel Spacing="4">
-        <v:BotaoLigado Classes="trilho" Classes.ativo="{Binding NaDashboard}" IsChecked="{Binding NaDashboard, Mode=OneWay}" Command="{Binding MostrarDashboardCommand}" ToolTip.Tip="{l:T 'Dashboard (Ctrl+0)'}" AutomationProperties.Name="{l:T 'Dashboard'}">
+        <c:BotaoLigado Classes="trilho" Classes.ativo="{Binding NaDashboard}" IsChecked="{Binding NaDashboard, Mode=OneWay}" Command="{Binding MostrarDashboardCommand}" ToolTip.Tip="{l:T 'Dashboard (Ctrl+0)'}" AutomationProperties.Name="{l:T 'Dashboard'}">
           <Grid ColumnDefinitions="38,*">
-            <v:Icone Nome="dashboard" Tamanho="17" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <c:Icone Nome="dashboard" Tamanho="17" HorizontalAlignment="Center" VerticalAlignment="Center" />
             <TextBlock Grid.Column="1" Classes="rotulo-trilho" Text="{l:T 'Dashboard'}" />
           </Grid>
-        </v:BotaoLigado>
-        <v:BotaoLigado Classes="trilho" Classes.ativo="{Binding NaVisaoGeral}" IsChecked="{Binding NaVisaoGeral, Mode=OneWay}" Command="{Binding MostrarVisaoGeralCommand}" ToolTip.Tip="{l:T 'Ao vivo (Ctrl+Shift+0)'}" AutomationProperties.Name="{l:T 'Ao vivo'}">
+        </c:BotaoLigado>
+        <c:BotaoLigado Classes="trilho" Classes.ativo="{Binding NaVisaoGeral}" IsChecked="{Binding NaVisaoGeral, Mode=OneWay}" Command="{Binding MostrarVisaoGeralCommand}" ToolTip.Tip="{l:T 'Ao vivo (Ctrl+Shift+0)'}" AutomationProperties.Name="{l:T 'Ao vivo'}">
           <Grid ColumnDefinitions="38,*">
             <Panel HorizontalAlignment="Center" VerticalAlignment="Center">
-              <v:Icone Nome="painel-geral" Tamanho="17" />
+              <c:Icone Nome="painel-geral" Tamanho="17" />
               <Border Classes="contador-trilho" IsVisible="{Binding TemPrecisa}" ToolTip.Tip="{l:T 'Sessões que precisam de você'}"><TextBlock Text="{Binding TotalPrecisa}" /></Border>
             </Panel>
             <TextBlock Grid.Column="1" Classes="rotulo-trilho" Text="{l:T 'Ao vivo'}" />
           </Grid>
-        </v:BotaoLigado>
-        <v:BotaoLigado Classes="trilho so-trilho" Classes.ativo="{Binding LateralNaTela}" IsChecked="{Binding LateralNaTela, Mode=OneWay}" Command="{Binding AlternarLateralCommand}" ToolTip.Tip="{l:T 'Conversas (Ctrl+B)'}" AutomationProperties.Name="{l:T 'Conversas'}">
+        </c:BotaoLigado>
+        <c:BotaoLigado Classes="trilho so-trilho" Classes.ativo="{Binding LateralNaTela}" IsChecked="{Binding LateralNaTela, Mode=OneWay}" Command="{Binding AlternarLateralCommand}" ToolTip.Tip="{l:T 'Conversas (Ctrl+B)'}" AutomationProperties.Name="{l:T 'Conversas'}">
           <Grid ColumnDefinitions="38,*">
-            <v:Icone Nome="conversa" Tamanho="17" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <c:Icone Nome="conversa" Tamanho="17" HorizontalAlignment="Center" VerticalAlignment="Center" />
             <TextBlock Grid.Column="1" Classes="rotulo-trilho" Text="{l:T 'Conversas'}" />
           </Grid>
-        </v:BotaoLigado>
-        <v:BotaoLigado Classes="trilho" Classes.ativo="{Binding NaProjetos}" IsChecked="{Binding NaProjetos, Mode=OneWay}" Command="{Binding MostrarProjetosCommand}" ToolTip.Tip="{l:T 'Projetos'}" AutomationProperties.Name="{l:T 'Projetos'}">
+        </c:BotaoLigado>
+        <c:BotaoLigado Classes="trilho" Classes.ativo="{Binding NaProjetos}" IsChecked="{Binding NaProjetos, Mode=OneWay}" Command="{Binding MostrarProjetosCommand}" ToolTip.Tip="{l:T 'Projetos'}" AutomationProperties.Name="{l:T 'Projetos'}">
           <Grid ColumnDefinitions="38,*">
-            <v:Icone Nome="camadas" Tamanho="17" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <c:Icone Nome="camadas" Tamanho="17" HorizontalAlignment="Center" VerticalAlignment="Center" />
             <TextBlock Grid.Column="1" Classes="rotulo-trilho" Text="{l:T 'Projetos'}" />
           </Grid>
-        </v:BotaoLigado>
-        <v:BotaoLigado Classes="trilho" Classes.ativo="{Binding NaIssues}" IsChecked="{Binding NaIssues, Mode=OneWay}" Command="{Binding MostrarIssuesCommand}" ToolTip.Tip="{l:T 'Issues: as abertas nos seus projetos do GitHub'}" AutomationProperties.Name="{l:T 'Issues'}">
+        </c:BotaoLigado>
+        <c:BotaoLigado Classes="trilho" Classes.ativo="{Binding NaIssues}" IsChecked="{Binding NaIssues, Mode=OneWay}" Command="{Binding MostrarIssuesCommand}" ToolTip.Tip="{l:T 'Issues: as abertas nos seus projetos do GitHub'}" AutomationProperties.Name="{l:T 'Issues'}">
           <Grid ColumnDefinitions="38,*">
-            <v:Icone Nome="issue" Tamanho="17" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <c:Icone Nome="issue" Tamanho="17" HorizontalAlignment="Center" VerticalAlignment="Center" />
             <TextBlock Grid.Column="1" Classes="rotulo-trilho" Text="{l:T 'Issues'}" />
           </Grid>
-        </v:BotaoLigado>
-        <v:BotaoLigado Classes="trilho" Classes.ativo="{Binding NaOrquestra}" IsChecked="{Binding NaOrquestra, Mode=OneWay}" Command="{Binding MostrarOrquestraCommand}" ToolTip.Tip="{l:T 'Orquestrador (Ctrl+Shift+O)'}" AutomationProperties.Name="{l:T 'Orquestrador'}">
+        </c:BotaoLigado>
+        <c:BotaoLigado Classes="trilho" Classes.ativo="{Binding NaOrquestra}" IsChecked="{Binding NaOrquestra, Mode=OneWay}" Command="{Binding MostrarOrquestraCommand}" ToolTip.Tip="{l:T 'Orquestrador (Ctrl+Shift+O)'}" AutomationProperties.Name="{l:T 'Orquestrador'}">
           <Grid ColumnDefinitions="38,*">
-            <v:Icone Nome="orquestra" Tamanho="17" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <c:Icone Nome="orquestra" Tamanho="17" HorizontalAlignment="Center" VerticalAlignment="Center" />
             <TextBlock Grid.Column="1" Classes="rotulo-trilho" Text="{l:T 'Orquestrador'}" />
           </Grid>
-        </v:BotaoLigado>
-        <v:BotaoLigado Classes="trilho" Classes.ativo="{Binding NaAgendados}" IsChecked="{Binding NaAgendados, Mode=OneWay}" Command="{Binding MostrarAgendadosCommand}" ToolTip.Tip="{l:T 'Agendados: pedidos que rodam sozinhos no horário'}" AutomationProperties.Name="{l:T 'Agendados'}">
+        </c:BotaoLigado>
+        <c:BotaoLigado Classes="trilho" Classes.ativo="{Binding NaAgendados}" IsChecked="{Binding NaAgendados, Mode=OneWay}" Command="{Binding MostrarAgendadosCommand}" ToolTip.Tip="{l:T 'Agendados: pedidos que rodam sozinhos no horário'}" AutomationProperties.Name="{l:T 'Agendados'}">
           <Grid ColumnDefinitions="38,*">
-            <v:Icone Nome="relogio" Tamanho="17" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <c:Icone Nome="relogio" Tamanho="17" HorizontalAlignment="Center" VerticalAlignment="Center" />
             <TextBlock Grid.Column="1" Classes="rotulo-trilho" Text="{l:T 'Agendados'}" />
           </Grid>
-        </v:BotaoLigado>
-        <v:BotaoLigado Classes="trilho" Classes.ativo="{Binding NaUso}" IsChecked="{Binding NaUso, Mode=OneWay}" Command="{Binding MostrarUsoCommand}" ToolTip.Tip="{l:T 'Uso: plano do Claude e a parte de cada projeto'}" AutomationProperties.Name="{l:T 'Uso'}">
+        </c:BotaoLigado>
+        <c:BotaoLigado Classes="trilho" Classes.ativo="{Binding NaUso}" IsChecked="{Binding NaUso, Mode=OneWay}" Command="{Binding MostrarUsoCommand}" ToolTip.Tip="{l:T 'Uso: plano do Claude e a parte de cada projeto'}" AutomationProperties.Name="{l:T 'Uso'}">
           <Grid ColumnDefinitions="38,*">
-            <v:Icone Nome="grafico" Tamanho="17" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <c:Icone Nome="grafico" Tamanho="17" HorizontalAlignment="Center" VerticalAlignment="Center" />
             <TextBlock Grid.Column="1" Classes="rotulo-trilho" Text="{l:T 'Uso'}" />
           </Grid>
-        </v:BotaoLigado>
-        <v:BotaoLigado Classes="trilho" Classes.ativo="{Binding NaRecursos}" IsChecked="{Binding NaRecursos, Mode=OneWay}" Command="{Binding MostrarRecursosCommand}" ToolTip.Tip="{l:T 'Recursos: memória das sessões e MCPs compartilhados'}" AutomationProperties.Name="{l:T 'Recursos'}">
+        </c:BotaoLigado>
+        <c:BotaoLigado Classes="trilho" Classes.ativo="{Binding NaRecursos}" IsChecked="{Binding NaRecursos, Mode=OneWay}" Command="{Binding MostrarRecursosCommand}" ToolTip.Tip="{l:T 'Recursos: memória das sessões e MCPs compartilhados'}" AutomationProperties.Name="{l:T 'Recursos'}">
           <Grid ColumnDefinitions="38,*">
-            <v:Icone Nome="memoria" Tamanho="17" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <c:Icone Nome="memoria" Tamanho="17" HorizontalAlignment="Center" VerticalAlignment="Center" />
             <TextBlock Grid.Column="1" Classes="rotulo-trilho" Text="{l:T 'Recursos'}" />
           </Grid>
-        </v:BotaoLigado>
+        </c:BotaoLigado>
       </StackPanel>
     </Border>
   </DockPanel>

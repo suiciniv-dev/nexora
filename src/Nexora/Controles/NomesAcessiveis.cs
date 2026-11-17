@@ -3,7 +3,7 @@ using Avalonia.Automation;
 using Avalonia.Controls;
 using Avalonia.LogicalTree;
 
-namespace Nexora.Views;
+namespace Nexora.Controles;
 
 public static class NomesAcessiveis
 {

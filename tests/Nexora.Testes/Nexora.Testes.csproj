@@ -16,6 +16,7 @@
     <Using Include="Xunit" />
     <Using Include="Nexora.Modelos" />
     <Using Include="Nexora.Servicos" />
+    <Using Include="Nexora.Controles" />
     <ProjectReference Include="..\..\src\Nexora.Core\Nexora.Core.csproj" />
     <ProjectReference Include="..\..\src\Nexora\Nexora.csproj" />
     <ProjectReference Include="..\..\tools\AgenteDeTeste\AgenteDeTeste.csproj" ReferenceOutputAssembly="false" />

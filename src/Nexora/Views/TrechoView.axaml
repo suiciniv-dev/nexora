@@ -3,13 +3,14 @@
              xmlns:l="using:Nexora"
              xmlns:vm="using:Nexora.ViewModels"
              xmlns:v="using:Nexora.Views"
+             xmlns:c="using:Nexora.Controles"
              x:Class="Nexora.Views.TrechoView"
              x:DataType="vm:CartaoVM">
   <Border Background="{DynamicResource Fundo}" CornerRadius="10" Padding="12,8,4,8">
     <Panel>
       <TextBlock Classes="fraco" Text="{l:T 'Ainda não há conversa para mostrar.'}" FontSize="12.5" Margin="0,4"
                  IsVisible="{Binding !TemTrecho}" />
-      <v:RolagemFim MaxHeight="{Binding $parent[v:TrechoView].Altura}" HorizontalScrollBarVisibility="Disabled">
+      <c:RolagemFim MaxHeight="{Binding $parent[v:TrechoView].Altura}" HorizontalScrollBarVisibility="Disabled">
         <ItemsControl ItemsSource="{Binding Trecho}" Margin="0,0,10,0">
           <ItemsControl.DataTemplates>
             <DataTemplate DataType="vm:ItemUsuario">
@@ -22,7 +23,7 @@
             <DataTemplate DataType="vm:ItemTexto">
               <Grid ColumnDefinitions="Auto,*" Margin="0,4">
                 <TextBlock Classes="marca-claude" Text="✻" />
-                <v:MarkdownTexto Grid.Column="1" Texto="{Binding Texto}" />
+                <c:MarkdownTexto Grid.Column="1" Texto="{Binding Texto}" />
               </Grid>
             </DataTemplate>
 
@@ -79,7 +80,7 @@
             </DataTemplate>
           </ItemsControl.DataTemplates>
         </ItemsControl>
-      </v:RolagemFim>
+      </c:RolagemFim>
     </Panel>
   </Border>
 </UserControl>

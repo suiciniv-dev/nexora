@@ -3,7 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Avalonia.Metadata;
 
-namespace Nexora.Views;
+namespace Nexora.Controles;
 
 public sealed class Adiado : Decorator
 {

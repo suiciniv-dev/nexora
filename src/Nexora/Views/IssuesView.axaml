@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:l="using:Nexora"
              xmlns:vm="using:Nexora.ViewModels"
-             xmlns:v="using:Nexora.Views"
+             xmlns:c="using:Nexora.Controles"
              xmlns:git="using:Nexora.Core.Git"
              x:Class="Nexora.Views.IssuesView"
              x:DataType="vm:IssuesVM">
@@ -208,7 +208,7 @@
     <Style Selector="Window.vertical ItemsControl.kanban">
       <Setter Property="ItemsPanel">
         <ItemsPanelTemplate>
-          <v:GradeAdaptativa LarguraMinima="300" Espaco="12" EspacoVertical="12" />
+          <c:GradeAdaptativa LarguraMinima="300" Espaco="12" EspacoVertical="12" />
         </ItemsPanelTemplate>
       </Setter>
     </Style>
@@ -242,19 +242,19 @@
           </ComboBox>
           <Border Classes="seletor-modo" IsVisible="{Binding Colunas.Quadro}" VerticalAlignment="Center">
             <StackPanel Orientation="Horizontal" Spacing="2">
-              <v:BotaoLigado Classes="modo" Classes.ligado="{Binding !EmLista}" IsChecked="{Binding !EmLista, Mode=OneWay}" Command="{Binding VerKanbanCommand}" ToolTip.Tip="{l:T 'Colunas por status; arraste o cartão para trocar o status'}">
-                <StackPanel Orientation="Horizontal" Spacing="6"><v:Icone Nome="quadro" Tamanho="13" /><TextBlock Text="Kanban" /></StackPanel>
-              </v:BotaoLigado>
-              <v:BotaoLigado Classes="modo" Classes.ligado="{Binding EmLista}" IsChecked="{Binding EmLista, Mode=OneWay}" Command="{Binding VerListaCommand}" ToolTip.Tip="{l:T 'Tabela agrupada por status'}">
-                <StackPanel Orientation="Horizontal" Spacing="6"><v:Icone Nome="lista" Tamanho="13" /><TextBlock Text="{l:T 'Lista'}" /></StackPanel>
-              </v:BotaoLigado>
+              <c:BotaoLigado Classes="modo" Classes.ligado="{Binding !EmLista}" IsChecked="{Binding !EmLista, Mode=OneWay}" Command="{Binding VerKanbanCommand}" ToolTip.Tip="{l:T 'Colunas por status; arraste o cartão para trocar o status'}">
+                <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="quadro" Tamanho="13" /><TextBlock Text="Kanban" /></StackPanel>
+              </c:BotaoLigado>
+              <c:BotaoLigado Classes="modo" Classes.ligado="{Binding EmLista}" IsChecked="{Binding EmLista, Mode=OneWay}" Command="{Binding VerListaCommand}" ToolTip.Tip="{l:T 'Tabela agrupada por status'}">
+                <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="lista" Tamanho="13" /><TextBlock Text="{l:T 'Lista'}" /></StackPanel>
+              </c:BotaoLigado>
             </StackPanel>
           </Border>
           <Button Classes="icone" Command="{Binding AbrirQuadroNoGitHubCommand}" IsVisible="{Binding Colunas.Quadro}" ToolTip.Tip="{l:T 'Abrir o quadro no GitHub'}" AutomationProperties.Name="{l:T 'Abrir o quadro no GitHub'}">
-            <v:Icone Nome="externo" Tamanho="15" />
+            <c:Icone Nome="externo" Tamanho="15" />
           </Button>
           <Button Classes="icone" Command="{Binding AtualizarCommand}" ToolTip.Tip="{l:T 'Buscar de novo'}" AutomationProperties.Name="{l:T 'Buscar de novo'}">
-            <v:Icone Nome="atualizar" Tamanho="15" />
+            <c:Icone Nome="atualizar" Tamanho="15" />
           </Button>
         </StackPanel>
       </Grid>
@@ -281,7 +281,7 @@
         <TextBox Classes="busca-issues busca-topo-issues" Text="{Binding Busca}" PlaceholderText="{l:T 'Buscar nas issues'}" VerticalAlignment="Center"
                  AutomationProperties.Name="{l:T 'Buscar nas issues'}">
           <TextBox.InnerLeftContent>
-            <v:Icone Nome="busca" Tamanho="13" Classes="fraco" Margin="9,0,0,0" />
+            <c:Icone Nome="busca" Tamanho="13" Classes="fraco" Margin="9,0,0,0" />
           </TextBox.InnerLeftContent>
         </TextBox>
         <ToggleSwitch Classes="so-minhas" IsChecked="{Binding SoMinhas}" OnContent="{l:T 'Minhas e sem responsável'}" OffContent="{l:T 'Minhas e sem responsável'}"
@@ -290,7 +290,7 @@
 
       <Border Grid.Row="2" IsVisible="{Binding PrecisaPermissao}" Classes="painel" Padding="14,10" Margin="0,0,0,10">
         <Grid ColumnDefinitions="Auto,*,Auto">
-          <v:Icone Nome="quadro" Tamanho="18" Classes="suave" VerticalAlignment="Center" Margin="0,0,12,0" />
+          <c:Icone Nome="quadro" Tamanho="18" Classes="suave" VerticalAlignment="Center" Margin="0,0,12,0" />
           <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center">
             <TextBlock Text="{l:T 'Falta a permissão de projetos do GitHub para ver o kanban'}" FontWeight="SemiBold" />
             <TextBlock Classes="suave" Text="{Binding TextoFaltaPermissao}" TextWrapping="Wrap" FontSize="12.5" />
@@ -324,7 +324,7 @@
                             <Button Classes="cartao-issue" Classes.escolhida="{Binding Escolhida}" Command="{Binding AbrirCommand}" AutomationProperties.Name="{Binding Titulo}">
                               <StackPanel Spacing="8">
                                 <Grid ColumnDefinitions="Auto,*,Auto">
-                                  <v:Icone Nome="{Binding Icone}" Tamanho="13" Classes="suave" VerticalAlignment="Center" Margin="0,0,7,0" />
+                                  <c:Icone Nome="{Binding Icone}" Tamanho="13" Classes="suave" VerticalAlignment="Center" Margin="0,0,7,0" />
                                   <TextBlock Grid.Column="1" Classes="fraco" Text="{Binding Repositorio}" FontSize="12" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
                                   <TextBlock Grid.Column="2" Classes="fraco mono" Text="{Binding Numero}" FontSize="12" VerticalAlignment="Center" Margin="8,0,0,0" />
                                 </Grid>
@@ -380,7 +380,7 @@
           <Border DockPanel.Dock="Top" Height="1" Background="{DynamicResource Borda}" Margin="4,0,4,4" />
           <Panel>
             <StackPanel IsVisible="{Binding !Grupos.Count}" VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="8">
-              <v:Icone Nome="issue" Tamanho="28" Classes="fraco" HorizontalAlignment="Center" />
+              <c:Icone Nome="issue" Tamanho="28" Classes="fraco" HorizontalAlignment="Center" />
               <TextBlock Classes="suave" Text="{Binding Resumo}" HorizontalAlignment="Center" TextWrapping="Wrap" MaxWidth="520" TextAlignment="Center" />
             </StackPanel>
             <ScrollViewer HorizontalScrollBarVisibility="Disabled">
@@ -391,7 +391,7 @@
                     <StackPanel>
                       <Button Classes="grupo" Command="{Binding AlternarCommand}">
                         <StackPanel Orientation="Horizontal" Spacing="9">
-                          <v:Icone Nome="{Binding Seta}" Tamanho="13" Classes="fraco" VerticalAlignment="Center" />
+                          <c:Icone Nome="{Binding Seta}" Tamanho="13" Classes="fraco" VerticalAlignment="Center" />
                           <Ellipse Width="10" Height="10" Fill="{Binding Cor}" VerticalAlignment="Center" />
                           <TextBlock Text="{Binding Nome}" FontWeight="SemiBold" VerticalAlignment="Center" />
                           <Border Classes="pilula" Padding="7,0" CornerRadius="999" VerticalAlignment="Center">
@@ -405,7 +405,7 @@
                             <Button Classes="linha" Classes.escolhida="{Binding Escolhida}" Command="{Binding AbrirCommand}" AutomationProperties.Name="{Binding Titulo}">
                               <Grid ColumnDefinitions="*,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" Margin="18,0,0,0">
                                 <DockPanel>
-                                  <v:Icone DockPanel.Dock="Left" Nome="{Binding Icone}" Tamanho="14" Classes="suave" VerticalAlignment="Center" Margin="0,0,9,0" />
+                                  <c:Icone DockPanel.Dock="Left" Nome="{Binding Icone}" Tamanho="14" Classes="suave" VerticalAlignment="Center" Margin="0,0,9,0" />
                                   <TextBlock DockPanel.Dock="Right" Classes="fraco mono" Text="{Binding Numero}" VerticalAlignment="Center" Margin="8,0,12,0" />
                                   <TextBlock Text="{Binding Titulo}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
                                 </DockPanel>
@@ -463,7 +463,7 @@
       <Border x:Name="Fantasma" IsVisible="False" Background="{DynamicResource FundoSolido}" BorderBrush="{DynamicResource Acento}" BorderThickness="1"
               CornerRadius="10" Padding="12,7" MaxWidth="420" Opacity="0.95" BoxShadow="0 10 30 0 #66000000">
         <StackPanel Orientation="Horizontal" Spacing="8">
-          <v:Icone Nome="issue" Tamanho="14" Classes="suave" VerticalAlignment="Center" />
+          <c:Icone Nome="issue" Tamanho="14" Classes="suave" VerticalAlignment="Center" />
           <TextBlock x:Name="TextoFantasma" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
         </StackPanel>
       </Border>
@@ -476,12 +476,12 @@
         <DockPanel Margin="26,20,26,20">
           <StackPanel DockPanel.Dock="Top" Spacing="8">
             <Grid ColumnDefinitions="Auto,*,Auto">
-              <v:Icone Nome="{Binding Espiada.Icone, FallbackValue=issue}" Tamanho="15" Classes="suave" VerticalAlignment="Center" Margin="0,0,8,0" />
+              <c:Icone Nome="{Binding Espiada.Icone, FallbackValue=issue}" Tamanho="15" Classes="suave" VerticalAlignment="Center" Margin="0,0,8,0" />
               <TextBlock Grid.Column="1" Classes="fraco" Text="{Binding CabecalhoEspiada}" FontSize="12.5" VerticalAlignment="Center" />
               <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="2">
                 <TextBlock Classes="fraco" Text="{l:T '↑ ↓ para navegar  ·  Esc fecha'}" VerticalAlignment="Center" Margin="0,0,10,0" />
                 <Button Classes="icone" Command="{Binding FecharEspiadaCommand}" ToolTip.Tip="{l:T 'Fechar (Esc)'}" AutomationProperties.Name="{l:T 'Fechar'}">
-                  <v:Icone Nome="fechar" Tamanho="14" />
+                  <c:Icone Nome="fechar" Tamanho="14" />
                 </Button>
               </StackPanel>
             </Grid>
@@ -530,30 +530,30 @@
                 <WrapPanel IsVisible="{Binding TemProjeto}">
                   <Button Classes="primario" Command="{Binding ComecarEmWorktreeCommand}" IsEnabled="{Binding !CriandoSessao}" Margin="0,0,8,6"
                           ToolTip.Tip="{l:T 'Cria um worktree com uma branch nova a partir da base escolhida (com fetch antes) e abre a sessão lá, com a issue no pedido'}">
-                    <StackPanel Orientation="Horizontal" Spacing="7"><v:Icone Nome="worktree" Tamanho="14" /><TextBlock Text="{l:T 'Worktree novo'}" /></StackPanel>
+                    <StackPanel Orientation="Horizontal" Spacing="7"><c:Icone Nome="worktree" Tamanho="14" /><TextBlock Text="{l:T 'Worktree novo'}" /></StackPanel>
                   </Button>
                   <TextBlock Classes="suave" Text="{l:T 'a partir de'}" VerticalAlignment="Center" Margin="0,0,8,6" />
                   <ComboBox ItemsSource="{Binding Espiada.Projeto.Branches, FallbackValue={x:Null}}" SelectedItem="{Binding Espiada.Projeto.BaseTarefa, FallbackValue={x:Null}}"
                             MinWidth="130" Margin="0,0,14,6" VerticalAlignment="Center" AutomationProperties.Name="{l:T 'Branch base'}" ToolTip.Tip="{l:T 'Fica salva para este projeto'}" />
                   <Button Classes="contorno" Command="{Binding NovaSessaoCommand}" Margin="0,0,8,6"
                           ToolTip.Tip="{l:T 'Abre uma conversa nova com o link da issue no rascunho, sem worktree e sem enviar. Dá para trocar a pasta antes de mandar'}">
-                    <StackPanel Orientation="Horizontal" Spacing="7"><v:Icone Nome="conversa" Tamanho="14" /><TextBlock Text="{l:T 'Nova sessão'}" /></StackPanel>
+                    <StackPanel Orientation="Horizontal" Spacing="7"><c:Icone Nome="conversa" Tamanho="14" /><TextBlock Text="{l:T 'Nova sessão'}" /></StackPanel>
                   </Button>
                   <Button Classes="contorno" Command="{Binding AbrirNoGitHubCommand}" Margin="0,0,8,6">
-                    <StackPanel Orientation="Horizontal" Spacing="7"><v:Icone Nome="externo" Tamanho="14" /><TextBlock Text="{l:T 'Abrir no GitHub'}" /></StackPanel>
+                    <StackPanel Orientation="Horizontal" Spacing="7"><c:Icone Nome="externo" Tamanho="14" /><TextBlock Text="{l:T 'Abrir no GitHub'}" /></StackPanel>
                   </Button>
                   <Button Classes="contorno" Click="CopiarLink_Click" Margin="0,0,8,6" ToolTip.Tip="{l:T 'Copia o endereço da issue no GitHub'}">
-                    <StackPanel Orientation="Horizontal" Spacing="7"><v:Icone Nome="vinculo" Tamanho="14" /><TextBlock Text="{Binding TextoCopiarLink}" /></StackPanel>
+                    <StackPanel Orientation="Horizontal" Spacing="7"><c:Icone Nome="vinculo" Tamanho="14" /><TextBlock Text="{Binding TextoCopiarLink}" /></StackPanel>
                   </Button>
                 </WrapPanel>
                 <StackPanel IsVisible="{Binding SemProjeto}" Spacing="8">
                   <TextBlock Classes="suave" Text="{l:T 'Este repositório não está nos projetos do Nexora. Importe a pasta dele para começar sessões daqui.'}" TextWrapping="Wrap" />
                   <WrapPanel>
                     <Button Classes="contorno" Command="{Binding AbrirNoGitHubCommand}" Margin="0,0,8,0">
-                      <StackPanel Orientation="Horizontal" Spacing="7"><v:Icone Nome="externo" Tamanho="14" /><TextBlock Text="{l:T 'Abrir no GitHub'}" /></StackPanel>
+                      <StackPanel Orientation="Horizontal" Spacing="7"><c:Icone Nome="externo" Tamanho="14" /><TextBlock Text="{l:T 'Abrir no GitHub'}" /></StackPanel>
                     </Button>
                     <Button Classes="contorno" Click="CopiarLink_Click" ToolTip.Tip="{l:T 'Copia o endereço da issue no GitHub'}">
-                      <StackPanel Orientation="Horizontal" Spacing="7"><v:Icone Nome="vinculo" Tamanho="14" /><TextBlock Text="{Binding TextoCopiarLink}" /></StackPanel>
+                      <StackPanel Orientation="Horizontal" Spacing="7"><c:Icone Nome="vinculo" Tamanho="14" /><TextBlock Text="{Binding TextoCopiarLink}" /></StackPanel>
                     </Button>
                   </WrapPanel>
                 </StackPanel>
@@ -567,7 +567,7 @@
               <TextBox Text="{Binding NovoComentario}" PlaceholderText="{l:T 'Escreva um comentário (vai para o GitHub)'}" AcceptsReturn="True" TextWrapping="Wrap"
                        MinHeight="58" MaxHeight="160" AutomationProperties.Name="{l:T 'Novo comentário'}" />
               <Button Grid.Column="1" Classes="primario" Command="{Binding ComentarCommand}" VerticalAlignment="Bottom" Margin="10,0,0,0">
-                <StackPanel Orientation="Horizontal" Spacing="6"><v:Icone Nome="enviar" Tamanho="13" /><TextBlock Text="{l:T 'Comentar'}" /></StackPanel>
+                <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="enviar" Tamanho="13" /><TextBlock Text="{l:T 'Comentar'}" /></StackPanel>
               </Button>
               <TextBlock Grid.Row="1" Grid.ColumnSpan="2" Classes="fraco" Text="{Binding AvisoComentario}" FontSize="12" Margin="2,6,0,0"
                          IsVisible="{Binding AvisoComentario, Converter={x:Static ObjectConverters.IsNotNull}}" />
@@ -577,7 +577,7 @@
             <TextBlock Classes="suave" Text="{Binding TextoDetalhe}" IsVisible="{Binding TextoDetalhe, Converter={x:Static ObjectConverters.IsNotNull}}" />
             <ScrollViewer HorizontalScrollBarVisibility="Disabled" IsVisible="{Binding TextoDetalhe, Converter={x:Static ObjectConverters.IsNull}}">
               <StackPanel Spacing="14" Margin="0,0,12,0">
-                <v:MarkdownTexto Texto="{Binding Detalhe.Corpo, FallbackValue=''}" CarregarImagem="{Binding CarregarImagem}" />
+                <c:MarkdownTexto Texto="{Binding Detalhe.Corpo, FallbackValue=''}" CarregarImagem="{Binding CarregarImagem}" />
                 <StackPanel Spacing="10" IsVisible="{Binding TemComentarios}">
                   <TextBlock Classes="coluna" Text="{l:T 'COMENTÁRIOS'}" />
                   <ItemsControl ItemsSource="{Binding Comentarios}">
@@ -589,7 +589,7 @@
                               <TextBlock Text="{Binding Autor}" FontWeight="SemiBold" FontSize="12.5" />
                               <TextBlock Classes="fraco" Text="{Binding Quando}" FontSize="12" />
                             </StackPanel>
-                            <v:MarkdownTexto Texto="{Binding Corpo}" CarregarImagem="{Binding $parent[UserControl].((vm:IssuesVM)DataContext).CarregarImagem}" />
+                            <c:MarkdownTexto Texto="{Binding Corpo}" CarregarImagem="{Binding $parent[UserControl].((vm:IssuesVM)DataContext).CarregarImagem}" />
                           </StackPanel>
                         </Border>
                       </DataTemplate>

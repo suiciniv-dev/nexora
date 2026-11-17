@@ -1,5 +1,6 @@
 using Avalonia;
 using Avalonia.Controls;
+
 using Nexora.ViewModels;
 
 namespace Nexora.Views;

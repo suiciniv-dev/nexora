@@ -2,13 +2,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:l="using:Nexora"
              xmlns:vm="using:Nexora.ViewModels"
-             xmlns:v="using:Nexora.Views"
+             xmlns:c="using:Nexora.Controles"
              x:Class="Nexora.Views.NovoAmbienteView"
              x:DataType="vm:NovoAmbienteVM">
   <DockPanel>
     <Border DockPanel.Dock="Top" BorderBrush="{DynamicResource Borda}" BorderThickness="0,0,0,1" Padding="28,14">
       <StackPanel Orientation="Horizontal" Spacing="10">
-        <v:Icone Nome="camadas" Tamanho="18" Foreground="{DynamicResource Acento}" VerticalAlignment="Center" />
+        <c:Icone Nome="camadas" Tamanho="18" Foreground="{DynamicResource Acento}" VerticalAlignment="Center" />
         <TextBlock Text="{l:T 'Novo ambiente'}" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center" />
         <TextBlock Classes="fraco" Text="{l:T 'uma pasta principal e os projetos que andam junto'}" VerticalAlignment="Center" Margin="6,0,0,0" />
       </StackPanel>
@@ -22,7 +22,7 @@
             <Grid ColumnDefinitions="*,Auto">
               <TextBlock Classes="mono" Text="{Binding Principal, TargetNullValue='nenhuma pasta escolhida'}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
               <Button Grid.Column="1" Classes="contorno" Click="Principal_Click" Margin="10,0,0,0">
-                <StackPanel Orientation="Horizontal" Spacing="6"><v:Icone Nome="pasta" Tamanho="14" /><TextBlock Text="{l:T 'Escolher'}" /></StackPanel>
+                <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="pasta" Tamanho="14" /><TextBlock Text="{l:T 'Escolher'}" /></StackPanel>
               </Button>
             </Grid>
             <TextBlock Classes="titulo-painel" Text="{l:T 'Nome'}" Margin="0,6,0,0" />
@@ -34,11 +34,11 @@
           <StackPanel Spacing="10">
             <Grid ColumnDefinitions="*,Auto">
               <StackPanel Orientation="Horizontal" Spacing="8">
-                <v:Icone Nome="vinculo" Classes="suave" />
+                <c:Icone Nome="vinculo" Classes="suave" />
                 <TextBlock Classes="titulo-painel" Text="{l:T 'Projetos vinculados'}" />
               </StackPanel>
               <Button Grid.Column="1" Classes="contorno" Click="Vinculado_Click">
-                <StackPanel Orientation="Horizontal" Spacing="6"><v:Icone Nome="mais" Tamanho="14" /><TextBlock Text="{l:T 'Adicionar pasta'}" /></StackPanel>
+                <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="mais" Tamanho="14" /><TextBlock Text="{l:T 'Adicionar pasta'}" /></StackPanel>
               </Button>
             </Grid>
             <TextBlock Classes="fraco" Text="{l:T 'Opcional. Entram em toda sessão como diretórios extras.'}" />
@@ -46,13 +46,13 @@
               <ItemsControl.ItemTemplate>
                 <DataTemplate x:DataType="vm:PastaEscolhidaVM">
                   <Grid ColumnDefinitions="Auto,*,Auto" Classes="linha">
-                    <v:Icone Nome="pasta" Classes="suave" VerticalAlignment="Center" Margin="0,0,12,0" />
+                    <c:Icone Nome="pasta" Classes="suave" VerticalAlignment="Center" Margin="0,0,12,0" />
                     <StackPanel Grid.Column="1" Spacing="2">
                       <TextBlock Text="{Binding Nome}" FontWeight="Medium" />
                       <TextBlock Classes="fraco" Text="{Binding Pasta}" TextTrimming="CharacterEllipsis" />
                     </StackPanel>
                     <Button Grid.Column="2" Classes="icone pequeno" Command="{Binding RemoverCommand}" VerticalAlignment="Center" ToolTip.Tip="{l:T 'Tirar'}">
-                      <v:Icone Nome="fechar" Tamanho="12" />
+                      <c:Icone Nome="fechar" Tamanho="12" />
                     </Button>
                   </Grid>
                 </DataTemplate>
@@ -66,7 +66,7 @@
         </Border>
         <StackPanel Orientation="Horizontal" Spacing="12">
           <Button Classes="primario" Command="{Binding CriarCommand}" IsEnabled="{Binding PodeCriar}">
-            <StackPanel Orientation="Horizontal" Spacing="6"><v:Icone Nome="mais" Tamanho="14" /><TextBlock Text="{l:T 'Criar ambiente'}" /></StackPanel>
+            <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="mais" Tamanho="14" /><TextBlock Text="{l:T 'Criar ambiente'}" /></StackPanel>
           </Button>
           <TextBlock Classes="fraco mono" Text="{Binding Previa}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" MaxWidth="520" />
         </StackPanel>
@@ -74,7 +74,7 @@
         <Border Classes="painel" IsVisible="{Binding TemOcultos}">
           <StackPanel Spacing="8">
             <StackPanel Orientation="Horizontal" Spacing="8">
-              <v:Icone Nome="olho-fechado" Classes="suave" />
+              <c:Icone Nome="olho-fechado" Classes="suave" />
               <TextBlock Classes="titulo-painel" Text="{l:T 'Ambientes tirados da lista'}" />
             </StackPanel>
             <ItemsControl ItemsSource="{Binding Ocultos}">

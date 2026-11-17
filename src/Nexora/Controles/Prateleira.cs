@@ -3,7 +3,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Layout;
 
-namespace Nexora.Views;
+namespace Nexora.Controles;
 
 public sealed class Prateleira : Panel
 {

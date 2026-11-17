@@ -1,6 +1,6 @@
 using Avalonia.Controls;
 
-namespace Nexora.Views;
+namespace Nexora.Controles;
 
 public sealed class RolagemFim : ScrollViewer
 {

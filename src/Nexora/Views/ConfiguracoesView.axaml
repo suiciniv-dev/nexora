@@ -3,6 +3,7 @@
              xmlns:l="using:Nexora"
              xmlns:vm="using:Nexora.ViewModels"
              xmlns:v="using:Nexora.Views"
+             xmlns:c="using:Nexora.Controles"
              x:Class="Nexora.Views.ConfiguracoesView"
              x:DataType="vm:ConfiguracoesVM">
   <UserControl.Styles>
@@ -43,7 +44,7 @@
 
       <Border Classes="painel" IsVisible="{Binding TemAviso}" v:Animacoes.Entrada="True">
         <StackPanel Orientation="Horizontal" Spacing="8">
-          <v:Icone Nome="alerta" Tamanho="14" Foreground="{DynamicResource Laranja}" VerticalAlignment="Center" />
+          <c:Icone Nome="alerta" Tamanho="14" Foreground="{DynamicResource Laranja}" VerticalAlignment="Center" />
           <TextBlock Text="{Binding Aviso}" TextWrapping="Wrap" VerticalAlignment="Center" />
         </StackPanel>
       </Border>
@@ -122,7 +123,7 @@
           <TextBlock Classes="fraco" TextWrapping="Wrap" FontSize="12"
                      Text="{l:T 'Cada conversa nova pode trocar de agente no botão ao lado do modelo, antes da primeira mensagem. Remote Control, Ultracode, modo rápido e os detalhes de contexto são só do Claude Code.'}" />
           <Button Command="{Binding VerAgentesCommand}" HorizontalAlignment="Left">
-            <StackPanel Orientation="Horizontal" Spacing="6"><v:Icone Nome="terminal" Tamanho="13" /><TextBlock Text="{l:T 'Ver os agentes deste computador'}" /></StackPanel>
+            <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="terminal" Tamanho="13" /><TextBlock Text="{l:T 'Ver os agentes deste computador'}" /></StackPanel>
           </Button>
         </StackPanel>
       </Border>
@@ -135,17 +136,17 @@
             <ItemsControl.ItemTemplate>
               <DataTemplate x:DataType="vm:RaizVM">
                 <Grid ColumnDefinitions="Auto,*,Auto" Margin="0,3">
-                  <v:Icone Nome="pasta" Tamanho="14" Classes="suave" VerticalAlignment="Center" Margin="0,0,10,0" />
+                  <c:Icone Nome="pasta" Tamanho="14" Classes="suave" VerticalAlignment="Center" Margin="0,0,10,0" />
                   <TextBlock Grid.Column="1" Classes="mono" Text="{Binding Pasta}" FontSize="12.5" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
                   <Button Grid.Column="2" Classes="icone pequeno" Command="{Binding RemoverCommand}" ToolTip.Tip="{l:T 'Tirar esta pasta'}" AutomationProperties.Name="{l:T 'Tirar esta pasta'}">
-                    <v:Icone Nome="fechar" Tamanho="12" />
+                    <c:Icone Nome="fechar" Tamanho="12" />
                   </Button>
                 </Grid>
               </DataTemplate>
             </ItemsControl.ItemTemplate>
           </ItemsControl>
           <Button Click="AdicionarPasta_Click" HorizontalAlignment="Left">
-            <StackPanel Orientation="Horizontal" Spacing="6"><v:Icone Nome="mais" Tamanho="13" /><TextBlock Text="{l:T 'Adicionar pasta…'}" /></StackPanel>
+            <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="mais" Tamanho="13" /><TextBlock Text="{l:T 'Adicionar pasta…'}" /></StackPanel>
           </Button>
         </StackPanel>
       </Border>
@@ -255,10 +256,10 @@
           </Grid>
           <StackPanel Orientation="Horizontal" Spacing="8">
             <Button Command="{Binding AbrirUsoCommand}">
-              <StackPanel Orientation="Horizontal" Spacing="6"><v:Icone Nome="grafico" Tamanho="13" /><TextBlock Text="{l:T 'Ver o uso do plano'}" /></StackPanel>
+              <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="grafico" Tamanho="13" /><TextBlock Text="{l:T 'Ver o uso do plano'}" /></StackPanel>
             </Button>
             <Button Command="{Binding AbrirRecursosCommand}">
-              <StackPanel Orientation="Horizontal" Spacing="6"><v:Icone Nome="memoria" Tamanho="13" /><TextBlock Text="{l:T 'Ver os recursos'}" /></StackPanel>
+              <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="memoria" Tamanho="13" /><TextBlock Text="{l:T 'Ver os recursos'}" /></StackPanel>
             </Button>
           </StackPanel>
         </StackPanel>
@@ -271,7 +272,7 @@
             <TextBlock Classes="fraco" Text="{Binding Versao}" Margin="0,4,0,0" />
           </StackPanel>
           <Button Grid.Column="1" Command="{Binding AbrirGuiaCommand}" VerticalAlignment="Center">
-            <StackPanel Orientation="Horizontal" Spacing="6"><v:Icone Nome="ajuda" Tamanho="13" /><TextBlock Text="{l:T 'Guia de primeiros passos'}" /></StackPanel>
+            <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="ajuda" Tamanho="13" /><TextBlock Text="{l:T 'Guia de primeiros passos'}" /></StackPanel>
           </Button>
         </Grid>
       </Border>

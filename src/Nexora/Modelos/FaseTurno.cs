@@ -1,5 +1,3 @@
-using Avalonia.Threading;
-using CommunityToolkit.Mvvm.ComponentModel;
 using Nexora.Core.Claude;
 using Nexora.Core.Texto;
 

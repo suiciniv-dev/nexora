@@ -6,7 +6,7 @@ using Avalonia.Rendering.Composition;
 using Avalonia.Rendering.Composition.Animations;
 using Avalonia.Threading;
 
-namespace Nexora.Views;
+namespace Nexora.Controles;
 
 public sealed class Avatar : Control
 {

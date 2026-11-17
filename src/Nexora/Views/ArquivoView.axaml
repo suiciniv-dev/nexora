@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:l="using:Nexora"
              xmlns:vm="using:Nexora.ViewModels"
-             xmlns:v="using:Nexora.Views"
+             xmlns:c="using:Nexora.Controles"
              xmlns:ae="using:AvaloniaEdit"
              x:Class="Nexora.Views.ArquivoView"
              x:DataType="vm:ArquivoVM">
@@ -12,10 +12,10 @@
         <TextBlock Classes="fraco mono" Text="{Binding Relativo}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
         <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="4">
           <Button Classes="fantasma" Click="Citar_Click" ToolTip.Tip="{l:T 'Mandar a seleção para o chat (Ctrl+L)'}">
-            <StackPanel Orientation="Horizontal" Spacing="6"><v:Icone Nome="citar" Tamanho="14" /><TextBlock Text="{l:T 'Citar no chat'}" FontSize="12.5" /></StackPanel>
+            <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="citar" Tamanho="14" /><TextBlock Text="{l:T 'Citar no chat'}" FontSize="12.5" /></StackPanel>
           </Button>
           <Button Classes="fantasma" Command="{Binding SalvarCommand}" IsEnabled="{Binding Modificada}" IsVisible="{Binding !EhImagem}" ToolTip.Tip="{l:T 'Salvar (Ctrl+S)'}">
-            <StackPanel Orientation="Horizontal" Spacing="6"><v:Icone Nome="salvar" Tamanho="14" /><TextBlock Text="{l:T 'Salvar'}" FontSize="12.5" /></StackPanel>
+            <StackPanel Orientation="Horizontal" Spacing="6"><c:Icone Nome="salvar" Tamanho="14" /><TextBlock Text="{l:T 'Salvar'}" FontSize="12.5" /></StackPanel>
           </Button>
         </StackPanel>
       </Grid>
@@ -35,7 +35,7 @@
         <Image x:Name="Figura" Source="{Binding Imagem}" Stretch="Uniform" StretchDirection="DownOnly" Margin="16" />
       </DockPanel>
       <StackPanel IsVisible="{Binding !Legivel}" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="8">
-        <v:Icone Nome="arquivo" Tamanho="28" Classes="fraco" HorizontalAlignment="Center" />
+        <c:Icone Nome="arquivo" Tamanho="28" Classes="fraco" HorizontalAlignment="Center" />
         <TextBlock Classes="suave" Text="{Binding Problema}" HorizontalAlignment="Center" />
       </StackPanel>
     </Panel>
