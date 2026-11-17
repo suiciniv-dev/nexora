@@ -143,9 +143,10 @@ public sealed partial class ChatVM
         try
         {
             var ate = _inicioNoArquivo;
+            var bruto = await App.Nucleo.LerTurnosAsync(arquivo, TurnosPorVez, ate);
             var (trecho, internos) = await Task.Run(() =>
             {
-                var lido = Transcricao.LerTurnos(arquivo, TurnosPorVez, ate);
+                var lido = Transcricao.DeBruto(bruto);
                 return (lido, InternosDoHistorico(arquivo, lido.Eventos));
             });
             _inicioNoArquivo = trecho.Inicio;
