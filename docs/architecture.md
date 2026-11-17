@@ -33,7 +33,7 @@ The code is written in Portuguese (identifiers, UI source strings). English UI t
 
 ## Code layout in `src/Nexora`
 
-Each first-level folder is a layer, and its namespace is `Nexora.<Folder>`. Subfolders only group files of one feature and keep the layer's namespace (for example `ViewModels/Itens`).
+Each first-level folder is a layer, and its namespace is `Nexora.<Folder>`. Subfolders only group files of one feature and keep the layer's namespace. `ViewModels` and `Views` use the same feature folders (`Chat`, `Janela`, `Conversas`, `Ambientes`, `Issues`, `PullRequests`, `Painel`, `Editor`, `Dashboard`, `AoVivo`, `Orquestra`, `Navegador`, `Nuvem`, `Executar`, `Agenda`, `Uso`, `Desempenho`, `Temas`, `Configuracoes`, `Inicio`), so a view and its view model sit in folders of the same name. Chat row view models live in `ViewModels/Chat/Itens`.
 
 | Folder | Holds | May depend on |
 |---|---|---|
@@ -41,7 +41,7 @@ Each first-level folder is a layer, and its namespace is `Nexora.<Folder>`. Subf
 | `Aplicativo` | Startup, the `nexora` command entry, window coordination and anything that wires views to view models | everything |
 | `Views` | Windows and views (`.axaml` with code-behind), and controls or helpers tied to a view model | view models, controls, services, models |
 | `Controles` | Controls drawn in code that know no view model (`MarkdownTexto`, `Icone`, charts, backgrounds) | services, models |
-| `ViewModels` | View models only: `*VM` classes, chat row view models (`Itens/Item*`) and the contracts between view models (`IAnfitriao`) | services, models, `Nexora.Core` |
+| `ViewModels` | View models only: `*VM` classes, chat row view models (`Chat/Itens/Item*`) and the contracts between view models (`IAnfitriao`) | services, models, `Nexora.Core` |
 | `Modelos` | Plain enums and records the view models share. No Avalonia, no view models | `Nexora.Core` |
 | `Servicos` | App services that know no view model or view (config, system, images, updates) | models, `Nexora.Core` |
 | `Desempenho` | Responsiveness monitor and frame measurement | everything (diagnostics) |
