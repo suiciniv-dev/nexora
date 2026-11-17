@@ -197,7 +197,7 @@ public sealed partial class ChatVM
         _detalhando = true;
         try
         {
-            var r = await sessao.PedirAsync(id => Protocolo.Controle(id, new JsonObject { ["subtype"] = "get_context_usage" }), TimeSpan.FromSeconds(20));
+            var r = await sessao.PedirAsync(new JsonObject { ["subtype"] = "get_context_usage" }, TimeSpan.FromSeconds(20));
             if (r is not { Sucesso: true, Dados: { } dados }) return;
             LerContexto(dados);
         }

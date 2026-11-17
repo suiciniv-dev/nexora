@@ -276,7 +276,7 @@ public sealed class SessaoCodex(OpcoesSessao opcoes, string versaoDoApp = "0.0.0
     {
     }
 
-    public Task<ControleRespondido> PedirAsync(Func<string, string> montar, TimeSpan? limite = null) =>
+    public Task<ControleRespondido> PedirAsync(JsonObject pedido, TimeSpan? limite = null) =>
         Task.FromResult(new ControleRespondido("", false, Idioma.T("O Codex não tem esse comando."), null));
 
     public Task<ControleRespondido> LigarRemotoAsync(bool ligado) =>

@@ -24,7 +24,7 @@ public interface ISessaoAgente : IAsyncDisposable
     void MudarModo(string modo);
     void MudarModelo(string? modelo);
     void AplicarConfiguracoes(JsonObject configuracoes);
-    Task<ControleRespondido> PedirAsync(Func<string, string> montar, TimeSpan? limite = null);
+    Task<ControleRespondido> PedirAsync(JsonObject pedido, TimeSpan? limite = null);
     Task<ControleRespondido> LigarRemotoAsync(bool ligado);
     void Encerrar();
 }

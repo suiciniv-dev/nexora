@@ -639,9 +639,10 @@ public sealed partial class ChatVM : CartaoVM
     [RelayCommand]
     void Fechar() => _aoFechar(this);
 
-    public void Encerrar(bool esperar = false)
+    public void Encerrar(bool esperar = false, bool soltar = false)
     {
         var trabalhando = Estado == EstadoChat.Trabalhando;
+        var segueNoServidor = soltar && _sessao is Core.Servidor.SessaoRemota { Ativa: true } && Estado is EstadoChat.Trabalhando or EstadoChat.PrecisaDeVoce;
         _encerrada = true;
         _descarga.Stop();
         EncerrarTerminal();
@@ -652,7 +653,8 @@ public sealed partial class ChatVM : CartaoVM
         CancelarEsperaDoFundo();
         EsquecerCatalogo();
         Editor.Descartar();
-        if (_sessao is { } s)
+        if (_sessao is Core.Servidor.SessaoRemota solta && segueNoServidor) solta.Soltar();
+        else if (_sessao is { } s)
         {
             if (esperar) s.Encerrar();
             else _ = s.DisposeAsync().AsTask();
@@ -906,8 +908,7 @@ public sealed partial class ChatVM : CartaoVM
             AmbienteDoProjeto());
         if (NaNuvem) opcoes = OpcoesNaNuvem(opcoes);
         var sessao = CriarSessao(opcoes);
-        sessao.Evento += e => Dispatcher.UIThread.Post(() => Aplicar(e));
-        sessao.Encerrou += (codigo, erros) => Dispatcher.UIThread.Post(() => AoEncerrar(sessao, codigo, erros));
+        LigarSessao(sessao);
         sessao.Iniciar();
         _sessao = sessao;
         Hibernada = false;

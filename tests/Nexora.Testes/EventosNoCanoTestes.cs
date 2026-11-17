@@ -35,6 +35,7 @@ public sealed class EventosNoCanoTestes
         new ControleNaoSuportado("c2", "set_model"),
         new SubagentePedido("p2", "t4", J("""{"description":"Explorar"}""")),
         new UsoDoCodex(0.2, 0.5, null, null),
+        new SessaoEncerrada(1, "claude: erro"),
     ];
 
     [Fact]

@@ -83,25 +83,8 @@ public sealed partial class ChatVM
 
     public static Func<OpcoesSessao, string, ISessaoAgente>? SessaoDeTeste { get; set; }
 
-    ISessaoAgente CriarSessao(OpcoesSessao opcoes)
-    {
-        if (SessaoDeTeste is { } deTeste) return deTeste(opcoes, Agente);
-        var agente = DescricaoAgente;
-        return agente.Protocolo switch
-        {
-            ProtocoloAgente.Claude => new SessaoClaude(opcoes),
-            ProtocoloAgente.Codex => new SessaoCodex(opcoes, Atualizacoes.Atual.ToString(3)),
-            _ => CriarAcp(agente, opcoes),
-        };
-    }
-
-    static ISessaoAgente CriarAcp(DescricaoAgente agente, OpcoesSessao opcoes)
-    {
-        if (opcoes.Lancador is { Remoto: true })
-            return new Core.Acp.SessaoAcp(opcoes, agente.Id, agente.Nome, agente.Executaveis[0], agente.Argumentos, null, Atualizacoes.Atual.ToString(3));
-        var (arquivo, argumentos) = CatalogoAgentes.Comando(agente);
-        return new Core.Acp.SessaoAcp(opcoes, agente.Id, agente.Nome, arquivo, argumentos, null, Atualizacoes.Atual.ToString(3));
-    }
+    ISessaoAgente CriarSessao(OpcoesSessao opcoes) =>
+        SessaoDeTeste is { } deTeste ? deTeste(opcoes, Agente) : Aplicativo.FabricaDeSessoes.CriarNoNucleo(Agente, opcoes, Titulo);
 
     static void AvisarUsoDoCodex(UsoDoCodex uso) => UsoDoCodexChegou?.Invoke(uso);
 

@@ -18,6 +18,7 @@ public sealed class NucleoRemoto : INucleo, IDisposable
     readonly SemaphoreSlim _trava = new(1, 1);
     readonly ConcurrentDictionary<long, TaskCompletionSource<JsonNode?>> _pendentes = new();
     readonly CancellationTokenSource _fim = new();
+    readonly ConcurrentDictionary<string, Action<long, Claude.EventoClaude>> _ouvintes = new();
     long _proximo;
     volatile bool _caiu;
 
@@ -78,6 +79,16 @@ public sealed class NucleoRemoto : INucleo, IDisposable
             ? resposta.Texto
             : await NucleoLocal.Instancia.UltimoModoAsync(arquivo, cancelar).ConfigureAwait(false);
 
+    public void Ouvir(string sessao, Action<long, Claude.EventoClaude> aoEvento) => _ouvintes[sessao] = aoEvento;
+
+    public void Esquecer(string sessao) => _ouvintes.TryRemove(sessao, out _);
+
+    public async Task<T?> ChamarAsync<T>(string metodo, JsonObject? dados, TimeSpan? espera = null, CancellationToken cancelar = default) where T : class =>
+        (await Pedir<T>(metodo, dados, espera ?? EsperaPelaResposta, cancelar).ConfigureAwait(false)).Resultado;
+
+    public async Task<IReadOnlyList<ResumoDaSessao>> ListarSessoesAsync(CancellationToken cancelar = default) =>
+        await ChamarAsync<List<ResumoDaSessao>>(MetodosDoNucleo.ListarSessoes, null, null, cancelar).ConfigureAwait(false) ?? [];
+
     async Task<T?> PedirOuLocal<T>(string metodo, JsonObject? dados, CancellationToken cancelar) where T : class =>
         (await Pedir<T>(metodo, dados, EsperaPelaResposta, cancelar).ConfigureAwait(false)).Resultado;
 
@@ -128,6 +139,12 @@ public sealed class NucleoRemoto : INucleo, IDisposable
             while (await leitor.ReadLineAsync(_fim.Token).ConfigureAwait(false) is { } linha)
             {
                 var resposta = JsonNode.Parse(linha)?.AsObject();
+                if (resposta?["sessao"] is { } sessao && resposta["evento"] is { } evento)
+                {
+                    if (_ouvintes.TryGetValue(sessao.GetValue<string>(), out var ouvinte) && evento.Deserialize<Claude.EventoClaude>(ServidorDoNucleo.Json) is { } lido)
+                        ouvinte(resposta["numero"]?.GetValue<long>() ?? 0, lido);
+                    continue;
+                }
                 if (resposta?["id"]?.GetValue<long>() is not { } id || !_pendentes.TryGetValue(id, out var pendente)) continue;
                 if (resposta["erro"] is { } erro) pendente.TrySetException(new ErroNoServidor(erro.GetValue<string>()));
                 else pendente.TrySetResult(resposta["dados"]?.DeepClone());
