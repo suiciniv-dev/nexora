@@ -11,12 +11,15 @@ Nexora wraps the agent CLIs you already use (Claude Code, Codex, Gemini CLI and 
 ## Why Nexora
 
 - **One window for all your agents.** Chats, history inherited from the CLI, worktrees per task, an editor with diff, and a terminal.
+- **Dashboard.** Start a session in any project from one box, and see your plan usage per agent, GitHub activity, recent PRs and reviews waiting for you, commits, and how long your agents worked this week.
 - **Live board.** See which sessions are working, waiting for you, ready or stopped. Answer permission requests and questions without opening each tab.
 - **Orchestrator.** Ask for a goal and let it split the work across sessions and subagents, with a per-subagent model and a queue when you hit a limit.
 - **Review and PR flow.** Comment diff lines and send the comments to the agent. Issues board, PR panel, commit and PR from the app.
 - **Cloud machines.** Run the agent on your own server over SSH, or on InstaBox or Freestyle. Pause the machine when you are done.
 - **A `nexora` command** for the terminal and for scripts or other agents (`--json` output, exit codes that say when something needs you).
 - **Your credentials stay with the agent.** Each session is a process of the official CLI using its own login. Secrets an agent asks for go through a protected form, not the chat, and are stored with Windows DPAPI or the macOS Keychain.
+
+![Dashboard](docs/img/dashboard.png)
 
 ![Live board](docs/img/ao-vivo.png)
 
