@@ -260,6 +260,35 @@ public sealed class LayoutVerticalTestes : IDisposable
     }
 
     [Fact]
+    public void ConversasAbremPorCimaEOPinFixaALateral()
+    {
+        var vm = new JanelaVM { LateralVisivel = false, Vertical = false };
+        vm.AlternarLateralCommand.Execute(null);
+        Assert.True(vm.LateralSobreposta);
+        Assert.True(vm.VeuDaLateral);
+        vm.FecharLateralSobrepostaCommand.Execute(null);
+        Assert.False(vm.LateralNaTela);
+
+        vm.AlternarLateralCommand.Execute(null);
+        vm.Navegar(vm.VisaoGeral);
+        Assert.False(vm.LateralNaTela);
+
+        vm.AlternarLateralCommand.Execute(null);
+        vm.FixarLateralCommand.Execute(null);
+        Assert.True(vm.LateralFixa);
+        Assert.False(vm.VeuDaLateral);
+        vm.Navegar(vm.VisaoGeral);
+        Assert.True(vm.LateralFixa);
+
+        vm.FixarLateralCommand.Execute(null);
+        Assert.False(vm.LateralNaTela);
+
+        vm.FixarLateralCommand.Execute(null);
+        vm.AlternarLateralCommand.Execute(null);
+        Assert.False(vm.LateralNaTela);
+    }
+
+    [Fact]
     public Task EscFechaALateralSobreposta() => Sessao.Rodar(() =>
     {
         var vm = new JanelaVM { LateralVisivel = true, Vertical = true };

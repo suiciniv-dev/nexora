@@ -149,6 +149,7 @@ public sealed class Avatar : Control
         {
             if (Imagem is { } imagem)
             {
+                if (FundoDoIcone.Transparente(imagem)) contexto.DrawRectangle(FundoDoIcone.Placa, null, caixa);
                 var origem = imagem.Size;
                 var escala = Math.Max(lado / origem.Width, lado / origem.Height);
                 var recorte = new Rect((origem.Width - lado / escala) / 2, (origem.Height - lado / escala) / 2, lado / escala, lado / escala);

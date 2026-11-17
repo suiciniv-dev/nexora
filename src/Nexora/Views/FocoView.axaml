@@ -53,7 +53,7 @@
   </UserControl.Styles>
 
   <Panel>
-    <Border Background="#D90A0908" IsHitTestVisible="False" />
+    <Border Background="{DynamicResource VeuDenso}" IsHitTestVisible="False" />
     <Button Theme="{StaticResource VeuSobreposto}" Command="{Binding FecharCommand}" AutomationProperties.Name="{l:T 'Sair do modo foco'}" />
     <Grid RowDefinitions="Auto,*,Auto" MaxWidth="780" Margin="32,40,32,40" VerticalAlignment="Center">
       <Grid ColumnDefinitions="Auto,*,Auto" Margin="4,0,4,14">

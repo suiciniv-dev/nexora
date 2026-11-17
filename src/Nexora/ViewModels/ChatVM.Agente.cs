@@ -21,6 +21,7 @@ public sealed partial class ChatVM
     public static void EsquecerInstalacoes() => _instalados = null;
 
     public static event Action<UsoDoCodex>? UsoDoCodexChegou;
+    public static event Action<TimeSpan>? TurnoTerminou;
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(EhCodex), nameof(EhClaude), nameof(DescricaoAgente), nameof(NomeAgente), nameof(InicialAgente), nameof(DicaDoCampo),
@@ -103,6 +104,8 @@ public sealed partial class ChatVM
     }
 
     static void AvisarUsoDoCodex(UsoDoCodex uso) => UsoDoCodexChegou?.Invoke(uso);
+
+    static void AvisarFimDoTurno(TimeSpan duracao) => TurnoTerminou?.Invoke(duracao);
 
     void AvisarTrocaDeAgente()
     {

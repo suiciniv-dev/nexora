@@ -49,6 +49,15 @@ static class MedidorDeQuadros
             vm.MostrarChatCommand.Execute(aberta);
             await Task.Delay(1200);
         });
+        await etapa("digitar na longa", async () =>
+        {
+            for (var i = 0; i < 50; i++)
+            {
+                aberta!.Rascunho += i % 6 == 5 ? " " : "a";
+                await Task.Delay(60);
+            }
+            aberta!.Rascunho = "";
+        });
         await etapa("turnos anteriores", async () =>
         {
             for (var i = 0; i < 3; i++)
@@ -57,7 +66,32 @@ static class MedidorDeQuadros
                 await Task.Delay(1200);
             }
         });
+        await etapa("digitar com tudo carregado", async () =>
+        {
+            for (var i = 0; i < 50; i++)
+            {
+                aberta!.Rascunho += i % 6 == 5 ? " " : "a";
+                await Task.Delay(60);
+            }
+            aberta!.Rascunho = "";
+        });
         saida.AppendLine(CultureInfo.InvariantCulture, $"  depois: itens {aberta!.Itens.Count}, na tela {aberta.ItensNaTela.Count}");
+    }
+
+    static async Task RolarAsync(Control? dono, bool paraCima = false)
+    {
+        if (dono?.GetVisualDescendants().OfType<ScrollViewer>().Where(v => v.IsEffectivelyVisible && v.Extent.Height > v.Viewport.Height + 50)
+                .OrderByDescending(v => v.Extent.Height).FirstOrDefault() is not { } rolagem) return;
+        var inicio = rolagem.Offset.Y;
+        var limite = Math.Max(0, rolagem.Extent.Height - rolagem.Viewport.Height);
+        for (var volta = 0; volta < 2; volta++)
+            for (var i = 0; i <= 60; i++)
+            {
+                var k = volta == 0 ? i / 60.0 : 1 - i / 60.0;
+                var alvo = paraCima ? inicio - k * Math.Min(inicio, 1500) : k * Math.Min(limite, 1500);
+                rolagem.Offset = new Avalonia.Vector(0, Math.Clamp(alvo, 0, limite));
+                await Task.Delay(16);
+            }
     }
 
     static async Task<string> MedirAsync(Janela janela, JanelaVM vm)
@@ -217,8 +251,51 @@ static class MedidorDeQuadros
             }
         });
         await Etapa("ao vivo parado", () => Task.Delay(1500));
+        await Etapa("espiar com o mouse antes", async () =>
+        {
+            vm.MostrarVisaoGeralCommand.Execute(null);
+            await Task.Delay(500);
+            var visao = janela.GetVisualDescendants().OfType<VisaoGeralView>().FirstOrDefault();
+            foreach (var chat in vm.Abertas.ToList())
+            {
+                visao?.Preparar(chat);
+                await Task.Delay(250);
+                vm.VisaoGeral.EspiarCommand.Execute(chat);
+                Marcar(500);
+                await Task.Delay(700);
+                vm.VisaoGeral.Espiado = null;
+                await Task.Delay(400);
+            }
+        });
+        await Etapa("espiar de novo", async () =>
+        {
+            foreach (var chat in vm.Abertas.ToList())
+            {
+                vm.VisaoGeral.EspiarCommand.Execute(chat);
+                Marcar(500);
+                await Task.Delay(700);
+                vm.VisaoGeral.Espiado = null;
+                await Task.Delay(400);
+            }
+        });
+        await Etapa("dashboard", async () =>
+        {
+            vm.MostrarDashboardCommand.Execute(null);
+            await Task.Delay(1500);
+        });
+        await Etapa("rolar dashboard", () => RolarAsync(janela.GetVisualDescendants().OfType<DashboardView>().FirstOrDefault()));
+        await Etapa("rolar conversa", async () =>
+        {
+            if (vm.Abertas.OrderByDescending(c => c.Itens.Count).FirstOrDefault() is { } longa) vm.MostrarChatCommand.Execute(longa);
+            await Task.Delay(900);
+            await RolarAsync(janela.GetVisualDescendants().OfType<ChatView>().FirstOrDefault(c => c.IsEffectivelyVisible), paraCima: true);
+        });
         medindo = false;
         await Task.Delay(100);
+        GC.Collect();
+        GC.WaitForPendingFinalizers();
+        using var processo = Process.GetCurrentProcess();
+        saida.AppendLine(CultureInfo.InvariantCulture, $"memoria: gerenciada {GC.GetTotalMemory(false) / 1048576.0:0} MB, processo {processo.WorkingSet64 / 1048576.0:0} MB, coletas gen2 {GC.CollectionCount(2)}");
         return saida.ToString();
     }
 }

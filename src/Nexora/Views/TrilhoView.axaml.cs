@@ -6,7 +6,27 @@ namespace Nexora.Views;
 
 public partial class TrilhoView : UserControl
 {
+    public static readonly Avalonia.StyledProperty<bool> EmbutidoProperty = Avalonia.AvaloniaProperty.Register<TrilhoView, bool>(nameof(Embutido));
+
     readonly List<Action> _recolher = [];
+
+    public bool Embutido { get => GetValue(EmbutidoProperty); set => SetValue(EmbutidoProperty, value); }
+
+    IEnumerable<Border> Capsulas => this.GetLogicalDescendants().OfType<Border>().Where(b => b.Classes.Contains("capsula"));
+
+    protected override void OnPropertyChanged(Avalonia.AvaloniaPropertyChangedEventArgs change)
+    {
+        base.OnPropertyChanged(change);
+        if (change.Property != EmbutidoProperty) return;
+        var embutido = Embutido;
+        Raiz.Width = embutido ? double.NaN : 64;
+        foreach (var capsula in Capsulas)
+        {
+            capsula.Classes.Set("embutida", embutido);
+            capsula.Classes.Set("aberta", embutido);
+            capsula.Margin = embutido ? new Avalonia.Thickness(8, 0) : capsula.Classes.Contains("rodape") ? new Avalonia.Thickness(8, 0, 0, 8) : new Avalonia.Thickness(8, 4, 0, 0);
+        }
+    }
 
     public TrilhoView()
     {
@@ -24,12 +44,12 @@ public partial class TrilhoView : UserControl
         abrir.Tick += (_, _) =>
         {
             abrir.Stop();
-            if (capsula.IsPointerOver) capsula.Classes.Set("aberta", true);
+            if (!Embutido && capsula.IsPointerOver) capsula.Classes.Set("aberta", true);
         };
         fechar.Tick += (_, _) =>
         {
             fechar.Stop();
-            if (!capsula.IsPointerOver) capsula.Classes.Set("aberta", false);
+            if (!Embutido && !capsula.IsPointerOver) capsula.Classes.Set("aberta", false);
         };
         capsula.PointerEntered += (_, _) =>
         {
@@ -46,7 +66,7 @@ public partial class TrilhoView : UserControl
         {
             abrir.Stop();
             fechar.Stop();
-            capsula.Classes.Set("aberta", false);
+            if (!Embutido) capsula.Classes.Set("aberta", false);
         });
     }
 

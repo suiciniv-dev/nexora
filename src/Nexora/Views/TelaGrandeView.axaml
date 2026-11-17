@@ -48,7 +48,7 @@
       <Setter Property="Focusable" Value="False" />
     </Style>
     <Style Selector="Button.acao.primario">
-      <Setter Property="Background" Value="{DynamicResource Acento}" />
+      <Setter Property="Background" Value="{DynamicResource AcentoCheio}" />
       <Setter Property="BorderThickness" Value="0" />
       <Setter Property="Padding" Value="13,8" />
     </Style>
@@ -81,7 +81,7 @@
       <Setter Property="Transitions">
         <Transitions>
           <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.18" Easing="CubicEaseOut" />
-          <BrushTransition Property="Background" Duration="0:0:0.16" />
+          <v:TransicaoDeCor Property="Background" Duration="0:0:0.16" />
         </Transitions>
       </Setter>
     </Style>

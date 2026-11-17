@@ -32,7 +32,9 @@
             <TextBlock Text="{Binding Iniciais}" Foreground="{DynamicResource SobreMarca}" FontWeight="SemiBold" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" />
           </Border>
           <Border Width="52" Height="52" CornerRadius="14" ClipToBounds="True" Background="{DynamicResource SuperficieAlta}" IsVisible="{Binding TemIconeRepo}">
-            <Image Source="{Binding IconeRepo}" Stretch="UniformToFill" />
+            <Border Background="{Binding IconeRepo, Converter={x:Static v:FundoDoIcone.Instancia}}">
+              <Image Source="{Binding IconeRepo}" Stretch="UniformToFill" />
+            </Border>
           </Border>
         </Panel>
         <StackPanel Grid.Column="1" Spacing="4" VerticalAlignment="Center">

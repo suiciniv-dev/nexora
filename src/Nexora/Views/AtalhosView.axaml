@@ -11,7 +11,7 @@
     <KeyBinding Gesture="Escape" Command="{Binding FecharCommand}" />
   </UserControl.KeyBindings>
   <Panel>
-    <Border Background="#66000000" IsHitTestVisible="False" />
+    <Border Background="{DynamicResource VeuLeve}" IsHitTestVisible="False" />
     <Button Theme="{StaticResource VeuSobreposto}" Command="{Binding FecharCommand}" AutomationProperties.Name="{l:T 'Fechar os atalhos'}" />
     <Border Theme="{StaticResource Dialogo}" Width="840" Margin="40,60" Padding="0" HorizontalAlignment="Center" VerticalAlignment="Center">
       <Grid RowDefinitions="Auto,*">

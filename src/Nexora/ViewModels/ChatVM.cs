@@ -755,6 +755,7 @@ public sealed partial class ChatVM : CartaoVM
                 Adicionar(ItemAviso.Rodape(fim, NomeDoModelo(_modeloQueRespondeu)));
                 FecharTurno();
                 Conversou();
+                AvisarFimDoTurno(fim.DuracaoMs > 0 ? TimeSpan.FromMilliseconds(fim.DuracaoMs) : TurnoDesde is { } comeco ? DateTime.Now - comeco : TimeSpan.Zero);
                 TurnoDesde = null;
                 AtividadeEm = DateTime.Now;
                 JanelaContexto = fim.JanelaDe(_modeloQueRespondeu) ?? JanelaContexto;
