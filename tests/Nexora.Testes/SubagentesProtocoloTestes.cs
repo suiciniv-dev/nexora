@@ -63,7 +63,18 @@ public sealed class SubagentesProtocoloTestes : IDisposable
         var eventos = Transcricao.LerLinha(
             """{"type":"user","message":{"role":"user","content":"<task-notification>\n<task-id>a2</task-id>\n<tool-use-id>toolu_bg</tool-use-id>\n<output-file>x</output-file>\n<status>completed</status>\n<summary>Agent \"Testes\" completed</summary>\n<result>Teste novo passou.</result>\n<usage><subagent_tokens>900</subagent_tokens><tool_uses>5</tool_uses><duration_ms>61000</duration_ms></usage>\n</task-notification>"},"timestamp":"2026-11-06T10:00:00Z"}""");
 
-        Assert.Equal(new TarefaAtualizada(FaseTarefa.Terminou, "toolu_bg", "completed", 5, 61000, Resultado: "Teste novo passou."), Assert.Single(eventos));
+        Assert.Equal(new TarefaAtualizada(FaseTarefa.Terminou, "toolu_bg", "completed", 5, 61000, Resultado: "Teste novo passou.", TarefaId: "a2"), Assert.Single(eventos));
+    }
+
+    [Fact]
+    public void AvisoSemIdDaFerramentaViraUmEventoPorTarefa()
+    {
+        var eventos = Transcricao.LerLinha(
+            """{"type":"user","message":{"role":"user","content":"<task-notification>\n<task-id>a9e2</task-id>\n<task-id>a7fd</task-id>\n<status>stopped</status>\n<summary>2 background agents didn't finish</summary>\n</task-notification>"}}""");
+
+        Assert.Equal(
+            [new TarefaAtualizada(FaseTarefa.Terminou, "", "stopped", TarefaId: "a9e2"), new TarefaAtualizada(FaseTarefa.Terminou, "", "stopped", TarefaId: "a7fd")],
+            eventos.OfType<TarefaAtualizada>());
     }
 
     [Fact]
