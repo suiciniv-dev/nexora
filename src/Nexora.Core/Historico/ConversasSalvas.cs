@@ -1,3 +1,4 @@
+using System.Buffers;
 using System.Collections.Concurrent;
 using System.Text;
 using System.Text.Json;
@@ -23,6 +24,7 @@ public static class ConversasSalvas
     const int Cauda = 256 * 1024;
     const int MaiorLinha = 64 * 1024;
     static readonly ConcurrentDictionary<string, string> Primeiras = new(StringComparer.OrdinalIgnoreCase);
+    static readonly ConcurrentDictionary<string, (long Tamanho, DateTime Escrita, ConversaSalva? Resumo)> ResumosLidos = new(StringComparer.OrdinalIgnoreCase);
 
     public static string PastaPadrao { get; set; } =
         Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".claude", "projects");
@@ -55,13 +57,24 @@ public static class ConversasSalvas
 
     public static ConversaSalva? Resumir(FileInfo arquivo)
     {
+        arquivo.Refresh();
+        if (!arquivo.Exists) return null;
+        var (tamanho, escrita) = (arquivo.Length, arquivo.LastWriteTimeUtc);
+        if (ResumosLidos.TryGetValue(arquivo.FullName, out var guardado) && guardado.Tamanho == tamanho && guardado.Escrita == escrita) return guardado.Resumo;
+        var resumo = ResumirDoDisco(arquivo);
+        ResumosLidos[arquivo.FullName] = (tamanho, escrita, resumo);
+        return resumo;
+    }
+
+    static ConversaSalva? ResumirDoDisco(FileInfo arquivo)
+    {
         string? pasta = null, branch = null, tituloIa = null, tituloProprio = null, ultimoPrompt = null, primeiroPrompt = null;
         string? primeiraMensagem = null, ultimaMensagem = null;
         DateTimeOffset? ultimaVez = null;
         var temConversa = false;
         try
         {
-            foreach (var linha in Linhas(arquivo))
+            foreach (var linha in LinhasEmBytes(arquivo))
             {
                 if (linha.Length > MaiorLinha) continue;
                 using var doc = JsonDocument.Parse(linha);
@@ -142,18 +155,55 @@ public static class ConversasSalvas
         return null;
     }
 
-    static IEnumerable<string> Linhas(FileInfo arquivo)
+    static IEnumerable<ReadOnlyMemory<byte>> LinhasEmBytes(FileInfo arquivo)
     {
-        using var fluxo = new FileStream(arquivo.FullName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
-        if (fluxo.Length <= Cabeca + Cauda)
+        var buffer = ArrayPool<byte>.Shared.Rent(Cabeca + Cauda);
+        try
         {
-            using var leitor = new StreamReader(fluxo, Encoding.UTF8);
-            while (leitor.ReadLine() is { } linha)
-                if (linha.Length > 0) yield return linha;
-            yield break;
+            List<(int Inicio, int Tamanho)> linhas;
+            using (var fluxo = new FileStream(arquivo.FullName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete, 1))
+            {
+                if (fluxo.Length <= Cabeca + Cauda)
+                {
+                    var lidos = fluxo.ReadAtLeast(buffer.AsSpan(0, (int)fluxo.Length), (int)fluxo.Length, throwOnEndOfStream: false);
+                    linhas = Quebrar(buffer, 0, lidos, cortarInicio: false, cortarFim: false);
+                }
+                else
+                {
+                    var cabeca = fluxo.ReadAtLeast(buffer.AsSpan(0, Cabeca), Cabeca, throwOnEndOfStream: false);
+                    fluxo.Seek(fluxo.Length - Cauda, SeekOrigin.Begin);
+                    var cauda = fluxo.ReadAtLeast(buffer.AsSpan(Cabeca, Cauda), Cauda, throwOnEndOfStream: false);
+                    linhas = Quebrar(buffer, 0, cabeca, cortarInicio: false, cortarFim: true);
+                    linhas.AddRange(Quebrar(buffer, Cabeca, cauda, cortarInicio: true, cortarFim: false));
+                }
+            }
+            foreach (var (inicio, tamanho) in linhas) yield return buffer.AsMemory(inicio, tamanho);
         }
-        foreach (var linha in Trecho(fluxo, 0, Cabeca, cortarInicio: false)) yield return linha;
-        foreach (var linha in Trecho(fluxo, fluxo.Length - Cauda, Cauda, cortarInicio: true)) yield return linha;
+        finally
+        {
+            ArrayPool<byte>.Shared.Return(buffer);
+        }
+    }
+
+    static List<(int Inicio, int Tamanho)> Quebrar(byte[] buffer, int inicio, int tamanho, bool cortarInicio, bool cortarFim)
+    {
+        var linhas = new List<(int, int)>();
+        var trecho = buffer.AsSpan(inicio, tamanho);
+        var pos = 0;
+        var primeira = true;
+        while (pos < trecho.Length)
+        {
+            var fim = trecho[pos..].IndexOf((byte)'\n');
+            if (fim < 0 && cortarFim) break;
+            var comprimento = fim < 0 ? trecho.Length - pos : fim;
+            var linha = trecho.Slice(pos, comprimento);
+            if (linha.Length > 0 && linha[^1] == (byte)'\r') comprimento--;
+            if (!(primeira && cortarInicio) && comprimento > 0) linhas.Add((inicio + pos, comprimento));
+            primeira = false;
+            if (fim < 0) break;
+            pos += fim + 1;
+        }
+        return linhas;
     }
 
     public static string? UltimoModo(string arquivo)
