@@ -485,7 +485,7 @@ public sealed partial class VisaoGeralVM : ObservableObject
         if ((lido.Arquivo ?? ConversasSalvas.ArquivoDe(sessao.SessaoId, sessao.Pasta)) is not { } arquivo) return (null, null);
         var escrita = File.GetLastWriteTimeUtc(arquivo);
         if (lido.Arquivo == arquivo && lido.Escrita == escrita) return (lido.Dados, arquivo);
-        var dados = Andamento.Ler(arquivo, sessao.Pasta);
+        var dados = App.Nucleo.LerAndamentoAsync(arquivo, sessao.Pasta).GetAwaiter().GetResult();
         _lidos[sessao.SessaoId] = (arquivo, escrita, dados);
         return (dados, arquivo);
     }
