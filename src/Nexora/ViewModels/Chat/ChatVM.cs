@@ -642,7 +642,7 @@ public sealed partial class ChatVM : CartaoVM
     public void Encerrar(bool esperar = false, bool soltar = false)
     {
         var trabalhando = Estado == EstadoChat.Trabalhando;
-        var segueNoServidor = soltar && _sessao is Core.Servidor.SessaoRemota { Ativa: true } && Estado is EstadoChat.Trabalhando or EstadoChat.PrecisaDeVoce;
+        var segueNoServidor = soltar && SegueNoServidorAoFechar;
         _encerrada = true;
         _descarga.Stop();
         EncerrarTerminal();

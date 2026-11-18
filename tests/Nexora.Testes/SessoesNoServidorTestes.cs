@@ -75,7 +75,7 @@ public sealed class SessoesNoServidorTestes
         public Task<int> Servidor { get; }
         readonly CancellationTokenSource _fim = new();
 
-        public Ambiente(TimeSpan? ocioso = null, TimeSpan? esperaSolta = null)
+        public Ambiente(TimeSpan? ocioso = null, TimeSpan? esperaSolta = null, TimeSpan? esperaPorPermissao = null)
         {
             Sessoes = new SessoesDoServidor((_, opcoes) =>
             {
@@ -83,7 +83,7 @@ public sealed class SessoesNoServidorTestes
                 Criadas.Enqueue(sessao);
                 return sessao;
             })
-            { EsperaSolta = esperaSolta ?? TimeSpan.FromMinutes(3) };
+            { EsperaSolta = esperaSolta ?? TimeSpan.FromMinutes(3), EsperaPorPermissao = esperaPorPermissao ?? TimeSpan.FromHours(24) };
             Servidor = Task.Run(() => ServidorDoNucleo.RodarAsync(Cano, NucleoLocal.Instancia, ocioso ?? TimeSpan.FromSeconds(10), _fim.Token, sessoes: Sessoes));
         }
 
@@ -380,5 +380,52 @@ public sealed class SessoesNoServidorTestes
         {
             Nexora.Core.Orquestra.ServidorMcp.Apelidar(Nexora.Core.Orquestra.ServidorMcp.DonoGlobal("s1"), "s1");
         }
+    }
+
+    [Fact]
+    public async Task Permissao_esperando_sem_app_encerra_o_agente_depois_do_prazo_mas_nao_com_app_aberto()
+    {
+        await using var ambiente = new Ambiente(TimeSpan.FromSeconds(10), TimeSpan.FromMinutes(3), TimeSpan.FromMilliseconds(600));
+        using var primeiro = await ambiente.ConectarAsync();
+        var aberta = new SessaoRemota(primeiro, Agentes.Claude, Opcoes());
+        var solta = new SessaoRemota(primeiro, Agentes.Claude, Opcoes() with { Pasta = @"D:\Projetos\Outra" });
+        aberta.Iniciar();
+        solta.Iniciar();
+        await Ate(() => ambiente.Criadas.Count == 2 && ambiente.Criadas.All(c => c.Ativa), "sessões ativas");
+        var pedido = new PermissaoPedida("p1", "Bash", JsonDocument.Parse("""{"command":"dotnet test"}""").RootElement.Clone(), null, null, null);
+        foreach (var falsa in ambiente.Criadas) falsa.Emitir(pedido);
+        await Ate(() => ambiente.Sessoes.Listar().All(r => r.Trabalhando), "pedidos pendentes");
+        solta.Soltar();
+
+        var falsaSolta = ambiente.Criadas.Single(c => c.Opcoes.Pasta == @"D:\Projetos\Outra");
+        var falsaAberta = ambiente.Criadas.Single(c => c != falsaSolta);
+        await Task.Delay(300);
+        Assert.True(falsaSolta.Ativa);
+        await Ate(() => !falsaSolta.Ativa, "agente solto encerrado pelo prazo");
+        Assert.True(falsaAberta.Ativa);
+        Assert.True(Assert.Single(await primeiro.ListarSessoesAsync(), r => r.Id == aberta.Id).Trabalhando);
+    }
+
+    [Fact]
+    public void Ao_abrir_anexa_as_vivas_e_traz_do_historico_as_soltas_que_ja_pararam()
+    {
+        ResumoDaSessao Viva(string id, string sessao, bool ativa = true, int assinantes = 0) => new(id, Agentes.Claude, @"D:\Loja", null, sessao, ativa, true, 1, 3, assinantes);
+        var vivas = new[] { Viva("a", "cli-a"), Viva("b", "cli-b", assinantes: 1), Viva("c", "cli-c", ativa: false) };
+        var soltas = new List<Nexora.Aplicativo.SessaoSolta>
+        {
+            new() { IdNoServidor = "a", SessaoId = "cli-a", Pasta = @"D:\Loja" },
+            new() { IdNoServidor = "c", SessaoId = "cli-c", Pasta = @"D:\Loja" },
+            new() { IdNoServidor = "z", SessaoId = "cli-z", Pasta = @"D:\Loja" },
+            new() { IdNoServidor = "y", SessaoId = "cli-z", Pasta = @"D:\Loja" },
+            new() { IdNoServidor = "x", SessaoId = null, Pasta = @"D:\Loja" },
+        };
+
+        var (anexar, doHistorico) = Nexora.ViewModels.JanelaVM.PlanejarReabertura(vivas, soltas);
+
+        Assert.Equal(["a"], anexar.Select(r => r.Id));
+        Assert.Equal(["cli-c", "cli-z"], doHistorico.Select(s => s.SessaoId));
+        var (soVivas, nada) = Nexora.ViewModels.JanelaVM.PlanejarReabertura(vivas, []);
+        Assert.Equal(["a"], soVivas.Select(r => r.Id));
+        Assert.Empty(nada);
     }
 }

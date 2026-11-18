@@ -11,6 +11,14 @@ public sealed partial class ChatVM
 {
     public string? IdNoServidor => _sessao is SessaoRemota remota ? remota.Id : null;
 
+    public bool SegueNoServidorAoFechar => _sessao is SessaoRemota { Ativa: true } && Estado is EstadoChat.Trabalhando or EstadoChat.PrecisaDeVoce;
+
+    public async Task AvisarQueParouSemAppAsync()
+    {
+        await Carregamento;
+        Adicionar(ItemAviso.Info(Idioma.T("Esta conversa seguiu rodando depois que o Nexora fechou e já parou. O que o agente fez está acima.")));
+    }
+
     public static ChatVM DeSessaoViva(SessaoRemota sessao, ResumoDaSessao resumo, ConversaSalva? conversa, Local local, IAnfitriao anfitriao, Action<UsoDoPlano> aoUsar, Action<ChatVM> aoFechar)
     {
         var chat = new ChatVM(local, conversa?.Titulo ?? resumo.Titulo ?? TituloNovo, resumo.SessaoId, anfitriao, aoUsar, aoFechar)

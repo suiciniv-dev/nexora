@@ -60,6 +60,7 @@ public sealed class Config
     public List<string> ConversasFechadas { get; set; } = [];
     public Dictionary<string, DateTime> SessoesEscondidas { get; set; } = [];
     public List<string> SessoesDoNexora { get; set; } = [];
+    public List<Aplicativo.SessaoSolta> SessoesSoltas { get; set; } = [];
     public bool HibernarSessoes { get; set; } = true;
     public string ModeloDosSubagentes { get; set; } = Nexora.Servicos.VagasDeSubagentes.Sonnet;
     public int SubagentesAoMesmoTempo { get; set; } = 2;

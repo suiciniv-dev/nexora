@@ -67,6 +67,7 @@ public static partial class Ingles
         ("O servidor do Nexora parou.", "The Nexora core process stopped."),
         ("O servidor do Nexora não respondeu.", "The Nexora core process did not answer."),
         ("O Nexora está fechado. Abra o Nexora para usar esta ferramenta.", "Nexora is closed. Open Nexora to use this tool."),
+        ("Esta conversa seguiu rodando depois que o Nexora fechou e já parou. O que o agente fez está acima.", "This conversation kept running after Nexora closed and has stopped. What the agent did is above."),
         ("O {0} não foi encontrado neste computador.", "{0} was not found on this computer."),
         ("Nenhuma conta do gh tem acesso a este repositório.", "No gh account has access to this repository."),
         ("Repositório inválido.", "Invalid repository."),
