@@ -11,6 +11,7 @@ public sealed class SessaoNoServidor
     readonly Dictionary<string, EventoClaude> _pendentes = [];
     bool _trabalhando;
     long _soltaDesde;
+    long _pendenteDesde;
 
     public SessaoNoServidor(string id, string agente, string pasta, string? titulo, ISessaoAgente sessao, int limite = 5000)
     {
@@ -54,6 +55,17 @@ public sealed class SessaoNoServidor
         get
         {
             lock (_trava) return _assinantes.Count > 0 || _trabalhando || _pendentes.Count > 0 ? TimeSpan.Zero : TimeSpan.FromMilliseconds(Environment.TickCount64 - _soltaDesde);
+        }
+    }
+
+    public TimeSpan EsperandoSemApp
+    {
+        get
+        {
+            lock (_trava)
+                return _assinantes.Count > 0 || _pendentes.Count == 0
+                    ? TimeSpan.Zero
+                    : TimeSpan.FromMilliseconds(Environment.TickCount64 - Math.Max(_soltaDesde, _pendenteDesde));
         }
     }
 
@@ -150,9 +162,11 @@ public sealed class SessaoNoServidor
             switch (evento)
             {
                 case PermissaoPedida pedido:
+                    if (_pendentes.Count == 0) _pendenteDesde = Environment.TickCount64;
                     _pendentes[pedido.PedidoId] = evento;
                     break;
                 case SubagentePedido pedido:
+                    if (_pendentes.Count == 0) _pendenteDesde = Environment.TickCount64;
                     _pendentes[pedido.PedidoId] = evento;
                     break;
                 case TurnoEncerrado:

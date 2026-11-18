@@ -41,6 +41,8 @@ public sealed class SessoesDoServidor(Func<string, OpcoesSessao, ISessaoAgente> 
 
     public TimeSpan GuardarEncerrada { get; init; } = TimeSpan.FromMinutes(10);
 
+    public TimeSpan EsperaPorPermissao { get; init; } = TimeSpan.FromHours(24);
+
     public SessaoNoServidor Abrir(string id, string agente, string? titulo, OpcoesSessao opcoes, string? dono = null)
     {
         if (_sessoes.TryGetValue(id, out var existente) && !existente.Encerrada) return existente;
@@ -68,7 +70,7 @@ public sealed class SessoesDoServidor(Func<string, OpcoesSessao, ISessaoAgente> 
                 if (solta >= GuardarEncerrada) _sessoes.TryRemove(sessao.Id, out _);
                 continue;
             }
-            if (solta >= EsperaSolta) sessao.Sessao.Encerrar();
+            if (solta >= EsperaSolta || sessao.EsperandoSemApp >= EsperaPorPermissao) sessao.Sessao.Encerrar();
         }
     }
 
