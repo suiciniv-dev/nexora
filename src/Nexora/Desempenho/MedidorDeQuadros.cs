@@ -179,6 +179,17 @@ static class MedidorDeQuadros
                 await Task.Delay(500);
             }
         });
+        await Etapa("dicas do trilho", async () =>
+        {
+            foreach (var botao in janela.GetVisualDescendants().OfType<Button>().Where(b => b.Classes.Contains("trilho") && b.IsEffectivelyVisible).Take(6))
+            {
+                ToolTip.SetIsOpen(botao, true);
+                Marcar(400);
+                await Task.Delay(400);
+                ToolTip.SetIsOpen(botao, false);
+                await Task.Delay(150);
+            }
+        });
         var carga = new DispatcherTimer(TimeSpan.FromMilliseconds(16), DispatcherPriority.Background, (_, _) =>
         {
             var fim = relogio.Elapsed.TotalMilliseconds + 9;

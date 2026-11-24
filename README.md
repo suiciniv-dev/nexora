@@ -89,6 +89,10 @@ Planned or in progress:
 
 Freestyle support was written from its documentation and has not been tested against a real account yet.
 
+## Privacy
+
+Nexora collects no telemetry, and a test in the code keeps it that way. [PRIVACY.md](PRIVACY.md) lists everything that leaves your computer and what Nexora reads on it.
+
 ## Contributing
 
 Issues and pull requests are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) first. To report a vulnerability, see [SECURITY.md](SECURITY.md).

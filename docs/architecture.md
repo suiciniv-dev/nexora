@@ -68,6 +68,10 @@ The UI thread only lays out and draws. These rules come from measured stalls:
 - The app process runs with `GCLatencyMode.SustainedLowLatency` (`Program.Main`), which avoids blocking full collections while the window is in use.
 - The performance monitor (`Desempenho/Batimento.cs`) ignores stalls while the user is away (`Presenca`: no input for 2 minutes with another window in front, or for 10 minutes), since a locked or sleeping PC stalls the message loop without anyone seeing it.
 
+## Privacy rules
+
+Nexora collects no telemetry. Nothing about how someone uses the app leaves the computer unless they turn on an option that says what goes and to whom (the weekly performance summary and the Dashboard news are off by default). Agent login files are only checked for existence, never opened, and no account identifier is read from an agent's settings. `tests/Nexora.Testes/PrivacidadeTestes.cs` enforces this and keeps a list of the internet addresses in the code; a new address goes into that list and into `PRIVACY.md` together.
+
 ## Core process
 
 Garbage collection pauses the whole process, so heavy reads in the app process pause the UI even when they run off the UI thread. Work moves to a second process step by step, behind `INucleo` (`src/Nexora.Core/Servidor`):

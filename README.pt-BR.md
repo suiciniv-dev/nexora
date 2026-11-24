@@ -89,6 +89,10 @@ Planejado ou em andamento:
 
 O suporte à Freestyle foi escrito pela documentação dela e ainda não foi testado com uma conta de verdade.
 
+## Privacidade
+
+O Nexora não coleta telemetria, e um teste no código garante isso. O [PRIVACY.pt-BR.md](PRIVACY.pt-BR.md) lista tudo o que sai do seu computador e o que o Nexora lê nele.
+
 ## Contribuindo
 
 Issues e pull requests são bem-vindos. Leia antes o [CONTRIBUTING.md](CONTRIBUTING.md). Para relatar uma vulnerabilidade, veja o [SECURITY.md](SECURITY.md).

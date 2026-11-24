@@ -25,6 +25,7 @@ static class Program
         ProcessoDoNucleo.Iniciar(args);
         PeloProcessador = DesenhoPeloProcessador(args);
         DesenhoDoMac = ModosDoMac(args);
+        PopupsNaJanelaNoMac = !args.Contains("--popups-nativos");
         return BuildAvaloniaApp(PeloProcessador).StartWithClassicDesktopLifetime(args);
     }
 
@@ -33,6 +34,7 @@ static class Program
     public static bool PeloProcessador { get; private set; }
 
     static AvaloniaNativeRenderingMode[] DesenhoDoMac = ModosDoMac([]);
+    static bool PopupsNaJanelaNoMac = true;
 
     static AvaloniaNativeRenderingMode[] ModosDoMac(string[] args)
     {
@@ -57,7 +59,7 @@ static class Program
                 OverlayPopups = true,
                 RenderingMode = peloProcessador ? [Win32RenderingMode.Software] : [Win32RenderingMode.AngleEgl, Win32RenderingMode.Software],
             })
-            .With(new AvaloniaNativePlatformOptions { RenderingMode = peloProcessador ? [AvaloniaNativeRenderingMode.Software] : DesenhoDoMac })
+            .With(new AvaloniaNativePlatformOptions { RenderingMode = peloProcessador ? [AvaloniaNativeRenderingMode.Software] : DesenhoDoMac, OverlayPopups = PopupsNaJanelaNoMac })
             .WithInterFont()
             .LogToTrace();
 }

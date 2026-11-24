@@ -78,6 +78,7 @@ public sealed class Config
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool RelatorioPorEmail { get; set; }
+    public bool NoticiasNoDashboard { get; set; }
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? RelatorioDia { get; set; }

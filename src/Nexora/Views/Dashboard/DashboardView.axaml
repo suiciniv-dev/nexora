@@ -317,7 +317,7 @@
               <TextBlock Classes="suave" FontSize="12.5" IsVisible="{Binding !TemRecentes}" Text="{l:T 'As conversas guardadas aparecem aqui.'}" />
             </StackPanel>
           </Border>
-          <Border Grid.Row="6" Grid.ColumnSpan="3" Theme="{StaticResource Widget}">
+          <Border Grid.Row="6" Grid.ColumnSpan="3" Theme="{StaticResource Widget}" IsVisible="{Binding MostraNoticias}">
             <StackPanel Spacing="6">
               <Grid ColumnDefinitions="Auto,*,Auto">
                 <c:Icone Nome="globo" Tamanho="14" Foreground="{DynamicResource TextoSuave}" VerticalAlignment="Center" Margin="0,0,8,0" />

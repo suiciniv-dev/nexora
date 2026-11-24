@@ -104,6 +104,7 @@ public sealed partial class DashboardVM : ObservableObject
     [ObservableProperty] public partial bool TemParaRevisar { get; set; }
     [ObservableProperty] public partial bool SemCommits { get; set; }
     [ObservableProperty] public partial bool SemNoticias { get; set; }
+    [ObservableProperty] public partial bool MostraNoticias { get; set; } = JanelaVM.Demo || App.Config.NoticiasNoDashboard;
     [ObservableProperty] public partial string TextoNoticias { get; set; } = "";
 
     public bool TemFila => Fila.Count > 0;
@@ -480,8 +481,17 @@ public sealed partial class DashboardVM : ObservableObject
         }
     }
 
+    public void AtualizarNoticias() => _ = CarregarNoticiasAsync(true);
+
     async Task CarregarNoticiasAsync(bool forcar)
     {
+        MostraNoticias = JanelaVM.Demo || App.Config.NoticiasNoDashboard;
+        if (!MostraNoticias)
+        {
+            Noticias.Clear();
+            SemNoticias = false;
+            return;
+        }
         if (_lendoNoticias || !forcar && DateTime.Now - _noticiasLidasEm < TimeSpan.FromMinutes(15)) return;
         _lendoNoticias = true;
         try

@@ -241,10 +241,17 @@
           </Grid>
           <Grid Classes="opcao-config" ColumnDefinitions="*,Auto">
             <StackPanel>
-              <TextBlock Classes="nome-opcao" Text="{l:T 'Mandar o resumo semanal de desempenho por e-mail'}" />
-              <TextBlock Classes="fraco dica-opcao" Text="{l:T 'Só números de memória, processador e travadas, para ajudar a melhorar o Nexora. Nada das conversas.'}" />
+              <TextBlock Classes="nome-opcao" Text="{l:T 'Mandar ao desenvolvedor do Nexora o resumo semanal de desempenho'}" />
+              <TextBlock Classes="fraco dica-opcao" Text="{l:T 'Só números de memória, processador e travadas, para ajudar a melhorar o Nexora. Nada das conversas, dos projetos nem de quem você é.'}" />
             </StackPanel>
-            <ToggleSwitch Grid.Column="1" IsChecked="{Binding RelatorioPorEmail}" AutomationProperties.Name="{l:T 'Mandar o resumo semanal de desempenho por e-mail'}" OnContent="" OffContent="" VerticalAlignment="Center" />
+            <ToggleSwitch Grid.Column="1" IsChecked="{Binding RelatorioPorEmail}" AutomationProperties.Name="{l:T 'Mandar ao desenvolvedor do Nexora o resumo semanal de desempenho'}" OnContent="" OffContent="" VerticalAlignment="Center" />
+          </Grid>
+          <Grid Classes="opcao-config" ColumnDefinitions="*,Auto">
+            <StackPanel>
+              <TextBlock Classes="nome-opcao" Text="{l:T 'Mostrar notícias no Dashboard'}" />
+              <TextBlock Classes="fraco dica-opcao" Text="{l:T 'Busca os lançamentos do Claude Code e do Codex, o changelog do GitHub e o Hacker News. Desligado, o Nexora não consulta esses sites.'}" />
+            </StackPanel>
+            <ToggleSwitch Grid.Column="1" IsChecked="{Binding NoticiasNoDashboard}" AutomationProperties.Name="{l:T 'Mostrar notícias no Dashboard'}" OnContent="" OffContent="" VerticalAlignment="Center" />
           </Grid>
           <Grid Classes="opcao-config" ColumnDefinitions="*,Auto">
             <StackPanel>

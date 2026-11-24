@@ -39,7 +39,6 @@ public partial class TrilhoView : UserControl
 
     void Ligar(Border capsula)
     {
-        if (Sistema.Mac) capsula.Transitions = [];
         var abrir = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(320) };
         var fechar = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(180) };
         abrir.Tick += (_, _) =>

@@ -24,6 +24,7 @@ public sealed partial class ConfiguracoesVM : ObservableObject
         McpOcioso = App.Config.McpOciosoMinutos;
         AbrirPeloExe = App.Config.AbrirPeloExe;
         RelatorioPorEmail = App.Config.RelatorioPorEmail;
+        NoticiasNoDashboard = App.Config.NoticiasNoDashboard;
         AnimacoesIndice = Math.Max(0, Array.IndexOf(Aparencia.ModosDeAnimacao, Aparencia.ModoDeAnimacao));
         SincronizarZoom();
         Aparencia.Mudou += AoMudarAparencia;
@@ -180,6 +181,9 @@ public sealed partial class ConfiguracoesVM : ObservableObject
 
     [ObservableProperty]
     public partial bool RelatorioPorEmail { get; set; }
+
+    [ObservableProperty]
+    public partial bool NoticiasNoDashboard { get; set; }
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(TemAviso))]
@@ -355,6 +359,14 @@ public sealed partial class ConfiguracoesVM : ObservableObject
     {
         App.Config.RelatorioPorEmail = value;
         Salvar();
+    }
+
+    partial void OnNoticiasNoDashboardChanged(bool value)
+    {
+        if (App.Config.NoticiasNoDashboard == value) return;
+        App.Config.NoticiasNoDashboard = value;
+        Salvar();
+        _janela.PaginaDashboard.AtualizarNoticias();
     }
 
     [RelayCommand]
