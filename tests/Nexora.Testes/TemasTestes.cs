@@ -173,11 +173,12 @@ public sealed class TemasTestes : IDisposable
     }
 
     [Fact]
-    public void ZoomFicaEntreNoventaECinquentaPorCento()
+    public void ZoomFicaEntreOitentaECentoECinquentaPorCento()
     {
         Assert.Equal(1, Aparencia.Limitar(double.NaN));
         Assert.Equal(1, Aparencia.Limitar(0));
-        Assert.Equal(0.9, Aparencia.Limitar(0.5));
+        Assert.Equal(0.8, Aparencia.Limitar(0.5));
+        Assert.Equal(0.9, Aparencia.Limitar(0.9));
         Assert.Equal(1.5, Aparencia.Limitar(3));
         Assert.Equal(1.2, Aparencia.Limitar(1.2));
     }

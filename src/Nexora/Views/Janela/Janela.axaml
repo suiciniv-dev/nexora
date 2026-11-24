@@ -51,6 +51,16 @@
     <Style Selector="Grid.cabeca-topo.fixa">
       <Setter Property="Width" Value="352" />
     </Style>
+    <Style Selector=":is(Window).mac Grid.cabeca-topo.fixa">
+      <Setter Property="Width" Value="288" />
+    </Style>
+    <Style Selector=":is(Window).mac c|Caixa.painel-lateral.fixa">
+      <Setter Property="Margin" Value="0,-54,16,0" />
+      <Setter Property="Padding" Value="0,44,0,0" />
+      <Setter Property="CornerRadius" Value="0" />
+      <Setter Property="BorderThickness" Value="0,0,1,0" />
+      <Setter Property="BoxShadow" Value="0 0 0 0 Transparent" />
+    </Style>
     <Style Selector="c|Caixa.cartao-conteudo">
       <Setter Property="CornerRadius" Value="14" />
       <Setter Property="ClipToBounds" Value="True" />
@@ -116,7 +126,7 @@
 
     <Border WindowDecorationProperties.ElementRole="TitleBar" IsVisible="{Binding !TelaCheia}">
       <Grid x:Name="BarraTitulo" ColumnDefinitions="Auto,Auto,*,Auto,Auto,156">
-        <Grid Classes="cabeca-topo" Classes.fixa="{Binding LateralFixa}" ColumnDefinitions="64,*" VerticalAlignment="Center" ClipToBounds="True">
+        <Grid x:Name="CabecaTopo" Classes="cabeca-topo" Classes.fixa="{Binding LateralFixa}" ColumnDefinitions="64,*" VerticalAlignment="Center" ClipToBounds="True">
           <c:Botao x:Name="BotaoLogo" Classes="logo-topo" Command="{Binding MostrarDashboardCommand}" WindowDecorationProperties.ElementRole="User"
                   ToolTip.Tip="{l:T 'Dashboard (Ctrl+0)'}" AutomationProperties.Name="{l:T 'Dashboard'}" VerticalAlignment="Center" HorizontalAlignment="Center">
             <Panel>
@@ -125,7 +135,7 @@
                       IsVisible="{Binding TemPrecisa}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-3,-3,0" />
             </Panel>
           </c:Botao>
-          <TextBlock Grid.Column="1" Text="Nexora" FontSize="15" FontWeight="SemiBold" VerticalAlignment="Center" Margin="6,0,0,0" IsHitTestVisible="False" />
+          <TextBlock x:Name="NomeNoTopo" Grid.Column="1" Text="Nexora" FontSize="15" FontWeight="SemiBold" VerticalAlignment="Center" Margin="6,0,0,0" IsHitTestVisible="False" />
         </Grid>
         <v:AbasView x:Name="Abas" Grid.Column="2" DataContext="{Binding Principal}" Margin="10,0,8,0" />
         <c:Botao Grid.Column="3" Classes="topo" Command="{Binding ProcurarCommand}" WindowDecorationProperties.ElementRole="User" Margin="0,0,4,0"

@@ -14,6 +14,7 @@ public static class Presenca
     [DllImport("user32.dll")] static extern bool GetLastInputInfo(ref LASTINPUTINFO info);
     [DllImport("user32.dll")] static extern IntPtr GetForegroundWindow();
     [DllImport("user32.dll")] static extern uint GetWindowThreadProcessId(IntPtr janela, out uint processo);
+    [DllImport("/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics")] static extern double CGEventSourceSecondsSinceLastEventType(int estado, uint tipo);
 
     public static readonly TimeSpan ParadoComOutraJanela = TimeSpan.FromMinutes(2);
     public static readonly TimeSpan ParadoDeVez = TimeSpan.FromMinutes(10);
@@ -22,6 +23,17 @@ public static class Presenca
 
     public static bool Ausente()
     {
+        if (OperatingSystem.IsMacOS())
+        {
+            try
+            {
+                return Ausente(TimeSpan.FromSeconds(CGEventSourceSecondsSinceLastEventType(0, uint.MaxValue)), true);
+            }
+            catch (Exception ex) when (ex is DllNotFoundException or EntryPointNotFoundException)
+            {
+                return false;
+            }
+        }
         if (!OperatingSystem.IsWindows()) return false;
         try
         {

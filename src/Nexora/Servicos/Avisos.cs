@@ -29,9 +29,17 @@ static class Avisos
     }
 
 #if MAC
+    public static void Preparar() => Mac.AvisosDoMac.Preparar();
+
     public static void Notificar(string titulo, string texto, string? argumento = null, Action<string>? aoClicar = null, IReadOnlyList<(string Rotulo, string Argumento)>? acoes = null)
     {
         static string Aspas(string s) => "\"" + s.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"";
+        if (Sistema.SoAnotar is { } anotar)
+        {
+            anotar($"aviso {titulo}: {texto}");
+            return;
+        }
+        if (Mac.AvisosDoMac.Mostrar(titulo, texto, argumento, aoClicar)) return;
         try
         {
             var info = new ProcessStartInfo("/usr/bin/osascript") { UseShellExecute = false, CreateNoWindow = true };
@@ -46,6 +54,10 @@ static class Avisos
 #else
     static bool _registrado;
     static readonly List<Windows.UI.Notifications.ToastNotification> Vivos = [];
+
+    public static void Preparar()
+    {
+    }
 
     public static void Notificar(string titulo, string texto, string? argumento = null, Action<string>? aoClicar = null, IReadOnlyList<(string Rotulo, string Argumento)>? acoes = null)
     {

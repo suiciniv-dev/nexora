@@ -28,8 +28,12 @@
       <Setter Property="TextWrapping" Value="Wrap" />
       <Setter Property="MaxLines" Value="2" />
     </Style>
-    <Style Selector="v|ChatView.estreita TextBlock.rotulo-compactavel">
+    <Style Selector="v|ChatView.estreita TextBlock.rotulo-compactavel, Grid.compacta TextBlock.rotulo-compactavel">
       <Setter Property="IsVisible" Value="False" />
+    </Style>
+    <Style Selector="Grid.compacta TextBlock.rotulo-modelo">
+      <Setter Property="MaxWidth" Value="84" />
+      <Setter Property="TextTrimming" Value="CharacterEllipsis" />
     </Style>
     <Style Selector="c|Botao.copiar-msg">
       <Setter Property="Opacity" Value="0" />
@@ -566,7 +570,7 @@
             </DataTemplate>
           </c:Adiado>
         </Popup>
-        <Grid ColumnDefinitions="Auto,Auto,Auto,*,Auto,Auto,Auto">
+        <Grid x:Name="BarraDoComposer" ColumnDefinitions="Auto,Auto,Auto,*,Auto,Auto,Auto">
           <c:Botao Classes="icone pequeno" Click="Anexar_Click" Margin="0,0,4,0" VerticalAlignment="Center"
                   ToolTip.Tip="{l:T 'Anexar imagem ou arquivo (ou cole com Ctrl+V, ou arraste para cá)'}" AutomationProperties.Name="{l:T 'Anexar imagem ou arquivo'}">
             <c:Icone Nome="clipe" Tamanho="14" />
@@ -617,8 +621,8 @@
           <c:Botao x:Name="BotaoModelo" Classes="seletor" Classes.aberto="{Binding MenuModeloAberto}" Command="{Binding AbrirMenuModeloCommand}"
                   ToolTip.Tip="{l:T 'Modelo e esforço'}" AutomationProperties.Name="{l:T 'Escolher o modelo e o esforço'}">
             <StackPanel Orientation="Horizontal" Spacing="7">
-              <TextBlock Text="{Binding ModeloRotulo}" FontWeight="Medium" VerticalAlignment="Center" />
-              <TextBlock Classes="fraco" Text="{Binding EsforcoRotulo}" IsVisible="{Binding TemEsforcoRotulo}" VerticalAlignment="Center" />
+              <TextBlock Classes="rotulo-modelo" Text="{Binding ModeloRotulo}" FontWeight="Medium" VerticalAlignment="Center" />
+              <TextBlock Classes="fraco rotulo-compactavel" Text="{Binding EsforcoRotulo}" IsVisible="{Binding TemEsforcoRotulo}" VerticalAlignment="Center" />
               <c:Caixa Classes="etiqueta-pilula" IsVisible="{Binding MostraRapido}" ToolTip.Tip="{l:T 'Modo rápido ligado'}">
                 <c:Icone Nome="raio" Tamanho="11" />
               </c:Caixa>

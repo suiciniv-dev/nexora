@@ -89,6 +89,7 @@ public static partial class Ingles
         ("Não deu para excluir: {0}", "Could not delete: {0}"),
         ("1 precisa de você", "1 needs you"),
         ("1 conversa precisa de você", "1 conversation needs you"),
+        ("Os avisos do Nexora estão funcionando.", "Nexora notifications are working."),
         ("{0} conversas precisam de você", "{0} conversations need you"),
         ("1 conversa com novidade", "1 conversation has updates"),
         ("{0} conversas com novidade", "{0} conversations have updates"),

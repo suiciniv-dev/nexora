@@ -41,8 +41,11 @@ PropertyChanged += (_, e) =>
         if (Sistema.Mac)
         {
             Sistema.AjustarAtalhos(this);
-            BarraTitulo.Margin = new Avalonia.Thickness(84, 0, 0, 0);
-            BarraTitulo.ColumnDefinitions[3].Width = new GridLength(14);
+            Classes.Add("mac");
+            BotaoLogo.IsVisible = false;
+            NomeNoTopo.IsVisible = false;
+            CabecaTopo.MinWidth = EspacoDosSemaforos;
+            BarraTitulo.ColumnDefinitions[5].Width = new GridLength(14);
         }
         DataContextChanged += (_, _) =>
         {
@@ -117,11 +120,13 @@ PropertyChanged += (_, e) =>
         Sistema.AjustarAtalhos(this);
     }
 
+    const double EspacoDosSemaforos = 84;
+
     void AplicarEscala()
     {
         var escala = Aparencia.Zoom * (_vm?.TelaCheia == true ? 1.25 : 1);
         Escalador.LayoutTransform = Math.Abs(escala - 1) < 0.001 ? null : new Avalonia.Media.ScaleTransform(escala, escala);
-        if (Sistema.Mac) BarraTitulo.Margin = new Avalonia.Thickness(84 / escala, 0, 0, 0);
+        if (Sistema.Mac) CabecaTopo.MinWidth = EspacoDosSemaforos / escala;
         else BarraTitulo.ColumnDefinitions[5].Width = new GridLength(156 / escala);
     }
 

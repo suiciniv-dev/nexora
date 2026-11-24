@@ -11,7 +11,7 @@ namespace Nexora.Servicos;
 
 public static partial class Aparencia
 {
-    public const double ZoomMinimo = 0.9;
+    public const double ZoomMinimo = 0.8;
     public const double ZoomMaximo = 1.5;
     public const double PassoDoZoom = 0.1;
     public const string FonteDoSistema = "sistema";

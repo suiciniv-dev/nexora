@@ -1,3 +1,4 @@
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Headless;
 using Avalonia.Input;
@@ -44,6 +45,35 @@ public sealed class AjustesVisuaisTestes : IDisposable
         janela.KeyPressQwerty(PhysicalKey.Escape, RawInputModifiers.None);
 
         Assert.False(chat.MenuModeloAberto);
+        janela.Close();
+    });
+
+    [Fact]
+    public Task BarraDoCampoCabeNaCaixaEmQualquerLargura() => Sessao.Rodar(() =>
+    {
+        var chat = Conversa();
+        chat.Modelo = "Opus 5.5 (1M context)";
+        var view = new ChatView { DataContext = chat };
+        var janela = Mostrar(view, 1300);
+        var barra = view.FindControl<Grid>("BarraDoComposer")!;
+        var modo = view.FindControl<Button>("BotaoModo")!;
+        foreach (var largura in new[] { 1300, 900, 820, 760, 700, 660, 620, 560, 520, 480 })
+        {
+            janela.Width = largura;
+            for (var i = 0; i < 3; i++)
+            {
+                Dispatcher.UIThread.RunJobs();
+                janela.UpdateLayout();
+            }
+            var direita = modo.TranslatePoint(new Avalonia.Point(modo.Bounds.Width, 0), barra)!.Value.X;
+            Assert.True(direita <= barra.Bounds.Width - 40, $"Na largura {largura}, o botão de modo termina em {direita:0} e a barra tem {barra.Bounds.Width:0}.");
+        }
+        janela.Width = 1300;
+        Dispatcher.UIThread.RunJobs();
+        janela.UpdateLayout();
+        Dispatcher.UIThread.RunJobs();
+        janela.UpdateLayout();
+        Assert.Contains(view.GetVisualDescendants().OfType<TextBlock>(), t => t.Classes.Contains("rotulo-compactavel") && t.IsEffectivelyVisible && t.Text == chat.ModoRotulo);
         janela.Close();
     });
 

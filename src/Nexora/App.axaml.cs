@@ -139,6 +139,8 @@ public partial class App : Application
             if (args.Contains("--orquestra")) vm.MostrarOrquestraCommand.Execute(null);
             if (args.Contains("--sem-lateral")) vm.LateralVisivel = false;
             if (args.Contains("--lateral")) vm.MostrarLateral();
+            if (!JanelaVM.Isolada && !JanelaVM.Demo) Avisos.Preparar();
+            if (args.Contains("--testar-aviso")) _ = TestarAvisoAsync(vm);
             if (Argumento(args, "--icones") is { } pastaIcones)
             {
                 Directory.CreateDirectory(pastaIcones);
@@ -193,6 +195,15 @@ public partial class App : Application
             desktop.MainWindow = janela;
         }
         base.OnFrameworkInitializationCompleted();
+    }
+
+    static async Task TestarAvisoAsync(JanelaVM vm)
+    {
+        await Task.Delay(3000);
+        Avisos.Preparar();
+        await Task.Delay(1500);
+        Avisos.Notificar("Nexora", Core.Texto.Idioma.T("Os avisos do Nexora estão funcionando."));
+        SeloNaBarra.Mostrar(vm.Janela, 3, TipoDoSelo.Precisa, null);
     }
 
     static async Task CriarTarefaAoCarregarAsync(JanelaVM vm, string nome)

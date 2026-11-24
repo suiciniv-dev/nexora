@@ -9,7 +9,7 @@ public sealed class Config
 
     public string Tema { get; set; } = "sistema";
     public string ModoFundo { get; set; } = "solido";
-    public double Zoom { get; set; } = 1;
+    public double Zoom { get; set; } = OperatingSystem.IsMacOS() ? 0.9 : 1;
     public string Fonte { get; set; } = Aparencia.FonteDoSistema;
     public string Animacoes { get; set; } = Aparencia.AnimacoesDoSistema;
     public List<string> Raizes { get; set; } = [@"D:\Repositorios"];

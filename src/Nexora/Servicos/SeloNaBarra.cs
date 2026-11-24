@@ -79,9 +79,19 @@ public static class SeloNaBarra
         _ => Color.Parse("#7BCB9F"),
     };
 
+    static int? _noDock;
+
     public static void Mostrar(IntPtr janela, int total, TipoDoSelo tipo, string? descricao)
     {
-        if (!OperatingSystem.IsWindows() || janela == IntPtr.Zero || _semBarra || !Sistema.AppDeVerdade) return;
+        if (!Sistema.AppDeVerdade) return;
+        if (OperatingSystem.IsMacOS())
+        {
+            if (_noDock == total) return;
+            _noDock = total;
+            Mac.DockDoMac.Selo(total == 0 ? null : Texto(total));
+            return;
+        }
+        if (!OperatingSystem.IsWindows() || janela == IntPtr.Zero || _semBarra) return;
         var chave = (janela, total, total == 0 ? TipoDoSelo.Pronta : tipo);
         if (_atual == chave) return;
         try
@@ -107,7 +117,7 @@ public static class SeloNaBarra
     {
         using var imagem = new RenderTargetBitmap(new PixelSize(Lado, Lado), new Vector(96, 96));
         using (var contexto = imagem.CreateDrawingContext())
-        using (contexto.PushRenderOptions(new RenderOptions { TextRenderingMode = TextRenderingMode.Antialias }))
+        using (contexto.PushTextOptions(new TextOptions { TextRenderingMode = TextRenderingMode.Antialias }))
         {
             var centro = new Point(Lado / 2.0, Lado / 2.0);
             contexto.DrawEllipse(new SolidColorBrush(Color.FromRgb(0x1B, 0x1A, 0x22)), null, centro, Lado / 2.0, Lado / 2.0);

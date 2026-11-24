@@ -27,6 +27,7 @@ public partial class ChatView : UserControl, IAoMostrar, IAoEsconder
     const double LarguraParaDetalhes = 760;
 
     const double LarguraParaCabecalhoEmLinha = 640;
+    const double FolgaDaBarra = 24;
 
     const double Folga = 48;
     const double PertoDoTopo = 320;
@@ -76,6 +77,20 @@ public partial class ChatView : UserControl, IAoMostrar, IAoEsconder
             AtualizarDisposicao();
         };
         Cabecalho.SizeChanged += (_, _) => AjustarCamada();
+        BarraDoComposer.SizeChanged += (_, _) => AjustarBarraDoComposer();
+        foreach (var filho in BarraDoComposer.Children) filho.SizeChanged += (_, _) => AjustarBarraDoComposer();
+    }
+
+    double _larguraDaBarraCheia;
+
+    void AjustarBarraDoComposer()
+    {
+        var disponivel = BarraDoComposer.Bounds.Width;
+        if (disponivel <= 0) return;
+        var compacta = BarraDoComposer.Classes.Contains("compacta");
+        if (!compacta) _larguraDaBarraCheia = BarraDoComposer.Children.Where(c => c.IsVisible && Grid.GetColumn(c) != 3).Sum(c => c.DesiredSize.Width) + FolgaDaBarra;
+        var compactar = _larguraDaBarraCheia > disponivel;
+        if (compactar != compacta) BarraDoComposer.Classes.Set("compacta", compactar);
     }
 
     public bool FecharDetalhes()

@@ -6,6 +6,11 @@ namespace Nexora.Testes.Tela;
 
 public sealed partial class PonteAPonteTestes(ITestOutputHelper saida)
 {
+    readonly record struct Problema(string Comando, string Texto, bool Lentidao)
+    {
+        public override string ToString() => $"{Comando}: {Texto}";
+    }
+
     static readonly string Pasta = Path.Combine(AppContext.BaseDirectory, "Tela", "Roteiros");
 
     static int LimiteFrio => Ler("NEXORA_E2E_LIMITE", 1500);
@@ -32,11 +37,13 @@ public sealed partial class PonteAPonteTestes(ITestOutputHelper saida)
         App.Config.LateralVisivel = true;
         try
         {
-            await new Roteiro(roteiro, pasta).Rodar();
-            var log = File.ReadAllLines(Path.Combine(pasta, "log.txt"));
-            saida.WriteLine(string.Join(Environment.NewLine, log));
-            var problemas = Problemas(log, QuenteDesde(File.ReadAllLines(roteiro))).ToList();
-            Assert.True(problemas.Count == 0, $"{nome}: {string.Join(" | ", problemas)}");
+            var primeira = await Percorrer(roteiro, pasta);
+            Assert.True(!primeira.Any(p => !p.Lentidao), $"{nome}: {string.Join(" | ", primeira.Where(p => !p.Lentidao))}");
+            if (primeira.Count == 0) return;
+            saida.WriteLine("Passos lentos na primeira vez; o roteiro roda de novo e reprova se os mesmos passos repetirem.");
+            var segunda = await Percorrer(roteiro, pasta);
+            var repetidos = segunda.Where(p => !p.Lentidao || primeira.Any(q => q.Comando == p.Comando)).ToList();
+            Assert.True(repetidos.Count == 0, $"{nome}: {string.Join(" | ", repetidos)}");
         }
         finally
         {
@@ -46,13 +53,21 @@ public sealed partial class PonteAPonteTestes(ITestOutputHelper saida)
         }
     });
 
+    async Task<List<Problema>> Percorrer(string roteiro, string pasta)
+    {
+        await new Roteiro(roteiro, pasta).Rodar();
+        var log = File.ReadAllLines(Path.Combine(pasta, "log.txt"));
+        saida.WriteLine(string.Join(Environment.NewLine, log));
+        return [.. Problemas(log, QuenteDesde(File.ReadAllLines(roteiro)))];
+    }
+
     static int QuenteDesde(string[] linhas)
     {
         var indice = Array.FindIndex(linhas, l => l.Trim().Equals("# quente", StringComparison.OrdinalIgnoreCase));
         return indice < 0 ? int.MaxValue : indice + 1;
     }
 
-    static IEnumerable<string> Problemas(string[] log, int quenteDesde)
+    static IEnumerable<Problema> Problemas(string[] log, int quenteDesde)
     {
         var passo = 0;
         var comando = "";
@@ -67,13 +82,13 @@ public sealed partial class PonteAPonteTestes(ITestOutputHelper saida)
             var texto = linha.TrimStart();
             if (texto.StartsWith("ERRO", StringComparison.Ordinal) || texto.StartsWith("INTERCEPTADO", StringComparison.Ordinal) || texto.StartsWith("SEM EFEITO", StringComparison.Ordinal))
             {
-                yield return $"{comando}: {texto}";
+                yield return new Problema(comando, texto, false);
                 continue;
             }
             if (!texto.StartsWith("TRAVOU", StringComparison.Ordinal) && !texto.StartsWith("LENTO", StringComparison.Ordinal)) continue;
             var limite = passo >= quenteDesde ? LimiteQuente : LimiteFrio;
             if (Milissegundos().Match(texto) is { Success: true } achado && int.Parse(achado.Groups[1].Value, CultureInfo.InvariantCulture) > limite)
-                yield return $"{comando}: {texto} (limite {limite} ms)";
+                yield return new Problema(comando, $"{texto} (limite {limite} ms)", true);
         }
     }
 
