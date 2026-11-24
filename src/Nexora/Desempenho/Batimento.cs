@@ -22,6 +22,7 @@ public sealed class Batimento : IDisposable
     readonly Timer _relogio;
     readonly Action _responder;
     readonly Func<(string Tela, int Abas, int Trabalhando)> _contexto;
+    readonly Func<bool> _ausente;
     readonly Lock _trava = new();
     readonly Dictionary<long, Foto> _fotos = [];
     readonly Dictionary<long, Fim> _fins = [];
@@ -30,11 +31,13 @@ public sealed class Batimento : IDisposable
     long _ultimaFoto;
     int _fotografando;
     int _threadDaInterface;
+    volatile bool _ausenteAoPostar;
 
-    public Batimento(TimeSpan intervalo, Func<(string Tela, int Abas, int Trabalhando)> contexto)
+    public Batimento(TimeSpan intervalo, Func<(string Tela, int Abas, int Trabalhando)> contexto, Func<bool>? ausente = null)
     {
         _responder = Responder;
         _contexto = contexto;
+        _ausente = ausente ?? Presenca.Ausente;
         _relogio = new Timer(_ => Bater(), null, intervalo, intervalo);
     }
 
@@ -48,7 +51,9 @@ public sealed class Batimento : IDisposable
             Fotografar(postado);
             return;
         }
+        var ausente = _ausente();
         if (Interlocked.CompareExchange(ref _postadoEm, Stopwatch.GetTimestamp(), 0) != 0) return;
+        _ausenteAoPostar = ausente;
         Dispatcher.UIThread.Post(_responder, DispatcherPriority.Input);
     }
 
@@ -57,6 +62,7 @@ public sealed class Batimento : IDisposable
         var atraso = Stopwatch.GetElapsedTime(postado);
         var thread = Volatile.Read(ref _threadDaInterface);
         if (atraso.TotalMilliseconds < LimiteDaFoto || thread == 0 || !FotoDaThread.Disponivel || Interlocked.Read(ref _fotografado) == postado) return;
+        if (_ausenteAoPostar || _ausente()) return;
         var ultima = Interlocked.Read(ref _ultimaFoto);
         if (ultima != 0 && Stopwatch.GetElapsedTime(ultima) < IntervaloEntreFotos) return;
         if (Interlocked.Exchange(ref _fotografando, 1) == 1) return;
@@ -80,6 +86,12 @@ public sealed class Batimento : IDisposable
         var postado = Interlocked.Exchange(ref _postadoEm, 0);
         if (postado == 0) return;
         var atraso = (int)Stopwatch.GetElapsedTime(postado).TotalMilliseconds;
+        if (atraso >= LimiteDaFoto && (_ausenteAoPostar || _ausente()))
+        {
+            _medida.Registrar(0);
+            lock (_trava) _fotos.Remove(postado);
+            return;
+        }
         _medida.Registrar(atraso);
         if (atraso < LimiteDaFoto) return;
         var (tela, abas, trabalhando) = _contexto();

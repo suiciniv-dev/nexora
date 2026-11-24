@@ -20,6 +20,7 @@ static class Program
         Instalacao.PathDoMac();
         Sistema.PrepararMac();
         Rodando = true;
+        System.Runtime.GCSettings.LatencyMode = System.Runtime.GCLatencyMode.SustainedLowLatency;
         Core.Arquivos.ArquivoSeguro.SegundoPlano = true;
         ProcessoDoNucleo.Iniciar(args);
         PeloProcessador = DesenhoPeloProcessador(args);

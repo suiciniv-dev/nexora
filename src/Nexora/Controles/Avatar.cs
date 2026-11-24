@@ -17,6 +17,7 @@ public sealed class Avatar : Control
     public static readonly StyledProperty<bool> ProntaProperty = AvaloniaProperty.Register<Avatar, bool>(nameof(Pronta));
     public static readonly StyledProperty<bool> ErroProperty = AvaloniaProperty.Register<Avatar, bool>(nameof(Erro));
     public static readonly StyledProperty<double> FracaoProperty = AvaloniaProperty.Register<Avatar, double>(nameof(Fracao));
+    public static readonly StyledProperty<bool> NovidadeProperty = AvaloniaProperty.Register<Avatar, bool>(nameof(Novidade));
 
     readonly Orbita _orbita = new() { IsVisible = false };
     bool _girando;
@@ -24,7 +25,7 @@ public sealed class Avatar : Control
 
     static Avatar()
     {
-        AffectsRender<Avatar>(ImagemProperty, IniciaisProperty, TrabalhandoProperty, PrecisaProperty, ProntaProperty, ErroProperty, FracaoProperty);
+        AffectsRender<Avatar>(ImagemProperty, IniciaisProperty, TrabalhandoProperty, PrecisaProperty, ProntaProperty, ErroProperty, FracaoProperty, NovidadeProperty);
         TrabalhandoProperty.Changed.AddClassHandler<Avatar>((a, _) => a.Reavaliar());
         ErroProperty.Changed.AddClassHandler<Avatar>((a, _) => a.Reavaliar());
         PrecisaProperty.Changed.AddClassHandler<Avatar>((a, _) => a.Reavaliar());
@@ -39,6 +40,7 @@ public sealed class Avatar : Control
     public bool Pronta { get => GetValue(ProntaProperty); set => SetValue(ProntaProperty, value); }
     public bool Erro { get => GetValue(ErroProperty); set => SetValue(ErroProperty, value); }
     public double Fracao { get => GetValue(FracaoProperty); set => SetValue(FracaoProperty, value); }
+    public bool Novidade { get => GetValue(NovidadeProperty); set => SetValue(NovidadeProperty, value); }
 
     bool Girar => Trabalhando && !Precisa && !Erro;
 
@@ -168,6 +170,13 @@ public sealed class Avatar : Control
             }
         }
         if (estado is null) contexto.DrawRectangle(new SolidColorBrush(Color.FromArgb(70, 0, 0, 0)), null, forma);
+        if (Novidade && estado is not null)
+        {
+            var ponto = Math.Max(3, tamanho * 0.17);
+            var borda = Math.Max(1.5, tamanho * 0.06);
+            var lugar = new Point(Bounds.Width / 2 + tamanho / 2 - ponto, Bounds.Height / 2 - tamanho / 2 + ponto);
+            contexto.DrawEllipse(estado, new Pen(Recurso("Fundo", "#15141B"), borda), lugar, ponto, ponto);
+        }
     }
 
     static StreamGeometry Arco(Point centro, double raio, double fracao)

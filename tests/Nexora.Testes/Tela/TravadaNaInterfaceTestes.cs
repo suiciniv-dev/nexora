@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Avalonia.Threading;
 using Nexora.Core.Desempenho;
+using Nexora.Desempenho;
 using Xunit.Abstractions;
 
 namespace Nexora.Testes.Tela;
@@ -25,7 +26,7 @@ public sealed class TravadaNaInterfaceTestes(ITestOutputHelper saida)
     public Task FotografaAInterfaceParadaEGuardaACausaEADuracao() => Sessao.Rodar(() =>
     {
         if (!FotoDaThread.Disponivel) return;
-        using var batimento = new Batimento(TimeSpan.FromMilliseconds(50), () => ("Chat", 4, 1));
+        using var batimento = new Batimento(TimeSpan.FromMilliseconds(50), () => ("Chat", 4, 1), () => false);
         Girar(TimeSpan.FromMilliseconds(300));
         Assert.Equal(0, batimento.Colher().Travadas);
 
@@ -58,4 +59,38 @@ public sealed class TravadaNaInterfaceTestes(ITestOutputHelper saida)
         Girar(TimeSpan.FromMilliseconds(400));
         Assert.Empty(batimento.Colher().Fotos);
     });
+
+    [Fact]
+    public Task NaoContaATravadaComQuemUsaOPcAusente() => Sessao.Rodar(() =>
+    {
+        using var batimento = new Batimento(TimeSpan.FromMilliseconds(50), () => ("Chat", 4, 1), () => true);
+        Girar(TimeSpan.FromMilliseconds(300));
+        TravarDeProposito(800);
+
+        var contadas = 0;
+        var maior = 0;
+        var fotos = 0;
+        var relogio = Stopwatch.StartNew();
+        while (relogio.Elapsed < TimeSpan.FromSeconds(2))
+        {
+            Girar(TimeSpan.FromMilliseconds(200));
+            var (m, t, f) = batimento.Colher();
+            maior = Math.Max(maior, m);
+            contadas += t;
+            fotos += f.Count;
+        }
+
+        Assert.Equal(0, contadas);
+        Assert.Equal(0, fotos);
+        Assert.InRange(maior, 0, Batimento.LimiteDaFoto - 1);
+    });
+
+    [Theory]
+    [InlineData(0, true, false)]
+    [InlineData(5, true, false)]
+    [InlineData(5, false, true)]
+    [InlineData(1, false, false)]
+    [InlineData(11, true, true)]
+    public void AusenteQuandoParadoComOutraJanelaOuParadoDeVez(int minutos, bool naFrente, bool ausente) =>
+        Assert.Equal(ausente, Presenca.Ausente(TimeSpan.FromMinutes(minutos), naFrente));
 }

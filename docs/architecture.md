@@ -61,9 +61,12 @@ The UI thread only lays out and draws. These rules come from measured stalls:
 - No disk, network or process work on the UI thread: no `Process.Start`, `File.*`, fsync or git reads in property getters, bindings or event handlers. Use `Task.Run` and post the result back. File writes from UI code go through `ArquivoSeguro.GravarDepois`.
 - Streaming updates are incremental: change only what changed. `MarkdownTexto` keeps finished blocks and updates the last one in place; never rebuild a whole control tree per delta.
 - Hidden views do no work for content nobody sees; they catch up when shown.
-- Memory is bounded: caches have a size limit and history loads in pages. A chat view keeps the last 40 rows mounted (up to 60), three tab views stay mounted, and the Live board keeps two peeks.
+- Memory is bounded: caches have a size limit and history loads in pages. A chat view keeps the last 40 rows mounted (up to 60), three chat views and four pages stay mounted (`AbasVivas.Limite` and `LimiteDePaginas`, so going back to a recent page only shows it again), and the Live board keeps two peeks.
 - Global styles cost every control of the targeted type, even controls without the class: each one gets a style instance and an activator per matching style. Style classed boxes with `c|Caixa.classe` (`<c:Caixa Classes="…">`) and classed buttons with `c|Botao.classe` (`<c:Botao Classes="…">`, which keeps the Fluent button theme); never add `Border.classe` or `Button.classe` styles, since both types are in every template. A control that should look like a classed button reports `Botao` as its style key.
 - Allocation budgets in `tests/Nexora.Testes/Tela/OrcamentoTestes.cs` fail when a hot path allocates far more than it should. They count bytes on the test thread, not milliseconds.
+- End-to-end scripts in `tests/Nexora.Testes/Tela/Roteiros` run the demo app headless through the walk engine (`Passeio.cs`), clicking and typing like a user. `PonteAPonteTestes` fails on an error, a click that lands elsewhere or changes nothing, or a gesture that holds the UI thread longer than 1.5 s; steps after a `# quente` line repeat earlier ones and must stay under 0.8 s (`NEXORA_E2E_LIMITE` and `NEXORA_E2E_LIMITE_QUENTE` change the limits).
+- The app process runs with `GCLatencyMode.SustainedLowLatency` (`Program.Main`), which avoids blocking full collections while the window is in use.
+- The performance monitor (`Desempenho/Batimento.cs`) ignores stalls while the user is away (`Presenca`: no input for 2 minutes with another window in front, or for 10 minutes), since a locked or sleeping PC stalls the message loop without anyone seeing it.
 
 ## Core process
 

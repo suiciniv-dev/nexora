@@ -35,6 +35,10 @@
     <Style Selector="c|Caixa.guia.selecionada TextBlock.titulo-guia">
       <Setter Property="Foreground" Value="{DynamicResource Texto}" />
     </Style>
+    <Style Selector="c|Caixa.guia TextBlock.titulo-guia.novidade">
+      <Setter Property="Foreground" Value="{DynamicResource Texto}" />
+      <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
     <Style Selector="c|Caixa.guia c|Botao.fechar-guia">
       <Setter Property="Opacity" Value="0" />
     </Style>
@@ -86,14 +90,15 @@
                              Precisa="{Binding Chat.Precisa, FallbackValue=False}"
                              Pronta="{Binding Chat.EstaPronta, FallbackValue=False}"
                              Erro="{Binding Chat.TemErro, FallbackValue=False}"
-                             Fracao="{Binding Chat.ContextoFracao, FallbackValue=0}" />
+                             Fracao="{Binding Chat.ContextoFracao, FallbackValue=0}"
+                             Novidade="{Binding Chat.NaoVista, FallbackValue=False}" />
                   <c:Icone Nome="{Binding Icone}" Tamanho="14" Classes="suave" VerticalAlignment="Center" HorizontalAlignment="Center"
                            IsVisible="{Binding Chat, Converter={x:Static ObjectConverters.IsNull}}" />
                   <Border Theme="{StaticResource NuvemNaGuia}" IsVisible="{Binding Chat.NaNuvem, FallbackValue=False}" ToolTip.Tip="{Binding Chat.DicaOndeRoda, FallbackValue={x:Null}}">
                     <c:Icone Nome="nuvem" Tamanho="9" Foreground="{DynamicResource Ciano}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                   </Border>
                 </Panel>
-                <TextBlock Grid.Column="1" Classes="titulo-guia" Text="{Binding Titulo}" MaxWidth="170" Margin="7,0" TextTrimming="CharacterEllipsis" FontSize="12.5" VerticalAlignment="Center" />
+                <TextBlock Grid.Column="1" Classes="titulo-guia" Classes.novidade="{Binding Chat.NaoVista, FallbackValue=False}" Text="{Binding Titulo}" MaxWidth="170" Margin="7,0" TextTrimming="CharacterEllipsis" FontSize="12.5" VerticalAlignment="Center" />
                 <c:Botao Grid.Column="2" Classes="icone pequeno fechar-guia" Command="{Binding FecharCommand}" Width="24" Height="24" Padding="0"
                         ToolTip.Tip="{l:T 'Fechar aba (Ctrl+W)'}" AutomationProperties.Name="{l:T 'Fechar aba'}">
                   <c:Icone Nome="fechar" Tamanho="10" />

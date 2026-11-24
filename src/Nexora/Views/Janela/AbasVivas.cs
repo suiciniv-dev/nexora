@@ -42,6 +42,8 @@ public sealed class AbasVivas : Panel
 
     public int Limite { get; set; } = 3;
 
+    public int LimiteDePaginas { get; set; } = 4;
+
     public event Action<object>? FocoPedido;
 
     public static int[] Linhas(int paineis)
@@ -91,16 +93,23 @@ public sealed class AbasVivas : Panel
             v.IsVisible = visivel;
             v.Dividida(dividido, dividido && ReferenceEquals(v, foco), dividido ? area?.Divisao.FirstOrDefault(g => ReferenceEquals(g.Conteudo, v.Alvo)) : null, CabecalhoTemplate);
         }
-        while (_vistas.Count > Math.Max(Limite, visiveis.Count))
-        {
-            var sobra = _vistas.LastOrDefault(v => !visiveis.Contains(v));
-            if (sobra is null) break;
-            Tirar(sobra);
-        }
+        Aparar(true, LimiteDePaginas, visiveis);
+        Aparar(false, Limite, visiveis);
         if (visiveis.Count != _lado.Count) Reorganizar(visiveis.Count);
         _lado = visiveis;
         InvalidateMeasure();
         if (foco?.Corpo.Presenter?.Child is IAoMostrar alvoVivo) alvoVivo.AoMostrar();
+    }
+
+    void Aparar(bool paginas, int limite, List<Vista> visiveis)
+    {
+        bool DoTipo(Vista v) => AreaVM.EhPagina(v.Alvo) == paginas;
+        while (_vistas.Count(DoTipo) > Math.Max(limite, visiveis.Count(DoTipo)))
+        {
+            var sobra = _vistas.LastOrDefault(v => DoTipo(v) && !visiveis.Contains(v));
+            if (sobra is null) break;
+            Tirar(sobra);
+        }
     }
 
     void Reorganizar(int paineis)

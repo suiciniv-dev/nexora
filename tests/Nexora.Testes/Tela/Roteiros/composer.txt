@@ -1,0 +1,22 @@
+# Campo de mensagem: menções, comandos e busca geral
+tamanho 1440x900
+clicar Mensagem para o Claude
+digitar @Cup
+esperar 600
+tecla esc
+tecla ctrl+a
+digitar /
+esperar 300
+tecla esc
+tecla ctrl+k
+digitar notas
+tecla enter
+# quente
+clicar Cupom de desconto no checkout
+clicar Mensagem para o Claude
+digitar @Not
+esperar 600
+tecla esc
+tecla ctrl+k
+digitar pedidos
+tecla enter

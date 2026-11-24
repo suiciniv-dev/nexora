@@ -37,6 +37,7 @@ static class Janelas
         {
             area.Ativa = true;
             area.Janela.UltimaArea = area;
+            area.Janela.MarcarVistas();
         };
         janela.Deactivated += (_, _) => area.Ativa = false;
     }

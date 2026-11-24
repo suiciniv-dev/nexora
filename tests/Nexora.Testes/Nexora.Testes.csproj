@@ -28,5 +28,6 @@
     <None Include="Codex\codex-falso.ps1" CopyToOutputDirectory="PreserveNewest" />
     <None Include="Acp\agente-acp-falso.ps1" CopyToOutputDirectory="PreserveNewest" />
     <None Include="Avatares\fixtures.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Tela\Roteiros\*.txt" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

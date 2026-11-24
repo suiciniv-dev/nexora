@@ -76,6 +76,15 @@
     <Style Selector="c|Botao.sessao.ativo TextBlock.titulo-sessao">
       <Setter Property="FontWeight" Value="Medium" />
     </Style>
+    <Style Selector="c|Botao.sessao TextBlock.titulo-sessao.novidade">
+      <Setter Property="FontWeight" Value="SemiBold" />
+      <Setter Property="Foreground" Value="{DynamicResource Texto}" />
+    </Style>
+    <Style Selector="c|Botao.sessao Ellipse.estado.novidade">
+      <Setter Property="Width" Value="10" />
+      <Setter Property="Height" Value="10" />
+      <Setter Property="Margin" Value="1,0,10,0" />
+    </Style>
     <Style Selector="c|Botao.sessao c|Botao.icone, c|Botao.grupo c|Botao.icone">
       <Setter Property="Opacity" Value="0" />
     </Style>
@@ -102,6 +111,9 @@
     </Style>
     <Style Selector="TextBlock.linha-estado.pronta">
       <Setter Property="Foreground" Value="{DynamicResource TextoSuave}" />
+    </Style>
+    <Style Selector="TextBlock.linha-estado.pronta.novidade">
+      <Setter Property="Foreground" Value="{DynamicResource Verde}" />
     </Style>
     <Style Selector="Grid.ramo">
       <Setter Property="Margin" Value="30,7,12,3" />
@@ -264,10 +276,10 @@
                                     <c:Caixa Grid.RowSpan="2" Classes="marca-sel" Width="4" Height="26" CornerRadius="2" Background="{DynamicResource MarcaGradiente}" BoxShadow="{DynamicResource SelecaoBrilho}"
                                             Margin="-22,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" />
                                     <Ellipse Classes="estado" Classes.trabalhando="{Binding Trabalhando}" Classes.precisa="{Binding Precisa}"
-                                             Classes.pronta="{Binding EstaPronta}" Classes.erro="{Binding TemErro}" VerticalAlignment="Center" Margin="2,0,11,0" />
-                                    <TextBlock Grid.Column="1" Classes="titulo-sessao" Text="{Binding Titulo}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" FontSize="13" />
+                                             Classes.pronta="{Binding EstaPronta}" Classes.erro="{Binding TemErro}" Classes.novidade="{Binding NaoVista}" VerticalAlignment="Center" Margin="2,0,11,0" />
+                                    <TextBlock Grid.Column="1" Classes="titulo-sessao" Classes.novidade="{Binding NaoVista}" Text="{Binding Titulo}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" FontSize="13" />
                                     <TextBlock Grid.Row="1" Grid.Column="1" Classes="linha-estado" Classes.precisa="{Binding LinhaPrecisa}" Classes.erro="{Binding LinhaErro}" Classes.pronta="{Binding LinhaPronta}"
-                                               Text="{Binding LinhaLateral}" TextTrimming="CharacterEllipsis" />
+                                               Classes.novidade="{Binding NaoVista}" Text="{Binding LinhaLateral}" TextTrimming="CharacterEllipsis" />
                                     <c:Botao Grid.Column="2" Grid.RowSpan="2" Classes="icone pequeno" Command="{Binding FecharCommand}" Margin="4,0,0,0" VerticalAlignment="Center"
                                             ToolTip.Tip="{l:T 'Encerrar a sessão (a conversa fica no histórico)'}" AutomationProperties.Name="{l:T 'Encerrar a sessão'}">
                                       <c:Icone Nome="fechar" Tamanho="11" />

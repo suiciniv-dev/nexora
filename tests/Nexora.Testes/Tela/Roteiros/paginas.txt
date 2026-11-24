@@ -1,0 +1,21 @@
+# Abre cada página da lateral e volta para a conversa, duas vezes
+tamanho 1440x900
+clicar Dashboard
+clicar Ao vivo
+clicar Projetos
+clicar Issues
+clicar Orquestrador
+clicar Agendados
+clicar Uso
+clicar Recursos
+clicar Cupom de desconto no checkout
+# quente
+clicar Dashboard
+clicar Ao vivo
+clicar Projetos
+clicar Issues
+clicar Orquestrador
+clicar Agendados
+clicar Uso
+clicar Recursos
+clicar Cupom de desconto no checkout

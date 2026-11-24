@@ -398,7 +398,7 @@
                 <Grid ColumnDefinitions="Auto,*,Auto">
                   <Panel Margin="0,0,13,0" VerticalAlignment="Center">
                     <c:Avatar Classes="avatar-mesa" Imagem="{Binding IconeRepo}" Iniciais="{Binding Iniciais}" Trabalhando="{Binding Trabalhando}" Precisa="{Binding Precisa}"
-                               Pronta="{Binding EstaPronta}" Erro="{Binding TemErro}" Fracao="{Binding ContextoFracao}" ToolTip.Tip="{Binding ContextoTexto}" />
+                               Pronta="{Binding EstaPronta}" Erro="{Binding TemErro}" Fracao="{Binding ContextoFracao}" Novidade="{Binding NaoVista}" ToolTip.Tip="{Binding ContextoTexto}" />
                     <c:AvatarVivo Classes="agente-mesa" Agente="{Binding AgenteDoCartao}" Parado="{Binding !Trabalhando}" SegueMouse="False" Rotulo="" ToolTip.Tip="{Binding NomeDoAgente}" />
                     <Panel Classes="icone-cartao">
                     <c:Caixa Classes="sigla" Margin="0" IsVisible="{Binding MostrarIniciais}"><TextBlock Text="{Binding Iniciais}" /></c:Caixa>

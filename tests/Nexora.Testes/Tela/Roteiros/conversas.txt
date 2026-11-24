@@ -1,0 +1,17 @@
+# Troca de conversa pela lateral, split view e painel de detalhes, duas vezes
+tamanho 1440x900
+clicar Erro na tela de pedidos
+clicar Notas offline
+clicar Cupom de desconto no checkout
+clicar Split view
+clicar Split view
+clicar Detalhes da sessão
+clicar Detalhes da sessão
+# quente
+clicar Erro na tela de pedidos
+clicar Notas offline
+clicar Cupom de desconto no checkout
+clicar Split view
+clicar Split view
+clicar Detalhes da sessão
+clicar Detalhes da sessão

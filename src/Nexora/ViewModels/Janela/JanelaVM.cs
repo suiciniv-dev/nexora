@@ -282,6 +282,7 @@ public sealed partial class JanelaVM : ObservableObject, IAnfitriao
                 orquestra.Preparar();
                 break;
         }
+        MarcarVistas();
     }
 
     public AreaVM NovaAreaVazia()
@@ -426,9 +427,16 @@ public sealed partial class JanelaVM : ObservableObject, IAnfitriao
             VisaoGeral.AtualizarFila();
             return;
         }
+        if (e.PropertyName == nameof(ChatVM.NaoVista))
+        {
+            AtualizarSelo();
+            return;
+        }
         if (e.PropertyName != nameof(ChatVM.Estado) || sender is not ChatVM chat) return;
+        var visivel = Visivel(chat);
+        if (!visivel && chat.Novidade) chat.NaoVista = true;
         Contar();
-        if (Isolada || Areas.Any(a => a.Ativa && a.Conteudo == chat)) return;
+        if (Isolada || visivel) return;
         var detalhe = chat.UltimaAtividade ?? chat.Onde;
         switch (chat.Estado)
         {
@@ -450,8 +458,35 @@ public sealed partial class JanelaVM : ObservableObject, IAnfitriao
         }
     }
 
+    bool Visivel(ChatVM chat) => Areas.Any(a => a.Ativa && a.Conteudos.Contains(chat));
+
+    public void MarcarVistas()
+    {
+        foreach (var area in Areas.Where(a => a.Ativa).ToList())
+            foreach (var chat in area.Conteudos.OfType<ChatVM>())
+                chat.NaoVista = false;
+    }
+
+    void AtualizarSelo()
+    {
+        var precisa = Abertas.Count(c => c.Precisa);
+        var novas = Abertas.Where(c => c.NaoVista && !c.Precisa).ToList();
+        var total = precisa + novas.Count;
+        var tipo = Abertas.Any(c => c.NaoVista && c.TemErro) ? TipoDoSelo.Erro : precisa > 0 ? TipoDoSelo.Precisa : TipoDoSelo.Pronta;
+        var descricao = (precisa, novas.Count) switch
+        {
+            (0, 0) => null,
+            (1, _) => Idioma.T("1 conversa precisa de você"),
+            ( > 1, _) => Idioma.F("{0} conversas precisam de você", precisa),
+            (_, 1) => Idioma.T("1 conversa com novidade"),
+            _ => Idioma.F("{0} conversas com novidade", novas.Count),
+        };
+        if (!Isolada) SeloNaBarra.Mostrar(Janela, total, tipo, descricao);
+    }
+
     void Contar()
     {
+        AtualizarSelo();
         TotalPrecisa = Abertas.Count(c => c.Precisa);
         TotalTrabalhando = Abertas.Count(c => c.Trabalhando);
         OnPropertyChanged(nameof(TextoAtividade));
@@ -977,6 +1012,8 @@ public sealed partial class JanelaVM : ObservableObject, IAnfitriao
         nova.UltimaAtividade = Idioma.T("Pronto: as notas agora sincronizam offline e o teste novo passou.");
         nova.AtividadeEm = DateTime.Now.AddMinutes(-12);
         nova.Estado = EstadoChat.Pronta;
+        nova.NaoVista = true;
+        outra.NaoVista = true;
         TurnosDemo(nova);
         chat.Pr = PrsDemo.Detalhe(52, chat.Branch)?.ComoEstado();
         outra.Pr = PrsDemo.Detalhe(50, outra.Branch)?.ComoEstado();

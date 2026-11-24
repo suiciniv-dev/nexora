@@ -11,10 +11,16 @@ public sealed partial class AtalhosVM : ObservableObject
 
     public IReadOnlyList<GrupoDeAtalhos> Grupos { get; private set; } = [];
 
+    string? _idiomaDosGrupos;
+
     public void Abrir()
     {
-        Grupos = CatalogoDeAtalhos.Agrupados();
-        OnPropertyChanged(nameof(Grupos));
+        if (_idiomaDosGrupos != Idioma.Codigo || Grupos.Count == 0)
+        {
+            Grupos = CatalogoDeAtalhos.Agrupados();
+            _idiomaDosGrupos = Idioma.Codigo;
+            OnPropertyChanged(nameof(Grupos));
+        }
         Aberto = true;
     }
 

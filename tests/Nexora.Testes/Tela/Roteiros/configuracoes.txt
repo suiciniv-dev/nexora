@@ -1,0 +1,11 @@
+# Configurações e atalhos, duas vezes
+tamanho 1440x900
+clicar Configurações
+clicar Cupom de desconto no checkout
+clicar Atalhos de teclado
+tecla esc
+# quente
+clicar Configurações
+clicar Cupom de desconto no checkout
+clicar Atalhos de teclado
+tecla esc

@@ -470,6 +470,16 @@ public sealed partial class ChatVM : CartaoVM
     public bool EstaPronta => Estado == EstadoChat.Pronta;
     public bool TemErro => Estado == EstadoChat.Erro;
 
+    [ObservableProperty]
+    public partial bool NaoVista { get; set; }
+
+    public bool Novidade => Estado switch
+    {
+        EstadoChat.PrecisaDeVoce or EstadoChat.Erro => true,
+        EstadoChat.Pronta => EstadoAnterior is EstadoChat.Trabalhando or EstadoChat.PrecisaDeVoce,
+        _ => false,
+    };
+
     public string EstadoTexto => Estado switch
     {
         EstadoChat.Trabalhando => Idioma.T("Trabalhando"),
