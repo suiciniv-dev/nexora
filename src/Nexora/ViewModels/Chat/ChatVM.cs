@@ -236,8 +236,12 @@ public sealed partial class ChatVM : CartaoVM
     [ObservableProperty]
     public partial bool Indexando { get; set; }
 
-    public async Task BuscarMencoesAsync(string termo)
+    CancellationTokenSource? _buscaMencoes;
+
+    public async Task<bool> BuscarMencoesAsync(string termo)
     {
+        _buscaMencoes?.Cancel();
+        var busca = _buscaMencoes = new CancellationTokenSource();
         if (_indice is null)
         {
             var raizes = new[] { Pasta }.Concat(LocalAtual.Vinculados).ToList();
@@ -246,8 +250,20 @@ public sealed partial class ChatVM : CartaoVM
             _indice = await _montandoIndice;
             Indexando = false;
         }
+        var indice = _indice;
+        IReadOnlyList<ArquivoIndexado> achados;
+        try
+        {
+            achados = await Task.Run(() => indice.Buscar(termo, 12, busca.Token), busca.Token);
+        }
+        catch (OperationCanceledException)
+        {
+            return false;
+        }
+        if (busca != _buscaMencoes) return false;
         Sugestoes.Clear();
-        foreach (var a in _indice.Buscar(termo, 12)) Sugestoes.Add(a);
+        foreach (var a in achados) Sugestoes.Add(a);
+        return true;
     }
 
     public string TextoDaMencao(ArquivoIndexado arquivo) =>

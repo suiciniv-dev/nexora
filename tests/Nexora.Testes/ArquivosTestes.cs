@@ -74,6 +74,25 @@ public sealed class ArquivosTestes : IDisposable
     }
 
     [Fact]
+    public void IndiceDeixaASequenciaDeLadoQuandoHaNomeMelhor()
+    {
+        static ArquivoIndexado A(string r) => new("App", r, r, Path.GetFileName(r));
+
+        Assert.Equal(["RaDiX.cs"], IndiceArquivos.DeLista([A("src/RaDiX.cs")]).Buscar("RDX").Select(a => a.Nome));
+        Assert.Equal(["rdx.cs"], IndiceArquivos.DeLista([A("src/RaDiX.cs"), A("lib/rdx.cs"), A("src/Rodex.cs")]).Buscar("RDX").Select(a => a.Nome));
+    }
+
+    [Fact]
+    public void IndiceParaQuandoABuscaECancelada()
+    {
+        var indice = IndiceArquivos.DeLista(Enumerable.Range(0, 1000).Select(i => new ArquivoIndexado("App", $"src/A{i}.cs", $"src/A{i}.cs", $"A{i}.cs")));
+        using var cancelar = new CancellationTokenSource();
+        cancelar.Cancel();
+        Assert.Throws<OperationCanceledException>(() => indice.Buscar("a1", 12, cancelar.Token));
+        Assert.Equal(12, indice.Buscar("a1", 12).Count);
+    }
+
+    [Fact]
     public void DiffDeTextoMarcaRemovidasEAdicionadas()
     {
         var linhas = Diff.Comparar("a\nb\nc", "a\nB\nc\nd");

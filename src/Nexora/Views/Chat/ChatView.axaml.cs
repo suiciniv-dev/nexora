@@ -430,8 +430,7 @@ public partial class ChatView : UserControl, IAoMostrar, IAoEsconder
             return;
         }
         Mencoes.IsOpen = true;
-        await _vm.BuscarMencoesAsync(texto[(_inicioMencao + 1)..cursor]);
-        if (_inicioMencao < 0) return;
+        if (!await _vm.BuscarMencoesAsync(texto[(_inicioMencao + 1)..cursor]) || _inicioMencao < 0) return;
         Mencoes.IsOpen = _vm.Sugestoes.Count > 0;
         if (Mencoes.IsOpen) ListaMencoes.SelectedIndex = 0;
     }
