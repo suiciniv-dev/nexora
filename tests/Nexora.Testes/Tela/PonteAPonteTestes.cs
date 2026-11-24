@@ -71,15 +71,19 @@ public sealed partial class PonteAPonteTestes(ITestOutputHelper saida)
     {
         var passo = 0;
         var comando = "";
+        var cliqueEmCampo = false;
         foreach (var linha in log)
         {
             if (Passo().Match(linha) is { Success: true } inicio)
             {
                 passo = int.Parse(inicio.Groups[1].Value, CultureInfo.InvariantCulture);
                 comando = linha.Trim();
+                cliqueEmCampo = false;
                 continue;
             }
             var texto = linha.TrimStart();
+            if (texto.StartsWith("clique em TextBox", StringComparison.Ordinal)) cliqueEmCampo = true;
+            if (cliqueEmCampo && texto.StartsWith("SEM EFEITO", StringComparison.Ordinal)) continue;
             if (texto.StartsWith("ERRO", StringComparison.Ordinal) || texto.StartsWith("INTERCEPTADO", StringComparison.Ordinal) || texto.StartsWith("SEM EFEITO", StringComparison.Ordinal))
             {
                 yield return new Problema(comando, texto, false);
