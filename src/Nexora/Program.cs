@@ -24,12 +24,26 @@ static class Program
         Core.Arquivos.ArquivoSeguro.SegundoPlano = true;
         ProcessoDoNucleo.Iniciar(args);
         PeloProcessador = DesenhoPeloProcessador(args);
+        DesenhoDoMac = ModosDoMac(args);
         return BuildAvaloniaApp(PeloProcessador).StartWithClassicDesktopLifetime(args);
     }
 
     public static bool Rodando { get; private set; }
 
     public static bool PeloProcessador { get; private set; }
+
+    static AvaloniaNativeRenderingMode[] DesenhoDoMac = ModosDoMac([]);
+
+    static AvaloniaNativeRenderingMode[] ModosDoMac(string[] args)
+    {
+        var i = Array.IndexOf(args, "--desenho-mac");
+        return (i >= 0 && i + 1 < args.Length ? args[i + 1] : null) switch
+        {
+            "software" => [AvaloniaNativeRenderingMode.Software],
+            "opengl" => [AvaloniaNativeRenderingMode.OpenGl, AvaloniaNativeRenderingMode.Software],
+            _ => [AvaloniaNativeRenderingMode.Metal, AvaloniaNativeRenderingMode.OpenGl, AvaloniaNativeRenderingMode.Software],
+        };
+    }
 
     public static bool MudaODesenho(string modo) => false;
 
@@ -43,6 +57,7 @@ static class Program
                 OverlayPopups = true,
                 RenderingMode = peloProcessador ? [Win32RenderingMode.Software] : [Win32RenderingMode.AngleEgl, Win32RenderingMode.Software],
             })
+            .With(new AvaloniaNativePlatformOptions { RenderingMode = peloProcessador ? [AvaloniaNativeRenderingMode.Software] : DesenhoDoMac })
             .WithInterFont()
             .LogToTrace();
 }

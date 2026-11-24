@@ -187,11 +187,30 @@ public sealed partial class OrquestraVM : ObservableObject, IDisposable
     [RelayCommand]
     void AlternarConversa() => ConversaVisivel = !ConversaVisivel;
 
-    [RelayCommand]
-    public void Aproximar() => Zoom = Math.Min(1.4, Math.Round(Zoom + 0.1, 1));
+    public bool ZoomManual { get; private set; }
 
     [RelayCommand]
-    public void Afastar() => Zoom = Math.Max(0.4, Math.Round(Zoom - 0.1, 1));
+    public void Aproximar()
+    {
+        ZoomManual = true;
+        Zoom = Math.Min(1.4, Math.Round(Zoom + 0.1, 1));
+    }
+
+    [RelayCommand]
+    public void Afastar()
+    {
+        ZoomManual = true;
+        Zoom = Math.Max(0.4, Math.Round(Zoom - 0.1, 1));
+    }
+
+    public void Encaixar(double largura)
+    {
+        if (ZoomManual || largura <= 0) return;
+        var conteudo = Todos().Select(n => n.X + LarguraNo).DefaultIfEmpty(0).Max() + Margem;
+        if (conteudo <= 0) return;
+        var cabe = Math.Clamp(Math.Floor(largura / conteudo * 20) / 20, 0.75, 1);
+        if (Math.Abs(cabe - Zoom) > 0.001) Zoom = cabe;
+    }
 
     public void Mostrar(ChatVM chat) => _janela.Mostrar(chat);
 

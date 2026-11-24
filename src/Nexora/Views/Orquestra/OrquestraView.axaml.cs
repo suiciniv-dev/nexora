@@ -19,6 +19,7 @@ public partial class OrquestraView : UserControl
         InitializeComponent();
         Rolagem.AddHandler(PointerWheelChangedEvent, AoRolar, RoutingStrategies.Tunnel);
         SizeChanged += (_, e) => Raiz.Classes.Set("estreita", e.NewSize.Width < 900);
+        Rolagem.SizeChanged += (_, e) => _orquestra?.Encaixar(e.NewSize.Width);
     }
 
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
@@ -62,12 +63,14 @@ public partial class OrquestraView : UserControl
         _orquestra = DataContext as OrquestraVM;
         if (_orquestra is null) return;
         _orquestra.PropertyChanged += AoMudar;
+        _orquestra.Encaixar(Rolagem.Bounds.Width);
         Escalar();
     }
 
     void AoMudar(object? sender, PropertyChangedEventArgs e)
     {
         if (e.PropertyName == nameof(OrquestraVM.Zoom)) Escalar();
+        else if (e.PropertyName == nameof(OrquestraVM.LarguraCanvas)) _orquestra?.Encaixar(Rolagem.Bounds.Width);
         else if (e.PropertyName == nameof(OrquestraVM.ConversaVisivel) && Disposicao.GetVertical(this)) Reorganizar(true);
     }
 
